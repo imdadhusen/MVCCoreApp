@@ -1,0 +1,12 @@
+2024-06-09 16:24:56.028 +05:30 [INF] Starting up the application
+2024-06-09 16:24:58.052 +05:30 [INF] Seed data completed
+2024-06-09 16:24:59.006 +05:30 [INF] Application started
+2024-06-09 16:25:02.885 +05:30 [INF] Getting employee information
+2024-06-09 16:25:03.982 +05:30 [INF] IncludeSoftDelete:True, lstEmployee Count:5
+2024-06-09 16:25:04.028 +05:30 [INF] IncludeSoftDelete:True, dto Count:5
+2024-06-09 16:25:04.033 +05:30 [INF] Total 5 employees found
+2024-06-09 16:29:08.815 +05:30 [INF] Starting up the application
+2024-06-09 16:29:13.610 +05:30 [INF] Seed data completed
+2024-06-09 16:29:14.555 +05:30 [INF] Application started
+2024-06-09 16:29:18.235 +05:30 [INF] Getting employee information
+2024-06-09 16:29:19.788 +05:30 [INF] Total 5 employees found
