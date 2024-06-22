@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SampleMvcCoreApp.Entities
 {
-    public class Employee : ISoftDelete
+    public class Employee : AuditableEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,12 +14,11 @@ namespace SampleMvcCoreApp.Entities
         [Required]
         [StringLength(10)]
         public string Password { get; set; }
-        public bool IsActive { get; set; } = true;
-        public bool IsDeleted { get; set; } = false;
 
-        public ICollection<Address> EmployeeAddress { get; set; }
         [ForeignKey("DepartmentId")]
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
+
+        public ICollection<Address> EmployeeAddress { get; set; }
     }
 }

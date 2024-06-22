@@ -8,11 +8,11 @@ namespace SampleMvcCoreApp.Repository
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly EmployeeDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly FilterService _filterService;
         private readonly ILogger<EmployeeRepository> _logger;
-        public EmployeeRepository(EmployeeDbContext context, IMapper mapper, FilterService filterService, ILogger<EmployeeRepository> logger)
+        public EmployeeRepository(ApplicationDbContext context, IMapper mapper, FilterService filterService, ILogger<EmployeeRepository> logger)
         {
             _context = context;
             _mapper = mapper;

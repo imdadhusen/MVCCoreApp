@@ -1,24 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SampleMvcCoreApp.Controllers;
 using SampleMvcCoreApp.Helper;
+using SampleMvcCoreApp.IEntities;
 using SampleMvcCoreApp.SeedData;
 using System.Linq.Expressions;
 
 namespace SampleMvcCoreApp.Entities
 {
-    public class EmployeeDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Department> Departments { get; set; }
-        private readonly ILogger<EmployeeDbContext> _logger;
+        private readonly ILogger<ApplicationDbContext> _logger;
         private readonly FilterService _filterService;
-        public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options, ILogger<EmployeeDbContext> logger, FilterService filterService)
+        private readonly IUserContext _userContext;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger, FilterService filterService, IUserContext userContext)
             : base(options)
         {
             _logger = logger;
             _filterService = filterService;
+            _userContext = userContext;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -35,6 +37,7 @@ namespace SampleMvcCoreApp.Entities
                 .HasMany(e => e.EmployeeAddress)
                 .WithOne(a => a.Employee)
                 .HasForeignKey(a => a.EmployeeId);
+
             // Configure one-to-one relationship for Employee - Department 
             modelBuilder.Entity<Department>()
                 .HasMany(e => e.Employee)
@@ -47,10 +50,10 @@ namespace SampleMvcCoreApp.Entities
             // Configure global query filter to exclude soft-deleted entities
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
+                if (typeof(IAuditableEntity).IsAssignableFrom(entityType.ClrType))
                 {
                     var parameter = Expression.Parameter(entityType.ClrType);
-                    var isDeletedProperty = Expression.Property(parameter, nameof(ISoftDelete.IsDeleted));
+                    var isDeletedProperty = Expression.Property(parameter, nameof(IAuditableEntity.IsDeleted));
                     var includeSoftDeleted = Expression.Constant(_filterService.IncludeSoftDeleted);
                     var condition = Expression.Equal(isDeletedProperty, includeSoftDeleted);
                     var lambda = Expression.Lambda(condition, parameter);
@@ -68,25 +71,34 @@ namespace SampleMvcCoreApp.Entities
                     }
                 }
             }
-            //foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            //{
-            //    if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
-            //    {
-            //        var parameter = Expression.Parameter(entityType.ClrType);
-            //        var property = Expression.Property(parameter, "IsDeleted");
-            //        var includeSoftDeleted = Expression.Constant(_filterService.IncludeSoftDeleted);
-            //        var predicate = Expression.Lambda(Expression.Equal(property, includeSoftDeleted), parameter);
-            //        modelBuilder.Entity(entityType.ClrType).HasQueryFilter((LambdaExpression)predicate);
+        }
 
-            //        //var parameter = Expression.Parameter(entityType.ClrType);
-            //        //var property = Expression.Property(parameter, "IsDeleted");
-            //        //var value = Expression.Constant(false);
-            //        //var predicate = Expression.Lambda(Expression.Equal(property, value), parameter);
-            //        //var method = typeof(ExpressionHelper).GetMethod(nameof(ExpressionHelper.Compose)).MakeGenericMethod(entityType.ClrType);
-            //        //var expression = method.Invoke(null, new object[] { predicate, entityType.GetQueryFilter() });
-            //        //modelBuilder.Entity(entityType.ClrType).HasQueryFilter((LambdaExpression)expression);
-            //    }
-            //}
+        public override int SaveChanges()
+        {
+            int currentUserId = _userContext.GetUserId(); // Assuming UserContext provides the current user's ID
+
+            foreach (var changedEntity in ChangeTracker.Entries())
+            {
+                if (changedEntity.Entity is AuditableEntity entity)
+                {
+                    switch (changedEntity.State)
+                    {
+                        case EntityState.Added:
+                            entity.CreatedOn = DateHelper.GetUTC;
+                            entity.ModifiedOn = DateHelper.GetUTC;
+                            entity.CreatedBy = currentUserId;
+                            entity.ModifiedBy = currentUserId;
+                            break;
+                        case EntityState.Modified:
+                            Entry(entity).Property(x => x.CreatedBy).IsModified = false;
+                            Entry(entity).Property(x => x.CreatedOn).IsModified = false;
+                            entity.ModifiedOn = DateHelper.GetUTC;
+                            entity.ModifiedBy = currentUserId;
+                            break;
+                    }
+                }
+            }
+            return base.SaveChanges();
         }
     }
 }

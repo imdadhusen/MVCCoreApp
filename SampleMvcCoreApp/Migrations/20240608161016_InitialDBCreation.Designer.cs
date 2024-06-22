@@ -10,7 +10,7 @@ using SampleMvcCoreApp.Entities;
 
 namespace SampleMvcCoreApp.Migrations
 {
-    [DbContext(typeof(EmployeeDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240608161016_InitialDBCreation")]
     partial class InitialDBCreation
     {
