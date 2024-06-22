@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SampleMvcCoreApp.Entities
 {
-    public class Department : ISoftDelete
+    public class Department : AuditableEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,7 +12,6 @@ namespace SampleMvcCoreApp.Entities
         [StringLength(30)]
         public string DepartmentName { get; set; }
         public string? DepartmentPhone {  get; set; }
-        public bool IsDeleted { get; set; }
 
         public ICollection<Employee> Employee { get; set; }
     }

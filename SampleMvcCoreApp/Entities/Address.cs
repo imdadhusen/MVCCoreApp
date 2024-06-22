@@ -1,18 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SampleMvcCoreApp.Entities
 {
-    public class Address :ISoftDelete
+    public class Address : AuditableEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string AddressDetail { get; set; }
-        public bool IsDeleted { get; set; }
         [ForeignKey("EmployeeId")]
-        public Employee Employee { get; set; }
-
         public int EmployeeId { get; set; }
+        //Navigation property
+        public Employee Employee { get; set; }
     }
 }

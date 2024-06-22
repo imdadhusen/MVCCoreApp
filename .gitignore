@@ -17,3 +17,4 @@
 /.vs
 /SampleMvcCoreApp/obj/project.assets.json
 /SampleMvcCoreApp/obj/SampleMvcCoreApp.csproj.nuget.dgspec.json
+/SampleMvcCoreApp/logs

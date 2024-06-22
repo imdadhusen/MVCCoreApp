@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using SampleMvcCoreApp.Entities;
+using SampleMvcCoreApp.IEntities;
 using SampleMvcCoreApp.MapperProfile;
 using SampleMvcCoreApp.Repository;
 
@@ -19,11 +20,12 @@ namespace SampleMvcCoreApp
         {
             services.AddMvc();
             services.AddControllersWithViews();
+            services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
 
-            services.AddDbContext<EmployeeDbContext>(o =>
+            services.AddDbContext<ApplicationDbContext>(o =>
             {
                 o.UseSqlServer(_configuartion["connectionStrings:DefaultConnection"]);
             });

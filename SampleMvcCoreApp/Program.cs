@@ -59,7 +59,7 @@ public class Program
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<EmployeeDbContext>();
+                        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                         context.Database.Migrate();
                     }
                     catch (Exception ex)
