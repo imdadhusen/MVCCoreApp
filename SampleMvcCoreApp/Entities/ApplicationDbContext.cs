@@ -8,6 +8,7 @@ namespace SampleMvcCoreApp.Entities
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -40,17 +41,82 @@ namespace SampleMvcCoreApp.Entities
                 .HasMany(e => e.EmployeeAddress)
                 .WithOne(a => a.Employee)
                 .HasForeignKey(a => a.EmployeeId);
+            modelBuilder.Entity<Employee>()
+               .HasOne(p => p.Creator)
+               .WithMany()
+               .HasForeignKey(p => p.CreatedBy)
+               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Employee>()
+                .HasOne(p => p.Modifier)
+                .WithMany()
+                .HasForeignKey(p => p.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Configure one-to-one relationship for Employee - Department 
             modelBuilder.Entity<Department>()
                 .HasMany(e => e.Employee)
                 .WithOne(a => a.Department)
                 .HasForeignKey(a => a.DepartmentId);
+            modelBuilder.Entity<Department>()
+               .HasOne(p => p.Creator)
+               .WithMany()
+               .HasForeignKey(p => p.CreatedBy)
+               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Department>()
+                .HasOne(p => p.Modifier)
+                .WithMany()
+                .HasForeignKey(p => p.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure self-referencing relationships in the User entity
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Creator)
+                .WithMany()
+                .HasForeignKey(u => u.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Modifier)
+                .WithMany()
+                .HasForeignKey(u => u.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Address>()
+               .HasOne(p => p.Creator)
+               .WithMany()
+               .HasForeignKey(p => p.CreatedBy)
+               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Address>()
+                .HasOne(p => p.Modifier)
+                .WithMany()
+                .HasForeignKey(p => p.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ParentCategory>()
                 .HasMany(c => c.ChildCategories)
                 .WithOne(c => c.ParentCategory)
                 .HasForeignKey(c => c.ParentCategoryId);
+            modelBuilder.Entity<ParentCategory>()
+                .HasOne(p => p.Creator)
+                .WithMany()
+                .HasForeignKey(p => p.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ParentCategory>()
+                .HasOne(p => p.Modifier)
+                .WithMany()
+                .HasForeignKey(p => p.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChildCategory>()
+                .HasOne(c => c.Creator)
+                .WithMany()
+                .HasForeignKey(c => c.CreatedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ChildCategory>()
+                .HasOne(c => c.Modifier)
+                .WithMany()
+                .HasForeignKey(c => c.ModifiedBy)
+                .OnDelete(DeleteBehavior.Restrict);
 
             DatabaseSeeder.Seed(modelBuilder);
             _logger.LogInformation("Seed data completed");
