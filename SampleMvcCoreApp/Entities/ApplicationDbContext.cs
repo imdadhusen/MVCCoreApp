@@ -11,6 +11,10 @@ namespace SampleMvcCoreApp.Entities
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Department> Departments { get; set; }
+
+        public DbSet<ParentCategory> ParentCategories { get; set; }
+        public DbSet<ChildCategory> ChildCategories { get; set; }
+
         private readonly ILogger<ApplicationDbContext> _logger;
         private readonly FilterService _filterService;
         private readonly IUserContext _userContext;
@@ -25,8 +29,7 @@ namespace SampleMvcCoreApp.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //    //optionsBuilder.UseSqlServer("your_connection_string");
-            //    //optionsBuilder.EnableSensitiveDataLogging();
+            //optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,6 +46,11 @@ namespace SampleMvcCoreApp.Entities
                 .HasMany(e => e.Employee)
                 .WithOne(a => a.Department)
                 .HasForeignKey(a => a.DepartmentId);
+
+            modelBuilder.Entity<ParentCategory>()
+                .HasMany(c => c.ChildCategories)
+                .WithOne(c => c.ParentCategory)
+                .HasForeignKey(c => c.ParentCategoryId);
 
             DatabaseSeeder.Seed(modelBuilder);
             _logger.LogInformation("Seed data completed");
