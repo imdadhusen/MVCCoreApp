@@ -17,6 +17,10 @@ namespace SampleMvcCoreApp.SeedData
             new Employee() { Id = 5, EmployeeName = "Inactive Employee", Email = "Inactive@test.com", Skill = "In Active", DepartmentId = 4, Password = "Inactive", IsDeleted = false, IsActive = false, CreatedBy = 1, CreatedOn = DateHelper.GetUTC }
             );
 
+            modelBuilder.Entity<User>().HasData(
+            new User() { Id = 1, Name = "Imdadhusen", Password = "imdad@123", Email = "Imdadhusen.sunasara@gmail.com", IsDeleted = false, IsActive = true, CreatedBy = 1, CreatedOn = DateHelper.GetUTC }
+            );
+
             //Seed data for Address
             modelBuilder.Entity<Address>().HasData(
             new Address { Id = 1, AddressDetail = "Ahmedabad", EmployeeId = 1, IsDeleted = false, IsActive = true, CreatedBy = 1, CreatedOn = DateHelper.GetUTC },
