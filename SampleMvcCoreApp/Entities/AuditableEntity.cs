@@ -1,11 +1,12 @@
-﻿using SampleMvcCoreApp.IEntities;
+﻿using SampleMvcCoreApp.Helper;
+using SampleMvcCoreApp.IEntities;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SampleMvcCoreApp.Entities
 {
     public abstract class AuditableEntity : IAuditableEntity
     {
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateHelper.GetUTC;
         public int CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
         public User Creator { get; set; }
@@ -15,7 +16,7 @@ namespace SampleMvcCoreApp.Entities
         [ForeignKey("ModifiedBy")]
         public User Modifier { get; set; }
 
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; } = false;
+        public bool IsActive { get; set; } = true;
     }
 }
