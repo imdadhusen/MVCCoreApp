@@ -26,7 +26,7 @@ namespace HisabPro.Controllers
             ViewData["Title"] = "Login";
             return View();
         }
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginReqDTO login)
         {
 
@@ -43,6 +43,22 @@ namespace HisabPro.Controllers
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             // Sign in the user
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+            // Example of setting a cookie based on RememberMe
+            if (login.RememberMe)
+            {
+                // Set a persistent cookie
+                Response.Cookies.Append("MyApp.RememberMe", "true", new CookieOptions
+                {
+                    Expires = DateTimeOffset.Now.AddDays(30),
+                    HttpOnly = true
+                });
+            }
+            else
+            {
+                // Clear the cookie if not remembered
+                Response.Cookies.Delete("MyApp.RememberMe");
+            }
 
 
 

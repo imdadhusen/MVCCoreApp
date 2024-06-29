@@ -1,35 +1,35 @@
 ﻿@model HisabPro.ViewModel.LoginModel
 
 @{
-    ViewData["Title"] =  "Login";
+    ViewData["Title"] = "Login";
 }
 <h2>@ViewData["Title"]</h2>
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="Input.Email" class="control-label"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input id="txtEmail" asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Input.Password" class="control-label"></label>
-                <input asp-for="Input.Password" class="form-control" type="password" />
+                <input id="txtPassword" asp-for="Input.Password" class="form-control" type="password" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <div class="form-check">
-                    <input asp-for="Input.RememberMe" class="form-check-input" />
+                    <input id="chkRemember" asp-for="Input.RememberMe" class="form-check-input" />
                     <label asp-for="Input.RememberMe" class="form-check-label"></label>
                 </div>
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="button" class="btn btn-primary" onclick="login()">Login</button>
             </div>
         </form>
     </div>
@@ -39,3 +39,31 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script>
+    async function login() {
+        const loginData = {
+            Email: document.getElementById('txtEmail').value,
+            Password: document.getElementById('txtPassword').value,
+            RememberMe: document.getElementById('chkRemember').checked
+        };
+
+        try {
+            const response = await fetch('/account/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Login successful:', data);
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
+    }
+</script>
