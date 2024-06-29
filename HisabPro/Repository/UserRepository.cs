@@ -1,21 +1,29 @@
-﻿using HisabPro.Tools.PasswordService;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using HisabPro.DTO;
 using HisabPro.Entities;
-using HisabPro.IEntities;
+using HisabPro.Tools.PasswordService;
+using Microsoft.EntityFrameworkCore;
 
-namespace HisabPro.Services
+namespace HisabPro.Repository
 {
-    public class UserService : IUserService
+    public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IUserContext _userContext;
-
-        public UserService(ApplicationDbContext context, IUserContext userContext)
+        public readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        public UserRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
-            _userContext = userContext;
+            _mapper = mapper;
         }
-
+        public async Task<LoginRes?> GetUserByEmail(string email)
+        {
+            var data = await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+            if (data == null)
+            {
+                return null;
+            }
+            return _mapper.Map<User, LoginRes>(data);
+        }
         public async Task<User?> Register(string name, string email, string password)
         {
             string passwordHash, passwordSalt;
@@ -33,9 +41,9 @@ namespace HisabPro.Services
             return user;
         }
 
-        public async Task<User?> Authenticate(string email, string password)
+        public async Task<LoginRes?> Authenticate(string email, string password)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            var user = await GetUserByEmail(email);
             if (user == null || !PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;

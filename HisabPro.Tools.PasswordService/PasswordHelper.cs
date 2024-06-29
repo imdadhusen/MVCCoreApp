@@ -22,22 +22,35 @@ namespace HisabPro.Tools.PasswordService
         {
             if (password == null) throw new ArgumentNullException(nameof(password));
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
-            if (storedHash.Length != 88) throw new ArgumentException("Invalid length of password hash (88 characters expected).", nameof(storedHash));
-            if (storedSalt.Length != 88) throw new ArgumentException("Invalid length of password salt (88 characters expected).", nameof(storedSalt));
 
-            var storedSaltBytes = Convert.FromBase64String(storedSalt);
-            var storedHashBytes = Convert.FromBase64String(storedHash);
-
-            using (var hmac = new HMACSHA512(storedSaltBytes))
+            var saltBytes = Convert.FromBase64String(storedSalt);
+            using (var hmac = new HMACSHA512(saltBytes))
             {
                 var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHashBytes[i]) return false;
-                }
+                var computedHashString = Convert.ToBase64String(computedHash);
+                return computedHashString == storedHash;
             }
-
-            return true;
         }
+        //public static bool VerifyPasswordHash(string password, string storedHash, string storedSalt)
+        //{
+        //    if (password == null) throw new ArgumentNullException(nameof(password));
+        //    if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", nameof(password));
+        //    if (storedHash.Length != 88) throw new ArgumentException("Invalid length of password hash (88 characters expected).", nameof(storedHash));
+        //    if (storedSalt.Length != 88) throw new ArgumentException("Invalid length of password salt (88 characters expected).", nameof(storedSalt));
+
+        //    var storedSaltBytes = Convert.FromBase64String(storedSalt);
+        //    var storedHashBytes = Convert.FromBase64String(storedHash);
+
+        //    using (var hmac = new HMACSHA512(storedSaltBytes))
+        //    {
+        //        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+        //        for (int i = 0; i < computedHash.Length; i++)
+        //        {
+        //            if (computedHash[i] != storedHashBytes[i]) return false;
+        //        }
+        //    }
+
+        //    return true;
+        //}
     }
 }

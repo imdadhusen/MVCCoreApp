@@ -15,6 +15,8 @@ namespace HisabPro.MapperProfile
                 .ForMember(dest => dest.AddressInfo, opt => opt.MapFrom(src => src.AddressDetail));
             CreateMap<Department, DepartmentDTO>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.DepartmentName));
+
+            CreateMap<User, LoginRes>();
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using HisabPro.Entities;
+using HisabPro.IEntities;
+using HisabPro.MapperProfile;
+using HisabPro.Middleware;
+using HisabPro.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using HisabPro.Entities;
-using HisabPro.IEntities;
-using HisabPro.MapperProfile;
-using HisabPro.Repository;
-using HisabPro.Services;
 using System.Text;
 
 namespace HisabPro
@@ -29,11 +29,11 @@ namespace HisabPro
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();
             services.AddScoped<IUserContext, UserContext>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
-            services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<ApplicationDbContext>(o =>
             {
@@ -41,10 +41,22 @@ namespace HisabPro
             });
 
             // Add authentication services
+            string viewUnauthorized = "/Home/Unauthorized";
+            string viewLogin = "/Account/Login";
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = "/Account/Login"; // Path to your login page
+                        options.LoginPath = viewLogin; // Path to your login page
+                        options.Events.OnRedirectToLogin = context =>
+                        {
+                            context.HttpContext.Response.Redirect(viewUnauthorized);
+                            return Task.CompletedTask;
+                        };
+                        options.Events.OnRedirectToAccessDenied = context =>
+                        {
+                            context.HttpContext.Response.Redirect(viewUnauthorized);
+                            return Task.CompletedTask;
+                        };
                     });
 
             // Configure JWT authentication
@@ -71,6 +83,9 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            // Register the exception handling middleware
+            app.UseMiddleware<ExceptionHandler>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -96,6 +111,8 @@ namespace HisabPro
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(name: "account", pattern: "account/{action=Login}/{id?}", defaults: new { controller = "Account", action = "Login" });
+                endpoints.MapControllerRoute(name: "employee", pattern: "employee/{action=Index}/{id?}");
+
             });
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

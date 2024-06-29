@@ -48,5 +48,15 @@ namespace HisabPro.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Route("Home/Unauthorized")]
+        public IActionResult Unauthorized()
+        {
+            var errorViewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(errorViewModel);
+        }
     }
 }

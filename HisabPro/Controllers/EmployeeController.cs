@@ -6,8 +6,8 @@ using HisabPro.Repository;
 
 namespace HisabPro.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
+    //[ApiController]
+    //[Route("api/[controller]")]
     [Authorize]
     public class EmployeeController : Controller
     {
@@ -20,15 +20,17 @@ namespace HisabPro.Controllers
         }
 
         // GET: api/<controller>  
-        [HttpGet]
-        public IActionResult Get()
+        //[HttpGet]
+        [HttpGet("employee/Index")]
+        public IActionResult Index()
         {
-            var result = GetEmployees();
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return Ok(result);
+            //var result = GetEmployees();
+            //if (result == null)
+            //{
+            //    return NotFound();
+            //}
+            //return Ok(result);
+            return View();
         }
 
         private List<EmployeeDTO> GetEmployees()
