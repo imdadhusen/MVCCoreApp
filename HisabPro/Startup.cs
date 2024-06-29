@@ -25,7 +25,11 @@ namespace HisabPro
         {
             services.AddMvc();
             services.AddControllersWithViews();
+
+            // Register IHttpContextAccessor
+            services.AddHttpContextAccessor();
             services.AddScoped<IUserContext, UserContext>();
+
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
@@ -44,7 +48,7 @@ namespace HisabPro
                     });
 
             // Configure JWT authentication
-            var key = Encoding.ASCII.GetBytes("your_secret_key");
+            var key = Encoding.ASCII.GetBytes(_configuartion["Jwt:Key"]);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,8 +62,8 @@ namespace HisabPro
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "your_issuer",
-                    ValidAudience = "your_audience",
+                    ValidIssuer = _configuartion["Jwt:Issuer"],
+                    ValidAudience = _configuartion["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
@@ -90,9 +94,8 @@ namespace HisabPro
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "account", pattern: "account/{action=Login}/{id?}", defaults: new { controller = "Account", action = "Login" });
             });
             logger.LogInformation("Application started");
         }

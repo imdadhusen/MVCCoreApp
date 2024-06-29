@@ -14,14 +14,29 @@ namespace HisabPro.Controllers
             _logger = logger;
             _employeeRepository = employeeRepository;
         }
-
         public IActionResult Index()
         {
-            _logger.LogInformation("Getting employee information");
-            var lstEmployee = _employeeRepository.GetAllEmployee(false);
-            _logger.LogInformation($"Total {lstEmployee.Count} employees found");
-            return View(lstEmployee);
+            return View();
         }
+
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Your application description page.";
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
+            return View();
+        }
+        //public IActionResult Index()
+        //{
+        //    _logger.LogInformation("Getting employee information");
+        //    var lstEmployee = _employeeRepository.GetAllEmployee(false);
+        //    _logger.LogInformation($"Total {lstEmployee.Count} employees found");
+        //    return View(lstEmployee);
+        //}
 
         public IActionResult Privacy()
         {

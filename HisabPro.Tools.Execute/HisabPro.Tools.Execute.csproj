@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HisabPro.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj">
+      <Project>{3879421F-F959-414E-BEE6-9DFDEF2E49F4}</Project>
+      <Name>HisabPro.Tools.PasswordService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

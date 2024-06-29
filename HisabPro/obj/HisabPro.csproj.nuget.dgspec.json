@@ -4,6 +4,36 @@
     "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro\\HisabPro.csproj": {}
   },
   "projects": {
+    "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.CryptoService\\HisabPro.Tools.CryptoService.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.CryptoService\\HisabPro.Tools.CryptoService.csproj",
+        "projectName": "HisabPro.Tools.CryptoService",
+        "projectPath": "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.CryptoService\\HisabPro.Tools.CryptoService.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.Tools.PasswordService\\HisabPro.Tools.PasswordService.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.Tools.PasswordService\\HisabPro.Tools.PasswordService.csproj",
+        "projectName": "HisabPro.Tools.PasswordService",
+        "projectPath": "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro.Tools.PasswordService\\HisabPro.Tools.PasswordService.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
     "D:\\Sample\\.Net Core\\MVCCoreApp\\HisabPro\\HisabPro.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -77,6 +107,10 @@
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[7.6.2, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "Serilog.AspNetCore": {
               "target": "Package",

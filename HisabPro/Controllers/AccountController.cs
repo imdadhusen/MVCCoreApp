@@ -10,16 +10,22 @@ using System.Text;
 
 namespace HisabPro.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class AccountController : Controller
     {
-        private readonly IUserService _userService;
-        public AuthController(IUserService userService)
+        public IConfiguration _configuartion { get; }
+        public AccountController(IConfiguration configuartion)
         {
-            _userService = userService;
+            _configuartion = configuartion;
         }
 
+        [HttpGet("account/login")]
+        public IActionResult Login()
+        {
+            ViewData["Title"] = "Login";
+            return View();
+        }
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginReqDTO login)
         {
@@ -45,7 +51,7 @@ namespace HisabPro.Controllers
             if (login.Email == "test" && login.Password == "password")
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("your_secret_key");
+                var key = Encoding.ASCII.GetBytes(_configuartion["Jwt:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
