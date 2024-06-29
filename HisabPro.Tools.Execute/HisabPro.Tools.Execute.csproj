@@ -49,15 +49,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Hisab.CryptoService\HisabPro.Tools.CryptoService.csproj">
-      <Project>{a8ec1421-3bf9-48cf-b910-18e53e449862}</Project>
-      <Name>HisabPro.Tools.CryptoService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hisab.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj">
-      <Project>{3879421f-f959-414e-bee6-9dfdef2e49f4}</Project>
-      <Name>HisabPro.Tools.PasswordService</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
