@@ -1,4 +1,5 @@
-﻿using HisabPro.Tools.PasswordService;
+﻿using HisabPro.Tools.CryptoService;
+using HisabPro.Tools.PasswordService;
 using System;
 
 namespace HisabPro.Tools.Execute
@@ -7,6 +8,8 @@ namespace HisabPro.Tools.Execute
     {
         static void Main(string[] args)
         {
+           string s =  CryptoHelper.GenerateSalt(16).ToString();
+
             string hash;
             string salt;
             string password = "imdad@123";

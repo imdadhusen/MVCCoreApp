@@ -1,13 +1,16 @@
-﻿using HisabPro.Entities;
+﻿using HisabPro.Constants;
+using HisabPro.Entities;
 using HisabPro.IEntities;
 using HisabPro.MapperProfile;
 using HisabPro.Middleware;
 using HisabPro.Repository;
+using HisabPro.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace HisabPro
@@ -16,6 +19,8 @@ namespace HisabPro
     {
         //private readonly IConfiguration _configuartion;
         public IConfiguration _configuartion { get; }
+
+        
 
         public Startup(IConfiguration configuartion)
         {
@@ -28,6 +33,7 @@ namespace HisabPro
 
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();
+            services.AddTransient<AuthService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -37,30 +43,30 @@ namespace HisabPro
 
             services.AddDbContext<ApplicationDbContext>(o =>
             {
-                o.UseSqlServer(_configuartion["connectionStrings:DefaultConnection"]);
+                o.UseSqlServer(_configuartion[AppConst.Configs.DatabaseConnectionString]);
             });
 
             // Add authentication services
-            string viewUnauthorized = "/Home/Unauthorized";
-            string viewLogin = "/Account/Login";
+          
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = viewLogin; // Path to your login page
+                        options.LoginPath = AppConst.Views.Login; // Path to your login page
+                        options.LogoutPath = AppConst.Views.Logout;
                         options.Events.OnRedirectToLogin = context =>
                         {
-                            context.HttpContext.Response.Redirect(viewUnauthorized);
+                            context.HttpContext.Response.Redirect(AppConst.Views.Unauthorized);
                             return Task.CompletedTask;
                         };
                         options.Events.OnRedirectToAccessDenied = context =>
                         {
-                            context.HttpContext.Response.Redirect(viewUnauthorized);
+                            context.HttpContext.Response.Redirect(AppConst.Views.Unauthorized);
                             return Task.CompletedTask;
                         };
                     });
 
             // Configure JWT authentication
-            var key = Encoding.ASCII.GetBytes(_configuartion["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes(_configuartion[AppConst.Configs.JwtKey]);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -74,8 +80,8 @@ namespace HisabPro
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = _configuartion["Jwt:Issuer"],
-                    ValidAudience = _configuartion["Jwt:Audience"],
+                    ValidIssuer = _configuartion[AppConst.Configs.JwtIssuer],
+                    ValidAudience = _configuartion[AppConst.Configs.JwtAudience],
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
@@ -85,6 +91,8 @@ namespace HisabPro
         {
             // Register the exception handling middleware
             app.UseMiddleware<ExceptionHandler>();
+            // Register the remember me middleware
+            app.UseMiddleware<RememberMe>();
 
             if (env.IsDevelopment())
             {
@@ -92,7 +100,7 @@ namespace HisabPro
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler(AppConst.Views.Error);
                 app.UseHsts();
             }
 

@@ -25,10 +25,10 @@
 
   <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HisabPro.Constants\HisabPro.Constants.csproj" />
     <ProjectReference Include="..\HisabPro.CryptoService\HisabPro.Tools.CryptoService.csproj" />
     <ProjectReference Include="..\HisabPro.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj" />
   </ItemGroup>

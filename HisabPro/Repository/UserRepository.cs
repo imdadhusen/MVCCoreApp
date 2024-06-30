@@ -3,6 +3,7 @@ using HisabPro.DTO;
 using HisabPro.Entities;
 using HisabPro.Tools.PasswordService;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HisabPro.Repository
 {
@@ -15,9 +16,18 @@ namespace HisabPro.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task<LoginRes?> GetUserByEmail(string email)
+        public async Task<LoginRes?> GetUser(Expression<Func<User, bool>> predicate)
         {
-            var data = await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+            User? data = null;
+            if (predicate != null)
+            {
+                data = await _context.Users.FirstOrDefaultAsync(predicate);
+            }
+            else
+            {
+                data = await _context.Users.FirstOrDefaultAsync();
+            }
+
             if (data == null)
             {
                 return null;
@@ -43,7 +53,7 @@ namespace HisabPro.Repository
 
         public async Task<LoginRes?> Authenticate(string email, string password)
         {
-            var user = await GetUserByEmail(email);
+            var user = await GetUser(u => u.Email == email);
             if (user == null || !PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;

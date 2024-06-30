@@ -1,14 +1,11 @@
-﻿using HisabPro.DTO;
+﻿using Hisab.CryptoService;
+using HisabPro.Constants;
+using HisabPro.DTO;
 using HisabPro.Repository;
-using HisabPro.Tools.PasswordService;
+using HisabPro.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace HisabPro.Controllers
 {
@@ -16,13 +13,13 @@ namespace HisabPro.Controllers
     //[ApiController]
     public class AccountController : Controller
     {
-        public IConfiguration _configuartion { get; }
         public IUserRepository _userRpository { get; }
+        public AuthService _authService { get; }
 
-        public AccountController(IConfiguration configuartion, IUserRepository userRpository)
+        public AccountController(IUserRepository userRpository, AuthService authService)
         {
-            _configuartion = configuartion;
             _userRpository = userRpository;
+            _authService = authService;
         }
 
         [HttpGet("account/login")]
@@ -31,59 +28,53 @@ namespace HisabPro.Controllers
             ViewData["Title"] = "Login";
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginReqDTO login)
         {
-            var user = await _userRpository.Authenticate(login.Email, login.Password);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return Unauthorized();
-            }
-            else
-            {
-                if (login.RememberMe)
+                var user = await _userRpository.Authenticate(login.Email, login.Password);
+                if (user == null)
                 {
-                    // Set a persistent cookie
-                    Response.Cookies.Append("HisabPro.RememberMe", "true", new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30), HttpOnly = true });
+                    return Unauthorized();
                 }
                 else
                 {
-                    // Clear the cookie if not remembered
-                    Response.Cookies.Delete("HisabPro.RememberMe");
+                    var tokenString = await _authService.SignInUser(user);
+                    if (login.RememberMe)
+                    {
+                        var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
+                        // Set a persistent cookie
+                        Response.Cookies.Append(AppConst.Cookies.RememberMe, encryptedUserId,
+                            new CookieOptions
+                            {
+                                Expires = DateTimeOffset.Now.AddDays(30),
+                                HttpOnly = true,
+                                Secure = true // Ensure the cookie is only sent over HTTPS
+                            });
+                    }
+                    else
+                    {
+                        // Clear the cookie if not remembered
+                        Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+                    }
+                    return Ok(new { Token = tokenString });
                 }
-
-                // Create claims
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Name),
-                    new Claim(ClaimTypes.Email, login.Email)
-                };
-                // Create claims identity
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                // Create claims principal
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                // Sign in the user
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_configuartion["Jwt:Key"]);
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddHours(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                var tokenString = tokenHandler.WriteToken(token);
-
-                return Ok(new { Token = tokenString });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, MessageConst.Validations.ValidationFailed);
+                return View(login);
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            // Clear the "Remember Me" cookie
+            Response.Cookies.Delete(AppConst.Cookies.RememberMe);
             return RedirectToAction("Index", "Home");
         }
     }

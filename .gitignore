@@ -40,3 +40,7 @@
 /HisabPro.Tools.PasswordService/bin/Debug
 /HisabPro.Tools.PasswordService/obj/Debug
 /HisabPro/obj/project.nuget.cache
+/HisabPro.Constants/bin/Debug/net8.0
+/HisabPro.Constants/obj
+/HisabPro/obj/HisabPro.csproj.nuget.dgspec.json
+/HisabPro/obj/project.assets.json

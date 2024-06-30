@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HisabPro.CryptoService\HisabPro.Tools.CryptoService.csproj">
+      <Project>{A8EC1421-3BF9-48CF-B910-18E53E449862}</Project>
+      <Name>HisabPro.Tools.CryptoService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HisabPro.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj">
       <Project>{3879421F-F959-414E-BEE6-9DFDEF2E49F4}</Project>
       <Name>HisabPro.Tools.PasswordService</Name>
