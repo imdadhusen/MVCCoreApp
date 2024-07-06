@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Quick Glance";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="text-center">
+    <h1 class="display-4">Welcome to Hisab Pro!</h1>
+    <p class="lead">This is a easy and quick way to find your spent and incomes for the various sources. You can also generate inteligent report to know where you spent more and how much?</p>
+    <hr class="my-4">
+    <p>This will help you to manage your financial welth and take rigth decision on right time.</p>
+    Would you like to know more aobut other exicted fetures? Absolutly you can <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a><br/><br/>
+    To start managing your budget today <a class="btn btn-success btn-lg" asp-controller="Account" asp-action="Login" role="button">Login Now</a> It's Free and Easy to use!
+</div>
+
+@* @model List<HisabPro.DTO.EmployeeDTO>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <ul>
+        @foreach (var m in Model)
+        {
+            <li>
+                @m.Id | @m.Name | @m.Skill | <a href="#">@m.Email</a> | @m.Department.Name | @m.IsActive | @m.IsDeleted
+                <ul>
+                    @foreach (var a in m.Address)
+                    {
+                        <li>@a.AddressInfo</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div> *@

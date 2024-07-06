@@ -1,5 +1,0 @@
-2024-06-09 16:30:07.960 +05:30 [INF] Starting up the application
-2024-06-09 16:30:09.499 +05:30 [INF] Seed data completed
-2024-06-09 16:30:10.431 +05:30 [INF] Application started
-2024-06-09 16:30:14.063 +05:30 [INF] Getting employee information
-2024-06-09 16:30:15.048 +05:30 [INF] Total 4 employees found
