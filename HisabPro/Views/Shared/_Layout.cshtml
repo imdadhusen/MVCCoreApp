@@ -31,6 +31,9 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a id="navEmployee" class="nav-link" href="#">Employee</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -51,5 +54,36 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+
+
+        $(document).ready(function () {
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    const token = localStorage.getItem('jwtToken');
+                    if (token) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                    }
+                }
+            });
+
+            $("#navEmployee").click(function () {
+                window.location.href = '@Url.Action("Index", "Employee")';
+                // const token = localStorage.getItem('jwtToken');
+                // fetch('/employee/index', {
+                //     method: 'GET',
+                //     headers: {
+                //         'Authorization': 'Bearer ' + token
+                //     }
+                // })
+                // .then(response => response.text())
+                // .then(html => {
+                //     document.getElementById('content').innerHTML = html; // Update your content div
+                //     window.history.pushState({}, '', url); // Update the URL without reloading the page
+                // })
+                // .catch(error => console.error('Error:', error));
+            })
+        })
+    </script>
 </body>
 </html>

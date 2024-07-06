@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace HisabPro
@@ -19,8 +21,6 @@ namespace HisabPro
     {
         //private readonly IConfiguration _configuartion;
         public IConfiguration _configuartion { get; }
-
-        
 
         public Startup(IConfiguration configuartion)
         {
@@ -46,44 +46,44 @@ namespace HisabPro
                 o.UseSqlServer(_configuartion[AppConst.Configs.DatabaseConnectionString]);
             });
 
-            // Add authentication services
-          
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = AppConst.Views.Login; // Path to your login page
-                        options.LogoutPath = AppConst.Views.Logout;
-                        options.Events.OnRedirectToLogin = context =>
-                        {
-                            context.HttpContext.Response.Redirect(AppConst.Views.Unauthorized);
-                            return Task.CompletedTask;
-                        };
-                        options.Events.OnRedirectToAccessDenied = context =>
-                        {
-                            context.HttpContext.Response.Redirect(AppConst.Views.Unauthorized);
-                            return Task.CompletedTask;
-                        };
-                    });
-
             // Configure JWT authentication
-            var key = Encoding.ASCII.GetBytes(_configuartion[AppConst.Configs.JwtKey]);
-            services.AddAuthentication(options =>
+            //var key = Encoding.ASCII.GetBytes(_configuartion[AppConst.Configs.JwtKey]);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.LoginPath = AppConst.Views.Login; // Path to your login page
+                options.LogoutPath = AppConst.Views.Logout;
+                options.AccessDeniedPath = AppConst.Views.AccessDenied;
+                options.Events.OnRedirectToLogin = context =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = _configuartion[AppConst.Configs.JwtIssuer],
-                    ValidAudience = _configuartion[AppConst.Configs.JwtAudience],
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
+                    context.HttpContext.Response.Redirect(AppConst.Views.Unauthorized);
+                    return Task.CompletedTask;
                 };
+                options.Events.OnRedirectToAccessDenied = context =>
+                {
+                    context.HttpContext.Response.Redirect(AppConst.Views.AccessDenied);
+                    return Task.CompletedTask;
+                };
+            });
+            //.AddJwtBearer(options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = _configuartion[AppConst.Configs.JwtIssuer],
+            //        ValidAudience = _configuartion[AppConst.Configs.JwtAudience],
+            //        IssuerSigningKey = new SymmetricSecurityKey(key)
+            //    };
+            //});
+            services.AddAuthorization(options =>
+            {
+                // Require 'Admin' role for this policy
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                // Require 'User' role for this policy
+                options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
@@ -110,11 +110,18 @@ namespace HisabPro
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
                 RequestPath = new PathString("/app-images")
             });
-
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseStatusCodePages(context =>
+            {
+                var response = context.HttpContext.Response;
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized || response.StatusCode == (int)HttpStatusCode.Forbidden)
+                    response.Redirect(AppConst.Views.Unauthorized);
+                return Task.CompletedTask;
+            });
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");

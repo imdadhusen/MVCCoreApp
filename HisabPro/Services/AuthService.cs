@@ -14,19 +14,22 @@ namespace HisabPro.Services
         public IConfiguration _configuartion { get; }
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor) {
+        public AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor)
+        {
             _configuartion = configuartion;
             _contextAccessor = contextAccessor;
         }
 
         public List<Claim> GetClaims(LoginRes user)
         {
+            UserRoleEnum userRole = (UserRoleEnum)user.UserRole;
             // Create claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, userRole.GetText())
             };
             return claims;
         }
@@ -42,7 +45,12 @@ namespace HisabPro.Services
                 // Create claims principal
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 // Sign in the user
-                await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+                var authProperties = new AuthenticationProperties
+                {
+                    // Set properties like IsPersistent to control cookie behavior
+                    IsPersistent = true
+                };
+                await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
 
                 return GenerateToken(claims);
             }

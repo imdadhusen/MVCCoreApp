@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HisabPro.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HisabPro.Entities
@@ -12,5 +13,6 @@ namespace HisabPro.Entities
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
+        public int UserRole { get; set; } = (int)UserRoleEnum.User;
     }
 }

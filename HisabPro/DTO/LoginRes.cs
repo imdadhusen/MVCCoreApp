@@ -1,4 +1,6 @@
-﻿namespace HisabPro.DTO
+﻿using HisabPro.Constants;
+
+namespace HisabPro.DTO
 {
     public class LoginRes
     {
@@ -7,5 +9,6 @@
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
+        public int UserRole { get; set; } = (int)UserRoleEnum.User;
     }
 }

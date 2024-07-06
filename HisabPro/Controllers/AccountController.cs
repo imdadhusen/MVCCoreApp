@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HisabPro.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
     public class AccountController : Controller
     {
         public IUserRepository _userRpository { get; }

@@ -8,6 +8,7 @@
             public const string Login = "/Account/Login";
             public const string Logout = "/Account/Logout";
             public const string Error = "/Home/Error";
+            public const string AccessDenied = "/Home/AccessDenied";
         }
 
         public static class Cookies

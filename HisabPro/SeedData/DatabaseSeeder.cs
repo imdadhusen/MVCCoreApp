@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HisabPro.Entities;
 using HisabPro.Helper;
+using HisabPro.Constants;
 
 namespace HisabPro.SeedData
 {
@@ -25,7 +26,8 @@ namespace HisabPro.SeedData
                 Email = "Imdadhusen.sunasara@gmail.com",
                 CreatedBy = 1,
                 PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
-                PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU="
+                PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",
+                UserRole = (int)UserRoleEnum.Admin
             });
 
             //Seed data for Address
@@ -64,7 +66,8 @@ namespace HisabPro.SeedData
             new ParentCategory { Id = 12, Name = "Personal Care", CreatedBy = 1 },
             new ParentCategory { Id = 13, Name = "Recharge", CreatedBy = 1 },
             new ParentCategory { Id = 14, Name = "Tour (Picnic)", CreatedBy = 1 },
-            new ParentCategory { Id = 15, Name = "Personal", CreatedBy = 1 }
+            new ParentCategory { Id = 15, Name = "Personal", CreatedBy = 1 },
+            new ParentCategory { Id = 16, Name = "Investment", CreatedBy = 1 }
             );
 
             modelBuilder.Entity<ChildCategory>().HasData(
@@ -139,7 +142,9 @@ namespace HisabPro.SeedData
             new ChildCategory { Id = 69, ParentCategoryId = 12, Name = "Diaper", CreatedBy = 1 },
             new ChildCategory { Id = 70, ParentCategoryId = 8, Name = "Petrol", CreatedBy = 1 },
             new ChildCategory { Id = 71, ParentCategoryId = 8, Name = "GAS", CreatedBy = 1 },
-            new ChildCategory { Id = 72, ParentCategoryId = 7, Name = "CAR", CreatedBy = 1 }
+            new ChildCategory { Id = 72, ParentCategoryId = 7, Name = "CAR", CreatedBy = 1 },
+            new ChildCategory { Id = 73, ParentCategoryId = 8, Name = "Cash", CreatedBy = 1 },
+            new ChildCategory { Id = 74, ParentCategoryId = 7, Name = "Online Transfer", CreatedBy = 1 }
             );
         }
     }

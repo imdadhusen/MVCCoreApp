@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using HisabPro.DTO;
 using HisabPro.Entities;
 using HisabPro.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace HisabPro.Controllers
 {
-    //[ApiController]
-    //[Route("api/[controller]")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize]
     public class EmployeeController : Controller
     {
@@ -30,6 +30,13 @@ namespace HisabPro.Controllers
             //    return NotFound();
             //}
             //return Ok(result);
+            return View();
+        }
+
+        [HttpGet("employee/Report")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public IActionResult Report()
+        {
             return View();
         }
 

@@ -9,6 +9,7 @@ namespace HisabPro.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEmployeeRepository _employeeRepository;
+        private string sharedController = "/Views/Shared/{0}.cshtml";
         public HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository)
         {
             _logger = logger;
@@ -44,19 +45,31 @@ namespace HisabPro.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [Route("Home/Error")]
         public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        [Route("Home/Unauthorized")]
-        public IActionResult Unauthorized()
         {
             var errorViewModel = new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
-            return View(errorViewModel);
+            return View(string.Format(sharedController, "Error"), errorViewModel);
+        }
+
+        [Route("Home/Unauthorized")]
+        public new IActionResult Unauthorized()
+        {
+            var errorViewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(string.Format(sharedController, "Unauthorized"), errorViewModel);
+        }
+
+        [HttpGet]
+        [Route("Home/AccessDenied")]
+        public IActionResult AccessDenied()
+        {
+            return View(string.Format(sharedController, "AccessDenied"));
         }
     }
 }

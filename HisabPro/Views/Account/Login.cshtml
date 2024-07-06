@@ -60,8 +60,10 @@
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const data = await response.json();
-            console.log('Login successful:', data);
+            window.location.href = '@Url.Action("Index", "Employee")';
+            // const data = await response.json();
+            // localStorage.setItem('jwtToken', data.token);
+            // console.log('Login successful:', data);
         } catch (error) {
             console.error('Login failed:', error);
         }
