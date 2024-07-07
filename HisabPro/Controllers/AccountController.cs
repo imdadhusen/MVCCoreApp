@@ -67,13 +67,13 @@ namespace HisabPro.Controllers
             }
         }
 
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             // Clear the "Remember Me" cookie
             Response.Cookies.Delete(AppConst.Cookies.RememberMe);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); // Redirect to login page or another page after logout
         }
     }
 }
