@@ -4,6 +4,7 @@ using HisabPro.DTO;
 using HisabPro.Entities;
 using HisabPro.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using HisabPro.Constants;
 
 namespace HisabPro.Controllers
 {
@@ -34,7 +35,7 @@ namespace HisabPro.Controllers
         }
 
         [HttpGet("employee/Report")]
-        [Authorize(Policy = "RequireAdminRole")]
+        [Authorize(Policy = AuthorizePolicy.RequiredRoleAdmin)]
         public IActionResult Report()
         {
             return View();

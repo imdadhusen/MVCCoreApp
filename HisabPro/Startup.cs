@@ -81,9 +81,9 @@ namespace HisabPro
             services.AddAuthorization(options =>
             {
                 // Require 'Admin' role for this policy
-                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy(AuthorizePolicy.RequiredRoleAdmin, policy => policy.RequireRole(AuthorizePolicy.NameRoleAdmin));
                 // Require 'User' role for this policy
-                options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+                options.AddPolicy(AuthorizePolicy.RequiredRoleUser, policy => policy.RequireRole(AuthorizePolicy.NameRoleUser));
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
