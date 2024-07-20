@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HisabPro.Web.DTO
+namespace HisabPro.DTO.Request
 {
     public class LoginReqDTO
     {

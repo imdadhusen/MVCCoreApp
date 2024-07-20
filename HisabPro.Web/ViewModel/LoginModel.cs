@@ -1,4 +1,4 @@
-﻿using HisabPro.Web.DTO;
+﻿using HisabPro.DTO.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

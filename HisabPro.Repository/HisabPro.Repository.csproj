@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HisabPro.DTO\HisabPro.DTO.csproj" />
+    <ProjectReference Include="..\HisabPro.Entities\HisabPro.Entities.csproj" />
+    <ProjectReference Include="..\HisabPro.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj" />
+  </ItemGroup>
+
+</Project>

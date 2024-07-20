@@ -1,8 +1,8 @@
-﻿using HisabPro.Web.DTO;
+﻿using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using System.Linq.Expressions;
 
-namespace HisabPro.Web.Repository
+namespace HisabPro.Repository.Interfaces
 {
     public interface IUserRepository
     {

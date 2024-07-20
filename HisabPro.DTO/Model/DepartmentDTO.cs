@@ -1,4 +1,4 @@
-﻿namespace HisabPro.Web.DTO
+﻿namespace HisabPro.DTO.Model
 {
     public class DepartmentDTO
     {

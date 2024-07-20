@@ -1,7 +1,7 @@
 ﻿using Hisab.CryptoService;
 using HisabPro.Constants;
-using HisabPro.Web.DTO;
-using HisabPro.Web.Repository;
+using HisabPro.DTO.Request;
+using HisabPro.Repository.Interfaces;
 using HisabPro.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,16 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HisabPro.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController(IUserRepository userRpository, AuthService authService) : Controller
     {
-        public IUserRepository _userRpository { get; }
-        public AuthService _authService { get; }
-
-        public AccountController(IUserRepository userRpository, AuthService authService)
-        {
-            _userRpository = userRpository;
-            _authService = authService;
-        }
+        public IUserRepository UserRpository { get; } = userRpository;
+        public AuthService AuthService { get; } = authService;
 
         [HttpGet("account/login")]
         public IActionResult Login()
@@ -32,14 +26,14 @@ namespace HisabPro.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userRpository.Authenticate(login.Email, login.Password);
+                var user = await UserRpository.Authenticate(login.Email, login.Password);
                 if (user == null)
                 {
                     return Unauthorized();
                 }
                 else
                 {
-                    var tokenString = await _authService.SignInUser(user);
+                    var tokenString = await AuthService.SignInUser(user);
                     if (login.RememberMe)
                     {
                         var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());

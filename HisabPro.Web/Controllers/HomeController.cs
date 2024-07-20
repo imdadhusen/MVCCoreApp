@@ -1,20 +1,16 @@
+using HisabPro.DTO.Model;
+using HisabPro.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using HisabPro.Web.Models;
-using HisabPro.Web.Repository;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IEmployeeRepository _employeeRepository;
-        private string sharedController = "/Views/Shared/{0}.cshtml";
-        public HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository)
-        {
-            _logger = logger;
-            _employeeRepository = employeeRepository;
-        }
+        //private readonly ILogger<HomeController> _logger = logger;
+        //private readonly IEmployeeRepository _employeeRepository = employeeRepository;
+        private readonly string sharedController = "/Views/Shared/{0}.cshtml";
+
         public IActionResult Index()
         {
             return View();
@@ -48,7 +44,7 @@ namespace HisabPro.Web.Controllers
         [Route("Home/Error")]
         public IActionResult Error()
         {
-            var errorViewModel = new ErrorViewModel
+            var errorViewModel = new ErrorDTO
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
@@ -58,7 +54,7 @@ namespace HisabPro.Web.Controllers
         [Route("Home/Unauthorized")]
         public new IActionResult Unauthorized()
         {
-            var errorViewModel = new ErrorViewModel
+            var errorViewModel = new ErrorDTO
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
