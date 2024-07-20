@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Common", "HisabPro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Web", "HisabPro.Web\HisabPro.Web.csproj", "{58810681-224F-47B2-9E87-3DFCB57731F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HisabPro.Repository", "HisabPro.Repository\HisabPro.Repository.csproj", "{8301DCE0-1379-4979-8730-53C06F5DB536}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HisabPro.DTO", "HisabPro.DTO\HisabPro.DTO.csproj", "{51263FAA-E153-460F-8118-FD2416237915}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +117,30 @@ Global
 		{58810681-224F-47B2-9E87-3DFCB57731F7}.Release|x64.Build.0 = Release|Any CPU
 		{58810681-224F-47B2-9E87-3DFCB57731F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{58810681-224F-47B2-9E87-3DFCB57731F7}.Release|x86.Build.0 = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|x64.Build.0 = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Debug|x86.Build.0 = Debug|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|x64.ActiveCfg = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|x64.Build.0 = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|x86.ActiveCfg = Release|Any CPU
+		{8301DCE0-1379-4979-8730-53C06F5DB536}.Release|x86.Build.0 = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|x64.Build.0 = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Debug|x86.Build.0 = Debug|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|x64.ActiveCfg = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|x64.Build.0 = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|x86.ActiveCfg = Release|Any CPU
+		{51263FAA-E153-460F-8118-FD2416237915}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

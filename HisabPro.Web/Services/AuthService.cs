@@ -1,5 +1,5 @@
 ﻿using HisabPro.Constants;
-using HisabPro.Web.DTO;
+using HisabPro.DTO.Response;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
@@ -9,16 +9,10 @@ using System.Text;
 
 namespace HisabPro.Web.Services
 {
-    public class AuthService
+    public class AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor)
     {
-        public IConfiguration _configuartion { get; }
-        private readonly IHttpContextAccessor _contextAccessor;
-
-        public AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor)
-        {
-            _configuartion = configuartion;
-            _contextAccessor = contextAccessor;
-        }
+        public IConfiguration Configuartion { get; } = configuartion;
+        private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
 
         public List<Claim> GetClaims(LoginRes user)
         {
@@ -26,10 +20,10 @@ namespace HisabPro.Web.Services
             // Create claims
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, userRole.GetText())
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.Name),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Role, userRole.GetText())
             };
             return claims;
         }
@@ -60,7 +54,7 @@ namespace HisabPro.Web.Services
         public string GenerateToken(List<Claim> claims)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuartion[AppConst.Configs.JwtKey]);
+            var key = Encoding.ASCII.GetBytes(Configuartion[AppConst.Configs.JwtKey]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

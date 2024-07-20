@@ -58,3 +58,7 @@
 /HisabPro.Web/bin/Debug/net8.0
 /HisabPro.Web/logs
 /HisabPro.Web/obj
+/HisabPro.DTO/bin/Debug/net8.0
+/HisabPro.DTO/obj
+/HisabPro.Repository/bin/Debug/net8.0
+/HisabPro.Repository/obj

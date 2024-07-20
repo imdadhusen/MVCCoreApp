@@ -1,6 +1,6 @@
 ﻿using HisabPro.Constants;
-using HisabPro.Web.DTO;
-using HisabPro.Web.Repository;
+using HisabPro.DTO.Model;
+using HisabPro.Repository.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +8,10 @@ namespace HisabPro.Web.Controllers
 {
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize]
-    public class EmployeeController : Controller
+    public class EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository) : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
-        private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
-        {
-            _logger = logger;
-            _employeeRepository = employeeRepository;
-        }
+        //private readonly ILogger<EmployeeController> _logger = logger;
+        private readonly IEmployeeRepository _employeeRepository = employeeRepository;
 
         // GET: api/<controller>  
         //[HttpGet]

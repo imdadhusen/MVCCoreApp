@@ -1,6 +1,6 @@
 ﻿using HisabPro.Constants;
 
-namespace HisabPro.Web.DTO
+namespace HisabPro.DTO.Response
 {
     public class LoginRes
     {

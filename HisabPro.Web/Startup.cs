@@ -1,10 +1,11 @@
 ﻿using HisabPro.Constants;
 using HisabPro.Entities.IEntities;
 using HisabPro.Entities.Models;
+using HisabPro.Repository.Implements;
+using HisabPro.Repository.Interfaces;
 using HisabPro.Web.Entities;
 using HisabPro.Web.MapperProfile;
 using HisabPro.Web.Middleware;
-using HisabPro.Web.Repository;
 using HisabPro.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,11 @@ using System.Net;
 
 namespace HisabPro
 {
-    public class Startup
+    public class Startup(IConfiguration configuartion)
     {
         //private readonly IConfiguration _configuartion;
-        public IConfiguration _configuartion { get; }
+        public IConfiguration Configuartion { get; } = configuartion;
 
-        public Startup(IConfiguration configuartion)
-        {
-            _configuartion = configuartion;
-        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -39,7 +36,7 @@ namespace HisabPro
 
             services.AddDbContext<ApplicationDbContext>(o =>
             {
-                o.UseSqlServer(_configuartion[AppConst.Configs.DatabaseConnectionString]);
+                o.UseSqlServer(Configuartion[AppConst.Configs.DatabaseConnectionString]);
             });
 
             // Configure JWT authentication

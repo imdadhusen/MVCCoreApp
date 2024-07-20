@@ -1,6 +1,6 @@
-﻿using HisabPro.Web.DTO;
+﻿using HisabPro.DTO.Model;
 
-namespace HisabPro.Web.Repository
+namespace HisabPro.Repository.Interfaces
 {
     public interface IEmployeeRepository
     {

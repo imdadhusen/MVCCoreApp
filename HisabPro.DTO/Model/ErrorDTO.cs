@@ -1,6 +1,6 @@
-namespace HisabPro.Web.Models
+namespace HisabPro.DTO.Model
 {
-    public class ErrorViewModel
+    public class ErrorDTO
     {
         public string? RequestId { get; set; }
 

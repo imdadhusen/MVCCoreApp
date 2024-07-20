@@ -1,25 +1,21 @@
 ﻿using AutoMapper;
-using HisabPro.Web.DTO;
-using HisabPro.Entities;
+using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
+using HisabPro.Repository.Interfaces;
 using HisabPro.Tools.PasswordService;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace HisabPro.Web.Repository
+namespace HisabPro.Repository.Implements
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(ApplicationDbContext context, IMapper mapper) : IUserRepository
     {
-        public readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
-        public UserRepository(ApplicationDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        public readonly ApplicationDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
+
         public async Task<LoginRes?> GetUser(Expression<Func<User, bool>> predicate)
         {
-            User? data = null;
+            User? data;
             if (predicate != null)
             {
                 data = await _context.Users.FirstOrDefaultAsync(predicate);
@@ -37,8 +33,7 @@ namespace HisabPro.Web.Repository
         }
         public async Task<User?> Register(string name, string email, string password)
         {
-            string passwordHash, passwordSalt;
-            PasswordHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            PasswordHelper.CreatePasswordHash(password, out string passwordHash, out string passwordSalt);
 
             var user = new User
             {

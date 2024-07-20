@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HisabPro.Constants\HisabPro.Constants.csproj" />
+    <ProjectReference Include="..\HisabPro.Entities\HisabPro.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

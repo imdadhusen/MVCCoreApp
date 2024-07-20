@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using HisabPro.Web.DTO;
+using HisabPro.DTO.Model;
+using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 
 namespace HisabPro.Web.MapperProfile
