@@ -44,3 +44,17 @@
 /HisabPro.Constants/obj
 /HisabPro/obj/HisabPro.csproj.nuget.dgspec.json
 /HisabPro/obj/project.assets.json
+/HisabPro.Common/bin/Debug/net8.0
+/HisabPro.Common/obj
+/HisabPro.Entities/bin/Debug/net8.0
+/HisabPro.Entities/obj
+/HisabPro/.vs/HisabProApp/config/applicationhost.config
+/HisabPro.Web/.vs/HisabProApp/DesignTimeBuild
+/HisabPro.Web/.vs/HisabProApp/FileContentIndex
+/HisabPro.Web/.vs/HisabProApp/v17
+/HisabPro.Web/.vs/ProjectEvaluation
+/HisabPro.Web/.vs/SampleMvcCoreApp/DesignTimeBuild
+/HisabPro.Web/.vs/SampleMvcCoreApp/FileContentIndex
+/HisabPro.Web/bin/Debug/net8.0
+/HisabPro.Web/logs
+/HisabPro.Web/obj

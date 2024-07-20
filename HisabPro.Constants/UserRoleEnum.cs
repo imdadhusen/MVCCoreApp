@@ -2,9 +2,9 @@
 {
     public enum UserRoleEnum
     {
-        [EnumText("Admin")]
+        [EnumText(AuthorizePolicy.NameRoleAdmin)]
         Admin = 1,
-        [EnumText("User")]
+        [EnumText(AuthorizePolicy.NameRoleUser)]
         User = 2
     }
 }
