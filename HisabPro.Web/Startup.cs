@@ -31,6 +31,7 @@ namespace HisabPro
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
 

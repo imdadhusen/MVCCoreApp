@@ -1,77 +1,64 @@
-﻿@model List<HisabPro.Web.Controllers.Item>
+﻿@model HisabPro.Web.ViewModel.CategoryModel
 @{
     ViewData["Title"] = "Items";
 }
 
 <div class="container mt-5">
-    <h2 class="mb-4">Bootstrap Grid with Add and Update</h2>
+    <div class="row">
+        <div class="col">
+            <h2 class="mb-4">Manage categories and subcategories</h2>
+        </div>
+        <div class="col-3">
+            <a href="#" class="float-right mt-20" data-toggle="modal" data-type="add-category" data-target="#updateModal">
+                <i class="fas fa-plus"></i> Add Category
+            </a>
+        </div>
+    </div>
 
     <!-- Grid Table -->
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+    <table class="table table-primary">
         <tbody>
-            @foreach (var person in Model)
+            @foreach (var category in Model.AllCategoryList)
             {
                 <tr>
-                    <td>@person.Id</td>
-                    <td>@person.Name</td>
-                    <td>@person.Email</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal" data-id="@person.Id" data-name="@person.Name" data-email="@person.Email">Update</button>
+                    <td>@category.Name</td>
+                    <td align="right">
+                        <a href="#" data-toggle="modal" data-type="add-subcategory" data-target="#updateModal" data-id="@category.Id" data-name="@category.Name">
+                            <i class="fas fa-plus"></i> Add Subcategory
+                        </a>&nbsp;|&nbsp;
+                        <a href="#" data-toggle="modal" data-type="update-category" data-target="#updateModal" data-id="@category.Id" data-name="@category.Name">
+                            <i class="fas fa-pencil-alt"></i> Update Category
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table class="table mb-0 table-light">
+                            @foreach (var child in category.ChildCategories.OrderBy(c => c.Name))
+                            {
+                                <tr>
+                                    <td>@child.Name</td>
+                                    <td align="right">
+                                        <a href="#" data-toggle="modal" data-type="update-subcategory" data-target="#updateModal" data-id="@child.Id" data-name="@child.Name">
+                                            <i class="fas fa-pencil-alt"></i> Update
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
-    <!-- Add Button -->
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#addModal">Add</button>
 </div>
 
-<!-- Add Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Add Item</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="Add" method="post">
-                    <div class="form-group">
-                        <label for="add-id">ID</label>
-                        <input type="text" class="form-control" id="add-id" name="Id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="add-name">Name</label>
-                        <input type="text" class="form-control" id="add-name" name="Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="add-email">Email</label>
-                        <input type="email" class="form-control" id="add-email" name="Email" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Update Modal -->
+<!-- Add/Update Modal -->
 <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel">Update Item</h5>
+                <h5 class="modal-title" id="updateModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -83,12 +70,23 @@
                         <input type="text" class="form-control" id="update-id" name="Id" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="update-name">Name</label>
-                        <input type="text" class="form-control" id="update-name" name="Name" required>
+                        <label for="parentCategoryId">Category Id</label>
+                        <select name="parentCategoryId" class="form-select" aria-label="Parent Category">
+                            @foreach (var category in Model.ParentCategoryList)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <select name="childHiddenCategoryId" class="form-select" aria-label="Child Category">
+                            @foreach (var category in Model.ChildCategoryList)
+                            {
+                                <option value="@category.Id" data-parentId="@category.ParentCategoryId">@category.Name</option>
+                            }
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="update-email">Email</label>
-                        <input type="email" class="form-control" id="update-email" name="Email" required>
+                        <label for="update-name">Name</label>
+                        <input type="text" class="form-control" id="update-name" name="Name" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>
@@ -99,16 +97,32 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            console.log('doc ready new...')
+
             $('#updateModal').on('show.bs.modal', function (event) {
+                var dlgTitle = '';
                 var button = $(event.relatedTarget);
+                var type = button.data('type');
+                switch (type) {
+                    case 'add-category':
+                        dlgTitle = 'Add Category';
+                        break;
+                    case 'update-category':
+                        dlgTitle = 'Update Category';
+                        break;
+                    case 'add-subcategory':
+                        dlgTitle = 'Add Subcategory';
+                        break;
+                    case 'update-subcategory':
+                        dlgTitle = 'Update Subcategory';
+                        break;
+                }
+                $("#updateModalLabel").text(dlgTitle);
+
                 var id = button.data('id');
                 var name = button.data('name');
-                var email = button.data('email');
                 var modal = $(this);
                 modal.find('.modal-body #update-id').val(id);
                 modal.find('.modal-body #update-name').val(name);
-                modal.find('.modal-body #update-email').val(email);
             });
         });
     </script>

@@ -24,3 +24,15 @@ body {
 dl, ol, ul {
     text-align:left;
 }
+a {
+    text-decoration:none;
+}
+a:hover, a:hover .fas {
+    color: red;
+}
+.float-right {
+   float:right;
+}
+.mt-20 {
+    margin-top:20px;
+}

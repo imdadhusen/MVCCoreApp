@@ -1,47 +1,51 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HisabPro.Repository.Interfaces;
+using HisabPro.Web.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace HisabPro.Web.Controllers
 {
     //[Authorize]
-    public class CategoryController : Controller
+    public class CategoryController(ICategoryRepository categoryRepository) : Controller
     {
-        private static readonly List<Item> items =
-        [
-            new Item { Id = 1, Name = "John Doe", Email = "john@example.com" },
-            new Item { Id = 2, Name = "Jane Smith", Email = "jane@example.com" }
-        ];
+        private readonly ICategoryRepository _categoryRepository = categoryRepository;
 
         [HttpGet("category/Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(items);
-        }
-
-        [HttpPost]
-        public IActionResult Add(Item item)
-        {
-            item.Id = items.Count + 1;
-            items.Add(item);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public IActionResult Update(Item item)
-        {
-            var existingItem = items.Find(i => i.Id == item.Id);
-            if (existingItem != null)
+            CategoryModel categoryDetail = new CategoryModel
             {
-                existingItem.Name = item.Name;
-                existingItem.Email = item.Email;
-            }
+                AllCategoryList = await _categoryRepository.GetCategories(),
+                ParentCategoryList = await _categoryRepository.GetParentCategories(),
+                ChildCategoryList = await _categoryRepository.GetChildCategories()
+            };
+            //return Ok(categories);
+            return View(categoryDetail);
+        }
+
+        [HttpPost]
+        public IActionResult Add()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Update()
+        {
+            //var existingItem = items.Find(i => i.Id == item.Id);
+            //if (existingItem != null)
+            //{
+            //    existingItem.Name = item.Name;
+            //    existingItem.Email = item.Email;
+            //}
             return RedirectToAction("Index");
         }
     }
 
-    public class Item
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
+    //public class Item
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+    //    public string Email { get; set; }
+    //}
 }
