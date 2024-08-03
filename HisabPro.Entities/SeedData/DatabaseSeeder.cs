@@ -143,8 +143,8 @@ namespace HisabPro.Entities.SeedData
             new ChildCategory { Id = 71, ParentCategoryId = 8, Name = "GAS", CreatedBy = 1 },
             new ChildCategory { Id = 72, ParentCategoryId = 7, Name = "CAR", CreatedBy = 1 },
             new ChildCategory { Id = 73, ParentCategoryId = 16, Name = "Cash", CreatedBy = 1 },
-            new ChildCategory { Id = 74, ParentCategoryId = 16, Name = "Online Transfer", CreatedBy = 1 }
-            );
+            new ChildCategory { Id = 74, ParentCategoryId = 16, Name = "Online Transfer", CreatedBy = 1 },
+            new ChildCategory { Id = 75, ParentCategoryId = 2, Name = "Mall", CreatedBy = 1 });
         }
     }
 }

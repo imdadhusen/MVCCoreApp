@@ -1,11 +1,11 @@
 ﻿using HisabPro.Repository.Interfaces;
 using HisabPro.Web.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace HisabPro.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CategoryController(ICategoryRepository categoryRepository) : Controller
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;

@@ -5,6 +5,7 @@ using HisabPro.Repository.Interfaces;
 using HisabPro.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HisabPro.Web.Controllers
@@ -14,9 +15,15 @@ namespace HisabPro.Web.Controllers
         public IUserRepository UserRpository { get; } = userRpository;
         public AuthService AuthService { get; } = authService;
 
+        [AllowAnonymous]
         [HttpGet("account/login")]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                // Redirect to the desired page if the user is already authenticated
+                return RedirectToAction("Index", "Home");
+            }
             ViewData["Title"] = "Login";
             return View();
         }
