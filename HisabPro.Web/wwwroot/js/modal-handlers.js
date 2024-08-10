@@ -11,8 +11,10 @@
         $('#commonModalLabel').text(title);
         $('#modalSaveButton').text(btnSaveTitle);
         // Insert the appropriate content into the modal body
-        var content = $(contentSelector).html();
-        $('#modalContent').html(content);
+        if (contentSelector != "") {
+            var content = $(contentSelector).html();
+            $('#modalContent').html(content);
+        }
 
         // Set feature attribute on save button
         $('#modalSaveButton').data('feature', feature);
@@ -26,7 +28,6 @@
             // });
         }
     });
-
     $('#modalSaveButton').click(function () {
         var feature = $(this).data('feature');
 
@@ -41,16 +42,17 @@
                 console.log('Unknown feature: ' + feature);
         }
     });
-
-    function handleAddSave() {
-        // Logic for saving new item
-        alert('Save logic for Add');
-        $('#commonModal').modal('hide');
-    }
-
-    function handleEditSave() {
-        // Logic for saving edited item
-        alert('Save logic for Edit');
-        $('#commonModal').modal('hide');
-    }
 });
+
+
+function handleAddSave() {
+    // Logic for saving new item
+    alert('Save logic for Add');
+    $('#commonModal').modal('hide');
+}
+
+function handleEditSave() {
+    // Logic for saving edited item
+    alert('Save logic for Edit');
+    $('#commonModal').modal('hide');
+}

@@ -9,7 +9,7 @@
             <h2 class="mb-4">Manage categories and subcategories</h2>
         </div>
         <div class="col-3">
-            <a href="#" class="float-right mt-20" data-toggle="modal" data-target="#commonModal" data-content="#saveModalContent" data-title="Add Category" data-feature="AddCategory" onclick="openModal(this)">
+            <a href="#" class="float-right mt-20" data-toggle="modal" data-target="#commonModal" data-title="Add Category" data-feature="AddCategory" onclick="openModal(this)">
                 <i class="fas fa-plus"></i> Add Category
             </a>
         </div>
@@ -23,10 +23,10 @@
                 <tr>
                     <td>@category.Name</td>
                     <td align="right">
-                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@category.Id" data-name="@category.Name" data-content="#saveModalContent" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)">
+                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@category.Id" data-name="@category.Name" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)">
                             <i class="fas fa-plus"></i> Add Subcategory
                         </a>&nbsp;|&nbsp;
-                        <a href="#" data-toggle="modal" data-target="#commonModal" data-id="@category.Id" data-name="@category.Name" data-content="#saveModalContent" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)">
+                        <a href="#" data-toggle="modal" data-target="#commonModal" data-id="@category.Id" data-name="@category.Name" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)">
                             <i class="fas fa-pencil-alt"></i> Update Category
                         </a>
                     </td>
@@ -39,7 +39,7 @@
                                 <tr>
                                     <td>@child.Name</td>
                                     <td align="right">
-                                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-content="#saveModalContent" data-title="Update Subcategory" data-feature="UpdateSubcategory" onclick="openModal(this)">
+                                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-title="Update Subcategory" data-feature="UpdateSubcategory" onclick="openModal(this)">
                                             <i class="fas fa-pencil-alt"></i> Update
                                         </a>
                                     </td>
@@ -53,28 +53,29 @@
     </table>
 </div>
 
-<div id="saveModalContent" style="display: none;">
-    <div id="dvParentCategory" class="form-group">
-        <label for="category-name">Parent Category</label>
-        <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
-            @foreach (var category in Model.ParentCategoryList)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label id="lblCategoryName" for="category-name">Sub Category</label>
-        <input type="text" class="form-control" id="category-name" name="Name">
-    </div>
-</div>
-
 @await Html.PartialAsync("_ModalPartial")
 
-<!-- Add/Update Modal -->
 @section Scripts {
     <script>
+        var contentModal = `<div id="dvParentCategory" class="form-group">
+                <label for= "category-name"> Parent Category </label>
+                    <select name = "parentCategoryId" id = "parentCategoryId" class="form-select" aria - label="Parent Category">
+        @foreach (var category in Model.ParentCategoryList)
+        {
+                        <option value="@category.Id"> @category.Name</option>
+        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="lblCategoryName" for= "category-name"> Sub Category </label>
+                    <input type = "text" class="form-control" id = "category-name" name = "Name">
+                </div>`;
+
         function openModal(button) {
+            var targetModal = $(button).data('target');
+            $('#modalContent').html(contentModal);
+            $(targetModal).modal('show');
+
             var feature = $(button).data('feature');
             var parentId = $(button).data('parentid');
             switch (feature) {
@@ -87,13 +88,9 @@
                 case 'UpdateSubcategory':
                     $('#dvParentCategory').show();
                     $('#lblCategoryName').text('Sub Category');
-                    window.setTimeout(function () {
-                        $('#commonModal #parentCategoryId').val(parentId);
-                    }, 100);
+                    $('#parentCategoryId').val(parentId);
                     break;
             }
-            var targetModal = $(button).data('target');
-            $(targetModal).modal('show');
         }
     </script>
 }
