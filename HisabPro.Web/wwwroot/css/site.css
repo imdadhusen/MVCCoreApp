@@ -58,3 +58,12 @@ a {
 .alert-dismissible {
     padding-right: 1rem;
 }
+
+.form-control .error, label.error {
+    color: red;
+    font-size: 0.875em; /* Optional: adjust font size */
+}
+
+.input-validation-error, .error {
+    border-color: red; /* Optional: add red border to invalid input */
+}

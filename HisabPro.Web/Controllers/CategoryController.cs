@@ -1,4 +1,5 @@
-﻿using HisabPro.Repository.Interfaces;
+﻿using HisabPro.DTO.Request;
+using HisabPro.Repository.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,29 +24,17 @@ namespace HisabPro.Web.Controllers
             return View(categoryDetail);
         }
 
-        [HttpPost]
-        public IActionResult Add()
-        {
-            return RedirectToAction("Index");
-        }
 
+        // POST: /Category/Save
         [HttpPost]
-        public IActionResult Update()
+        public IActionResult Save([FromBody] SaveRequestDTO model)
         {
-            //var existingItem = items.Find(i => i.Id == item.Id);
-            //if (existingItem != null)
-            //{
-            //    existingItem.Name = item.Name;
-            //    existingItem.Email = item.Email;
-            //}
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                // Handle your post logic here
+                return Json(new { Status = "Success", Data = model });
+            }
+            return BadRequest(ModelState);
         }
     }
-
-    //public class Item
-    //{
-    //    public int Id { get; set; }
-    //    public string Name { get; set; }
-    //    public string Email { get; set; }
-    //}
 }

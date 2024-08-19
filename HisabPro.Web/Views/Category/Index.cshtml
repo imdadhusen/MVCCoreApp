@@ -23,7 +23,7 @@
                 <tr>
                     <td>@category.Name</td>
                     <td align="right">
-                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@category.Id" data-name="@category.Name" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)">
+                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-name="@category.Name" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)">
                             <i class="fas fa-plus"></i> Add Subcategory
                         </a>&nbsp;|&nbsp;
                         <a href="#" data-toggle="modal" data-target="#commonModal" data-id="@category.Id" data-name="@category.Name" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)">
@@ -57,40 +57,86 @@
 
 @section Scripts {
     <script>
-        var contentModal = `<div id="dvParentCategory" class="form-group">
-                <label for= "category-name"> Parent Category </label>
-                    <select name = "parentCategoryId" id = "parentCategoryId" class="form-select" aria - label="Parent Category">
+        var modalName = '#commonModal';
+        var contentModal = `<form id="frmCategory"><div id="dvParentCategory" class="form-group">
+                                                                                        <label for="category-name"> Parent Category </label>
+                                                                                        <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
         @foreach (var category in Model.ParentCategoryList)
         {
-                        <option value="@category.Id"> @category.Name</option>
+                                                                                                                                <option value="@category.Id"> @category.Name</option>
         }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label id="lblCategoryName" for= "category-name"> Sub Category </label>
-                    <input type = "text" class="form-control" id = "category-name" name = "Name">
-                </div>`;
+                                                                                        </select>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                        <label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label>
+                                                                                        <input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required >
+                                                                                        <span asp-validation-for="lblCategoryName" class="text-danger"></span>
+                                                                                        </div>
+                                                                                        </form>`;
 
-        function openModal(button) {
-            var targetModal = $(button).data('target');
-            $('#modalContent').html(contentModal);
-            $(targetModal).modal('show');
+        function openModal(_this) {
+            var button = $(_this);
+            var targetModal = button.data('target');
+            var feature = button.data('feature');
+            var parentId = button.data('parentid');
+            var text = button.data('name');
+            var id = button.data('id');
 
-            var feature = $(button).data('feature');
-            var parentId = $(button).data('parentid');
+            showModal(targetModal, contentModal, handleSaveCategory, id);
+
             switch (feature) {
                 case 'AddCategory':
                 case 'UpdateCategory':
                     $('#dvParentCategory').hide();
                     $('#lblCategoryName').text('Category');
+                    $('#txtCategoryName').val(text);
                     break;
                 case 'AddSubcategory':
                 case 'UpdateSubcategory':
                     $('#dvParentCategory').show();
                     $('#lblCategoryName').text('Sub Category');
                     $('#parentCategoryId').val(parentId);
+                    $('#txtCategoryName').val(text);
                     break;
             }
+        }
+
+        function handleSaveCategory(data) {
+            var frmName = '#frmCategory';
+            var parentCatName = '#txtCategoryName';
+            var parentCatId = '#parentCategoryId';
+            var urlUpdate = '/Category/Save';
+            
+
+            // Reinitialize jQuery Unobtrusive Validation
+            $.validator.unobtrusive.parse(frmName);
+            var form = $(frmName);
+            form.validate();
+            if (form.valid()) {
+                var req = { Name: $(parentCategory).val() };
+                if (data != undefined) {
+                    req.Id = data;
+                }
+                if ($(parentCatId).is(':visible')) {
+                    req.ParentId = $(parentCatId).val();
+                }
+
+                ajax.post(urlUpdate, JSON.stringify(req),
+                    function () {
+                    },
+                    function () {
+                    }
+                );
+                $(modalName).modal('hide');
+            } else {
+                console.log("Form is invalid!");
+            }
+        }
+
+        function handleEditSave() {
+            // Logic for saving edited item
+            alert('Save logic for Edit');
+            $(modalName).modal('hide');
         }
     </script>
 }
