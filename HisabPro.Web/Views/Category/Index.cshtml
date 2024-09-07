@@ -107,13 +107,12 @@
             var parentCatId = '#parentCategoryId';
             var urlUpdate = '/Category/Save';
             
-
             // Reinitialize jQuery Unobtrusive Validation
             $.validator.unobtrusive.parse(frmName);
             var form = $(frmName);
             form.validate();
             if (form.valid()) {
-                var req = { Name: $(parentCategory).val() };
+                var req = { Name: $(parentCatName).val() };
                 if (data != undefined) {
                     req.Id = data;
                 }

@@ -1,4 +1,5 @@
-﻿using HisabPro.DTO.Response;
+﻿using HisabPro.DTO.Request;
+using HisabPro.DTO.Response;
 
 namespace HisabPro.Repository.Interfaces
 {
@@ -7,5 +8,6 @@ namespace HisabPro.Repository.Interfaces
         Task<List<ParentCategoryRes>> GetParentCategories();
         Task<List<ChildCategoryRes>> GetChildCategories();
         Task<List<CategoryListRes>> GetCategories();
+        Task<ChildCategoryRes> SaveCategory(SaveRequestDTO req);
     }
 }

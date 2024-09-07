@@ -1,5 +1,6 @@
 ﻿using HisabPro.DTO.Request;
 using HisabPro.Repository.Interfaces;
+using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +30,24 @@ namespace HisabPro.Web.Controllers
         [HttpPost]
         public IActionResult Save([FromBody] SaveRequestDTO model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Handle your post logic here
-                return Json(new { Status = "Success", Data = model });
+                var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
+                if (message != "")
+                {
+                    return BadRequest(new { message, errors });
+                }
+                else
+                {
+                    var res = _categoryRepository.SaveCategory(model);
+                    return Ok(res);
+                }
             }
-            return BadRequest(ModelState);
+            catch(Exception ex)
+            {
+                //TODO: in prod don't expose actual error instead "Internal Server Error"
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
