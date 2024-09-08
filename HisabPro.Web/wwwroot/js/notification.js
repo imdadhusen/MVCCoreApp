@@ -1,4 +1,16 @@
-﻿function showNotification(message, type = 'success', duration = 5000, autoHide = true) {
+﻿/* @param {any} message
+   @param {any} type
+        success: For success
+        primary: For primary information.
+        secondary: For secondary information.
+        danger: For error or danger messages (red).
+        warning: For warning messages (yellow).
+        info: For informational messages (blue).
+        light: For light-colored alerts (grey background).
+        dark: For dark-colored alerts.
+   @param {any} duration
+   @param {any} autoHide */
+function showNotification(message, type = 'success', duration = 5000, autoHide = true) {
     var alertElement = $(`
             <div class="alert alert-${type} alert-dismissible fade show" role="alert">
                 ${message}

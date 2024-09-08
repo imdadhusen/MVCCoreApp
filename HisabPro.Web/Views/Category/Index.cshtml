@@ -57,13 +57,14 @@
 
 @section Scripts {
     <script>
+        var button;
         var modalName = '#commonModal';
         var contentModal = `<form id="frmCategory"><div id="dvParentCategory" class="form-group">
                                                                                         <label for="category-name"> Parent Category </label>
                                                                                         <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
         @foreach (var category in Model.ParentCategoryList)
         {
-                                                                                                                                <option value="@category.Id"> @category.Name</option>
+                                                                                                                        <option value="@category.Id"> @category.Name</option>
         }
                                                                                         </select>
                                                                                         </div>
@@ -75,7 +76,7 @@
                                                                                         </form>`;
 
         function openModal(_this) {
-            var button = $(_this);
+            button = $(_this);
             var targetModal = button.data('target');
             var feature = button.data('feature');
             var parentId = button.data('parentid');
@@ -106,7 +107,7 @@
             var parentCatName = '#txtCategoryName';
             var parentCatId = '#parentCategoryId';
             var urlUpdate = '/Category/Save';
-            
+
             // Reinitialize jQuery Unobtrusive Validation
             $.validator.unobtrusive.parse(frmName);
             var form = $(frmName);
@@ -119,23 +120,26 @@
                 if ($(parentCatId).is(':visible')) {
                     req.ParentId = $(parentCatId).val();
                 }
-
-                ajax.post(urlUpdate, JSON.stringify(req),
-                    function () {
-                    },
-                    function () {
-                    }
-                );
-                $(modalName).modal('hide');
+                
+                ajax.post(urlUpdate, JSON.stringify(req), SaveSuccess, SaveFailed);
             } else {
                 console.log("Form is invalid!");
             }
         }
 
-        function handleEditSave() {
+        function SaveSuccess(res) {
             // Logic for saving edited item
-            alert('Save logic for Edit');
+            if (res.statusCode == 200) {
+                showNotification(res.message);
+                // Refresh updated value in table
+                var updated = res.response.name;
+                button.closest('tr').find('td:first').text(updated);
+                button.data("name", updated)
+            }
             $(modalName).modal('hide');
+        }
+        function SaveFailed(res) {
+            alert('Failed...' + JSON.stringify(res));
         }
     </script>
 }

@@ -1,8 +1,6 @@
-﻿using HisabPro.Entities.Migrations;
-
-namespace HisabPro.DTO.Response
+﻿namespace HisabPro.DTO.Response
 {
-    public class ChildCategoryRes : AuditableEntity
+    public class ChildCategoryRes
     {
         public int Id { get; set; }
         public string Name { get; set; }

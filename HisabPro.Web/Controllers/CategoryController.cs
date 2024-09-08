@@ -1,9 +1,14 @@
-﻿using HisabPro.DTO.Request;
+﻿using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
+using HisabPro.DTO.Response;
+using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HisabPro.Web.Controllers
 {
@@ -28,25 +33,43 @@ namespace HisabPro.Web.Controllers
 
         // POST: /Category/Save
         [HttpPost]
-        public IActionResult Save([FromBody] SaveRequestDTO model)
+        public async Task<IActionResult> Save([FromBody] SaveRequestDTO model)
         {
             try
             {
                 var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
                 if (message != "")
                 {
-                    return BadRequest(new { message, errors });
+                    var response = new ResponseDTO<List<string>>
+                    {
+                        StatusCode = HttpStatusCode.BadRequest,
+                        Message = message,
+                        Response = errors
+                    };
+                    return BadRequest(response);
                 }
                 else
                 {
-                    var res = _categoryRepository.SaveCategory(model);
-                    return Ok(res);
+                    var data = await _categoryRepository.SaveCategory(model);
+                    var response = new ResponseDTO<ChildCategoryRes>
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Message = "Data saved successfully",
+                        Response = data
+                    };
+                    return Ok(response);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                //TODO: in prod don't expose actual error instead "Internal Server Error"
-                return StatusCode(500, ex.Message);
+                //TODO: in prod don't expose actual error use "Internal Server Error"
+                var response = new ResponseDTO<string>
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Message = "Internal server error",
+                    Response = ex.Message
+                };
+                return StatusCode((int)HttpStatusCode.InternalServerError, response);
             }
         }
     }
