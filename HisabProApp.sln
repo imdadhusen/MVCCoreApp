@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Common", "HisabPro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Web", "HisabPro.Web\HisabPro.Web.csproj", "{58810681-224F-47B2-9E87-3DFCB57731F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HisabPro.Repository", "HisabPro.Repository\HisabPro.Repository.csproj", "{8301DCE0-1379-4979-8730-53C06F5DB536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Repository", "HisabPro.Repository\HisabPro.Repository.csproj", "{8301DCE0-1379-4979-8730-53C06F5DB536}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HisabPro.DTO", "HisabPro.DTO\HisabPro.DTO.csproj", "{51263FAA-E153-460F-8118-FD2416237915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.DTO", "HisabPro.DTO\HisabPro.DTO.csproj", "{51263FAA-E153-460F-8118-FD2416237915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

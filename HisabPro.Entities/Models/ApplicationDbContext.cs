@@ -148,9 +148,9 @@ namespace HisabPro.Entities.Models
             }
         }
 
-        public override int SaveChanges()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            int currentUserId = _userContext.GetUserId(); // Assuming UserContext provides the current user's ID
+            int currentUserId = _userContext.GetUserId(); 
 
             foreach (var changedEntity in ChangeTracker.Entries())
             {
@@ -173,7 +173,7 @@ namespace HisabPro.Entities.Models
                     }
                 }
             }
-            return base.SaveChanges();
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

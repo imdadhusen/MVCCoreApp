@@ -4,15 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HisabPro</title>
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/HisabPro.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/ajax.js"></script>
     <script src="~/lib/popper.min.js"></script>
     <script src="~/lib/bootstrap.min.js"></script>
-    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notification.js"></script>
+    <script src="~/js/modal-handlers.js"></script>
+    <script src="~/js/highlightRow.js"></script>
 </head>
 <body>
     <header>
@@ -41,7 +45,32 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a id="navEmployee" class="nav-link" href="#">Employee</a>
+                            <a id="navCategory" class="nav-link" href="#">Category</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navDropdownManage" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Manage
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navDropdownManage">
+                                <a class="dropdown-item" href="#">Users</a>
+                                <a class="dropdown-item" href="#">Categories</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navDropdownReports" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Reports
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navDropdownReports">
+                                <a class="dropdown-item" href="#">Income</a>
+                                <div class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Expense</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Submenu Action 1</a>
+                                        <a class="dropdown-item" href="#">Submenu Action 2</a>
+                                        <a class="dropdown-item" href="#">Submenu Action 3</a>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -78,6 +107,7 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div id="notificationContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -86,36 +116,33 @@
         </div>
     </footer>
 
-
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-
-
         $(document).ready(function () {
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    const token = localStorage.getItem('jwtToken');
-                    if (token) {
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-                    }
+            // $.ajaxSetup({
+            //     beforeSend: function (xhr) {
+            //         const token = localStorage.getItem('jwtToken');
+            //         if (token) {
+            //             xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            //         }
+            //     }
+            // });
+            $('.dropdown-submenu a.dropdown-toggle').on('click', function (e) {
+                if (!$(this).next('.dropdown-menu').hasClass('show')) {
+                    $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
                 }
+                var $subMenu = $(this).next('.dropdown-menu');
+                $subMenu.toggleClass('show');
+
+                $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                    $('.dropdown-submenu .show').removeClass('show');
+                });
+
+                return false;
             });
 
-            $("#navEmployee").click(function () {
-                window.location.href = '@Url.Action("Index", "Employee")';
-                // const token = localStorage.getItem('jwtToken');
-                // fetch('/employee/index', {
-                //     method: 'GET',
-                //     headers: {
-                //         'Authorization': 'Bearer ' + token
-                //     }
-                // })
-                // .then(response => response.text())
-                // .then(html => {
-                //     document.getElementById('content').innerHTML = html; // Update your content div
-                //     window.history.pushState({}, '', url); // Update the URL without reloading the page
-                // })
-                // .catch(error => console.error('Error:', error));
+            $("#navCategory").click(function () {
+                window.location.href = '@Url.Action("Index", "Category")';
             })
         })
     </script>

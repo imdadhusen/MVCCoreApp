@@ -29,16 +29,18 @@ namespace HisabPro.Web.Middleware
             //        return;
             //    }
             //}
-
-            if (!context.User.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AppConst.Cookies.RememberMe, out var encryptedUserId))
+            if (context.User.Identity != null)
             {
-                var userId = EncryptionHelper.Decrypt(encryptedUserId);
-                if (int.TryParse(userId, out var id))
+                if (!context.User.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AppConst.Cookies.RememberMe, out var encryptedUserId))
                 {
-                    var user = await _userRepository.GetUser(u => u.Id == id);
-                    if (user != null)
+                    var userId = EncryptionHelper.Decrypt(encryptedUserId);
+                    if (int.TryParse(userId, out var id))
                     {
-                        await _authService.SignInUser(user);
+                        var user = await _userRepository.GetUser(u => u.Id == id);
+                        if (user != null)
+                        {
+                            await _authService.SignInUser(user);
+                        }
                     }
                 }
             }

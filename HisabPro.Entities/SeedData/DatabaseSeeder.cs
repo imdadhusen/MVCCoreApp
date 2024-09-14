@@ -131,7 +131,7 @@ namespace HisabPro.Entities.SeedData
             new ChildCategory { Id = 59, ParentCategoryId = 14, Name = "Picnic", CreatedBy = 1 },
             new ChildCategory { Id = 60, ParentCategoryId = 14, Name = "Tour", CreatedBy = 1 },
             new ChildCategory { Id = 61, ParentCategoryId = 12, Name = "Cloths", CreatedBy = 1 },
-            new ChildCategory { Id = 62, ParentCategoryId = 12, Name = "Life Insurance", CreatedBy = 1 },
+            new ChildCategory { Id = 62, ParentCategoryId = 5, Name = "Life Insurance", CreatedBy = 1 },
             new ChildCategory { Id = 63, ParentCategoryId = 9, Name = "Islamic", CreatedBy = 1 },
             new ChildCategory { Id = 64, ParentCategoryId = 9, Name = "Gift", CreatedBy = 1 },
             new ChildCategory { Id = 65, ParentCategoryId = 12, Name = "Hair Cut", CreatedBy = 1 },
@@ -142,9 +142,9 @@ namespace HisabPro.Entities.SeedData
             new ChildCategory { Id = 70, ParentCategoryId = 8, Name = "Petrol", CreatedBy = 1 },
             new ChildCategory { Id = 71, ParentCategoryId = 8, Name = "GAS", CreatedBy = 1 },
             new ChildCategory { Id = 72, ParentCategoryId = 7, Name = "CAR", CreatedBy = 1 },
-            new ChildCategory { Id = 73, ParentCategoryId = 8, Name = "Cash", CreatedBy = 1 },
-            new ChildCategory { Id = 74, ParentCategoryId = 7, Name = "Online Transfer", CreatedBy = 1 }
-            );
+            new ChildCategory { Id = 73, ParentCategoryId = 16, Name = "Cash", CreatedBy = 1 },
+            new ChildCategory { Id = 74, ParentCategoryId = 16, Name = "Online Transfer", CreatedBy = 1 },
+            new ChildCategory { Id = 75, ParentCategoryId = 2, Name = "Mall", CreatedBy = 1 });
         }
     }
 }
