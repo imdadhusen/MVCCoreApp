@@ -22,6 +22,9 @@ function callApi(type, url, data, successCallback, errorCallback) {
             if (errorCallback) {
                 errorCallback(xhr, status, error);
             }
+            else {
+                showNotification(xhr.responseJSON.response, 'danger');
+            }
         }
     };
 

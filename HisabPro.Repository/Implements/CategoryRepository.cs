@@ -50,12 +50,12 @@ namespace HisabPro.Repository.Implements
             if (req.ParentId.HasValue && req.ParentId.Value > 1)
             {
                 //Save in child category
-                category = await Save(req, _context.ChildCategories); //await SaveChildCategory(req);
+                category = await Save(req, _context.ChildCategories);
             }
             else
             {
                 //Save in parent category
-                category = await Save(req, _context.ParentCategories); //await SaveParentCategory(req);
+                category = await Save(req, _context.ParentCategories);
             }
             return category;
         }
@@ -67,8 +67,8 @@ namespace HisabPro.Repository.Implements
             if (req.Id > 0)
             {
                 // Check for duplicate category name
-                var categories = await dbSet.Where(c => c.Name == req.Name || c.Id == req.Id).ToListAsync();
-                var dupCategory = categories.Where(c => c.Id != req.Id && c.Name == req.Name).FirstOrDefault();
+                var categories = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim() || c.Id == req.Id).ToListAsync();
+                var dupCategory = categories.Where(c => c.Id != req.Id && c.Name.Trim() == req.Name.Trim()).FirstOrDefault();
                 if (dupCategory != null)
                 {
                     throw new Exception("Category with this name already exists");
@@ -94,16 +94,24 @@ namespace HisabPro.Repository.Implements
             }
             else
             {
-                // Create new category
-                category = new TCategory() { Name = req.Name };
-                // Check if it's a ChildCategory and assign ParentId
-                if (category is ChildCategory childCategory && req.ParentId.HasValue)
+                // Check for duplicate category name
+                var dupCategory = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim()).FirstOrDefaultAsync();
+                if (dupCategory != null)
                 {
-                    childCategory.ParentCategoryId = req.ParentId.Value;
+                    throw new Exception("Category with this name already exists");
                 }
-                dbSet.Add(category);
+                else
+                {
+                    // Create new category
+                    category = new TCategory() { Name = req.Name };
+                    // Check if it's a ChildCategory and assign ParentId
+                    if (category is ChildCategory childCategory && req.ParentId.HasValue)
+                    {
+                        childCategory.ParentCategoryId = req.ParentId.Value;
+                    }
+                    dbSet.Add(category);
+                }
             }
-
             await _context.SaveChangesAsync();
             return new ChildCategoryRes { Id = category.Id, Name = category.Name, ParentCategoryId = (req.ParentId == null) ? 0 : req.ParentId.Value };
         }

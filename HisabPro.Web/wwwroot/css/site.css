@@ -59,6 +59,8 @@ a {
     padding-right: 1rem;
 }
 
+
+/* Validation Error */
 .form-control .error, label.error {
     color: red;
     font-size: 0.875em; /* Optional: adjust font size */
@@ -66,4 +68,24 @@ a {
 
 .input-validation-error, .error {
     border-color: red; /* Optional: add red border to invalid input */
+}
+
+/* Highlight table row */
+.highlight-green td, .highlight-blue td, .highlight-yellow td, .highlight-red td, .highlight-reset td {
+    transition: background-color 0.5s ease !important; /* Smooth transition effect */
+}
+.highlight-green td {
+    background-color: #D0F2C8 !important; /* Temporary color */
+}
+.highlight-blue td {
+    background-color: #D2ECFF !important; /* Temporary color */
+}
+.highlight-yellow td {
+    background-color: #FFDED2 !important; /* Temporary color */
+}
+.highlight-red td {
+    background-color: #FECCD8 !important; /* Temporary color */
+}
+.highlight-reset td {
+    background-color: white !important; /* Original background color, adjust as needed */
 }

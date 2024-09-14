@@ -16,7 +16,7 @@
     </div>
 
     <!-- Grid Table -->
-    <table class="table table-primary">
+    <table id="tblCategory" class="table table-primary">
         <tbody>
             @foreach (var category in Model.AllCategoryList)
             {
@@ -57,23 +57,24 @@
 
 @section Scripts {
     <script>
+        var isAddRecord = false;
         var button;
         var modalName = '#commonModal';
         var contentModal = `<form id="frmCategory"><div id="dvParentCategory" class="form-group">
-                                                                                        <label for="category-name"> Parent Category </label>
-                                                                                        <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
+                                                                                                                        <label for="category-name"> Parent Category </label>
+                                                                                                                        <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
         @foreach (var category in Model.ParentCategoryList)
         {
-                                                                                                                        <option value="@category.Id"> @category.Name</option>
+                                                                                                                                                                        <option value="@category.Id"> @category.Name</option>
         }
-                                                                                        </select>
-                                                                                        </div>
-                                                                                        <div class="form-group">
-                                                                                        <label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label>
-                                                                                        <input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required >
-                                                                                        <span asp-validation-for="lblCategoryName" class="text-danger"></span>
-                                                                                        </div>
-                                                                                        </form>`;
+                                                                                                                        </select>
+                                                                                                                        </div>
+                                                                                                                        <div class="form-group">
+                                                                                                                        <label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label>
+                                                                                                                        <input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required >
+                                                                                                                        <span asp-validation-for="lblCategoryName" class="text-danger"></span>
+                                                                                                                        </div>
+                                                                                                                        </form>`;
 
         function openModal(_this) {
             button = $(_this);
@@ -116,12 +117,17 @@
                 var req = { Name: $(parentCatName).val() };
                 if (data != undefined) {
                     req.Id = data;
+                    isAddRecord = false;
                 }
+                else {
+                    isAddRecord = true;
+                }
+
                 if ($(parentCatId).is(':visible')) {
                     req.ParentId = $(parentCatId).val();
                 }
-                
-                ajax.post(urlUpdate, JSON.stringify(req), SaveSuccess, SaveFailed);
+
+                ajax.post(urlUpdate, JSON.stringify(req), SaveSuccess);
             } else {
                 console.log("Form is invalid!");
             }
@@ -133,13 +139,33 @@
                 showNotification(res.message);
                 // Refresh updated value in table
                 var updated = res.response.name;
-                button.closest('tr').find('td:first').text(updated);
-                button.data("name", updated)
+                var tr = button.closest('tr');
+                if (isAddRecord) {
+                    var id = res.response.id;
+                    var parentId = res.response.parentCategoryId;
+                    if (parentId) {
+                        //Add in child category
+                        var nextTr = tr.next('tr');
+                        var newtr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="' + parentId + '" data-id="' + id + '" data-name="' + updated + '" data-title="Update Subcategory" data-feature="UpdateSubcategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a></td></tr>');
+                        // Add new row to the <tbody> to add it at the top
+                        nextTr.find('table tbody').prepend(newtr);
+                        highlightSaveRow(newtr);
+                    }
+                    else {
+                        //Add in main category
+                        tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-toggle="modal" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update Category</a></td></tr>');
+                        $('#tblCategory tbody').prepend(tr);
+                        highlightSaveRow($('#tblCategory tr:first'));
+                    }
+                }
+                else {
+                    tr.find('td:first').text(updated);
+                    button.data("name", updated);
+                    highlightSaveRow(tr);
+                }
+                
             }
             $(modalName).modal('hide');
-        }
-        function SaveFailed(res) {
-            alert('Failed...' + JSON.stringify(res));
         }
     </script>
 }
