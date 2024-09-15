@@ -16,6 +16,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/notification.js"></script>
     <script src="~/js/modal-handlers.js"></script>
+    <script src="~/js/confirm-handlers.js"></script>
     <script src="~/js/highlightRow.js"></script>
 </head>
 <body>
@@ -106,6 +107,7 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            @await Html.PartialAsync("_ConfirmPartial")
         </main>
         <div id="notificationContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
     </div>
