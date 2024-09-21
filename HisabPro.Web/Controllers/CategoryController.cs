@@ -1,14 +1,14 @@
-﻿using HisabPro.DTO.Model;
+﻿using Azure;
+using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HisabPro.Web.Controllers
 {
@@ -30,47 +30,33 @@ namespace HisabPro.Web.Controllers
             return View(categoryDetail);
         }
 
-
         // POST: /Category/Save
         [HttpPost]
-        public async Task<IActionResult> Save([FromBody] SaveRequestDTO model)
+        public async Task<IActionResult> Save([FromBody] SaveCategoryDTO model)
         {
-            try
+            var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
+            if (message != "")
             {
-                var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
-                if (message != "")
+                var response = new ResponseDTO<List<string>>
                 {
-                    var response = new ResponseDTO<List<string>>
-                    {
-                        StatusCode = HttpStatusCode.BadRequest,
-                        Message = message,
-                        Response = errors
-                    };
-                    return BadRequest(response);
-                }
-                else
-                {
-                    var data = await _categoryRepository.SaveCategory(model);
-                    var response = new ResponseDTO<ChildCategoryRes>
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Message = "Data saved successfully",
-                        Response = data
-                    };
-                    return Ok(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                //TODO: in prod don't expose actual error use "Internal Server Error"
-                var response = new ResponseDTO<string>
-                {
-                    StatusCode = HttpStatusCode.InternalServerError,
-                    Message = "Internal server error",
-                    Response = ex.Message
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = message,
+                    Response = errors
                 };
-                return StatusCode((int)HttpStatusCode.InternalServerError, response);
+                return BadRequest(response);
             }
+            else
+            {
+                var response = await _categoryRepository.SaveCategory(model);
+                return StatusCode((int)response.StatusCode, response);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromBody] DeleteCategoryDTO request)
+        {
+            var response = await _categoryRepository.Delete(request);
+            return StatusCode((int)response.StatusCode, response);
         }
     }
 }

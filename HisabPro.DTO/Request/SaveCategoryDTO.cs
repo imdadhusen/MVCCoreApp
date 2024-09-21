@@ -1,6 +1,6 @@
 ﻿namespace HisabPro.DTO.Request
 {
-    public class SaveRequestDTO
+    public class SaveCategoryDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
