@@ -96,7 +96,8 @@ namespace HisabPro.Entities.Models
             modelBuilder.Entity<ParentCategory>()
                 .HasMany(c => c.ChildCategories)
                 .WithOne(c => c.ParentCategory)
-                .HasForeignKey(c => c.ParentCategoryId);
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ParentCategory>()
                 .HasOne(p => p.Creator)
                 .WithMany()

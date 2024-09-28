@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace HisabPro.Repository.Implements
 {
@@ -17,8 +20,53 @@ namespace HisabPro.Repository.Implements
             _context = context;
             _mapper = mapper;
         }
+        public async Task<ResponseDTO<CategoryListWithChild>> CategoriesWithChilds()
+        {
+            var response = new ResponseDTO<CategoryListWithChild>() { StatusCode = HttpStatusCode.OK };
+            try
+            {
+                CategoryListWithChild categoryDetail = new CategoryListWithChild
+                {
+                    AllCategoryList = await GetCategories(),
+                    ParentCategoryList = await GetParentCategories(),
+                    ChildCategoryList = await GetChildCategories()
+                };
+                response.Message = AppConst.ApiMessage.DataRetrived;
+                response.Response = categoryDetail;
+            }
+            catch (Exception)
+            {
+                response.Message = AppConst.ApiMessage.DataRetrivedFailed;
+                response.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return response;
+        }
+        public async Task<ResponseDTO<ChildCategoryRes>> SaveCategory(SaveCategoryDTO req)
+        {
+            if (req.ParentId.HasValue && req.ParentId.Value > 1)
+            {
+                //Save in child category
+                return await Save(req, _context.ChildCategories);
+            }
+            else
+            {
+                //Save in parent category
+                return await Save(req, _context.ParentCategories);
+            }
+        }
+        public async Task<ResponseDTO<bool>> Delete(DeleteCategoryDTO req)
+        {
+            if (req.ParentId == null)
+            {
+                return await Delete(req, _context.ParentCategories);
+            }
+            else
+            {
+                return await Delete(req, _context.ChildCategories);
+            }
+        }
 
-        public async Task<List<CategoryListRes>> GetCategories()
+        private async Task<List<CategoryListRes>> GetCategories()
         {
             var categoryList = await _context.ParentCategories
                  .Include(c => c.ChildCategories)
@@ -27,93 +75,130 @@ namespace HisabPro.Repository.Implements
                  .ToListAsync();
             return _mapper.Map<List<CategoryListRes>>(categoryList);
         }
-
-        public async Task<List<ParentCategoryRes>> GetParentCategories()
+        private async Task<List<ParentCategoryRes>> GetParentCategories()
         {
             var categoryList = await _context.ParentCategories
                  .AsNoTracking()
                  .ToListAsync();
             return _mapper.Map<List<ParentCategoryRes>>(categoryList);
         }
-
-        public async Task<List<ChildCategoryRes>> GetChildCategories()
+        private async Task<List<ChildCategoryRes>> GetChildCategories()
         {
             var categoryList = await _context.ChildCategories
                 .AsNoTracking()
                 .ToListAsync();
             return _mapper.Map<List<ChildCategoryRes>>(categoryList);
         }
-
-        public async Task<ChildCategoryRes> SaveCategory(SaveRequestDTO req)
+        private async Task<ResponseDTO<ChildCategoryRes>> Save<TCategory>(SaveCategoryDTO req, DbSet<TCategory> dbSet)
+    where TCategory : class, ICategorySave, new()
         {
-            ChildCategoryRes? category;
-            if (req.ParentId.HasValue && req.ParentId.Value > 1)
+            var response = new ResponseDTO<ChildCategoryRes>();
+            response.StatusCode = HttpStatusCode.OK;
+            try
             {
-                //Save in child category
-                category = await Save(req, _context.ChildCategories);
-            }
-            else
-            {
-                //Save in parent category
-                category = await Save(req, _context.ParentCategories);
-            }
-            return category;
-        }
-
-        private async Task<ChildCategoryRes> Save<TCategory>(SaveRequestDTO req, DbSet<TCategory> dbSet)
-    where TCategory : class, ICategory, new()
-        {
-            TCategory? category;
-            if (req.Id > 0)
-            {
-                // Check for duplicate category name
-                var categories = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim() || c.Id == req.Id).ToListAsync();
-                var dupCategory = categories.Where(c => c.Id != req.Id && c.Name.Trim() == req.Name.Trim()).FirstOrDefault();
-                if (dupCategory != null)
+                TCategory? category;
+                if (req.Id > 0)
                 {
-                    throw new Exception("Category with this name already exists");
+                    // Check for duplicate category name
+                    var categories = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim() || c.Id == req.Id).ToListAsync();
+                    var dupCategory = categories.Where(c => c.Id != req.Id && c.Name.Trim() == req.Name.Trim()).FirstOrDefault();
+                    if (dupCategory != null)
+                    {
+                        throw new Exception(AppConst.ApiMessage.DataWithSameName);
+                    }
+                    else
+                    {
+                        category = categories.Where(c => c.Id == req.Id).FirstOrDefault();
+                        if (category != null)
+                        {
+                            category.Name = req.Name;
+                            // Check if it's a ChildCategory and assign ParentId
+                            if (category is ChildCategory childCategory && req.ParentId.HasValue)
+                            {
+                                childCategory.ParentCategoryId = req.ParentId.Value;
+                            }
+                            dbSet.Update(category);
+                        }
+                        else
+                        {
+                            throw new Exception(AppConst.ApiMessage.NotFound);
+                        }
+                    }
                 }
                 else
                 {
-                    category = categories.Where(c => c.Id == req.Id).FirstOrDefault();
-                    if (category != null)
+                    // Check for duplicate category name
+                    var dupCategory = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim()).FirstOrDefaultAsync();
+                    if (dupCategory != null)
                     {
-                        category.Name = req.Name;
+                        throw new Exception(AppConst.ApiMessage.DataWithSameName);
+                    }
+                    else
+                    {
+                        // Create new category
+                        category = new TCategory() { Name = req.Name };
                         // Check if it's a ChildCategory and assign ParentId
                         if (category is ChildCategory childCategory && req.ParentId.HasValue)
                         {
                             childCategory.ParentCategoryId = req.ParentId.Value;
                         }
-                        dbSet.Update(category);
-                    }
-                    else
-                    {
-                        throw new Exception("Provided category id does not exists");
+                        dbSet.Add(category);
                     }
                 }
+                await _context.SaveChangesAsync();
+                var data = new ChildCategoryRes { Id = category.Id, Name = category.Name, ParentCategoryId = (req.ParentId == null) ? 0 : req.ParentId.Value };
+                response.Message = AppConst.ApiMessage.Save;
+                response.Response = data;
             }
-            else
+            catch (Exception ex)
             {
-                // Check for duplicate category name
-                var dupCategory = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim()).FirstOrDefaultAsync();
-                if (dupCategory != null)
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.Message = AppConst.ApiMessage.InternalError;
+            }
+            return response;
+        }
+        private async Task<ResponseDTO<bool>> Delete<T>(DeleteCategoryDTO req, DbSet<T> dbSet) where T : class, ICategoryDelete
+        {
+            var response = new ResponseDTO<bool>();
+            response.StatusCode = HttpStatusCode.OK;
+            try
+            {
+                var category = await dbSet.Where(c => c.Id == req.Id).FirstOrDefaultAsync();
+                if (req.ParentId != null && category is ChildCategory childCategory)
                 {
-                    throw new Exception("Category with this name already exists");
+                    // Check if it's a ChildCategory and assign ParentId
+                    if (childCategory.ParentCategoryId != req.ParentId.Value)
+                    {
+                        category = null;
+                    }
+                }
+                if (category != null)
+                {
+                    dbSet.Remove(category);
+                    await _context.SaveChangesAsync();
+                    response.Message = AppConst.ApiMessage.Delete;
+                    response.Response = true;
                 }
                 else
                 {
-                    // Create new category
-                    category = new TCategory() { Name = req.Name };
-                    // Check if it's a ChildCategory and assign ParentId
-                    if (category is ChildCategory childCategory && req.ParentId.HasValue)
-                    {
-                        childCategory.ParentCategoryId = req.ParentId.Value;
-                    }
-                    dbSet.Add(category);
+                    response.Message = AppConst.ApiMessage.NotFound;
+                    response.Response = false;
                 }
             }
-            await _context.SaveChangesAsync();
-            return new ChildCategoryRes { Id = category.Id, Name = category.Name, ParentCategoryId = (req.ParentId == null) ? 0 : req.ParentId.Value };
+            catch (Exception ex)
+            {
+                if (ex.InnerException.Message.ToUpper().Contains("REFERENCE CONSTRAINT"))
+                {
+                    response.Message = AppConst.ApiMessage.ReferenceDeleteError;
+                }
+                else
+                {
+                    response.Message = AppConst.ApiMessage.InternalError;
+                }
+                response.StatusCode = HttpStatusCode.InternalServerError;
+                response.Response = false;
+            }
+            return response;
         }
     }
 }

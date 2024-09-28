@@ -2,7 +2,7 @@
 
 namespace HisabPro.DTO.Request
 {
-    public class LoginReqDTO
+    public class LoginDTO
     {
         [Required]
         [EmailAddress]

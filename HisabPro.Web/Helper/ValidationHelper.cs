@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using HisabPro.Constants;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace HisabPro.Web.Helper
 {
@@ -13,7 +14,7 @@ namespace HisabPro.Web.Helper
             else
             {
                 return (
-                    "Validation failed",
+                    AppConst.ApiMessage.ValidationFailed,
                     modelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList()
                 );
             }

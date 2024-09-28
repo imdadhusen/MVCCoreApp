@@ -29,7 +29,7 @@ namespace HisabPro.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginReqDTO login)
+        public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
             if (ModelState.IsValid)
             {

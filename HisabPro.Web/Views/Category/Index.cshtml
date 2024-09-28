@@ -1,4 +1,4 @@
-﻿@model HisabPro.Web.ViewModel.CategoryModel
+﻿@model HisabPro.DTO.Model.ResponseDTO<HisabPro.DTO.Response.CategoryListWithChild>
 @{
     ViewData["Title"] = "Items";
 }
@@ -18,34 +18,51 @@
     <!-- Grid Table -->
     <table id="tblCategory" class="table table-primary">
         <tbody>
-            @foreach (var category in Model.AllCategoryList)
+            @if (Model.Response != null && Model.Response.AllCategoryList.Count >= 1)
+            {
+                @foreach (var category in Model.Response.AllCategoryList)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td align="right">
+                            <a href="#" data-target="#commonModal" data-parentid="@category.Id" data-name="@category.Name" data-feature="AddSubcategory" onclick="openModal(this)">
+                                <i class="fas fa-plus"></i> Add Subcategory
+                            </a>&nbsp;|&nbsp;
+                            <a href="#" data-target="#commonModal" data-id="@category.Id" data-name="@category.Name" data-feature="UpdateCategory" onclick="openModal(this)">
+                                <i class="fas fa-pencil-alt"></i> Update
+                            </a>&nbsp;|&nbsp;
+                            <a href="#" data-id="@category.Id" onclick="openConfirm(this)">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <table class="table mb-0 table-light">
+                                @foreach (var child in category.ChildCategories.OrderBy(c => c.Name))
+                                {
+                                    <tr>
+                                        <td>@child.Name</td>
+                                        <td align="right">
+                                            <a href="#" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-feature="UpdateSubcategory" onclick="openModal(this)">
+                                                <i class="fas fa-pencil-alt"></i> Update
+                                            </a>&nbsp;|&nbsp;
+                                            <a href="#" data-parentid="@category.Id" data-id="@child.Id" onclick="openConfirm(this)">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@category.Name</td>
-                    <td align="right">
-                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-name="@category.Name" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)">
-                            <i class="fas fa-plus"></i> Add Subcategory
-                        </a>&nbsp;|&nbsp;
-                        <a href="#" data-toggle="modal" data-target="#commonModal" data-id="@category.Id" data-name="@category.Name" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)">
-                            <i class="fas fa-pencil-alt"></i> Update Category
-                        </a>
-                    </td>
-                </tr>
-                <tr>
                     <td colspan="2">
-                        <table class="table mb-0 table-light">
-                            @foreach (var child in category.ChildCategories.OrderBy(c => c.Name))
-                            {
-                                <tr>
-                                    <td>@child.Name</td>
-                                    <td align="right">
-                                        <a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-title="Update Subcategory" data-feature="UpdateSubcategory" onclick="openModal(this)">
-                                            <i class="fas fa-pencil-alt"></i> Update
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+                        @Model.Message
                     </td>
                 </tr>
             }
@@ -60,21 +77,18 @@
         var isAddRecord = false;
         var button;
         var modalName = '#commonModal';
-        var contentModal = `<form id="frmCategory"><div id="dvParentCategory" class="form-group">
-                                                                                                                        <label for="category-name"> Parent Category </label>
-                                                                                                                        <select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">
-        @foreach (var category in Model.ParentCategoryList)
-        {
-                                                                                                                                                                        <option value="@category.Id"> @category.Name</option>
+        @{
+            string dynamicOptions = "";
+            if (Model.Response != null)
+            {
+                foreach (var category in Model.Response.ParentCategoryList)
+                {
+                    dynamicOptions += $"<option value=\"{@category.Id}\">{@category.Name}</option>";
+                }
+            }
         }
-                                                                                                                        </select>
-                                                                                                                        </div>
-                                                                                                                        <div class="form-group">
-                                                                                                                        <label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label>
-                                                                                                                        <input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required >
-                                                                                                                        <span asp-validation-for="lblCategoryName" class="text-danger"></span>
-                                                                                                                        </div>
-                                                                                                                        </form>`;
+                var contentModal = '<form id="frmCategory"><div id="dvParentCategory" class="form-group"><label for="category-name"> Parent Category </label><select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">';
+        contentModal += '@Html.Raw(dynamicOptions)' + '</select></div><div class="form-group"><label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label><input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required><span asp-validation-for="lblCategoryName" class="text-danger"></span></div></form>';
 
         function openModal(_this) {
             button = $(_this);
@@ -102,7 +116,6 @@
                     break;
             }
         }
-
         function handleSaveCategory(data) {
             var frmName = '#frmCategory';
             var parentCatName = '#txtCategoryName';
@@ -127,12 +140,11 @@
                     req.ParentId = $(parentCatId).val();
                 }
 
-                ajax.post(urlUpdate, JSON.stringify(req), SaveSuccess);
+                ajax.post(urlUpdate, req, SaveSuccess);
             } else {
                 console.log("Form is invalid!");
             }
         }
-
         function SaveSuccess(res) {
             // Logic for saving edited item
             if (res.statusCode == 200) {
@@ -146,14 +158,14 @@
                     if (parentId) {
                         //Add in child category
                         var nextTr = tr.next('tr');
-                        var newtr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="' + parentId + '" data-id="' + id + '" data-name="' + updated + '" data-title="Update Subcategory" data-feature="UpdateSubcategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a></td></tr>');
+                        var newtr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + parentId + '" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateSubcategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-parentid="' + parentId + '" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr>');
                         // Add new row to the <tbody> to add it at the top
                         nextTr.find('table tbody').prepend(newtr);
                         highlightSaveRow(newtr);
                     }
                     else {
                         //Add in main category
-                        tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-toggle="modal" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-title="Add Subcategory" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-toggle="modal" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-title="Update Category" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update Category</a></td></tr>');
+                        tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr>');
                         $('#tblCategory tbody').prepend(tr);
                         highlightSaveRow($('#tblCategory tr:first'));
                     }
@@ -163,9 +175,27 @@
                     button.data("name", updated);
                     highlightSaveRow(tr);
                 }
-                
+
             }
             $(modalName).modal('hide');
+        }
+
+        function openConfirm(_this) {
+            var button = $(_this);
+            var data = { 'Data': { 'Id': button.data('id'), 'ParentId': button.data('parentid') }, 'Row': button.closest('tr') };
+            showConfirm("Delete Category", "Are you sure you want to delete?", handleYes, data);
+        }
+        function handleYes(data) {
+            hideConfirm();
+            var urlDelete = '/Category/Delete';
+            ajax.post(urlDelete, data.Data, deleteSuccess, data.Row);
+        }
+        function deleteSuccess(res) {
+            if (res.statusCode == 200) {
+                showNotification(res.message);
+                //Delete row from UI
+                highlightDeleteRow(res.additionalData);
+            }
         }
     </script>
 }
