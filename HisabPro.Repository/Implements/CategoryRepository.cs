@@ -20,33 +20,27 @@ namespace HisabPro.Repository.Implements
             _context = context;
             _mapper = mapper;
         }
-
-        public async Task<List<CategoryListRes>> GetCategories()
+        public async Task<ResponseDTO<CategoryListWithChild>> CategoriesWithChilds()
         {
-            var categoryList = await _context.ParentCategories
-                 .Include(c => c.ChildCategories)
-                 .AsNoTracking()
-                 .OrderBy(c => c.Name)
-                 .ToListAsync();
-            return _mapper.Map<List<CategoryListRes>>(categoryList);
+            var response = new ResponseDTO<CategoryListWithChild>() { StatusCode = HttpStatusCode.OK };
+            try
+            {
+                CategoryListWithChild categoryDetail = new CategoryListWithChild
+                {
+                    AllCategoryList = await GetCategories(),
+                    ParentCategoryList = await GetParentCategories(),
+                    ChildCategoryList = await GetChildCategories()
+                };
+                response.Message = AppConst.ApiMessage.DataRetrived;
+                response.Response = categoryDetail;
+            }
+            catch (Exception)
+            {
+                response.Message = AppConst.ApiMessage.DataRetrivedFailed;
+                response.StatusCode = HttpStatusCode.InternalServerError;
+            }
+            return response;
         }
-
-        public async Task<List<ParentCategoryRes>> GetParentCategories()
-        {
-            var categoryList = await _context.ParentCategories
-                 .AsNoTracking()
-                 .ToListAsync();
-            return _mapper.Map<List<ParentCategoryRes>>(categoryList);
-        }
-
-        public async Task<List<ChildCategoryRes>> GetChildCategories()
-        {
-            var categoryList = await _context.ChildCategories
-                .AsNoTracking()
-                .ToListAsync();
-            return _mapper.Map<List<ChildCategoryRes>>(categoryList);
-        }
-
         public async Task<ResponseDTO<ChildCategoryRes>> SaveCategory(SaveCategoryDTO req)
         {
             if (req.ParentId.HasValue && req.ParentId.Value > 1)
@@ -60,22 +54,43 @@ namespace HisabPro.Repository.Implements
                 return await Save(req, _context.ParentCategories);
             }
         }
-
         public async Task<ResponseDTO<bool>> Delete(DeleteCategoryDTO req)
         {
             if (req.ParentId == null)
             {
-                return await Delete<ParentCategory>(req);
+                return await Delete(req, _context.ParentCategories);
             }
             else
             {
-                return await Delete<ChildCategory>(req);
+                return await Delete(req, _context.ChildCategories);
             }
         }
 
-
+        private async Task<List<CategoryListRes>> GetCategories()
+        {
+            var categoryList = await _context.ParentCategories
+                 .Include(c => c.ChildCategories)
+                 .AsNoTracking()
+                 .OrderBy(c => c.Name)
+                 .ToListAsync();
+            return _mapper.Map<List<CategoryListRes>>(categoryList);
+        }
+        private async Task<List<ParentCategoryRes>> GetParentCategories()
+        {
+            var categoryList = await _context.ParentCategories
+                 .AsNoTracking()
+                 .ToListAsync();
+            return _mapper.Map<List<ParentCategoryRes>>(categoryList);
+        }
+        private async Task<List<ChildCategoryRes>> GetChildCategories()
+        {
+            var categoryList = await _context.ChildCategories
+                .AsNoTracking()
+                .ToListAsync();
+            return _mapper.Map<List<ChildCategoryRes>>(categoryList);
+        }
         private async Task<ResponseDTO<ChildCategoryRes>> Save<TCategory>(SaveCategoryDTO req, DbSet<TCategory> dbSet)
-    where TCategory : class, ICategory, new()
+    where TCategory : class, ICategorySave, new()
         {
             var response = new ResponseDTO<ChildCategoryRes>();
             response.StatusCode = HttpStatusCode.OK;
@@ -142,27 +157,24 @@ namespace HisabPro.Repository.Implements
             }
             return response;
         }
-
-        private async Task<ResponseDTO<bool>> Delete<T>(DeleteCategoryDTO req) where T : class
+        private async Task<ResponseDTO<bool>> Delete<T>(DeleteCategoryDTO req, DbSet<T> dbSet) where T : class, ICategoryDelete
         {
             var response = new ResponseDTO<bool>();
             response.StatusCode = HttpStatusCode.OK;
             try
             {
-                T? entity = null;
-                // Check if ParentId is null (delete from Parent) or not (delete from Child)
-                if (req.ParentId == null)
+                var category = await dbSet.Where(c => c.Id == req.Id).FirstOrDefaultAsync();
+                if (req.ParentId != null && category is ChildCategory childCategory)
                 {
-                    entity = await _context.Set<ParentCategory>().FindAsync(req.Id) as T;
+                    // Check if it's a ChildCategory and assign ParentId
+                    if (childCategory.ParentCategoryId != req.ParentId.Value)
+                    {
+                        category = null;
+                    }
                 }
-                else
+                if (category != null)
                 {
-                    entity = await _context.Set<ChildCategory>().FirstOrDefaultAsync(c => c.Id == req.Id && c.ParentCategoryId == req.ParentId) as T;
-                }
-
-                if (entity != null)
-                {
-                    _context.Set<T>().Remove(entity);
+                    dbSet.Remove(category);
                     await _context.SaveChangesAsync();
                     response.Message = AppConst.ApiMessage.Delete;
                     response.Response = true;
@@ -175,8 +187,15 @@ namespace HisabPro.Repository.Implements
             }
             catch (Exception ex)
             {
+                if (ex.InnerException.Message.ToUpper().Contains("REFERENCE CONSTRAINT"))
+                {
+                    response.Message = AppConst.ApiMessage.ReferenceDeleteError;
+                }
+                else
+                {
+                    response.Message = AppConst.ApiMessage.InternalError;
+                }
                 response.StatusCode = HttpStatusCode.InternalServerError;
-                response.Message = AppConst.ApiMessage.InternalError;
                 response.Response = false;
             }
             return response;

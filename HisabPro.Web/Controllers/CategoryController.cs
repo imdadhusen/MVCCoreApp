@@ -20,20 +20,15 @@ namespace HisabPro.Web.Controllers
         [HttpGet("category/Index")]
         public async Task<IActionResult> Index()
         {
-            CategoryModel categoryDetail = new CategoryModel
-            {
-                AllCategoryList = await _categoryRepository.GetCategories(),
-                ParentCategoryList = await _categoryRepository.GetParentCategories(),
-                ChildCategoryList = await _categoryRepository.GetChildCategories()
-            };
-            //return Ok(categories);
-            return View(categoryDetail);
+            var response = await _categoryRepository.CategoriesWithChilds();
+            return View(response);
         }
 
         // POST: /Category/Save
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] SaveCategoryDTO model)
         {
+            //TODO: Validation needs to be handle in custom pipeline
             var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
             if (message != "")
             {

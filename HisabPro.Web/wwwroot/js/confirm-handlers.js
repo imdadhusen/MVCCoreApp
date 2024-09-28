@@ -15,3 +15,7 @@ function showConfirm(confirmLabel, confirmText, yesCallback, yesCallbackData) {
         }
     });
 }
+
+function hideConfirm() {
+    $('#confirmModal').modal('hide');
+}

@@ -1,6 +1,6 @@
 ﻿namespace HisabPro.Entities.Models
 {
-    public interface ICategory
+    public interface ICategorySave
     {
         int Id { get; set; }
         string Name { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HisabPro.Entities.Models
 {
-    public class ChildCategory : AuditableEntity, ICategory
+    public class ChildCategory : AuditableEntity, ICategorySave, ICategoryDelete
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -1,13 +1,13 @@
 ﻿var ajax = {
-    post: function (url, data, successCallback, errorCallback) {
-        callApi('POST', url, data, successCallback, errorCallback);
+    post: function (url, data, successCallback, successAdditionalData, errorCallback) {
+        callApi('POST', url, data, successCallback, successAdditionalData, errorCallback);
     },
-    get: function (url, successCallback, errorCallback) {
-        callApi('GET', url, null, successCallback, errorCallback);
+    get: function (url, successCallback, successAdditionalData, errorCallback) {
+        callApi('GET', url, null, successCallback, successAdditionalData, errorCallback);
     }
 };
 
-function callApi(type, url, data, successCallback, errorCallback) {
+function callApi(type, url, data, successCallback, successAdditionalData, errorCallback) {
     var req = {
         type: type,
         url: url,
@@ -15,6 +15,9 @@ function callApi(type, url, data, successCallback, errorCallback) {
         dataType: 'json',
         success: function (response) {
             if (successCallback) {
+                if (successAdditionalData) {
+                    response.additionalData = successAdditionalData;
+                }
                 successCallback(response);
             }
         },
@@ -23,13 +26,13 @@ function callApi(type, url, data, successCallback, errorCallback) {
                 errorCallback(xhr, status, error);
             }
             else {
-                showNotification(xhr.responseJSON.response, 'danger');
+                showNotification(xhr.responseJSON.message, 'danger');
             }
         }
     };
 
     if (data != null) {
-        req.data = data;
+        req.data = JSON.stringify(data);
     }
 
     $.ajax(req);
