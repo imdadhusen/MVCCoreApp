@@ -16,8 +16,8 @@
     </div>
 
     <!-- Grid Table -->
-    <table id="tblCategory" class="table table-primary">
-        <tbody>
+    <table class="table table-primary">
+        <tbody id="tblCategory">
             @if (Model.Response != null && Model.Response.AllCategoryList.Count >= 1)
             {
                 @foreach (var category in Model.Response.AllCategoryList)
@@ -77,19 +77,53 @@
         var isAddRecord = false;
         var button;
         var modalName = '#commonModal';
+        var parentCatId = '#parentCategoryId';
+        var parentCatName = '#txtCategoryName';
+        var dvParentCatName = 'dvParentCategory';
+        var lblCategoryName = 'lblCategoryName';
+        var tblCategory = '#tblCategory';
+        var frmCategory = 'frmCategory';
+        var newlyAddedCategory = [];
+        
         @{
-            string dynamicOptions = "";
+            string jsonArray = "";
             if (Model.Response != null)
             {
-                foreach (var category in Model.Response.ParentCategoryList)
-                {
-                    dynamicOptions += $"<option value=\"{@category.Id}\">{@category.Name}</option>";
+                jsonArray = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    Model.Response.ParentCategoryList.Select(c => new { Value = c.Id, Text = c.Name })
+                );
+            }
+        }
+        newlyAddedCategory = @Html.Raw(jsonArray);
+       
+        function refreshCategory(id, name) {
+            if (name != "") {
+                let category = newlyAddedCategory.find(item => item.Value === id);
+                if (category) {
+                    // Update the name if the category exists
+                    category.Text = name;
+                } else {
+                    // Push a new category if it doesn't exist
+                    newlyAddedCategory.push({ Value: id, Text: name });
+                }
+            }
+            else {
+                // Delete the category
+                const indexToDelete = newlyAddedCategory.findIndex(item => item.Value === id);
+                if (indexToDelete !== -1) {
+                    newlyAddedCategory.splice(indexToDelete, 1); // Delete the item at the found index
                 }
             }
         }
-                var contentModal = '<form id="frmCategory"><div id="dvParentCategory" class="form-group"><label for="category-name"> Parent Category </label><select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">';
-        contentModal += '@Html.Raw(dynamicOptions)' + '</select></div><div class="form-group"><label id="lblCategoryName" asp-for="lblCategoryName"> Sub Category </label><input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" id="lblCategoryName" name="Name" required><span asp-validation-for="lblCategoryName" class="text-danger"></span></div></form>';
-
+       function getRefreshedCategories(){
+            var dynOptionsJs = '';
+            for (var i = 0; i < newlyAddedCategory.length; i++) {
+                dynOptionsJs += '<option value="' + newlyAddedCategory[i].Value + '">' + newlyAddedCategory[i].Text + '</option>';
+            }
+            var contentModal = '<form id="' + frmCategory + '"><div id="' + dvParentCatName + '" class="form-group"><label for="category-name"> Parent Category </label><select name="parentCategoryId" id="parentCategoryId" class="form-select" aria-label="Parent Category">';
+            contentModal += dynOptionsJs + '</select></div><div class="form-group"><label id="' + lblCategoryName + '" asp-for="' + lblCategoryName + '"> Sub Category </label><input id="txtCategoryName" asp-for="lblCategoryName" type="text" class="form-control" name="txtCategoryName" required><span asp-validation-for="lblCategoryName" class="text-danger"></span></div></form>';
+            return contentModal;
+        }
         function openModal(_this) {
             button = $(_this);
             var targetModal = button.data('target');
@@ -98,33 +132,29 @@
             var text = button.data('name');
             var id = button.data('id');
 
-            showModal(targetModal, contentModal, handleSaveCategory, id);
+            showModal(targetModal, getRefreshedCategories(), handleSaveCategory, id);
+            $(parentCatName).val(text);
 
             switch (feature) {
                 case 'AddCategory':
                 case 'UpdateCategory':
-                    $('#dvParentCategory').hide();
-                    $('#lblCategoryName').text('Category');
-                    $('#txtCategoryName').val(text);
+                    $('#' + dvParentCatName).hide();
+                    $('#' + lblCategoryName).text('Category');
                     break;
                 case 'AddSubcategory':
                 case 'UpdateSubcategory':
-                    $('#dvParentCategory').show();
-                    $('#lblCategoryName').text('Sub Category');
-                    $('#parentCategoryId').val(parentId);
-                    $('#txtCategoryName').val(text);
+                    $('#' + dvParentCatName).show();
+                    $('#' + lblCategoryName).text('Sub Category');
+                    $(parentCatId).val(parentId);
                     break;
             }
         }
         function handleSaveCategory(data) {
-            var frmName = '#frmCategory';
-            var parentCatName = '#txtCategoryName';
-            var parentCatId = '#parentCategoryId';
             var urlUpdate = '/Category/Save';
 
             // Reinitialize jQuery Unobtrusive Validation
-            $.validator.unobtrusive.parse(frmName);
-            var form = $(frmName);
+            $.validator.unobtrusive.parse('#' + frmCategory);
+            var form = $('#' + frmCategory);
             form.validate();
             if (form.valid()) {
                 var req = { Name: $(parentCatName).val() };
@@ -135,7 +165,6 @@
                 else {
                     isAddRecord = true;
                 }
-
                 if ($(parentCatId).is(':visible')) {
                     req.ParentId = $(parentCatId).val();
                 }
@@ -151,11 +180,14 @@
                 showNotification(res.message);
                 // Refresh updated value in table
                 var updated = res.response.name;
+                var id = res.response.id;
                 var tr = button.closest('tr');
+                // Add or update cateogry in parent category dropdown
+                refreshCategory(id, updated);
+
                 if (isAddRecord) {
-                    var id = res.response.id;
                     var parentId = res.response.parentCategoryId;
-                    if (parentId) {
+                    if (parentId > 0) {
                         //Add in child category
                         var nextTr = tr.next('tr');
                         var newtr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + parentId + '" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateSubcategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-parentid="' + parentId + '" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr>');
@@ -166,8 +198,8 @@
                     else {
                         //Add in main category
                         tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr>');
-                        $('#tblCategory tbody').prepend(tr);
-                        highlightSaveRow($('#tblCategory tr:first'));
+                        $(tblCategory).prepend(tr);
+                        highlightSaveRow($(tblCategory + ' tr:first'));
                     }
                 }
                 else {
@@ -175,7 +207,6 @@
                     button.data("name", updated);
                     highlightSaveRow(tr);
                 }
-
             }
             $(modalName).modal('hide');
         }
@@ -188,13 +219,15 @@
         function handleYes(data) {
             hideConfirm();
             var urlDelete = '/Category/Delete';
-            ajax.post(urlDelete, data.Data, deleteSuccess, data.Row);
+            ajax.post(urlDelete, data.Data, deleteSuccess, data);
         }
         function deleteSuccess(res) {
             if (res.statusCode == 200) {
                 showNotification(res.message);
+                //Delete from category dropdown
+                refreshCategory(res.additionalData.Data.Id);
                 //Delete row from UI
-                highlightDeleteRow(res.additionalData);
+                highlightDeleteRow(res.additionalData.Row);
             }
         }
     </script>

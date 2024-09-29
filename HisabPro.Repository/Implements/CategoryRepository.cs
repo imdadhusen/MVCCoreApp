@@ -93,10 +93,10 @@ namespace HisabPro.Repository.Implements
     where TCategory : class, ICategorySave, new()
         {
             var response = new ResponseDTO<ChildCategoryRes>();
-            response.StatusCode = HttpStatusCode.OK;
+            response.StatusCode = HttpStatusCode.InternalServerError;
             try
             {
-                TCategory? category;
+                TCategory? category = null;
                 if (req.Id > 0)
                 {
                     // Check for duplicate category name
@@ -104,7 +104,8 @@ namespace HisabPro.Repository.Implements
                     var dupCategory = categories.Where(c => c.Id != req.Id && c.Name.Trim() == req.Name.Trim()).FirstOrDefault();
                     if (dupCategory != null)
                     {
-                        throw new Exception(AppConst.ApiMessage.DataWithSameName);
+                        response.Message = AppConst.ApiMessage.DataWithSameName;
+                        return response;
                     }
                     else
                     {
@@ -121,7 +122,8 @@ namespace HisabPro.Repository.Implements
                         }
                         else
                         {
-                            throw new Exception(AppConst.ApiMessage.NotFound);
+                            response.Message = AppConst.ApiMessage.NotFound;
+                            return response;
                         }
                     }
                 }
@@ -131,7 +133,8 @@ namespace HisabPro.Repository.Implements
                     var dupCategory = await dbSet.Where(c => c.Name.Trim() == req.Name.Trim()).FirstOrDefaultAsync();
                     if (dupCategory != null)
                     {
-                        throw new Exception(AppConst.ApiMessage.DataWithSameName);
+                        response.Message = AppConst.ApiMessage.DataWithSameName;
+                        return response;
                     }
                     else
                     {
@@ -149,13 +152,14 @@ namespace HisabPro.Repository.Implements
                 var data = new ChildCategoryRes { Id = category.Id, Name = category.Name, ParentCategoryId = (req.ParentId == null) ? 0 : req.ParentId.Value };
                 response.Message = AppConst.ApiMessage.Save;
                 response.Response = data;
+                response.StatusCode = HttpStatusCode.OK;
+                return response;
             }
             catch (Exception ex)
             {
-                response.StatusCode = HttpStatusCode.InternalServerError;
                 response.Message = AppConst.ApiMessage.InternalError;
+                return response;
             }
-            return response;
         }
         private async Task<ResponseDTO<bool>> Delete<T>(DeleteCategoryDTO req, DbSet<T> dbSet) where T : class, ICategoryDelete
         {
