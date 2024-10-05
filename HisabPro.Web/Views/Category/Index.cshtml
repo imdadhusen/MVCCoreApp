@@ -39,20 +39,22 @@
                     <tr>
                         <td colspan="2">
                             <table class="table mb-0 table-light">
-                                @foreach (var child in category.ChildCategories.OrderBy(c => c.Name))
-                                {
-                                    <tr>
-                                        <td>@child.Name</td>
-                                        <td align="right">
-                                            <a href="#" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-feature="UpdateSubcategory" onclick="openModal(this)">
-                                                <i class="fas fa-pencil-alt"></i> Update
-                                            </a>&nbsp;|&nbsp;
-                                            <a href="#" data-parentid="@category.Id" data-id="@child.Id" onclick="openConfirm(this)">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
+                                <tbody>
+                                    @foreach (var child in category.ChildCategories.OrderBy(c => c.Name))
+                                    {
+                                        <tr>
+                                            <td>@child.Name</td>
+                                            <td align="right">
+                                                <a href="#" data-target="#commonModal" data-parentid="@category.Id" data-id="@child.Id" data-name="@child.Name" data-feature="UpdateSubcategory" onclick="openModal(this)">
+                                                    <i class="fas fa-pencil-alt"></i> Update
+                                                </a>&nbsp;|&nbsp;
+                                                <a href="#" data-parentid="@category.Id" data-id="@child.Id" onclick="openConfirm(this)">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
                             </table>
                         </td>
                     </tr>
@@ -84,18 +86,18 @@
         var tblCategory = '#tblCategory';
         var frmCategory = 'frmCategory';
         var newlyAddedCategory = [];
-        
+
         @{
             string jsonArray = "";
             if (Model.Response != null)
             {
                 jsonArray = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    Model.Response.ParentCategoryList.Select(c => new { Value = c.Id, Text = c.Name })
+                Model.Response.ParentCategoryList.Select(c => new { Value = c.Id, Text = c.Name })
                 );
             }
         }
-        newlyAddedCategory = @Html.Raw(jsonArray);
-       
+            newlyAddedCategory = @Html.Raw(jsonArray);
+
         function refreshCategory(id, name) {
             if (name != "") {
                 let category = newlyAddedCategory.find(item => item.Value === id);
@@ -115,7 +117,7 @@
                 }
             }
         }
-       function getRefreshedCategories(){
+        function getRefreshedCategories() {
             var dynOptionsJs = '';
             for (var i = 0; i < newlyAddedCategory.length; i++) {
                 dynOptionsJs += '<option value="' + newlyAddedCategory[i].Value + '">' + newlyAddedCategory[i].Text + '</option>';
@@ -133,7 +135,11 @@
             var id = button.data('id');
 
             showModal(targetModal, getRefreshedCategories(), handleSaveCategory, id);
-            $(parentCatName).val(text);
+
+            $(parentCatName).val("");
+            if (feature.indexOf('Update') > 1) {
+                $(parentCatName).val(text);
+            }
 
             switch (feature) {
                 case 'AddCategory':
@@ -197,7 +203,7 @@
                     }
                     else {
                         //Add in main category
-                        tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr>');
+                        tr = $('<tr><td>' + updated + '</td><td align="right"><a href="#" data-target="#commonModal" data-parentid="' + id + '" data-name="' + updated + '" data-feature="AddSubcategory" onclick="openModal(this)"><i class="fas fa-plus"></i> Add Subcategory</a>&nbsp;|&nbsp;<a href="#" data-target="#commonModal" data-id="' + id + '" data-name="' + updated + '" data-feature="UpdateCategory" onclick="openModal(this)"><i class="fas fa-pencil-alt"></i> Update</a>&nbsp;|&nbsp;<a href="#" data-id="' + id + '" onclick="openConfirm(this)"><i class="fas fa-trash"></i> Delete</a></td></tr><tr><td colspan="2"><table class="table mb-0 table-light"><tbody></tbody></table></td></tr>');
                         $(tblCategory).prepend(tr);
                         highlightSaveRow($(tblCategory + ' tr:first'));
                     }
