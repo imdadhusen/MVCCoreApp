@@ -8,15 +8,6 @@ namespace HisabPro.Entities.SeedData
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
-            //Seed data for Employee
-            modelBuilder.Entity<Employee>().HasData(
-            new Employee() { Id = 1, EmployeeName = "Test Emp1", Email = "Test@test.com", Skill = "Test1", DepartmentId = 1, Password = "Test1", CreatedBy = 1 },
-            new Employee() { Id = 2, EmployeeName = "Test Emp2", Email = "Test2@test.com", Skill = "Test2", DepartmentId = 2, Password = "Test2", CreatedBy = 1 },
-            new Employee() { Id = 3, EmployeeName = "Test Emp3", Email = "Test3@test.com", Skill = "Test3", DepartmentId = 3, Password = "Test3", CreatedBy = 1 },
-            new Employee() { Id = 4, EmployeeName = "Soft Deleted Employee", Email = "SoftDelete@test.com", Skill = "Soft Delete", DepartmentId = 4, Password = "Deleted", IsDeleted = true, CreatedBy = 1 },
-            new Employee() { Id = 5, EmployeeName = "Inactive Employee", Email = "Inactive@test.com", Skill = "In Active", DepartmentId = 4, Password = "Inactive", CreatedBy = 1, IsActive = false }
-            );
-
             modelBuilder.Entity<User>().HasData(
             new User()
             {
@@ -28,26 +19,6 @@ namespace HisabPro.Entities.SeedData
                 PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",
                 UserRole = (int)UserRoleEnum.Admin
             });
-
-            //Seed data for Address
-            modelBuilder.Entity<Address>().HasData(
-            new Address { Id = 1, AddressDetail = "Ahmedabad", EmployeeId = 1, CreatedBy = 1 },
-            new Address { Id = 2, AddressDetail = "Surat", EmployeeId = 1, CreatedBy = 1 },
-            new Address { Id = 3, AddressDetail = "Patan", EmployeeId = 2, CreatedBy = 1 },
-            new Address { Id = 4, AddressDetail = "Siddhpur", EmployeeId = 3, CreatedBy = 1 },
-            new Address { Id = 5, AddressDetail = "Palanpur", EmployeeId = 4, CreatedBy = 1 },
-            new Address { Id = 6, AddressDetail = "Ahmedabad", EmployeeId = 5, CreatedBy = 1 }
-            );
-
-            //Seed data for Department
-            modelBuilder.Entity<Department>().HasData(
-            new Department { Id = 1, DepartmentName = "Development", DepartmentPhone = "9909544184", CreatedBy = 1 },
-            new Department { Id = 2, DepartmentName = "Testing", DepartmentPhone = null, CreatedBy = 1 },
-            new Department { Id = 3, DepartmentName = "Human Resource", DepartmentPhone = null, CreatedBy = 1 },
-            new Department { Id = 4, DepartmentName = "Finance", DepartmentPhone = null, CreatedBy = 1 },
-            new Department { Id = 5, DepartmentName = "Marketing", DepartmentPhone = null, CreatedBy = 1 },
-            new Department { Id = 6, DepartmentName = "Admin", DepartmentPhone = null, CreatedBy = 1 }
-            );
 
             //Seed data for Parent Category
             modelBuilder.Entity<ParentCategory>().HasData(

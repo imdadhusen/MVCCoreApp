@@ -1,11 +1,10 @@
 using HisabPro.DTO.Model;
-using HisabPro.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository) : Controller
+    public class HomeController(ILogger<HomeController> logger) : Controller
     {
         //private readonly ILogger<HomeController> _logger = logger;
         //private readonly IEmployeeRepository _employeeRepository = employeeRepository;

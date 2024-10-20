@@ -10,12 +10,11 @@ namespace HisabPro.Entities.Models
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Department> Departments { get; set; }
-
         public DbSet<ParentCategory> ParentCategories { get; set; }
         public DbSet<ChildCategory> ChildCategories { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
 
         private readonly ILogger<ApplicationDbContext> _logger;
         private readonly FilterService _filterService;
@@ -37,88 +36,34 @@ namespace HisabPro.Entities.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Configure one-to-many relationship for Employee - Address 
-            modelBuilder.Entity<Employee>()
-                .HasMany(e => e.EmployeeAddress)
-                .WithOne(a => a.Employee)
-                .HasForeignKey(a => a.EmployeeId);
-            modelBuilder.Entity<Employee>()
-               .HasOne(p => p.Creator)
-               .WithMany()
-               .HasForeignKey(p => p.CreatedBy)
-               .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Employee>()
-                .HasOne(p => p.Modifier)
-                .WithMany()
-                .HasForeignKey(p => p.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Configure one-to-one relationship for Employee - Department 
-            modelBuilder.Entity<Department>()
-                .HasMany(e => e.Employee)
-                .WithOne(a => a.Department)
-                .HasForeignKey(a => a.DepartmentId);
-            modelBuilder.Entity<Department>()
-               .HasOne(p => p.Creator)
-               .WithMany()
-               .HasForeignKey(p => p.CreatedBy)
-               .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Department>()
-                .HasOne(p => p.Modifier)
-                .WithMany()
-                .HasForeignKey(p => p.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
 
             // Configure self-referencing relationships in the User entity
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Creator)
-                .WithMany()
-                .HasForeignKey(u => u.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>().HasOne(u => u.Creator).WithMany().HasForeignKey(u => u.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>().HasOne(u => u.Modifier).WithMany().HasForeignKey(u => u.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Modifier)
-                .WithMany()
-                .HasForeignKey(u => u.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ParentCategory>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(c => c.ParentCategoryId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ParentCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
 
-            modelBuilder.Entity<Address>()
-               .HasOne(p => p.Creator)
-               .WithMany()
-               .HasForeignKey(p => p.CreatedBy)
-               .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Address>()
-                .HasOne(p => p.Modifier)
-                .WithMany()
-                .HasForeignKey(p => p.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Creator).WithMany().HasForeignKey(c => c.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ChildCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
 
-            modelBuilder.Entity<ParentCategory>()
-                .HasMany(c => c.ChildCategories)
-                .WithOne(c => c.ParentCategory)
-                .HasForeignKey(c => c.ParentCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>()
-                .HasOne(p => p.Creator)
-                .WithMany()
-                .HasForeignKey(p => p.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>()
-                .HasOne(p => p.Modifier)
-                .WithMany()
-                .HasForeignKey(p => p.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Configure relationship for Account - Income and Expense
+            modelBuilder.Entity<Account>().HasMany(e => e.Incomes).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Account>().HasMany(e => e.Expenses).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Account>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Account>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ChildCategory>()
-                .HasOne(c => c.Creator)
-                .WithMany()
-                .HasForeignKey(c => c.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>()
-                .HasOne(c => c.Modifier)
-                .WithMany()
-                .HasForeignKey(c => c.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict);
+            // Configure relationship for Income 
+            modelBuilder.Entity<Income>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Income>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+
+            // Configure relationship for Expense 
+            modelBuilder.Entity<Expense>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Expense>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
 
             DatabaseSeeder.Seed(modelBuilder);
             _logger.LogInformation("Seed data completed");
@@ -151,7 +96,7 @@ namespace HisabPro.Entities.Models
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            int currentUserId = _userContext.GetUserId(); 
+            int currentUserId = _userContext.GetUserId();
 
             foreach (var changedEntity in ChangeTracker.Entries())
             {
