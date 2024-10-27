@@ -1,0 +1,64 @@
+﻿@model ResponseDTO<List<HisabPro.DTO.Response.AccountResponse>>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a asp-action="Save">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Mobile
+            </th>
+            <th>
+                Is Active
+            </th>
+            <th>
+                Created By
+            </th>
+            <th>
+                Created On
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model.Response)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(a => account.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(a => account.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(a => account.Mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(a => account.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(a => account.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(a => account.CreatedOn)
+                </td>
+                <td>
+                    <a asp-action="Save" asp-route-id="@account.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@account.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

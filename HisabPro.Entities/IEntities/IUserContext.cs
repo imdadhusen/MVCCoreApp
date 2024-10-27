@@ -2,6 +2,7 @@
 {
     public interface IUserContext
     {
-        int GetUserId();
+        int GetCurrentUserId();
+        string GetCurrentUserName();
     }
 }

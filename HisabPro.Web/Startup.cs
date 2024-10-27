@@ -1,12 +1,15 @@
 ﻿using HisabPro.Constants;
 using HisabPro.Entities.IEntities;
 using HisabPro.Entities.Models;
+using HisabPro.Repository;
 using HisabPro.Repository.Implements;
 using HisabPro.Repository.Interfaces;
+using HisabPro.Services;
+using HisabPro.Services.Implements;
+using HisabPro.Services.Interfaces;
 using HisabPro.Web.Entities;
 using HisabPro.Web.MapperProfile;
 using HisabPro.Web.Middleware;
-using HisabPro.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -29,6 +32,10 @@ namespace HisabPro
             services.AddTransient<AuthService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(UpdateRepository<,>));
+            services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<FilterService>();
@@ -117,10 +124,9 @@ namespace HisabPro
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(name: "account", pattern: "account/{action=Login}/{id?}", defaults: new { controller = "Account", action = "Login" });
-                endpoints.MapControllerRoute(name: "employee", pattern: "employee/{action=Index}/{id?}");
-
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute(name: "user", pattern: "user/{action=Login}", defaults: new { controller = "User", action = "Login" });
+                endpoints.MapControllerRoute(name: "account", pattern: "account/{controller=Account}/{action=Index}", defaults: new { controller = "Account", action = "Index" });
             });
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

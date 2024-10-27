@@ -45,16 +45,14 @@
                         <li class="nav-item">
                             <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a id="navCategory" class="nav-link" href="#">Category</a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navDropdownManage" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Manage
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navDropdownManage">
                                 <a class="dropdown-item" href="#">Users</a>
-                                <a class="dropdown-item" href="#">Categories</a>
+                                <a id="navCategory" class="dropdown-item">Categories</a>
+                                <a id="navAccount" class="dropdown-item">Accounts</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -89,14 +87,14 @@
                                     <a class="dropdown-item" href="#">Profile</a>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Sign Out</a>
+                                    <a class="dropdown-item" asp-controller="User" asp-action="Logout">Sign Out</a>
                                 </div>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
@@ -145,6 +143,9 @@
 
             $("#navCategory").click(function () {
                 window.location.href = '@Url.Action("Index", "Category")';
+            })
+            $("#navAccount").click(function () {
+                window.location.href = '@Url.Action("Index", "Accounts")';
             })
         })
     </script>

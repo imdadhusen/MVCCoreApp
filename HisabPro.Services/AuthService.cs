@@ -2,12 +2,14 @@
 using HisabPro.DTO.Response;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace HisabPro.Web.Services
+namespace HisabPro.Services
 {
     public class AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor)
     {

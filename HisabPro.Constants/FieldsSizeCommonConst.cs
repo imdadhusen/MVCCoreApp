@@ -5,9 +5,9 @@
         public static class Mobile
         {
             public const int Len = 10;
-            public const string Message = "Mobile number must be exactly 10 digits.";
             public const string RegEx = @"^\d{10}$";
-            public const string RegExMessage = "Mobile number must contain only digits.";
+            public const string Message = "Mobile number must be exactly 10 digits.";
+            public const string RegExMessage = Message;
         }
 
         public const string DateOnlyMessage = "Please enter a valid date.";
