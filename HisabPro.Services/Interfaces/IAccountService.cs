@@ -8,6 +8,6 @@ namespace HisabPro.Services.Interfaces
     {
         Task<SaveAccount> GetByIdAsync(int id);
         Task<ResponseDTO<List<AccountResponse>>> GetAll();
-        Task<AccountResponse> Save(SaveAccount req);
+        Task<ResponseDTO<AccountResponse>> Save(SaveAccount req);
     }
 }

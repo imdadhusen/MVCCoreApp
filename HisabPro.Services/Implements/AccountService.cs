@@ -37,11 +37,11 @@ namespace HisabPro.Services.Implements
             return new ResponseDTO<List<AccountResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
         }
 
-        public async Task<AccountResponse> Save(SaveAccount req)
+        public async Task<ResponseDTO<AccountResponse>> Save(SaveAccount req)
         {
             var map = _mapper.Map<Account>(req);
             var result = await _updateRepo.SaveAsync(map, req.Name, req.Id);
-            return result;
+            return new ResponseDTO<AccountResponse>() { Message = AppConst.ApiMessage.Save, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
         }
     }
 }
