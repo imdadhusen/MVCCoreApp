@@ -1,12 +1,12 @@
-﻿using HisabPro.DTO.Model;
-using HisabPro.DTO.Request;
+﻿using HisabPro.DTO.Request;
 using HisabPro.Services.Interfaces;
-using HisabPro.Web.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace HisabPro.Web.Controllers
 {
+    [Authorize]
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
@@ -19,7 +19,6 @@ namespace HisabPro.Web.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            //var applicationDbContext = _context.Accounts.Include(a => a.Creator).Include(a => a.Modifier);
             return View(await _accountService.GetAll());
         }
 
@@ -44,23 +43,8 @@ namespace HisabPro.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save([Bind("Id,Name,FullName,Mobile,IsActive")] SaveAccount req)
         {
-            //TODO: Validation needs to be handle in custom pipeline
-            var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
-            if (message != "")
-            {
-                var response = new ResponseDTO<List<string>>
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = message,
-                    Response = errors
-                };
-                return BadRequest(response);
-            }
-            else
-            {
-                var response = await _accountService.Save(req);
-                return StatusCode((int)HttpStatusCode.OK, response);
-            }
+            var response = await _accountService.Save(req);
+            return StatusCode((int)HttpStatusCode.OK, response);
         }
     }
 }

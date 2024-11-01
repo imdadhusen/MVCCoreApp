@@ -8,6 +8,7 @@ using HisabPro.Services;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Entities;
+using HisabPro.Web.Helper;
 using HisabPro.Web.MapperProfile;
 using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -25,6 +26,10 @@ namespace HisabPro
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ValidateModelStateFilter>();
+            });
             services.AddControllersWithViews();
 
             // Register IHttpContextAccessor
