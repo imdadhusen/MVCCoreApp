@@ -26,9 +26,9 @@ namespace HisabPro.Web.Controllers
             {
                 var model = await _accountService.GetByIdAsync(id.Value);
                 return View(model);
-                
+
             }
-            return View();
+            return View(new SaveAccount { IsActive = true });
         }
 
         [HttpPost]

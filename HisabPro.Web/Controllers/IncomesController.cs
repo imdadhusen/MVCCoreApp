@@ -31,9 +31,9 @@ namespace HisabPro.Web.Controllers
             {
                 var model = await _incomeService.GetByIdAsync(id.Value);
                 return View(model);
-               
+
             }
-            return View();
+            return View(new SaveIncome { IsActive = true, IncomeOn = DateTime.Now });
         }
 
         [HttpPost]
