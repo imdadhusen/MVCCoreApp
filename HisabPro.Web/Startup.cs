@@ -40,9 +40,11 @@ namespace HisabPro
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(UpdateRepository<,>));
-            services.AddScoped<IAccountService, AccountService>();
 
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
 
@@ -132,6 +134,8 @@ namespace HisabPro
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
                 endpoints.MapControllerRoute(name: "user", pattern: "user/{action=Login}", defaults: new { controller = "User", action = "Login" });
                 endpoints.MapControllerRoute(name: "account", pattern: "account/{controller=Account}/{action=Index}", defaults: new { controller = "Account", action = "Index" });
+                endpoints.MapControllerRoute(name: "income", pattern: "income/{controller=Income}/{action=Index}", defaults: new { controller = "Income", action = "Index" });
+
             });
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

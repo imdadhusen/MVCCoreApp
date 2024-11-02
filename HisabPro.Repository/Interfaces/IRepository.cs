@@ -1,13 +1,23 @@
-﻿namespace HisabPro.Repository.Interfaces
+﻿using System.Linq.Expressions;
+
+namespace HisabPro.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {
         Task<List<T>> GetAllAsync();
+        Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector);
         Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children);
+
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name);
+        Task<bool> ExistsAsync(string name, int? id = null); // Optional id for edit
+
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
-        Task<bool> ExistsAsync(string name, int? id = null); // Optional id for edit
+        Task<T> SaveAsync(T entity);
+       
+
+        Task<bool> DeleteAsync(int id); // Delete by ID
+        Task<bool> DeleteAsync(T entity); // Delete by entity instance
     }
 }

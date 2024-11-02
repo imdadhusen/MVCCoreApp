@@ -1,6 +1,7 @@
 ﻿using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace HisabPro.Repository.Implements
 {
@@ -19,6 +20,13 @@ namespace HisabPro.Repository.Implements
         {
             return await _dbSet.ToListAsync();
         }
+
+        // This method will return only selected columns based on the selector function
+        public async Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector)
+        {
+            return await _dbSet.Select(selector).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children)
         {
             IQueryable<T> query = _dbSet;
@@ -57,6 +65,33 @@ namespace HisabPro.Repository.Implements
             return entity;
         }
 
+        public async Task<T> SaveAsync(T entity)
+        {
+            var primaryKey = _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey();
+            if (primaryKey == null)
+            {
+                throw new InvalidOperationException("Entity does not have a primary key defined.");
+            }
+
+            // Assume the first key property as the primary key
+            var keyProperty = primaryKey.Properties.First();
+            var keyValue = keyProperty.PropertyInfo.GetValue(entity);
+
+            if (keyValue == null || keyValue.Equals(default(int))) // Assuming int as primary key type
+            {
+                // Key is not set, so treat it as a new entity
+                await _dbSet.AddAsync(entity);
+            }
+            else
+            {
+                // Key is set, so treat it as an existing entity
+                _dbSet.Update(entity);
+            }
+
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
         public async Task<bool> ExistsAsync(string name, int? id = null)
         {
             // Check if an entity with the same name already exists, but exclude the current entity during update
@@ -65,6 +100,33 @@ namespace HisabPro.Repository.Implements
                 return await _dbSet.AnyAsync(e => EF.Property<string>(e, "Name") == name && EF.Property<int>(e, "Id") != id.Value);
             }
             return await _dbSet.AnyAsync(e => EF.Property<string>(e, "Name") == name);
+        }
+
+        // Delete by entity ID
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                return false; // Entity not found
+            }
+
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // Delete by entity instance
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            if (_context.Entry(entity).State == EntityState.Detached)
+            {
+                _dbSet.Attach(entity); // Attach entity if not tracked
+            }
+
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

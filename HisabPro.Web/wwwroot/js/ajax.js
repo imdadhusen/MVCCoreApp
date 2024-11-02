@@ -27,7 +27,12 @@ function callApi(type, form, url, data, successCallback, successAdditionalData, 
                 errorCallback(xhr, status, error);
             }
             else {
-                showNotification(xhr.responseJSON.message, 'danger');
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    showNotification(xhr.responseJSON.message, 'danger');
+                }
+                else {
+                    showNotification('Internal server error', 'danger');
+                }
             }
         }
     };

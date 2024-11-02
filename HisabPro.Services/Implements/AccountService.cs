@@ -43,5 +43,18 @@ namespace HisabPro.Services.Implements
             var result = await _updateRepo.SaveAsync(map, req.Name, req.Id);
             return new ResponseDTO<AccountResponse>() { Message = AppConst.ApiMessage.Save, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
         }
+
+        public async Task<ResponseDTO<bool>> DeleteAsync(int id)
+        {
+            var result = await _accountRepo.DeleteAsync(id);
+            if (result)
+            {
+                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.Delete, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+            }
+            else
+            {
+                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.NotFound, Response = result, StatusCode = System.Net.HttpStatusCode.BadRequest };
+            }
+        }
     }
 }

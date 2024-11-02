@@ -51,8 +51,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navDropdownManage">
                                 <a class="dropdown-item" href="#">Users</a>
-                                <a id="navCategory" class="dropdown-item">Categories</a>
-                                <a id="navAccount" class="dropdown-item">Accounts</a>
+                                <a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a>
+                                <a class="dropdown-item" asp-controller="Accounts" asp-action="Index">Accounts</a>
+                                <a class="dropdown-item" asp-controller="Incomes" asp-action="Index">Income</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -140,13 +141,6 @@
 
                 return false;
             });
-
-            $("#navCategory").click(function () {
-                window.location.href = '@Url.Action("Index", "Category")';
-            })
-            $("#navAccount").click(function () {
-                window.location.href = '@Url.Action("Index", "Accounts")';
-            })
         })
     </script>
 </body>

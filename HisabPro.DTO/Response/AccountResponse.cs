@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HisabPro.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Response
 {
@@ -10,7 +11,7 @@ namespace HisabPro.DTO.Response
         public string Mobile { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(DataFormatString = DataFormat.Grid.Date)]
         public DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }

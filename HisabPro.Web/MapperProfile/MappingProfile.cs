@@ -12,6 +12,10 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<Account, AccountResponse>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
 
+            CreateMap<SaveIncome, Income>().ReverseMap();
+            CreateMap<Income, IncomeResponse>()
+                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name));
+
             CreateMap<User, LoginRes>();
             CreateMap<ParentCategory, CategoryListRes>();
             CreateMap<ParentCategory, ParentCategoryRes>();
