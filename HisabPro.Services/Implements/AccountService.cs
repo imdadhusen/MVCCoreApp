@@ -56,5 +56,10 @@ namespace HisabPro.Services.Implements
                 return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.NotFound, Response = result, StatusCode = System.Net.HttpStatusCode.BadRequest };
             }
         }
+
+        public async Task<List<IdNameRes>> GetAccountsAsync()
+        {
+            return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id, Name = a.Name });
+        }
     }
 }

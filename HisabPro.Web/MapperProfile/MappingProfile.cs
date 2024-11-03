@@ -7,7 +7,8 @@ namespace HisabPro.Web.MapperProfile
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() {
+        public MappingProfile()
+        {
             CreateMap<SaveAccount, Account>().ReverseMap();  // This will map Account <-> SaveAccount
             CreateMap<Account, AccountResponse>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
@@ -15,6 +16,12 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<SaveIncome, Income>().ReverseMap();
             CreateMap<Income, IncomeResponse>()
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name));
+
+            CreateMap<SaveExpense, Expense>().ReverseMap();
+            CreateMap<Expense, ExpenseResponse>()
+                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name))
+                .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.ParentCategory.Name))
+                .ForMember(dest => dest.ChildCategory, opt => opt.MapFrom(src => src.ChildCategory.Name));
 
             CreateMap<User, LoginRes>();
             CreateMap<ParentCategory, CategoryListRes>();

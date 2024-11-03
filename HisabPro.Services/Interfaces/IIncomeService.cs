@@ -9,7 +9,6 @@ namespace HisabPro.Services.Interfaces
         Task<SaveIncome> GetByIdAsync(int id);
         Task<ResponseDTO<List<IncomeResponse>>> GetAll();
         Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req);
-        Task<List<IdNameRes>> GetAccountListAsync();
         Task<ResponseDTO<bool>> DeleteAsync(int id);
     }
 }

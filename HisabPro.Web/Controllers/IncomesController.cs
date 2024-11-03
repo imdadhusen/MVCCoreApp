@@ -1,6 +1,5 @@
 ﻿using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +11,11 @@ namespace HisabPro.Web.Controllers
     public class IncomesController : Controller
     {
         private readonly IIncomeService _incomeService;
-        public IncomesController(IIncomeService incomeService)
+        private readonly IAccountService _accountService;
+        public IncomesController(IIncomeService incomeService, IAccountService accountService)
         {
             _incomeService = incomeService;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> Index()
@@ -24,9 +25,10 @@ namespace HisabPro.Web.Controllers
 
         public async Task<IActionResult> Save(int? id)
         {
-            var accounts = await _incomeService.GetAccountListAsync();
+            var accounts = await _accountService.GetAccountsAsync();
             accounts.Insert(0, new IdNameRes { Id = 0, Name = "" });
             ViewData["AccountId"] = new SelectList(accounts, "Id", "Name");
+
             if (id != null)
             {
                 var model = await _incomeService.GetByIdAsync(id.Value);

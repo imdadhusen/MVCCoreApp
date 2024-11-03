@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Request
 {
-    public class SaveIncome
+    public class SaveExpense
     {
         public int? Id { get; set; }
         [Required]
@@ -12,7 +12,7 @@ namespace HisabPro.DTO.Request
         [Required]
         [DataType(DataType.Date, ErrorMessage = FieldsSizeCommonConst.DateOnlyMessage)]
         [Display(Name = "Date")]
-        public DateTime IncomeOn { get; set; }
+        public DateTime ExpenseOn { get; set; }
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = FieldsSizeCommonConst.NumberMessage)]
         public double Amount { get; set; }
@@ -23,5 +23,9 @@ namespace HisabPro.DTO.Request
 
         [Display(Name = "Account")]
         public int? AccountId { get; set; }
+        [Display(Name = "Category")]
+        public int? ParentCategoryId { get; set; }
+        [Display(Name = "Sub Category")]
+        public int? ChildCategoryId { get; set; }
     }
 }

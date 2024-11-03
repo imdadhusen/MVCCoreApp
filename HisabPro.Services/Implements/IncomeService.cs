@@ -12,19 +12,12 @@ namespace HisabPro.Services.Implements
     public class IncomeService : IIncomeService
     {
         private readonly IRepository<Income> _incomeRepo;
-        private readonly IRepository<Account> _accountRepo;
         private readonly IMapper _mapper;
 
-        public IncomeService(IMapper mapper, IRepository<Income> incomeRepo, IRepository<Account> accountRepo)
+        public IncomeService(IMapper mapper, IRepository<Income> incomeRepo)
         {
             _mapper = mapper;
             _incomeRepo = incomeRepo;
-            _accountRepo = accountRepo;
-        }
-
-        public async Task<List<IdNameRes>> GetAccountListAsync()
-        {
-            return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id, Name = a.Name });
         }
 
         public async Task<SaveIncome> GetByIdAsync(int id)

@@ -1,4 +1,4 @@
-﻿@model ResponseDTO<List<HisabPro.DTO.Response.IncomeResponse>>
+﻿@model ResponseDTO<List<HisabPro.DTO.Response.ExpenseResponse>>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,6 +21,12 @@
                 Amount
             </th>
             <th>
+                Category
+            </th>
+            <th>
+                Sub Category
+            </th>
+            <th>
                 Account
             </th>
             <th>
@@ -33,30 +39,36 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var income in Model.Response)
+        @foreach (var expense in Model.Response)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(i => income.Title)
+                    @Html.DisplayFor(e => expense.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(i => income.IncomeOn)
+                    @Html.DisplayFor(e => expense.ExpenseOn)
                 </td>
                 <td>
-                    @Html.DisplayFor(i => income.Amount)
+                    @Html.DisplayFor(e => expense.ParentCategory)
                 </td>
                 <td>
-                    @Html.DisplayFor(i => income.Account)
+                    @Html.DisplayFor(e => expense.ChildCategory)
                 </td>
                 <td>
-                    @Html.DisplayFor(i => income.Note)
+                    @Html.DisplayFor(e => expense.Account)
                 </td>
                 <td>
-                    @Html.DisplayFor(i => income.IsActive)
+                    @Html.DisplayFor(e => expense.Amount)
                 </td>
                 <td>
-                    <a asp-action="Save" asp-route-id="@income.Id">Edit</a> |
-                    <a class="Delete" href="#" data-id="@income.Id">Delete</a>
+                    @Html.DisplayFor(e => expense.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(e => expense.IsActive)
+                </td>
+                <td>
+                    <a asp-action="Save" asp-route-id="@expense.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@expense.Id">Delete</a>
                 </td>
             </tr>
         }
@@ -66,11 +78,11 @@
 
 @section Scripts {
     <script>
-        var urlDelete = '/Incomes/Delete';
+        var urlDelete = '/Expenses/Delete';
         $('.Delete').click(function () {
             var button = $(this);
             var data = { 'Data': { 'Id': button.data('id') }, 'Row': button.closest('tr'), 'Url': urlDelete };
-            showConfirm('Delete Income', null, deleteYes, data);
+            showConfirm('Delete Expense', null, deleteYes, data);
         });
     </script>
 }
