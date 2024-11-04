@@ -6,6 +6,7 @@ using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace HisabPro.Web.Controllers
 {
@@ -37,11 +38,9 @@ namespace HisabPro.Web.Controllers
             var parentCategories = await _categoryService.GetParentCategoriesAsync();
             parentCategories.Insert(0, new IdNameRes { Id = 0, Name = "" });
             ViewData["ParentCategoryId"] = new SelectList(parentCategories, "Id", "Name");
-            
-            //TODO: Child category should be display according to Parent
+
             var childCategories = await _categoryService.GetChildCategoriesAsync();
-            childCategories.Insert(0, new ChildCategoryRes { Id = 0, Name = "" });
-            ViewData["ChildCategoryId"] = new SelectList(childCategories, "Id", "Name");
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
 
             if (id != null)
             {
