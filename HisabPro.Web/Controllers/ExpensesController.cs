@@ -2,7 +2,6 @@
 using HisabPro.DTO.Response;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
-using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,6 +44,7 @@ namespace HisabPro.Web.Controllers
             if (id != null)
             {
                 var model = await _expenseService.GetByIdAsync(id.Value);
+                ViewBag.SelectedChildCategoryId = model.ChildCategoryId;
                 return View(model);
             }
 

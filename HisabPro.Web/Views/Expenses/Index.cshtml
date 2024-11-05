@@ -49,6 +49,9 @@
                     @Html.DisplayFor(e => expense.ExpenseOn)
                 </td>
                 <td>
+                    @Html.DisplayFor(e => expense.Amount)
+                </td>
+                <td>
                     @Html.DisplayFor(e => expense.ParentCategory)
                 </td>
                 <td>
@@ -56,9 +59,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(e => expense.Account)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.Amount)
                 </td>
                 <td>
                     @Html.DisplayFor(e => expense.Note)

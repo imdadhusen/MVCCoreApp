@@ -49,7 +49,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="ParentCategoryId" class="control-label"></label>
-                        <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId" onchange="filterChildCategories"></select>
+                        <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId" onchange="filterChildCategories(this)"></select>
                         <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
                     </div>
                 </div>
@@ -114,17 +114,32 @@
             }
         }
 
+        //This will set the sub categories in edit mode
+        var selectedChildCategoryId = '@ViewBag.SelectedChildCategoryId';
+        filterChildCategories();
+        
+
         function filterChildCategories() {
             const selectedParentId = $(parentCategory).val();
             const drpChildCategory = $(childCategory);
+            if (selectedParentId > 0) {
+                drpChildCategory.attr("required", "required");
+            } else {
+                drpChildCategory.removeAttr("required");
+            }
 
             drpChildCategory.empty();
-            drpChildCategory.append('<option value="0">- Select -</option>');
             $(allChildCategories).each(function (index, category) {
                 if (category.ParentCategoryId == selectedParentId) {
                     drpChildCategory.append($('<option>', { value: category.Id, text: category.Name }));
                 }
             });
+
+            console.log('selectedChildCategoryId:', selectedChildCategoryId);
+            //In edit child category should be selected
+            if (selectedChildCategoryId > 0) {
+                drpChildCategory.val(selectedChildCategoryId);
+            }
         }
     </script>
 }
