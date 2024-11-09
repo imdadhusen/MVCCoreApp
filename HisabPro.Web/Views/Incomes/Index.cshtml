@@ -1,0 +1,76 @@
+﻿@model ResponseDTO<List<HisabPro.DTO.Response.IncomeResponse>>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <a asp-action="Save">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Account
+            </th>
+            <th>
+                Note
+            </th>
+            <th>
+                Is Active
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var income in Model.Response)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(i => income.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => income.IncomeOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => income.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => income.Account)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => income.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(i => income.IsActive)
+                </td>
+                <td>
+                    <a asp-action="Save" asp-route-id="@income.Id">Edit</a> |
+                    <a class="Delete" href="#" data-id="@income.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("_ModalPartial")
+
+@section Scripts {
+    <script>
+        var urlDelete = '/Incomes/Delete';
+        $('.Delete').click(function () {
+            var button = $(this);
+            var data = { 'Data': { 'Id': button.data('id') }, 'Row': button.closest('tr'), 'Url': urlDelete };
+            showConfirm('Delete Income', null, deleteYes, data);
+        });
+    </script>
+}

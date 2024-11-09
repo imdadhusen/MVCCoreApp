@@ -220,7 +220,7 @@
         function openConfirm(_this) {
             var button = $(_this);
             var data = { 'Data': { 'Id': button.data('id'), 'ParentId': button.data('parentid') }, 'Row': button.closest('tr') };
-            showConfirm("Delete Category", "Are you sure you want to delete?", handleYes, data);
+            showConfirm("Delete Category", null, handleYes, data);
         }
         function handleYes(data) {
             hideConfirm();

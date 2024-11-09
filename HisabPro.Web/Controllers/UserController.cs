@@ -2,7 +2,7 @@
 using HisabPro.Constants;
 using HisabPro.DTO.Request;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Web.Services;
+using HisabPro.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HisabPro.Web.Controllers
 {
-    public class AccountController(IUserRepository userRpository, AuthService authService) : Controller
+    public class UserController(IUserRepository userRpository, AuthService authService) : Controller
     {
         public IUserRepository UserRpository { get; } = userRpository;
         public AuthService AuthService { get; } = authService;
 
         [AllowAnonymous]
-        [HttpGet("account/login")]
+        [HttpGet("user/login")]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

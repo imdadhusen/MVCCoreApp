@@ -1,14 +1,7 @@
-﻿using Azure;
-using HisabPro.Constants;
-using HisabPro.DTO.Model;
-using HisabPro.DTO.Request;
-using HisabPro.DTO.Response;
+﻿using HisabPro.DTO.Request;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace HisabPro.Web.Controllers
 {
@@ -28,23 +21,8 @@ namespace HisabPro.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Save([FromBody] SaveCategoryDTO model)
         {
-            //TODO: Validation needs to be handle in custom pipeline
-            var (message, errors) = ValidationHelper.GetValidationErrors(ModelState);
-            if (message != "")
-            {
-                var response = new ResponseDTO<List<string>>
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = message,
-                    Response = errors
-                };
-                return BadRequest(response);
-            }
-            else
-            {
-                var response = await _categoryRepository.SaveCategory(model);
-                return StatusCode((int)response.StatusCode, response);
-            }
+            var response = await _categoryRepository.SaveCategory(model);
+            return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpPost]

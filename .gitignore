@@ -62,3 +62,7 @@
 /HisabPro.DTO/obj
 /HisabPro.Repository/bin/Debug/net8.0
 /HisabPro.Repository/obj
+/HisabPro.Service/bin/Debug/net8.0
+/HisabPro.Service/obj
+/HisabPro.Services/bin/Debug/net8.0
+/HisabPro.Services/obj

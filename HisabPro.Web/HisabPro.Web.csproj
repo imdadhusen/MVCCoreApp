@@ -10,12 +10,12 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -31,6 +31,7 @@
     <ProjectReference Include="..\HisabPro.CryptoService\HisabPro.Tools.CryptoService.csproj" />
     <ProjectReference Include="..\HisabPro.Entities\HisabPro.Entities.csproj" />
     <ProjectReference Include="..\HisabPro.Repository\HisabPro.Repository.csproj" />
+    <ProjectReference Include="..\HisabPro.Services\HisabPro.Services.csproj" />
     <ProjectReference Include="..\HisabPro.Tools.PasswordService\HisabPro.Tools.PasswordService.csproj" />
   </ItemGroup>
 

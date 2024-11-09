@@ -1,6 +1,6 @@
-﻿namespace HisabPro.DTO.Model
+﻿namespace HisabPro.DTO.Response
 {
-    public class DepartmentDTO
+    public class IdNameRes
     {
         public int Id { get; set; }
         public string Name { get; set; }

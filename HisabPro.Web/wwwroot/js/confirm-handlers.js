@@ -7,7 +7,9 @@
 
 function showConfirm(confirmLabel, confirmText, yesCallback, yesCallbackData) {
     $('#confirmModal').modal('show');
+    if (!confirmLabel) confirmLabel = 'Delete';
     $('#confirmModalLabel').text(confirmLabel);
+    if (!confirmText) confirmText = 'Are you sure you want to delete?';
     $('#confirmModalText').text(confirmText);
     $('#confirmButton').off('click').click(function () {
         if (yesCallback && typeof yesCallback == "function") {
@@ -18,4 +20,17 @@ function showConfirm(confirmLabel, confirmText, yesCallback, yesCallbackData) {
 
 function hideConfirm() {
     $('#confirmModal').modal('hide');
+}
+
+function deleteYes(data) {
+    hideConfirm();
+    ajax.post(data.Url, data.Data, deleteSuccess, data);
+}
+
+function deleteSuccess(res) {
+    if (res.statusCode == 200) {
+        showNotification(res.message);
+        //Delete row from UI
+        highlightDeleteRow(res.additionalData.Row);
+    }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 
@@ -7,18 +7,23 @@ namespace HisabPro.Web.MapperProfile
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() {
-            CreateMap<Employee, EmployeeDTO>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.EmployeeName))
-                .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.EmployeeAddress))
-                .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department));
-            CreateMap<Address, AddressDTO>()
-                .ForMember(dest => dest.AddressInfo, opt => opt.MapFrom(src => src.AddressDetail));
-            CreateMap<Department, DepartmentDTO>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.DepartmentName));
+        public MappingProfile()
+        {
+            CreateMap<SaveAccount, Account>().ReverseMap();  // This will map Account <-> SaveAccount
+            CreateMap<Account, AccountResponse>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
+
+            CreateMap<SaveIncome, Income>().ReverseMap();
+            CreateMap<Income, IncomeResponse>()
+                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name));
+
+            CreateMap<SaveExpense, Expense>().ReverseMap();
+            CreateMap<Expense, ExpenseResponse>()
+                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name))
+                .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.ParentCategory.Name))
+                .ForMember(dest => dest.ChildCategory, opt => opt.MapFrom(src => src.ChildCategory.Name));
 
             CreateMap<User, LoginRes>();
-
             CreateMap<ParentCategory, CategoryListRes>();
             CreateMap<ParentCategory, ParentCategoryRes>();
             CreateMap<ChildCategory, ChildCategoryRes>();

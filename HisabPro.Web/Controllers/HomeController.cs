@@ -1,14 +1,11 @@
 using HisabPro.DTO.Model;
-using HisabPro.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers
 {
-    public class HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository) : Controller
+    public class HomeController(ILogger<HomeController> logger) : Controller
     {
-        //private readonly ILogger<HomeController> _logger = logger;
-        //private readonly IEmployeeRepository _employeeRepository = employeeRepository;
         private readonly string sharedController = "/Views/Shared/{0}.cshtml";
 
         public IActionResult Index()
@@ -27,13 +24,6 @@ namespace HisabPro.Web.Controllers
             ViewData["Message"] = "Your contact page.";
             return View();
         }
-        //public IActionResult Index()
-        //{
-        //    _logger.LogInformation("Getting employee information");
-        //    var lstEmployee = _employeeRepository.GetAllEmployee(false);
-        //    _logger.LogInformation($"Total {lstEmployee.Count} employees found");
-        //    return View(lstEmployee);
-        //}
 
         public IActionResult Privacy()
         {

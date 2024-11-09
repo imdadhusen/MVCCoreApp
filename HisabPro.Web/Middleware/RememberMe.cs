@@ -1,7 +1,7 @@
 ﻿using Hisab.CryptoService;
 using HisabPro.Constants;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Web.Services;
+using HisabPro.Services;
 
 namespace HisabPro.Web.Middleware
 {

@@ -1,0 +1,77 @@
+﻿@model HisabPro.DTO.Request.SaveAccount
+
+@{
+    ViewData["Title"] = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Save Account</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="saveForm" asp-action="Save">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FullName" class="control-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Mobile" class="control-label"></label>
+                        <input asp-for="Mobile" class="form-control" />
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-check m-t-30">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group m-t-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a> | <a asp-action="Save">Create New</a>
+</div>
+@section Scripts {
+    <script>
+        var urlSave = '/Accounts/Save';
+        var form = $('#saveForm');
+        form.submit(function (event) {
+            event.preventDefault();
+            form.validate();
+            if (form.valid()) {
+                ajax.submitForm(urlSave, form, SaveSuccess);
+            }
+        });
+
+        function SaveSuccess(res) {
+            if (res.statusCode == 200) {
+                showNotification(res.message);
+            }
+        }
+    </script>
+}

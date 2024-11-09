@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.Repository", "Hisa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HisabPro.DTO", "HisabPro.DTO\HisabPro.DTO.csproj", "{51263FAA-E153-460F-8118-FD2416237915}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HisabPro.Services", "HisabPro.Services\HisabPro.Services.csproj", "{61499DC7-F578-4BBE-8279-AA926131D988}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,18 @@ Global
 		{51263FAA-E153-460F-8118-FD2416237915}.Release|x64.Build.0 = Release|Any CPU
 		{51263FAA-E153-460F-8118-FD2416237915}.Release|x86.ActiveCfg = Release|Any CPU
 		{51263FAA-E153-460F-8118-FD2416237915}.Release|x86.Build.0 = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|x64.Build.0 = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Debug|x86.Build.0 = Debug|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|x64.ActiveCfg = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|x64.Build.0 = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|x86.ActiveCfg = Release|Any CPU
+		{61499DC7-F578-4BBE-8279-AA926131D988}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
