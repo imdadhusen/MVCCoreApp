@@ -1,0 +1,52 @@
+﻿.step-wizard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    color: #6c757d;
+}
+
+    .step.active {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .step.complete {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+.step-indicator {
+    margin-top: 5px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.step.active .step-indicator {
+    background-color: #007bff;
+}
+
+.step.complete .step-indicator {
+    background-color: #28a745;
+}
+
+#wizard-error {
+    display: none; /* Hide initially; can be shown when an error occurs */
+    color: #a94442; /* Red color for error text */
+    background-color: #f2dede; /* Light red background for visibility */
+    border: 1px solid #ebccd1; /* Border to outline the error box */
+    padding: 10px 15px; /* Padding for spacing within the box */
+    margin: 5px 0px 10px 0px; /* Margin to separate it from the steps */
+    font-size: 14px;
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold text for emphasis */
+    text-align: center; /* Centered text for readability */
+}
+#wizard-error.visible {
+    display: block; /* Show when an error is triggered */
+}
