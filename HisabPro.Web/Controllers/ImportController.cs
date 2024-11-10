@@ -1,6 +1,9 @@
 ﻿using HisabPro.DTO.Model;
+using HisabPro.Web.Helper;
+using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using static HisabPro.Constants.AppConst;
 
 namespace HisabPro.Web.Controllers
 {
@@ -24,7 +27,29 @@ namespace HisabPro.Web.Controllers
         [HttpGet]
         public IActionResult Extraction(string filename)
         {
-            return PartialView("_Extraction");
+            var excelService = new ExcelService();
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), Configs.UploadFolderPath, filename);
+
+            var rawData = excelService.ReadExcelFile(filePath);
+            try
+            {
+                var listExpense = rawData.Select(data => new ImportDataModel
+                {
+                    Date = data[0],               // Map string[] element to Date
+                    Description = data[1],        // Map string[] element to Description
+                    Amount = int.TryParse(data[2], out int amount) ? amount : 0, // Safely parse Amount
+                    Category = data[3],           // Map string[] element to Category
+                    SubCategory = data[4],        // Map string[] element to SubCategory
+                    Person = data[5]              // Map string[] element to Person
+                }).ToList();
+
+                return PartialView("_Extraction", listExpense);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            return PartialView("_Extraction", new List<ImportDataModel>());
         }
 
         public IActionResult Validation()
@@ -61,7 +86,7 @@ namespace HisabPro.Web.Controllers
                 try
                 {
                     // Define the path to save the uploaded file
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", newFileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), Configs.UploadFolderPath, newFileName);
 
                     // Save the file to the specified path
                     using (var stream = new FileStream(path, FileMode.Create))
