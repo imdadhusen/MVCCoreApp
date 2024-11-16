@@ -1,16 +1,33 @@
 ﻿using HisabPro.DTO.Model;
+using HisabPro.DTO.Response;
+using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
+using System.Text.Json;
 using static HisabPro.Constants.AppConst;
 
 namespace HisabPro.Web.Controllers
 {
+    [Authorize]
     public class ImportController : Controller
     {
-        public ActionResult Expense()
+        private readonly IAccountService _accountService;
+        private readonly ICategoryService _categoryService;
+
+        public ImportController(IAccountService accountService, ICategoryService categoryService)
         {
+            _accountService = accountService;
+            _categoryService = categoryService;
+        }
+
+        public async Task<ActionResult> Expense()
+        {
+            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
             return View();
         }
 
@@ -25,7 +42,7 @@ namespace HisabPro.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Extraction(string filename)
+        public async Task<IActionResult> Extraction(string filename)
         {
             var excelService = new ExcelService();
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), Configs.UploadFolderPath, filename);
@@ -35,17 +52,25 @@ namespace HisabPro.Web.Controllers
             {
                 var listExpense = rawData.Select(data => new ImportDataModel
                 {
-                    Date = data[0],               // Map string[] element to Date
-                    Description = data[1],        // Map string[] element to Description
-                    Amount = int.TryParse(data[2], out int amount) ? amount : 0, // Safely parse Amount
-                    Category = data[3],           // Map string[] element to Category
-                    SubCategory = data[4],        // Map string[] element to SubCategory
-                    Person = data[5]              // Map string[] element to Person
+                    Date = getDateTime(data[0]),
+                    Description = data[1],
+                    Amount = int.TryParse(data[2], out int amount) ? amount : 0,
+                    Category = data[3],
+                    SubCategory = data[4],
+                    Person = data[5]
                 }).ToList();
+
+                var accounts = await _accountService.GetAccountsAsync();
+                accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+                ViewData["Accounts"] = new SelectList(accounts, "Id", "Name");
+
+                var categories = await _categoryService.GetParentCategoriesAsync();
+                categories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+                ViewData["Categories"] = new SelectList(categories, "Id", "Name");
 
                 return PartialView("_Extraction", listExpense);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -110,6 +135,27 @@ namespace HisabPro.Web.Controllers
             }
 
             return StatusCode((int)response.StatusCode, response);
+        }
+
+        private DateTime? getDateTime(string rawDate)
+        {
+            // Assign value
+            if (string.IsNullOrWhiteSpace(rawDate))
+            {
+                return null; // Set null if the input is empty
+            }
+            else
+            {
+                // Try parsing the date and assign it
+                if (DateTime.TryParse(rawDate, out DateTime parsedDate))
+                {
+                    return parsedDate.Date; // Set only the date part (time is discarded)
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

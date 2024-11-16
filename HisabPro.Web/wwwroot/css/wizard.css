@@ -4,6 +4,10 @@
     margin-bottom: 5px;
 }
 
+.wizard-step button.btn {
+    margin-top:15px;
+}
+
 .step {
     flex: 1;
     text-align: center;
@@ -49,4 +53,58 @@
 }
 #wizard-error.visible {
     display: block; /* Show when an error is triggered */
+}
+
+/*Table inside wizard > Set a wrapper around the table to control scrolling */
+.table-wrapper {
+    display: block;
+    height: calc(100vh - 200px); /* Adjust height based on remaining page space */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    position: sticky; /* Keep header fixed */
+    top: 0;
+    z-index: 2;
+    background-color: #EDEDED !important;
+}
+
+tr.header {
+    background-color: #EDEDED; /* Add a background to prevent text overlap */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.widthDate {
+    width: 50px;
+}
+
+.widthAmount {
+    width: 120px;
+    text-align: right
+}
+
+.widthCategory {
+    width: 160px;
+}
+
+.widthPerson {
+    width: 110px;
+}
+
+.autoWidth {
+    width: auto;
+    /* Optional: Prevent word breaking in the Description column */
+    word-wrap: break-word;
 }

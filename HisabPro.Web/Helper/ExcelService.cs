@@ -4,7 +4,7 @@ namespace HisabPro.Web.Helper
 {
     public class ExcelService
     {
-        public List<string[]> ReadExcelFile(string filePath)
+        public List<string[]> ReadExcelFile(string filePath, bool hasHeader = true)
         {
             var data = new List<string[]>();
 
@@ -17,7 +17,8 @@ namespace HisabPro.Web.Helper
                 int rowCount = worksheet.Dimension.Rows;
                 int colCount = worksheet.Dimension.Columns;
 
-                for (int row = 1; row <= rowCount; row++)
+                int startRow = hasHeader ? 2 : 1;
+                for (int row = startRow; row <= rowCount; row++)
                 {
                     var rowData = new string[colCount];
                     for (int col = 1; col <= colCount; col++)

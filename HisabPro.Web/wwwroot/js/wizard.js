@@ -6,38 +6,10 @@
 
     function loadStep() {
         if (currentStep == 2) {
-            hideError();
-            //Upload file is successful then load next step
-            var dataFile = $("#dataFile")[0];
-            var file = dataFile.files[0];
-
-            // Check if a file is selected
-            if (!file) {
-                showError('Please select a file to upload before proceeding to the next step.')
-            }
-            else {
-                // Create a FormData object to hold the file
-                var formData = new FormData();
-                formData.append("file", file);
-
-                $.ajax({
-                    url: '/import/savefile',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,  // Don't set content type
-                    processData: false,  // Don't process the data
-                    success: function (res) {
-                        const filename = res.response.fileName;
-                        const encodedFilename = encodeURIComponent(filename);
-                        const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
-                        loadUI(action);
-                    },
-                    error: function (xhr, status, error) {
-                        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : "An error occurred during file upload.";
-                        showError(errorMessage);
-                    }
-                });
-            }
+            step1UploadFile();
+        }
+        else if (currentStep == 3) {
+            step2PerformDataValidation();
         }
         else {
             loadUI(actions[currentStep - 1]);
@@ -80,6 +52,54 @@
 
     function hideError() {
         $(wizardError).removeClass('visible');
+    }
+
+
+    function step1UploadFile() {
+        hideError();
+        //Upload file is successful then load next step
+        var dataFile = $("#dataFile")[0];
+        var file = dataFile.files[0];
+
+        // Check if a file is selected
+        if (!file) {
+            showError('Please select a file to upload before proceeding to the next step.')
+        }
+        else {
+            // Create a FormData object to hold the file
+            var formData = new FormData();
+            formData.append("file", file);
+
+            $.ajax({
+                url: '/import/savefile',
+                type: 'POST',
+                data: formData,
+                contentType: false,  // Don't set content type
+                processData: false,  // Don't process the data
+                success: function (res) {
+                    const filename = res.response.fileName;
+                    const encodedFilename = encodeURIComponent(filename);
+                    const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
+                    loadUI(action);
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : "An error occurred during file upload.";
+                    showError(errorMessage);
+                }
+            });
+        }
+    }
+    function step2PerformDataValidation() {
+        var form = $('#dataForm');
+        form.validate();
+
+        if (form.valid()) {
+            //ajax.submitForm(urlSave, form, SaveSuccess);
+        }
+        else {
+            //Don't allow to show next step until all errors are not resolved
+            currentStep--;
+        }
     }
 
     // Initialize by loading the first step

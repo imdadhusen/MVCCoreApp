@@ -26,7 +26,7 @@ namespace HisabPro.Web.Controllers
         public async Task<IActionResult> Save(int? id)
         {
             var accounts = await _accountService.GetAccountsAsync();
-            accounts.Insert(0, new IdNameRes { Id = 0, Name = "" });
+            accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["AccountId"] = new SelectList(accounts, "Id", "Name");
 
             if (id != null)
