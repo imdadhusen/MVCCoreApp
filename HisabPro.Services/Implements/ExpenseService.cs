@@ -33,6 +33,13 @@ namespace HisabPro.Services.Implements
             return new ResponseDTO<List<ExpenseResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
         }
 
+        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpense> expenses)
+        {
+            var map = _mapper.Map<List<Expense>>(expenses);
+            var result = await _expenseRepo.AddRangeAsync(map);
+            return new ResponseDTO<DataImportRes>() { Message = AppConst.ApiMessage.DataImportSuccess, Response = new DataImportRes { TotalRecords = result }, StatusCode = System.Net.HttpStatusCode.OK };
+        }
+
         public async Task<ResponseDTO<ExpenseResponse>> Save(SaveExpense req)
         {
             var map = _mapper.Map<Expense>(req);

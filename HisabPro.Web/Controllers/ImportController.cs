@@ -1,11 +1,14 @@
 ﻿using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
 using static HisabPro.Constants.AppConst;
@@ -17,11 +20,13 @@ namespace HisabPro.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly ICategoryService _categoryService;
+        private readonly IExpenseService _expenseService;
 
-        public ImportController(IAccountService accountService, ICategoryService categoryService)
+        public ImportController(IAccountService accountService, ICategoryService categoryService, IExpenseService expenseService)
         {
             _accountService = accountService;
             _categoryService = categoryService;
+            _expenseService = expenseService;
         }
 
         public async Task<ActionResult> Expense()
@@ -39,6 +44,11 @@ namespace HisabPro.Web.Controllers
         public IActionResult Upload()
         {
             return PartialView("_Upload");
+        }
+
+        public IActionResult Summary(int totalRecords, int totalSeconds)
+        {
+            return PartialView("_Summary", new SummaryModel() { Records = totalRecords, Seconds = totalSeconds });
         }
 
         [HttpGet]
@@ -77,14 +87,17 @@ namespace HisabPro.Web.Controllers
             return PartialView("_Extraction", new List<ImportDataModel>());
         }
 
-        public IActionResult Validation()
+        [HttpPost]
+        public async Task<IActionResult> SaveTableData([FromBody] List<SaveExpense> saveDataModels)
         {
-            return PartialView("_Validation");
-        }
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-        public IActionResult Submit()
-        {
-            return PartialView("_Submit");
+            var response = await _expenseService.AddRangeAsync(saveDataModels);
+            stopwatch.Stop();
+
+            response.Response.TotalTimeTaken = stopwatch.Elapsed.Seconds;
+            return StatusCode((int)response.StatusCode, response);
         }
 
         public async Task<IActionResult> SaveFile(IFormFile file)

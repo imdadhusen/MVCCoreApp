@@ -8,8 +8,14 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="header">
-                        <th class="widthDate">Date</th>
-                        <th class="autoWidth">Description</th>
+                        <th class="widthDate">
+                            Date
+                            <a id="autoCorrectDate" href="#" class="headerLink" title="Click to auto correct empty date(s)">Auto Correct</a>
+                        </th>
+                        <th class="autoWidth">
+                            Title
+                            <a id="autoCorrectTitle" href="#" class="headerLink" title="Click to auto correct large title to small">Auto Correct</a>
+                        </th>
                         <th class="widthAmount">Amount</th>
                         <th class="widthCategory">Category</th>
                         <th class="widthCategory">SubCategory</th>
@@ -24,10 +30,11 @@
                             r++;
                             <tr>
                                 <td>
-                                    <input type="date" name="Date[@r]" value="@(data.Date.HasValue ? data.Date.Value.ToString("yyyy-MM-dd") : "")" class="form-control" required />
+                                    <input type="date" name="Date[@r]" value="@(data.Date.HasValue ? data.Date.Value.ToString("yyyy-MM-dd") : "")" class="form-control dateColumn" required />
                                 </td>
                                 <td>
-                                    <input type="text" name="Description[@r]" value="@data.Description" class="form-control" required />
+                                    <input type="text" name="Description[@r]" maxlength="25" value="@data.Description" class="form-control titleColumn" required />
+                                    <input type="hidden" name="Note[@r]" value="@data.Description" class="form-control"/>
                                 </td>
                                 <td class="widthAmount">
                                     <input type="number" name="Amount[@r]" value="@data.Amount" class="form-control" required />
@@ -83,6 +90,14 @@
         filterChildCategories($(this).data('row'));
     });
 
+    $('#autoCorrectDate').click(function () {
+        showConfirm('Auto Correct Date(s)', "Dates will be automatically corrected using the date from the previous row.<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the empty dates with the previous row's date?</b>", autoCorrectDateYes, null);
+    });
+    $('#autoCorrectTitle').click(function () {
+        showConfirm('Auto Correct Title', "Title will be automatically truncated (upto 25 chars) and keep original title inside the Note field (upto 500 chars).<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the title to take only 25 chars?</b>", autoCorrectTitleYes, null);
+    })
+
+
     function filterChildCategories(row) {
         const selectedParentId = $('select[name="Category[' + row + ']"]').val();
         const drpChildCategory = $('select[name="SubCategory[' + row + ']"]');
@@ -94,5 +109,38 @@
                 drpChildCategory.append($('<option>', { value: category.Id, text: category.Name }));
             }
         });
+    }
+
+    function autoCorrectDateYes() {
+        hideConfirm();
+        let previousDate = null;
+
+        // Loop through each row in the table body
+        $('#tblData tr').each(function () {
+            // Get the current row's date input
+            let currentDateInput = $(this).find('.dateColumn');
+            let currentDate = currentDateInput.val();
+
+            // If the current date is empty, set it to the previous non-empty date
+            if (!currentDate && previousDate) {
+                currentDateInput.val(previousDate);
+            }
+
+            // Update the previousDate if the current row has a date
+            if (currentDate) {
+                previousDate = currentDate;
+            }
+        });
+        showNotification("Empty date(s) has been auto corrected!");
+    }
+    function autoCorrectTitleYes() {
+        hideConfirm();
+        $('#tblData tr').each(function () {
+            // Get the current row's date input
+            let field = $(this).find('.titleColumn');
+            let fieldVal = field.val();
+            field.val(fieldVal.substring(0, 25));
+        });
+        showNotification("Large title has been auto corrected!");
     }
 </script>

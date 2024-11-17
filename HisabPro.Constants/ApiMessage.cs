@@ -13,6 +13,7 @@
             public const string DataWithSameName = "Data with same name already exists";
             public const string DataRetrived = "Data retrived successfully";
             public const string DataRetrivedFailed = "Data retrived failed";
+            public const string DataImportSuccess = "Data imported successfully";
         }
     }
 }

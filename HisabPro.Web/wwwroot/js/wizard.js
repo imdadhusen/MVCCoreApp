@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     let currentStep = 1;
-    var actions = ['Upload', 'Extraction', 'Validation', 'Submit'];
+    var actions = ['Upload', 'Extraction', 'Summary'];
     var wizardContent = '#wizard-content';
     var wizardError = '#wizard-error';
 
@@ -74,8 +74,8 @@
                 url: '/import/savefile',
                 type: 'POST',
                 data: formData,
-                contentType: false,  // Don't set content type
-                processData: false,  // Don't process the data
+                contentType: false,
+                processData: false,
                 success: function (res) {
                     const filename = res.response.fileName;
                     const encodedFilename = encodeURIComponent(filename);
@@ -94,11 +94,38 @@
         form.validate();
 
         if (form.valid()) {
-            //ajax.submitForm(urlSave, form, SaveSuccess);
+            let tableData = [];
+
+            // Iterate through each row in the table
+            $('#tblData tr').each(function () {
+                let row = $(this);
+
+                // Construct an object for the current row
+                let rowData = {
+                    ExpenseOn: row.find('input[name*="Date"]').val(),
+                    Title: row.find('input[name*="Description"]').val(),
+                    Note: row.find('input[name*="Note"]').val(),
+                    Amount: parseInt(row.find('input[name*="Amount"]').val()) || 0,
+                    ParentCategoryId: row.find('select[name*="Category"]').val(),
+                    ChildCategoryId: row.find('select[name*="SubCategory"]').val(),
+                    AccountId: row.find('select[name*="Person"]').val()
+                };
+                tableData.push(rowData);
+            });
+
+            var urlSave = '/Import/SaveTableData';
+            ajax.post(urlSave, tableData, saveSuccess);
         }
         else {
             //Don't allow to show next step until all errors are not resolved
             currentStep--;
+        }
+    }
+
+    function saveSuccess(res) {
+        if (res.statusCode == 200) {
+            const action = `${actions[currentStep - 1]}?totalRecords=${res.response.totalRecords}&totalSeconds=${res.response.totalTimeTaken}`;
+            loadUI(action);
         }
     }
 

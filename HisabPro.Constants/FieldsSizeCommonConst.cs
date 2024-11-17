@@ -17,7 +17,7 @@
         public const int TitleMax = 25;
         public const string TitleMessage = "Title must be between 3 and 25 characters.";
 
-        public const int NoteMax = 100;
-        public const string NoteMessage = "Note cannot exceed 100 characters.";
+        public const int NoteMax = 250;
+        public const string NoteMessage = "Note cannot exceed 250 characters.";
     }
 }
