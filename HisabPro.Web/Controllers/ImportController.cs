@@ -1,4 +1,5 @@
-﻿using HisabPro.DTO.Model;
+﻿using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Services.Implements;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
-using static HisabPro.Constants.AppConst;
 
 namespace HisabPro.Web.Controllers
 {
@@ -55,7 +55,7 @@ namespace HisabPro.Web.Controllers
         public async Task<IActionResult> Extraction(string filename)
         {
             var excelService = new ExcelService();
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), Configs.UploadFolderPath, filename);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), AppConst.Configs.UploadFolderPath, filename);
 
             var rawData = excelService.ReadExcelFile(filePath);
             try
@@ -111,7 +111,7 @@ namespace HisabPro.Web.Controllers
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (extension != ".xls" && extension != ".xlsx")
                 {
-                    response.Message = "Only .xls and .xlsx files are allowed!";
+                    response.Message = AppConst.ApiMessage.ImportFileAllowedExtensions;
                 }
 
                 // Extract original file name and extension
@@ -124,7 +124,7 @@ namespace HisabPro.Web.Controllers
                 try
                 {
                     // Define the path to save the uploaded file
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), Configs.UploadFolderPath, newFileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), AppConst.Configs.UploadFolderPath, newFileName);
 
                     // Save the file to the specified path
                     using (var stream = new FileStream(path, FileMode.Create))
@@ -139,12 +139,12 @@ namespace HisabPro.Web.Controllers
                 }
 
                 response.StatusCode = HttpStatusCode.OK;
-                response.Message = "File uploaded successfully!";
+                response.Message = AppConst.ApiMessage.ImportSuccess;
                 response.Response = new { FileName = newFileName };
             }
             else
             {
-                response.Message = "Please select a file to upload.";
+                response.Message = AppConst.ApiMessage.ImportFileRequired;
             }
 
             return StatusCode((int)response.StatusCode, response);

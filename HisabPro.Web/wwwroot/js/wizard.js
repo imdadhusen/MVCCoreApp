@@ -63,31 +63,26 @@
 
         // Check if a file is selected
         if (!file) {
-            showError('Please select a file to upload before proceeding to the next step.')
+            showError(Wizard.FileUpload.NoFile)
         }
         else {
             // Create a FormData object to hold the file
             var formData = new FormData();
             formData.append("file", file);
 
-            $.ajax({
-                url: '/import/savefile',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    const filename = res.response.fileName;
-                    const encodedFilename = encodeURIComponent(filename);
-                    const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
-                    loadUI(action);
-                },
-                error: function (xhr, status, error) {
-                    var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : "An error occurred during file upload.";
-                    showError(errorMessage);
-                }
-            });
+            var urlUpload = '/Import/savefile';
+            ajax.upload(urlUpload, formData, saveFileSuccess, saveFileError);
         }
+    }
+    function saveFileSuccess(res) {
+        const filename = res.response.fileName;
+        const encodedFilename = encodeURIComponent(filename);
+        const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
+        loadUI(action);
+    }
+    function saveFileError(error) {
+        var errorMessage = error.responseJSON ? error.responseJSON.message : Wizard.FileUpload.Error;
+        showError(errorMessage);
     }
     function step2PerformDataValidation() {
         var form = $('#dataForm');
