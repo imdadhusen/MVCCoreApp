@@ -59,7 +59,7 @@ namespace HisabPro.Services.Implements
 
         public async Task<List<IdNameRes>> GetAccountsAsync()
         {
-            return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id, Name = a.Name });
+            return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id.ToString(), Name = a.Name });
         }
     }
 }

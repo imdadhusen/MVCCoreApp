@@ -1,0 +1,146 @@
+﻿<!-- Step 2 -->
+@model IEnumerable<HisabPro.Web.ViewModel.ImportDataModel>
+
+<div class="wizard-step" data-step="2">
+    <h4 class="mb-3">Extracting Uploaded Data</h4>
+    <div class="table-wrapper">
+        <form id="dataForm">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="header">
+                        <th class="widthDate">
+                            Date
+                            <a id="autoCorrectDate" href="#" class="headerLink" title="Click to auto correct empty date(s)">Auto Correct</a>
+                        </th>
+                        <th class="autoWidth">
+                            Title
+                            <a id="autoCorrectTitle" href="#" class="headerLink" title="Click to auto correct large title to small">Auto Correct</a>
+                        </th>
+                        <th class="widthAmount">Amount</th>
+                        <th class="widthCategory">Category</th>
+                        <th class="widthCategory">SubCategory</th>
+                        <th class="widthPerson">Person</th>
+                    </tr>
+                </thead>
+                <tbody id="tblData">
+                    @{
+                        int r = 0;
+                        foreach (var data in Model)
+                        {
+                            r++;
+                            <tr>
+                                <td>
+                                    <input type="date" name="Date[@r]" value="@(data.Date.HasValue ? data.Date.Value.ToString("yyyy-MM-dd") : "")" class="form-control dateColumn" required />
+                                </td>
+                                <td>
+                                    <input type="text" name="Description[@r]" maxlength="25" value="@data.Description" class="form-control titleColumn" required />
+                                    <input type="hidden" name="Note[@r]" value="@data.Description" class="form-control"/>
+                                </td>
+                                <td class="widthAmount">
+                                    <input type="number" name="Amount[@r]" value="@data.Amount" class="form-control" required />
+                                </td>
+                                <td>
+                                    <select data-text="@data.Category" asp-items="ViewBag.Categories" name="Category[@r]" class="form-control parentCategory" required data-row="@r"></select>
+                                </td>
+                                <td>
+                                    <select data-text="@data.SubCategory" asp-items="null" name="SubCategory[@r]" class="form-control subCategory" required></select>
+                                </td>
+                                <td>
+                                    <select data-text="@data.Person" asp-items="ViewBag.Accounts" name="Person[@r]" class="form-control account" required></select>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <button type="button" class="btn btn-secondary prev">Previous</button>
+    <button type="button" class="btn btn-primary next">Next</button>
+</div>
+<script>
+    setDropdownItems();
+    function setDropdownItems() {
+        var totalRows = $('#tblData').find('tr').length;
+        for (var r = 1; r <= totalRows; r++) {
+            //Set category item selected
+            var category = $('select[name="Category[' + r + ']"]');
+            setSelectedItem(category);
+            //Set account item selected
+            var account = $('select[name="Person[' + r + ']"]');
+            setSelectedItem(account);
+
+            filterChildCategories(r);
+            //Set subcategory item selected
+            var subCategory = $('select[name="SubCategory[' + r + ']"]');
+            setSelectedItem(subCategory);
+        }
+    }
+
+    function setSelectedItem(drp) {
+        var text = drp.data('text');
+        drp.find('option').each(function () {
+            if ($(this).text() == text) {
+                $(this).prop('selected', true);
+            }
+        });
+    }
+
+    $('.parentCategory').on('change', function () {
+        filterChildCategories($(this).data('row'));
+    });
+
+    $('#autoCorrectDate').click(function () {
+        showConfirm('Auto Correct Date(s)', "Dates will be automatically corrected using the date from the previous row.<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the empty dates with the previous row's date?</b>", autoCorrectDateYes, null);
+    });
+    $('#autoCorrectTitle').click(function () {
+        showConfirm('Auto Correct Title', "Title will be automatically truncated (upto 25 chars) and keep original title inside the Note field (upto 500 chars).<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the title to take only 25 chars?</b>", autoCorrectTitleYes, null);
+    })
+
+
+    function filterChildCategories(row) {
+        const selectedParentId = $('select[name="Category[' + row + ']"]').val();
+        const drpChildCategory = $('select[name="SubCategory[' + row + ']"]');
+
+        drpChildCategory.empty();
+        drpChildCategory.append($('<option>', { value: '', text: '' }));
+        $(allChildCategories).each(function (index, category) {
+            if (category.ParentCategoryId == selectedParentId) {
+                drpChildCategory.append($('<option>', { value: category.Id, text: category.Name }));
+            }
+        });
+    }
+
+    function autoCorrectDateYes() {
+        hideConfirm();
+        let previousDate = null;
+
+        // Loop through each row in the table body
+        $('#tblData tr').each(function () {
+            // Get the current row's date input
+            let currentDateInput = $(this).find('.dateColumn');
+            let currentDate = currentDateInput.val();
+
+            // If the current date is empty, set it to the previous non-empty date
+            if (!currentDate && previousDate) {
+                currentDateInput.val(previousDate);
+            }
+
+            // Update the previousDate if the current row has a date
+            if (currentDate) {
+                previousDate = currentDate;
+            }
+        });
+        showNotification("Empty date(s) has been auto corrected!");
+    }
+    function autoCorrectTitleYes() {
+        hideConfirm();
+        $('#tblData tr').each(function () {
+            // Get the current row's date input
+            let field = $(this).find('.titleColumn');
+            let fieldVal = field.val();
+            field.val(fieldVal.substring(0, 25));
+        });
+        showNotification("Large title has been auto corrected!");
+    }
+</script>

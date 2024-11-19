@@ -12,6 +12,7 @@ namespace HisabPro.Repository.Interfaces
         Task<T> GetByNameAsync(string name);
         Task<bool> ExistsAsync(string name, int? id = null); // Optional id for edit
 
+        Task<int> AddRangeAsync(IEnumerable<T> entities);
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<T> SaveAsync(T entity);

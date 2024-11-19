@@ -17,9 +17,9 @@ namespace HisabPro.DTO.Request
         [Range(0, int.MaxValue, ErrorMessage = FieldsSizeCommonConst.NumberMessage)]
         public double Amount { get; set; }
         [StringLength(FieldsSizeCommonConst.NoteMax, ErrorMessage = FieldsSizeCommonConst.NoteMessage)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
         [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Display(Name = "Account")]
         public int? AccountId { get; set; }

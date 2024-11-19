@@ -51,6 +51,13 @@ namespace HisabPro.Repository.Implements
             return await _dbSet.FirstOrDefaultAsync(e => EF.Property<string>(e, "Name") == name);
         }
 
+        public async Task<int> AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+            var affectedRows = await _context.SaveChangesAsync();
+            return affectedRows;
+        }
+
         public async Task<T> AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);

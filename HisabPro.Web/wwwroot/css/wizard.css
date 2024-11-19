@@ -1,0 +1,123 @@
+﻿.step-wizard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.wizard-step button.btn {
+    margin-top:15px;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    color: #6c757d;
+}
+
+    .step.active {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .step.complete {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+.step-indicator {
+    margin-top: 5px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.step.active .step-indicator {
+    background-color: #007bff;
+}
+
+.step.complete .step-indicator {
+    background-color: #28a745;
+}
+
+#wizard-error {
+    display: none; /* Hide initially; can be shown when an error occurs */
+    color: #a94442; /* Red color for error text */
+    background-color: #f2dede; /* Light red background for visibility */
+    border: 1px solid #ebccd1; /* Border to outline the error box */
+    padding: 10px 15px; /* Padding for spacing within the box */
+    margin: 5px 0px 10px 0px; /* Margin to separate it from the steps */
+    font-size: 14px;
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold text for emphasis */
+    text-align: center; /* Centered text for readability */
+}
+#wizard-error.visible {
+    display: block; /* Show when an error is triggered */
+}
+
+/*Table inside wizard > Set a wrapper around the table to control scrolling */
+.table-wrapper {
+    display: block;
+    height: calc(100vh - 200px); /* Adjust height based on remaining page space */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.headerLink {
+    float: right;
+    font-size: small;
+    margin-top: 2px;
+    font-weight: normal;
+    border: 1px solid darkgray;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+    background-color: darkgray;
+    color: black;
+}
+    .headerLink:hover {
+        color:blue;
+    }
+    thead th {
+        position: sticky; /* Keep header fixed */
+        top: 0;
+        z-index: 2;
+        background-color: #EDEDED !important;
+    }
+
+tr.header {
+    background-color: #EDEDED; /* Add a background to prevent text overlap */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.widthDate {
+    width: 50px;
+}
+
+.widthAmount {
+    width: 120px;
+    text-align: right
+}
+
+.widthCategory {
+    width: 160px;
+}
+
+.widthPerson {
+    width: 110px;
+}
+
+.autoWidth {
+    width: auto;
+    /* Optional: Prevent word breaking in the Description column */
+    word-wrap: break-word;
+}

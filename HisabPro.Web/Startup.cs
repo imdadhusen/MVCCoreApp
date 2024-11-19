@@ -138,6 +138,8 @@ namespace HisabPro
                 endpoints.MapControllerRoute(name: "account", pattern: "account/{controller=Account}/{action=Index}", defaults: new { controller = "Account", action = "Index" });
                 endpoints.MapControllerRoute(name: "income", pattern: "income/{controller=Income}/{action=Index}", defaults: new { controller = "Income", action = "Index" });
                 endpoints.MapControllerRoute(name: "expense", pattern: "expense/{controller=Expense}/{action=Index}", defaults: new { controller = "Expense", action = "Index" });
+
+                endpoints.MapControllerRoute(name: "import", pattern: "import/{controller=Import}/{action=Expense}", defaults: new { controller = "Import", action = "Expense" });
             });
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

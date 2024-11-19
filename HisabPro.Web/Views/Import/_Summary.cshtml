@@ -1,0 +1,11 @@
+﻿@model HisabPro.Web.ViewModel.SummaryModel
+<!-- Step 3 -->
+<div class="wizard-step" data-step="1">
+    <h4 class="mb-3">Data imported</h4>
+    <div class="form-group center">
+        <div class="title">Congratulation! Bulk data import completed successfully!</div>
+        <div class="total-records">Total Records: @Model.Records</div>
+        <div class="total-time">Total Time: @Model.Seconds seconds</div><br /><br />
+        Note:<div class="note">If you would like to review or modify any specific data, please click <a asp-controller="Expenses" asp-action="Index">here</a></div>
+    </div>
+</div>

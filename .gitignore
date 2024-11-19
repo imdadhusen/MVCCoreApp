@@ -66,3 +66,4 @@
 /HisabPro.Service/obj
 /HisabPro.Services/bin/Debug/net8.0
 /HisabPro.Services/obj
+/HisabPro.Web/wwwroot/uploads/*.*

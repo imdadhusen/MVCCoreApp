@@ -10,7 +10,7 @@ function showConfirm(confirmLabel, confirmText, yesCallback, yesCallbackData) {
     if (!confirmLabel) confirmLabel = 'Delete';
     $('#confirmModalLabel').text(confirmLabel);
     if (!confirmText) confirmText = 'Are you sure you want to delete?';
-    $('#confirmModalText').text(confirmText);
+    $('#confirmModalText').html(confirmText);
     $('#confirmButton').off('click').click(function () {
         if (yesCallback && typeof yesCallback == "function") {
             yesCallback(yesCallbackData);

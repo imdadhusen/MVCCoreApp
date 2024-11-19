@@ -18,7 +18,7 @@ namespace HisabPro.Services.Implements
 
         public async Task<List<IdNameRes>> GetParentCategoriesAsync()
         {
-            return await _parentCategoryRepo.GetAllAsync(a => new IdNameRes { Id = a.Id, Name = a.Name });
+            return await _parentCategoryRepo.GetAllAsync(a => new IdNameRes { Id = a.Id.ToString(), Name = a.Name });
         }
 
         public async Task<List<ChildCategoryRes>> GetChildCategoriesAsync()
