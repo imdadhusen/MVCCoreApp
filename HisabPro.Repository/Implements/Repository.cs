@@ -30,14 +30,21 @@ namespace HisabPro.Repository.Implements
         public async Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children)
         {
             IQueryable<T> query = _dbSet;
-
-            // Dynamically include the specified children (navigation properties)
             foreach (var child in children)
             {
                 query = query.Include(child);
             }
-
             return await query.ToListAsync();
+        }
+
+        public IQueryable<T> GetPageDataWithChildrenAsync(params string[] children)
+        {
+            IQueryable<T> query = _dbSet;
+            foreach (var child in children)
+            {
+                query = query.Include(child);
+            }
+            return query.AsQueryable();
         }
 
         public async Task<T> GetByIdAsync(int id)

@@ -1,5 +1,4 @@
-﻿@model ResponseDTO<List<HisabPro.DTO.Response.ExpenseResponse>>
-
+﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,81 +7,16 @@
 <p>
     <a asp-action="Save">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Amount
-            </th>
-            <th>
-                Category
-            </th>
-            <th>
-                Sub Category
-            </th>
-            <th>
-                Account
-            </th>
-            <th>
-                Note
-            </th>
-            <th>
-                Is Active
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var expense in Model.Response)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(e => expense.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.ExpenseOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.ParentCategory)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.ChildCategory)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.Account)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.Note)
-                </td>
-                <td>
-                    @Html.DisplayFor(e => expense.IsActive)
-                </td>
-                <td>
-                    <a asp-action="Save" asp-route-id="@expense.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@expense.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-@await Html.PartialAsync("_ModalPartial")
+
+<div id="tblExpense">
+    @await Html.PartialAsync("_GridView", Model)
+</div>
 
 @section Scripts {
     <script>
-        var urlDelete = '/Expenses/Delete';
-        $('.Delete').click(function () {
-            var button = $(this);
-            var data = { 'Data': { 'Id': button.data('id') }, 'Row': button.closest('tr'), 'Url': urlDelete };
-            showConfirm('Delete Expense', null, deleteYes, data);
+        $('#tblExpense').gridview({
+            controllerName: 'Expenses',
+            titleDelete : 'Delete Expense'
         });
     </script>
 }

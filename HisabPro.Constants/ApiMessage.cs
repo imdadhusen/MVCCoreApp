@@ -14,6 +14,10 @@
             public const string DataRetrived = "Data retrived successfully";
             public const string DataRetrivedFailed = "Data retrived failed";
             public const string DataImportSuccess = "Data imported successfully";
+
+            public const string ImportFileAllowedExtensions = "Only .xls and .xlsx files are allowed";
+            public const string ImportSuccess = "File uploaded successfully";
+            public const string ImportFileRequired = "Please select a file to upload";
         }
     }
 }

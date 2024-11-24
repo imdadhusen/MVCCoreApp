@@ -59,9 +59,13 @@
     <button type="button" class="btn btn-primary next">Next</button>
 </div>
 <script>
+    var tblData = '#tblData';
+    var autoCorrectDate = '#autoCorrectDate';
+    var autoCorrectTitle = '#autoCorrectTitle';
+
     setDropdownItems();
     function setDropdownItems() {
-        var totalRows = $('#tblData').find('tr').length;
+        var totalRows = $(tblData).find('tr').length;
         for (var r = 1; r <= totalRows; r++) {
             //Set category item selected
             var category = $('select[name="Category[' + r + ']"]');
@@ -90,11 +94,11 @@
         filterChildCategories($(this).data('row'));
     });
 
-    $('#autoCorrectDate').click(function () {
-        showConfirm('Auto Correct Date(s)', "Dates will be automatically corrected using the date from the previous row.<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the empty dates with the previous row's date?</b>", autoCorrectDateYes, null);
+    $(autoCorrectDate).click(function () {
+        showConfirm(Wizard.AutoCorrect.Date.Title, Wizard.AutoCorrect.Date.Message, autoCorrectDateYes, null);
     });
-    $('#autoCorrectTitle').click(function () {
-        showConfirm('Auto Correct Title', "Title will be automatically truncated (upto 25 chars) and keep original title inside the Note field (upto 500 chars).<br/>Please review the changes and update if necessary.<br/><br/><b>Are you sure you want to auto-correct the title to take only 25 chars?</b>", autoCorrectTitleYes, null);
+    $(autoCorrectTitle).click(function () {
+        showConfirm(Wizard.AutoCorrect.Title.Title, Wizard.AutoCorrect.Title.Message, autoCorrectTitleYes, null);
     })
 
 
@@ -116,7 +120,7 @@
         let previousDate = null;
 
         // Loop through each row in the table body
-        $('#tblData tr').each(function () {
+        $(tblData + ' tr').each(function () {
             // Get the current row's date input
             let currentDateInput = $(this).find('.dateColumn');
             let currentDate = currentDateInput.val();
@@ -131,16 +135,16 @@
                 previousDate = currentDate;
             }
         });
-        showNotification("Empty date(s) has been auto corrected!");
+        showNotification(Wizard.AutoCorrect.Date.Success);
     }
     function autoCorrectTitleYes() {
         hideConfirm();
-        $('#tblData tr').each(function () {
+        $(tblData + ' tr').each(function () {
             // Get the current row's date input
             let field = $(this).find('.titleColumn');
             let fieldVal = field.val();
             field.val(fieldVal.substring(0, 25));
         });
-        showNotification("Large title has been auto corrected!");
+        showNotification(Wizard.AutoCorrect.Title.Success);
     }
 </script>

@@ -5,6 +5,7 @@ using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
+using HisabPro.Services.Helper;
 
 namespace HisabPro.Services.Implements
 {
@@ -31,6 +32,14 @@ namespace HisabPro.Services.Implements
             var expense = await _expenseRepo.GetAllWithChildrenAsync("Account", "ParentCategory", "ChildCategory"); //"Creator", "Modifier"
             var map = _mapper.Map<List<ExpenseResponse>>(expense);
             return new ResponseDTO<List<ExpenseResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+        }
+
+        public async Task<PageDataRes<ExpenseResponse>> PageData(PageDataReq request)
+        {
+            var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "ParentCategory", "ChildCategory");
+            data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
+            var pagedData = PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            return pagedData;
         }
 
         public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpense> expenses)
