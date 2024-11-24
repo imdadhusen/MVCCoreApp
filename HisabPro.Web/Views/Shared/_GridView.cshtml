@@ -10,8 +10,7 @@
                 if (column.IsSortable)
                 {
                     <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">
-                        @column.Title
-                        <span class="sort-icons"></span>
+                        @column.Title <span class="sort-icons"></span>
                     </th>
                 }
                 else
@@ -25,10 +24,33 @@
         @await Html.PartialAsync("_GridViewBody", Model)
     </tbody>
 </table>
-<div class="grid-pagination">
+<div class="grid-page-action">
     <button class="prev-page" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
-    <span>Page @Model.PageNumber of @((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize)</span>
+    @if (@Model.TotalRecords >= 1)
+    {
+        <span>Page @Model.PageNumber of @((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize)</span>
+    }
+    else
+    {
+        <span>Page 0 of 0</span>
+    }
     <button class="next-page" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>Next</button>
+</div>
+<div class="grid-page-records">
+    @if (@Model.TotalRecords >= 1)
+    {
+        var startRecord = (Model.PageNumber - 1) * Model.PageSize + 1;
+        var endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalRecords);
+        <span>Showing @startRecord - @endRecord out of @Model.TotalRecords</span>
+    }
+    else
+    {
+        <span>No records found!</span>
+    }
+</div>
+<div class="clear"></div>
+<div class="grid-loading" style="display:none">
+    Loading, please wait...
 </div>
 @await Html.PartialAsync("_ModalPartial")
 <script src="~/js/gridview.js"></script>

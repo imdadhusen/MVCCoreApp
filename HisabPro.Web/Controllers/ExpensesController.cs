@@ -76,7 +76,7 @@ namespace HisabPro.Web.Controllers
         }
 
         /// <summary>
-        /// This is used for generic gridview component which will perform soerting and pagination
+        /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>

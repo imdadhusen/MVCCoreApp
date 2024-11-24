@@ -6,6 +6,7 @@ using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Interfaces;
 using HisabPro.Constants;
+using HisabPro.Services.Helper;
 
 namespace HisabPro.Services.Implements
 {
@@ -32,6 +33,13 @@ namespace HisabPro.Services.Implements
             var accounts = await _incomeRepo.GetAllWithChildrenAsync("Account"); //"Creator", "Modifier"
             var map = _mapper.Map<List<IncomeResponse>>(accounts);
             return new ResponseDTO<List<IncomeResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+        }
+        public async Task<PageDataRes<IncomeResponse>> PageData(PageDataReq request)
+        {
+            var data = _incomeRepo.GetPageDataWithChildrenAsync("Account");
+            data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
+            var pagedData = PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            return pagedData;
         }
 
         public async Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req)
