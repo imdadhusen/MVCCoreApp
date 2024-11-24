@@ -54,7 +54,6 @@
         $(wizardError).removeClass('visible');
     }
 
-
     function step1UploadFile() {
         hideError();
         //Upload file is successful then load next step
@@ -74,16 +73,19 @@
             ajax.upload(urlUpload, formData, saveFileSuccess, saveFileError);
         }
     }
+
     function saveFileSuccess(res) {
         const filename = res.response.fileName;
         const encodedFilename = encodeURIComponent(filename);
         const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
         loadUI(action);
     }
+
     function saveFileError(error) {
         var errorMessage = error.responseJSON ? error.responseJSON.message : Wizard.FileUpload.Error;
         showError(errorMessage);
     }
+
     function step2PerformDataValidation() {
         var form = $('#dataForm');
         form.validate();
@@ -123,7 +125,6 @@
             loadUI(action);
         }
     }
-
     // Initialize by loading the first step
     loadStep();
 });
