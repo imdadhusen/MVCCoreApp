@@ -1,4 +1,21 @@
-﻿- Need to add Unit Test
+﻿---------------
+--- T A S K ---
+---------------
+GridView
+-----------
+	- Show Total Records in grid view footer (Showing 1-10 out of 50)
+	- Sort disable only when single record
+	- Migration required for all existing screens
+	- Loading Indication
+
+Wizard
+-----------
+	- Check all validation or failure steps to show appropriate message on the wizard error area
+	- Styling required for summary (step-3)
+	- Loading Indication
+
+
+- Need to add Unit Test
 - Logging
 	Install following packages
 		dotnet add package Serilog.AspNetCore
@@ -14,3 +31,5 @@
 - Roles and Claims
 - React or Angular for Front End
 - Get all records globally except soft deleted (where IsDeleted=false)
+
+

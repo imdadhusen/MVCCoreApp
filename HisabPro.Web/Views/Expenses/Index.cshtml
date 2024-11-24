@@ -8,7 +8,7 @@
     <a asp-action="Save">Create New</a>
 </p>
 
-<div id="tblExpense">
+<div id="tblExpense" style="position:relative">
     @await Html.PartialAsync("_GridView", Model)
 </div>
 

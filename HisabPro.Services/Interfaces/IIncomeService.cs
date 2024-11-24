@@ -8,6 +8,8 @@ namespace HisabPro.Services.Interfaces
     {
         Task<SaveIncome> GetByIdAsync(int id);
         Task<ResponseDTO<List<IncomeResponse>>> GetAll();
+        Task<PageDataRes<IncomeResponse>> PageData(PageDataReq request);
+
         Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
     }

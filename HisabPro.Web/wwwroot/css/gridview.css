@@ -1,4 +1,19 @@
-﻿.save-action, .delete-action {
+﻿.grid-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.save-action, .delete-action {
     cursor: pointer;
 }
 
@@ -57,6 +72,15 @@
     color: gray; /* Keep ascending grayed out */
 }
 
+.grid-page-action {
+    float:left;
+}
+.grid-page-records {
+    float:right;
+}
+.clear {
+    clear:both;
+}
 /*position Up and Down*/
 /*.sort-icons {
     display: inline-block;
