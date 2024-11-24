@@ -1,0 +1,112 @@
+﻿.save-action, .delete-action {
+    cursor: pointer;
+}
+
+.sortable th {
+    cursor: pointer;
+    position: relative;
+    padding-right: 0px; /* Space for icons */
+}
+
+/*position Left and Right*/
+.sort-icons {
+    display: inline-block;
+    position: relative;
+    font-size: 0.9rem; /* Icon size */
+    color: gray; /* Default grayed-out color */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+    .sort-icons::before,
+    .sort-icons::after {
+        content: ''; /* Add icons via content */
+        font-family: Arial, sans-serif; /* Adjust if using icon fonts */
+        margin: 0 0; /* Add spacing between icons */
+        transition: color 0.2s ease; /* Smooth transition */
+    }
+
+    /* Ascending icon (⬆) */
+    .sort-icons::before {
+        content: '⬆'; /* Replace with your image if necessary */
+        color: gray; /* Default color */
+    }
+
+    /* Descending icon (⬇) */
+    .sort-icons::after {
+        content: '⬇'; /* Replace with your image if necessary */
+        color: gray; /* Default color */
+    }
+
+/* Highlight ascending */
+.sort-asc .sort-icons::before {
+    color: black; /* Highlight color */
+    font-weight: bold;
+}
+
+.sort-asc .sort-icons::after {
+    color: gray; /* Keep descending grayed out */
+}
+
+/* Highlight descending */
+.sort-desc .sort-icons::after {
+    color: black; /* Highlight color */
+    font-weight: bold;
+}
+
+.sort-desc .sort-icons::before {
+    color: gray; /* Keep ascending grayed out */
+}
+
+/*position Up and Down*/
+/*.sort-icons {
+    display: inline-block;
+    position: relative;
+    width: 1.2em;*/ /* Adjust width to fit icons */
+/*height: 1.2em;*/ /* Adjust height for consistency */
+/*font-size: 0.9rem;*/ /* Icon size */
+/*text-align: center;
+    color: gray;*/ /* Default grayed-out color */
+/*}
+
+    .sort-icons::before,
+    .sort-icons::after {
+        content: '';*/ /* Add icons via content */
+/*position: absolute;
+        left: 0;
+        right: 0;
+        font-family: Arial, sans-serif;*/ /* Adjust if using icon fonts */
+/*line-height: 1;
+        transition: color 0.2s ease;*/ /* Smooth transition */
+/*}*/
+
+/* Ascending icon (⬆) */
+/*.sort-icons::before {
+        content: '⬆';*/ /* Replace with your image if necessary */
+/*top: 0;
+    }*/
+
+/* Descending icon (⬇) */
+/*.sort-icons::after {
+        content: '⬇';*/ /* Replace with your image if necessary */
+/*bottom: 0;
+    }*/
+
+/* Highlight ascending */
+/*.sort-asc .sort-icons::before {
+    color: black;*/ /* Highlight color */
+/*font-weight: bold;
+}
+
+.sort-asc .sort-icons::after {
+    color: gray;*/ /* Keep descending grayed out */
+/*}*/
+
+/* Highlight descending */
+/*.sort-desc .sort-icons::after {
+    color: black;*/ /* Highlight color */
+/*font-weight: bold;
+}
+
+.sort-desc .sort-icons::before {
+    color: gray;*/ /* Keep ascending grayed out */
+/*}*/

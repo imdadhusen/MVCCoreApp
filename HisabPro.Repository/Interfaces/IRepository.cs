@@ -7,6 +7,7 @@ namespace HisabPro.Repository.Interfaces
         Task<List<T>> GetAllAsync();
         Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector);
         Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children);
+        IQueryable<T> GetPageDataWithChildrenAsync(params string[] children);
 
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name);
@@ -16,7 +17,7 @@ namespace HisabPro.Repository.Interfaces
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<T> SaveAsync(T entity);
-       
+
 
         Task<bool> DeleteAsync(int id); // Delete by ID
         Task<bool> DeleteAsync(T entity); // Delete by entity instance
