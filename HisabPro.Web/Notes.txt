@@ -3,16 +3,19 @@
 ---------------
 GridView
 -----------
-	- Show Total Records in grid view footer (Showing 1-10 out of 50)
-	- Sort disable only when single record
-	- Migration required for all existing screens
-	- Loading Indication
+D	- Show Total Records in grid view footer (Showing 1-10 out of 50)
+D	- Sort disable only when single record
+D	- Migration required for all existing screens
+D	- Loading Indication
+D	- Page Textbox to jump on specific page
 
 Wizard
 -----------
 	- Check all validation or failure steps to show appropriate message on the wizard error area
 	- Styling required for summary (step-3)
 	- Loading Indication
+	- Prev Button Disable for all steps
+	- Next shouldn't allow multiple times
 
 
 - Need to add Unit Test
