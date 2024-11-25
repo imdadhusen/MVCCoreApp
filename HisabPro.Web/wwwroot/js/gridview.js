@@ -29,40 +29,42 @@
             initializeGrid();
             // Handle sorting
             $table.on('click', 'th.sort', function () {
-                showHideLoading(true);
+                //Don't do sort if record is single
+                if (totalRecords > 1) {
+                    showHideLoading(true);
 
-                var $header = $(this);
-                //Reset sort icon on all header of the active grid
-                $table.find('th.sort').removeClass('sort-desc sort-asc');
-                sortColumn = $header.data('column');
-                if ($header.data('order') === 'asc') {
-                    sortOrder = 'desc'
-                    $header.addClass('sort-desc');
-                }
-                else {
-                    sortOrder = 'asc';
-                    $header.addClass('sort-asc');
-                }
-                // Update sort order on header
-                $header.data('order', sortOrder);
+                    var $header = $(this);
+                    //Reset sort icon on all header of the active grid
+                    $table.find('th.sort').removeClass('sort-desc sort-asc');
+                    sortColumn = $header.data('column');
+                    if ($header.data('order') === 'asc') {
+                        sortOrder = 'desc'
+                        $header.addClass('sort-desc');
+                    }
+                    else {
+                        sortOrder = 'asc';
+                        $header.addClass('sort-asc');
+                    }
+                    // Update sort order on header
+                    $header.data('order', sortOrder);
 
-                // Trigger onsort callback
-                if (typeof settings.onsort === 'function') {
-                    settings.onsort();
+                    // Trigger onsort callback
+                    if (typeof settings.onsort === 'function') {
+                        settings.onsort();
+                    }
+                    //On sort reset page
+                    currentPage = 1;
+                    setPageTitle();
+                    loadGridview();
                 }
-                //On sort reset page
-                currentPage = 1;
-                setPageTitle();
-                loadGridview();
             });
 
             // Handle pagination
             $table.on('click', '.prev-page, .next-page', function (e) {
-                showHideLoading(true);
-
                 var newPage = $(this).hasClass("prev-page") ? currentPage - 1 : currentPage + 1;
 
                 if (newPage >= 1 && newPage <= totalPage) {
+                    showHideLoading(true);
                     currentPage = newPage;
                     setPageTitle();
 
@@ -82,6 +84,18 @@
                 showConfirm(settings.titleDelete, null, deleteYes, data);
             });
 
+            $table.on('blur', '.current-page', function (e) {
+                var enteredVal = $(this).val();
+                if (enteredVal == '') {
+                    $(this).val(currentPage);
+                }
+                else {
+                    currentPage = enteredVal;
+                    loadGridview();
+                    setPageTitle();
+                }
+            });
+
             // Initialize grid
             function initializeGrid() {
                 setPageTitle();
@@ -91,7 +105,7 @@
                     $table.find(".grid-loading").fadeIn(); // Show the loading container
                 }
                 else {
-                    $table.find(".grid-loading").fadeOut(); 
+                    $table.find(".grid-loading").fadeOut();
                 }
             }
             function loadGridview() {
@@ -107,13 +121,17 @@
             }
             function setPageTitle() {
                 $('.prev-page, .next-page').removeAttr('disabled');
-                var page = $table.find('.grid-page-action span');
+               
                 var record = $table.find('.grid-page-records span');
-
+                var _toalpage = $table.find('.grid-page-action span.total-page');
+                var _currentpage = $table.find('.grid-page-action input.current-page');
                 if (currentPage == 0) {
-                    var pages = page.text().match(/\d+/g);
-                    currentPage = parseInt(pages[0]);
-                    totalPage = parseInt(pages[1]);
+                    totalPage = 0;
+                    currentPage = 0;
+                    if (_toalpage) {
+                        totalPage = Number(_toalpage.text());
+                        currentPage = Number(_currentpage.val());
+                    }
                 }
                 if (startRecords == 0) {
                     var records = record.text().match(/\d+/g);
@@ -126,7 +144,8 @@
 
                 setPageRecords(record);
 
-                page.text(`Page ${currentPage} of ${totalPage}`);
+                _currentpage.val(currentPage);
+
 
                 if (currentPage >= totalPage || totalPage <= 1) {
                     $table.find('.next-page').attr('disabled', 'disabled');

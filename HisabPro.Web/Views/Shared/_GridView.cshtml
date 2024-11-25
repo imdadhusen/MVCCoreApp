@@ -28,7 +28,8 @@
     <button class="prev-page" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
     @if (@Model.TotalRecords >= 1)
     {
-        <span>Page @Model.PageNumber of @((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize)</span>
+        var totalPages = ((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize);
+        <span>Page <input type="number" asp-for="@Model.PageNumber" class="current-page" min="1" max="@totalPages" /> of <span class="total-page">@totalPages</span></span>
     }
     else
     {

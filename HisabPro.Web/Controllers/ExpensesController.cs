@@ -92,7 +92,7 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "ParentCategory", Title = "Category", Width="140px" },
                     new Column() { Name = "ChildCategory", Title = "Sub Category", Width= "150px" },
                     new Column() { Name = "Account", Width = "100px" },
-                    new Column() { Name = "Note"},
+                    new Column() { Name = "Note", IsSortable = false },
                     new Column() { Name = "Edit", Type = ColType.Edit, Width="50px" },
                     new Column() { Name = "Delete", Type = ColType.Delete, Width="50px" }
                 },

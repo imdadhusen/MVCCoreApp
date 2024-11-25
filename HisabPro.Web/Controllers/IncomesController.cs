@@ -77,7 +77,7 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
                     new Column() { Name = "Account", Width = "100px" },
-                    new Column() { Name = "Note"},
+                    new Column() { Name = "Note", IsSortable = false},
                     new Column() { Name = "IsActive", Width = "80px" },
                     new Column() { Name = "Edit", Type = ColType.Edit, Width="50px" },
                     new Column() { Name = "Delete", Type = ColType.Delete, Width="50px" }
