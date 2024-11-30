@@ -31,6 +31,11 @@ namespace HisabPro
                 options.Filters.Add<ValidateModelStateFilter>();
             });
             services.AddControllersWithViews();
+            //services.AddControllers().AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+            //    options.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto; // Enables polymorphism
+            //});
 
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();

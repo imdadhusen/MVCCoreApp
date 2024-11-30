@@ -1,5 +1,6 @@
 ﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
 
+@await Html.PartialAsync("_Filter", Model.Filters)
 <table class="table table-hover sortable">
     <thead>
         <tr>
@@ -54,4 +55,3 @@
     Loading, please wait...
 </div>
 @await Html.PartialAsync("_ModalPartial")
-<script src="~/js/gridview.js"></script>

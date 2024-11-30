@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
@@ -27,6 +28,10 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<ParentCategory, CategoryListRes>();
             CreateMap<ParentCategory, ParentCategoryRes>();
             CreateMap<ChildCategory, ChildCategoryRes>();
+
+            CreateMap<IdNameRes, IdNameAndRefId>();
+            CreateMap<ChildCategoryRes, IdNameAndRefId>()
+                .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.ParentCategoryId));
         }
     }
 }

@@ -12,6 +12,6 @@ namespace HisabPro.Services.Implements
         Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpense> expenses);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
-        Task<PageDataRes<ExpenseResponse>> PageData(PageDataReq request);
+        Task<PageDataRes<ExpenseResponse>> PageData(PageDataReq request, List<BaseFilterModel> filter);
     }
 }

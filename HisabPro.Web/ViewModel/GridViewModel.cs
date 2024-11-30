@@ -1,4 +1,6 @@
-﻿namespace HisabPro.Web.ViewModel
+﻿using HisabPro.DTO.Model;
+
+namespace HisabPro.Web.ViewModel
 {
     public class GridViewModel<T>
     {
@@ -9,6 +11,7 @@
         public int PageSize { get; set; }
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
+        public List<BaseFilterModel> Filters { get; set; }  
     }
 
     public class Column

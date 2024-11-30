@@ -99,6 +99,12 @@
 .clear {
     clear: both;
 }
+
+.grid-no-records {
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+}
 /*position Up and Down*/
 /*.sort-icons {
     display: inline-block;
