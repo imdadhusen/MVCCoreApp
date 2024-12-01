@@ -7,9 +7,19 @@
             actionSave: 'Save',
             actionDelete: 'Delete',
             titleDelete: 'Delete Record',
-            pageSize: 10,
-            onsort: null,
-            onpagination: null,
+            filter: {
+                enable: true,
+                defaultOpen: false
+            },
+            pagination: {
+                enable: true,
+                pageSize: 10,
+                onPagination: null
+            },
+            sort: {
+                enable: true,
+                onsort: null
+            }
         }, options);
 
         var sortColumn = '';
@@ -24,6 +34,13 @@
         var lblRecords;
         var lblTotalPage;
         var txtCurrentPage;
+        //Filter Container
+        var filterContainer;
+        var filterBody;
+        //Page Container
+        var pageContainer;
+        //Sort
+        var sortIcons;
 
         // Iterate over each matched element
         return this.each(function () {
@@ -98,28 +115,14 @@
 
             // Filter : Handle apply and clear filters on button click
             $table.on('click', '.applyFilters', function () {
-                const currentText = $(this).text();
-                if (currentText === 'Apply Filter') {
-                    applyFilter();
-                    $(this).text('Clear Filter');
-                }
-                else {
-                    clearFilter();
-                    $(this).text('Apply Filter');
-                }
+                applyFilter();
+            });
+            $table.on('click', '.clearFilters', function () {
+                clearFilter();
             });
             // Filter : Show/Hide filter section
             $table.on('click', '.toggleFilters', function () {
-                const filterBody = $table.find('.filterBody');
-                filterBody.toggle(); // Show/hide the filter body
-
-                const icon = $(this).find('i');
-                if (filterBody.is(':visible')) {
-                    icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
-                }
-                else {
-                    icon.removeClass('bi-chevron-up').addClass('bi-chevron-down');
-                }
+                toggleFilter();
             });
 
             // Grid : Helper functions
@@ -127,12 +130,29 @@
                 lblRecords = $table.find('.grid-page-records span');
                 lblTotalPage = $table.find('.grid-page-action span.total-page');
                 txtCurrentPage = $table.find('.grid-page-action input.current-page');
+                filterContainer = $table.find('.grid-filter');
+                filterBody = $table.find('.grid-filter-body');
+                pageContainer = $table.find('.grid-footer');
+                sortIcons = $table.find('th.sort');
 
                 const firstDiv = $table.find('#spnTotalRec');
                 totalRecords = Number(firstDiv.text());
                 firstDiv.remove();
                 currentPage = 1;
 
+                if (!settings.filter.enable) {
+                    filterContainer.hide();
+                }
+                if (!settings.filter.defaultOpen) {
+                    toggleFilter()
+                }
+
+                if (!settings.pagination.enable) {
+                    pageContainer.hide();
+                }
+                if (!settings.sort.enable) {
+                    sortIcons.removeClass('sort').find('span').hide();
+                }
                 setPageTitle();
             }
             function showHideLoading(isVisible) {
@@ -144,7 +164,7 @@
                 }
             }
             function loadGridview() {
-                var page = { PageNumber: currentPage, PageSize: settings.pageSize, SortBy: sortColumn, SortDirection: sortOrder }
+                var page = { PageNumber: currentPage, PageSize: settings.pagination.pageSize, SortBy: sortColumn, SortDirection: sortOrder }
                 var data = { PageData: page, Filters: filters };
                 var url = `${settings.controllerName}/${settings.actionLoad}`;
                 ajax.html(url, data, refreshGridviewData, data);
@@ -162,7 +182,7 @@
                 $('.prev-page, .next-page').removeAttr('disabled');
 
                 if (totalRecords >= 1) {
-                    totalPage = Math.ceil(totalRecords / settings.pageSize);
+                    totalPage = Math.ceil(totalRecords / settings.pagination.pageSize);
                     txtCurrentPage.removeAttr("disabled");
                 }
                 else {
@@ -184,8 +204,8 @@
             }
             function setPageRecords() {
                 if (totalRecords >= 1) {
-                    startRecords = (currentPage - 1) * settings.pageSize + 1;
-                    endRecords = Math.min(currentPage * settings.pageSize, totalRecords);
+                    startRecords = (currentPage - 1) * settings.pagination.pageSize + 1;
+                    endRecords = Math.min(currentPage * settings.pagination.pageSize, totalRecords);
                     lblRecords.text(`Showing ${startRecords} - ${endRecords} out of ${totalRecords}`);
                 }
                 else {
@@ -195,9 +215,7 @@
 
             //Filter : Helper functions
             function applyFilter() {
-                updateFilterCount();
                 filters = [];
-
                 $table.find('.filterForm :input').each(function () {
                     const fieldType = $(this).data('type'); // Get the data-type attribute
                     const fieldName = $(this).attr('name'); // Get the input name attribute
@@ -250,7 +268,7 @@
                         }
                     }
                 });
-
+                displayFilterCount();
                 currentPage = 1;
                 loadGridview();
             }
@@ -267,36 +285,31 @@
                     }
                 });
                 $('.selectpicker').selectpicker('deselectAll'); //Clear all selection in bootstrap dropdowns
-                displayFilterCount(0); // Reset filter count
 
                 filters = [];
                 currentPage = 1;
+
+                displayFilterCount(); // Reset filter count
                 loadGridview();
             }
-            function updateFilterCount() {
-                let count = 0;
-                // Count inputs with values
-                $table.find('.filterForm :input').each(function () {
-                    var value = $(this).val();
-                    if (this.type === 'checkbox' || this.type === 'radio') {
-                        if (this.checked) count++;
-                    }
-                    else if (Array.isArray(value) && value.length >= 1) {
-                        count++;
-                    }
-                    else if ($.trim(value) != '') {
-                        count++;
-                    }
-                });
-                displayFilterCount(count)
-            }
-            function displayFilterCount(count) {
+            function displayFilterCount() {
+                const count = filters.length;
                 const filterCountBadge = $table.find('.filterCount');
                 if (count > 0) {
                     filterCountBadge.text(`${count} Selected`).show();
                 }
                 else {
                     filterCountBadge.hide();
+                }
+            }
+            function toggleFilter() {
+                filterBody.toggle(); // Show/hide the filter body
+                const icon = $(this).find('i');
+                if (filterBody.is(':visible')) {
+                    icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
+                }
+                else {
+                    icon.removeClass('bi-chevron-up').addClass('bi-chevron-down');
                 }
             }
         });

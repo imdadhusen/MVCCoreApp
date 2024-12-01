@@ -1,57 +1,60 @@
 ﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
 
 @await Html.PartialAsync("_Filter", Model.Filters)
-<table class="table table-hover sortable">
-    <thead>
-        <tr>
-            @foreach (var column in Model.Columns)
+<div class="grid-wrapper">
+    <table class="table table-hover sortable">
+        <thead>
+            <tr>
+                @foreach (var column in Model.Columns)
+                {
+                    var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
+                    var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word;" : column.Width);
+                    if (column.IsSortable)
+                    {
+                        <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">
+                            @column.Title <span class="sort-icons"></span>
+                        </th>
+                    }
+                    else
+                    {
+                        <th scope="col" style="@colAlign @attWidth">@column.Title</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @await Html.PartialAsync("_GridViewBody", Model)
+        </tbody>
+    </table>
+    <div class="grid-footer">
+        <div class="grid-page-action">
+            <button class="prev-page btn btn-primary flex-fill" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
+            @if (@Model.TotalRecords >= 1)
             {
-                var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
-                var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word;" : column.Width);
-                if (column.IsSortable)
-                {
-                    <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">
-                        @column.Title <span class="sort-icons"></span>
-                    </th>
-                }
-                else
-                {
-                    <th scope="col" style="@colAlign @attWidth">@column.Title</th>
-                }
+                var totalPages = ((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize);
+                <span class="d-flex align-items-center mx-2">Page <input type="number" asp-for="@Model.PageNumber" class="current-page  form-control mx-2" min="1" max="@totalPages" /> of <span class="total-page">@totalPages</span></span>
             }
-        </tr>
-    </thead>
-    <tbody>
-        @await Html.PartialAsync("_GridViewBody", Model)
-    </tbody>
-</table>
-<div class="grid-page-action">
-    <button class="prev-page" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
-    @if (@Model.TotalRecords >= 1)
-    {
-        var totalPages = ((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize);
-        <span>Page <input type="number" asp-for="@Model.PageNumber" class="current-page" min="1" max="@totalPages" /> of <span class="total-page">@totalPages</span></span>
-    }
-    else
-    {
-        <span>Page 0 of 0</span>
-    }
-    <button class="next-page" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>Next</button>
+            else
+            {
+                <span>Page 0 of 0</span>
+            }
+            <button class="next-page btn btn-primary flex-fill" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>Next</button>
+        </div>
+        <div class="grid-page-records text-end">
+            @if (@Model.TotalRecords >= 1)
+            {
+                var startRecord = (Model.PageNumber - 1) * Model.PageSize + 1;
+                var endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalRecords);
+                <span>Showing @startRecord - @endRecord out of @Model.TotalRecords</span>
+            }
+            else
+            {
+                <span>No records found!</span>
+            }
+        </div>
+    </div>
+    <div class="grid-loading" style="display:none">
+        Loading, please wait...
+    </div>
+    @await Html.PartialAsync("_ModalPartial")
 </div>
-<div class="grid-page-records">
-    @if (@Model.TotalRecords >= 1)
-    {
-        var startRecord = (Model.PageNumber - 1) * Model.PageSize + 1;
-        var endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalRecords);
-        <span>Showing @startRecord - @endRecord out of @Model.TotalRecords</span>
-    }
-    else
-    {
-        <span>No records found!</span>
-    }
-</div>
-<div class="clear"></div>
-<div class="grid-loading" style="display:none">
-    Loading, please wait...
-</div>
-@await Html.PartialAsync("_ModalPartial")

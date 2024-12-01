@@ -6,13 +6,12 @@ Filter
 D	- Generic filter component
 	- Migration required for all existing gridview screen
 D	- Multi select dropdown (bootstrap)
-	- Allow enable/disable filter component (configurable)
-	- Default collapsed
+D	- Allow enable/disable filter component (configurable)
+D	- Default collapsed
 D	- Dropdown with pre filled data to support child and parent relation as well
 D		- If child exists then when parent selection it should load only associcated child
 D	- Checkbox replace with radio as we can clear both Yes and No
 D	- Apply/Clear Filter should be on header to utlize the space
-D		- At a time only one button should visible if filter applied then Clear otherwise Apply
 
 GridView
 -----------
@@ -21,7 +20,9 @@ D	- Sort disable only when single record
 D	- Migration required for all existing screens
 D	- Loading Indication
 D	- Page Textbox to jump on specific page
-	- Recalculate Page Number, Navigation and Record message when any filter is applied
+D	- Recalculate Page Number, Navigation and Record message when any filter is applied
+D	- Allow enable/disable pagination (configurable)
+D	- Allow enable/disable sorting (configurable)
 
 Wizard
 -----------
