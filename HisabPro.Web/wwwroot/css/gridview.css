@@ -18,12 +18,16 @@
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
 }
+
     .grid-wrapper table {
         margin-bottom: unset;
+        table-layout: fixed;
+        width: 100%;
     }
-    .save-action, .delete-action {
-        cursor: pointer;
-    }
+
+.save-action, .delete-action {
+    cursor: pointer;
+}
 
 .sortable th {
     cursor: pointer;
@@ -95,7 +99,7 @@
         border-radius: 3px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        width:80px;
+        width: 80px;
     }
 
         .grid-page-action button:disabled {
@@ -135,6 +139,14 @@
     height: 200px;
     text-align: center;
     vertical-align: middle;
+    font-size: 14px;
+    color: #666;
+}
+
+.table-hover > tbody > tr.grid-no-records:hover {
+    --bs-table-accent-bg: transparent; /* Remove background color */
+    color: #666;
+    cursor: default;
 }
 
 .grid-footer {

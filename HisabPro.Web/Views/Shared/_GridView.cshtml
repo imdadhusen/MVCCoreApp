@@ -8,7 +8,7 @@
                 @foreach (var column in Model.Columns)
                 {
                     var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
-                    var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word;" : column.Width);
+                    var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word" : column.Width);
                     if (column.IsSortable)
                     {
                         <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">

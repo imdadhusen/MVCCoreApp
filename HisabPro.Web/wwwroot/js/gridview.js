@@ -36,6 +36,7 @@
         var txtCurrentPage;
         //Filter Container
         var filterContainer;
+        var filterToggleButton;
         var filterBody;
         //Page Container
         var pageContainer;
@@ -131,6 +132,7 @@
                 lblTotalPage = $table.find('.grid-page-action span.total-page');
                 txtCurrentPage = $table.find('.grid-page-action input.current-page');
                 filterContainer = $table.find('.grid-filter');
+                filterToggleButton = $table.find('.toggleFilters');
                 filterBody = $table.find('.grid-filter-body');
                 pageContainer = $table.find('.grid-footer');
                 sortIcons = $table.find('th.sort');
@@ -144,7 +146,7 @@
                     filterContainer.hide();
                 }
                 if (!settings.filter.defaultOpen) {
-                    toggleFilter()
+                    toggleFilter();
                 }
 
                 if (!settings.pagination.enable) {
@@ -270,6 +272,7 @@
                 });
                 displayFilterCount();
                 currentPage = 1;
+                toggleFilter();
                 loadGridview();
             }
             function clearFilter() {
@@ -289,6 +292,7 @@
                 filters = [];
                 currentPage = 1;
 
+                toggleFilter();
                 displayFilterCount(); // Reset filter count
                 loadGridview();
             }
@@ -304,7 +308,7 @@
             }
             function toggleFilter() {
                 filterBody.toggle(); // Show/hide the filter body
-                const icon = $(this).find('i');
+                const icon = filterToggleButton.find('i');
                 if (filterBody.is(':visible')) {
                     icon.removeClass('bi-chevron-down').addClass('bi-chevron-up');
                 }

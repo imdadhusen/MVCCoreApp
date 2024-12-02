@@ -20,7 +20,13 @@ namespace HisabPro.Web.ViewModel
         public bool IsVisible { get; set; } = true;
         public Type Type { get; set; } = Type.Label;
         public Align Align { get; set; } = Align.Left;
-        public string Width { get; set; } = "Auto";
+
+        private string _width;
+        public string Width {
+            get => string.IsNullOrEmpty(_width) ? GetDefaultWidth(Type) : _width;
+            set => _width = value;
+        }
+
         public string CssName { get; set; }
 
         private string _title;
@@ -35,6 +41,16 @@ namespace HisabPro.Web.ViewModel
         {
             get => (Type == Type.Edit || Type == Type.Delete) ? false : _sortable;
             set => _sortable = value;
+        }
+
+        private static string GetDefaultWidth(Type type)
+        {
+            return type switch
+            {
+                Type.Edit => "50px",
+                Type.Delete => "65px",
+                _ => "Auto"
+            };
         }
     }
 

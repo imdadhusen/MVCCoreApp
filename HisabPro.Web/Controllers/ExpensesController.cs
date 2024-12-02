@@ -130,8 +130,8 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "ChildCategory", Title = "Sub Category", Width = "150px" },
                     new Column() { Name = "Account", Width = "100px" },
                     new Column() { Name = "Note", IsSortable = false },
-                    new Column() { Name = "Edit", Type = ColType.Edit, Width = "50px" },
-                    new Column() { Name = "Delete", Type = ColType.Delete, Width = "50px" }
+                    new Column() { Name = "Edit", Type = ColType.Edit},
+                    new Column() { Name = "Delete", Type = ColType.Delete }
                 },
                 Data = pageData.Data.Cast<object>().ToList(),
                 TotalRecords = pageData.TotalData,
