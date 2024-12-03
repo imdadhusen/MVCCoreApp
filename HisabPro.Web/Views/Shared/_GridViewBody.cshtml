@@ -12,14 +12,18 @@
                 var cssName = string.IsNullOrEmpty(column.CssName) ? "" : string.Format("class='{0}'", column.CssName);
                 if (column.Type == HisabPro.Web.ViewModel.Type.Edit)
                 {
-                    <td style="width:45px; @colAlign">
-                        <a class="save-action" asp-action="Save" asp-route-id="@dataId">Edit</a>
+                    <td style="text-align:center">
+                        <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@dataId">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
                     </td>
                 }
                 else if (column.Type == HisabPro.Web.ViewModel.Type.Delete)
                 {
-                    <td style="width:45px; @colAlign">
-                        <a class="delete-action" data-id="@dataId">Delete</a>
+                    <td style="text-align:center">
+                        <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@dataId">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
                     </td>
                 }
                 else

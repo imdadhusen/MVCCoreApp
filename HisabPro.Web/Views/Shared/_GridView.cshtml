@@ -7,17 +7,24 @@
             <tr>
                 @foreach (var column in Model.Columns)
                 {
-                    var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
-                    var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word" : column.Width);
-                    if (column.IsSortable)
+                    if (column.Type == HisabPro.Web.ViewModel.Type.Delete || column.Type == HisabPro.Web.ViewModel.Type.Edit)
                     {
-                        <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">
-                            @column.Title <span class="sort-icons"></span>
-                        </th>
+                        <th scope="col" style="width:45px"></th>
                     }
                     else
                     {
-                        <th scope="col" style="@colAlign @attWidth">@column.Title</th>
+                        var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
+                        var attWidth = string.Format("width:{0};", column.Width == "Auto" ? "auto; word-wrap: break-word" : column.Width);
+                        if (column.IsSortable)
+                        {
+                            <th scope="col" data-column="@column.Name" data-order="" class="sort" style="@colAlign @attWidth">
+                                @column.Title <span class="sort-icons"></span>
+                            </th>
+                        }
+                        else
+                        {
+                            <th scope="col" style="@colAlign @attWidth">@column.Title</th>
+                        }
                     }
                 }
             </tr>

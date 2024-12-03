@@ -106,10 +106,16 @@
                     loadGridview();
                 }
             });
+            // Grid : Handle save action
+            $table.on('click', '.save-action', function (e) {
+                var button = $(this);
+                var urlSave = `${settings.controllerName}/${settings.actionSave}?Id=${button.data('id') }`;
+                window.location.assign(urlSave);
+            });
             // Grid : Handle delete action
             $table.on('click', '.delete-action', function (e) {
-                var urlDelete = `${settings.controllerName}/${settings.actionDelete}`;
                 var button = $(this);
+                var urlDelete = `${settings.controllerName}/${settings.actionDelete}`;
                 var data = { 'Data': { 'Id': button.data('id') }, 'Row': button.closest('tr'), 'Url': urlDelete };
                 showConfirm(settings.titleDelete, null, deleteYes, data);
             });
