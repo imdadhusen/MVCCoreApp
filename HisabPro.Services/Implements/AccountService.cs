@@ -41,7 +41,7 @@ namespace HisabPro.Services.Implements
         {
             var data = _accountRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
             data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
-            var pagedData = PageDataHelper.ApplyPage<Account, AccountResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            var pagedData = await PageDataHelper.ApplyPage<Account, AccountResponse>(data, request.PageNumber, request.PageSize, _mapper);
             return pagedData;
         }
 

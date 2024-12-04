@@ -38,7 +38,7 @@ namespace HisabPro.Services.Implements
         {
             var data = _incomeRepo.GetPageDataWithChildrenAsync("Account");
             data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
-            var pagedData = PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageNumber, request.PageSize, _mapper);
             return pagedData;
         }
 

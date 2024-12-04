@@ -35,7 +35,9 @@
     </table>
     <div class="grid-footer">
         <div class="grid-page-action">
-            <button class="prev-page btn btn-primary flex-fill" @(Model.PageNumber <= 1 ? "disabled" : "")>Previous</button>
+            <button class="prev-page btn btn-primary flex-fill" @(Model.PageNumber <= 1 ? "disabled" : "")>
+                <i class="bi bi-arrow-left"></i> Previous
+            </button>
             @if (@Model.TotalRecords >= 1)
             {
                 var totalPages = ((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize);
@@ -45,7 +47,9 @@
             {
                 <span>Page 0 of 0</span>
             }
-            <button class="next-page btn btn-primary flex-fill" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>Next</button>
+            <button class="next-page btn btn-primary flex-fill" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>
+                Next <i class="bi bi-arrow-right"></i>
+            </button>
         </div>
         <div class="grid-page-records text-end">
             @if (@Model.TotalRecords >= 1)

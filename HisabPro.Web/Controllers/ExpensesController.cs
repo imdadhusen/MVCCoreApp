@@ -119,7 +119,7 @@ namespace HisabPro.Web.Controllers
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req)
         {
-            var pageData = await _expenseService.PageData(req.PageData, req.Filters);
+            var pageData = await _expenseService.PageData(req);
             var model = new GridViewModel<object>
             {
                 Columns = new List<Column> {
