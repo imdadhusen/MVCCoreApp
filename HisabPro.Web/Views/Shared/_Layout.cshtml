@@ -104,10 +104,16 @@
                                     Hello, @User.Identity.Name!
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Profile</a>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user"></i> Profile
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cogs"></i> Settings
+                                    </a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="User" asp-action="Logout">Sign Out</a>
+                                    <a class="dropdown-item" asp-controller="User" asp-action="Logout">
+                                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                                    </a>
                                 </div>
                             </li>
                         }
