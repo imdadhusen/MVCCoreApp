@@ -8,8 +8,6 @@ using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Drawing.Printing;
-using System.Globalization;
 using System.Text.Json;
 using ColType = HisabPro.Web.ViewModel.Type;
 

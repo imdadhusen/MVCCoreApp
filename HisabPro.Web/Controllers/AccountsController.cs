@@ -1,6 +1,5 @@
 ﻿using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
-using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
