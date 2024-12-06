@@ -1,5 +1,6 @@
 ﻿using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +43,7 @@ namespace HisabPro.Web.Controllers
                 PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
                 Filters = filters
             };
-            var model = await LoadGridData(req);
+            var model = await LoadGridData(req, true);
             return View(model);
         }
         public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
@@ -82,11 +83,14 @@ namespace HisabPro.Web.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req)
+        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var pageData = await _accountService.PageData(req);
-            var model = new GridViewModel<object>
+            var model = new GridViewModel<object>()
             {
+                PageNumber = req.PageData.PageNumber,
+                PageSize = req.PageData.PageSize,
+                SortBy = req.PageData.SortBy,
+                SortDirection = req.PageData.SortDirection,
                 Columns = new List<Column> {
                     new Column() { Name = "Name", Width = "140px"  },
                     new Column() { Name = "FullName", Title = "Full Name"},
@@ -96,15 +100,18 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
-                },
-                Data = pageData.Data.Cast<object>().ToList(),
-                TotalRecords = pageData.TotalData,
-                PageNumber = req.PageData.PageNumber,
-                PageSize = req.PageData.PageSize,
-                SortBy = req.PageData.SortBy,
-                SortDirection = req.PageData.SortDirection,
-                Filters = req.Filters
+                }
             };
+
+            if (firstTimeLoad)
+            {
+                model.Filters = req.Filters;
+                req.Filters = null;
+            }
+
+            var pageData = await _accountService.PageData(req);
+            model.Data = pageData.Data.Cast<object>().ToList();
+            model.TotalRecords = pageData.TotalData;
             return model;
         }
     }

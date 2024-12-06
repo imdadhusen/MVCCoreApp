@@ -11,7 +11,7 @@ namespace HisabPro.Web.ViewModel
         public int PageSize { get; set; }
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
-        public List<BaseFilterModel> Filters { get; set; }  
+        public List<BaseFilterModel>? Filters { get; set; }  
     }
 
     public class Column
