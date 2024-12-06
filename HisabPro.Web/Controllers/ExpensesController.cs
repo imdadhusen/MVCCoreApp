@@ -2,7 +2,6 @@
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Entities.Models;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
@@ -48,8 +47,11 @@ namespace HisabPro.Web.Controllers
                     FieldTitle="Sub Category"
                 },
                 new FilterModel<string> {
-                    FieldName = "Name",
+                    FieldName = "Title",
                     FieldTitle="Title"
+                },
+                new FilterModel<string> {
+                    FieldName = "Note"
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",

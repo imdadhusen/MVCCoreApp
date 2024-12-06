@@ -1,4 +1,5 @@
-﻿using HisabPro.DTO.Request;
+﻿using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,32 @@ namespace HisabPro.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var req = new PageDataReq() { PageNumber = 1, PageSize = 10 };
+            var filters = new List<BaseFilterModel>
+            {
+                new FilterModel<string> {
+                    FieldName = "Name"
+                },
+                 new FilterModel<string> {
+                    FieldName = "Mobile"
+                },
+                new FilterModel<DateTime> {
+                    FieldName = "CreatedOn",
+                    FieldTitle="Created Date Range"
+                },
+                new FilterModel<bool> {
+                    FieldName = "IsActive",
+                    FieldTitle="Is Active"
+                }
+            };
+            var req = new LoadDataRequest()
+            {
+                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
+                Filters = filters
+            };
             var model = await LoadGridData(req);
             return View(model);
         }
-        public async Task<IActionResult> Load([FromBody] PageDataReq req)
+        public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
         {
             var model = await LoadGridData(req);
             return PartialView("_GridViewBody", model);
@@ -60,7 +82,7 @@ namespace HisabPro.Web.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private async Task<GridViewModel<object>> LoadGridData(PageDataReq req)
+        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req)
         {
             var pageData = await _accountService.PageData(req);
             var model = new GridViewModel<object>
@@ -72,15 +94,16 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "IsActive", Title = "Active", Width="90px" },
                     new Column() { Name = "CreatedBy", Title = "Created By", Width= "170px" },
                     new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
-                    new Column() { Name = "Edit", Type = ColType.Edit, Width="50px" },
-                    new Column() { Name = "Delete", Type = ColType.Delete, Width="50px" }
+                    new Column() { Name = "Edit", Type = ColType.Edit},
+                    new Column() { Name = "Delete", Type = ColType.Delete}
                 },
                 Data = pageData.Data.Cast<object>().ToList(),
                 TotalRecords = pageData.TotalData,
-                PageNumber = req.PageNumber,
-                PageSize = req.PageSize,
-                SortBy = req.SortBy,
-                SortDirection = req.SortDirection
+                PageNumber = req.PageData.PageNumber,
+                PageSize = req.PageData.PageSize,
+                SortBy = req.PageData.SortBy,
+                SortDirection = req.PageData.SortDirection,
+                Filters = req.Filters
             };
             return model;
         }

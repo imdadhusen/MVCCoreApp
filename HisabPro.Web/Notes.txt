@@ -4,7 +4,7 @@
 Filter
 -----------
 D	- Generic filter component
-	- Migration required for all existing gridview screen
+D	- Migration required for all existing gridview screen
 D	- Multi select dropdown (bootstrap)
 D	- Allow enable/disable filter component (configurable)
 D	- Default collapsed
@@ -12,6 +12,8 @@ D	- Dropdown with pre filled data to support child and parent relation as well
 D		- If child exists then when parent selection it should load only associcated child
 D	- Checkbox replace with radio as we can clear both Yes and No
 D	- Apply/Clear Filter should be on header to utlize the space
+	- Boolean type filter is not working for default (first time page load). As nullable is not supporting. Need to fix this
+	- Create generic component which holds Filter and Grid (no need to duplicate html for every page)
 
 GridView
 -----------
