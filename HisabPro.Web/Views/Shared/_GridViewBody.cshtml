@@ -1,37 +1,49 @@
 ﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
-@foreach (var item in Model.Data)
+<span id="spnTotalRec">@Model.TotalRecords</span>
+@if (@Model.TotalRecords >= 1)
 {
-    <tr>
-        @foreach (var column in Model.Columns)
-        {
-            var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
-            var dataId = item.GetType().GetProperty("Id")?.GetValue(item, null);
-            var cssName = string.IsNullOrEmpty(column.CssName) ? "" : string.Format("class='{0}'", column.CssName);
-            if (column.Type == HisabPro.Web.ViewModel.Type.Edit)
+    foreach (var item in Model.Data)
+    {
+        <tr>
+            @foreach (var column in Model.Columns)
             {
-                <td style="width:45px; @colAlign">
-                    <a class="save-action" asp-action="Save" asp-route-id="@dataId">Edit</a>
-                </td>
-            }
-            else if (column.Type == HisabPro.Web.ViewModel.Type.Delete)
-            {
-                <td style="width:45px; @colAlign">
-                    <a class="delete-action" data-id="@dataId">Delete</a>
-                </td>
-            }
-            else
-            {
-                var value = item.GetType().GetProperty(column.Name)?.GetValue(item, null);
-
-                if (column.Type == HisabPro.Web.ViewModel.Type.Date && DateTime.TryParse(value?.ToString() ?? string.Empty, out var parsedDate))
+                var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
+                var dataId = item.GetType().GetProperty("Id")?.GetValue(item, null);
+                var cssName = string.IsNullOrEmpty(column.CssName) ? "" : string.Format("class='{0}'", column.CssName);
+                if (column.Type == HisabPro.Web.ViewModel.Type.Edit)
                 {
-                    <td style="@colAlign" @cssName>@parsedDate.ToString("dd-MM-yyyy")</td>
+                    <td style="text-align:center">
+                        <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@dataId">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                    </td>
+                }
+                else if (column.Type == HisabPro.Web.ViewModel.Type.Delete)
+                {
+                    <td style="text-align:center">
+                        <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@dataId">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
                 }
                 else
                 {
-                    <td style="@colAlign" @cssName>@value</td>
+                    var value = item.GetType().GetProperty(column.Name)?.GetValue(item, null);
+
+                    if (column.Type == HisabPro.Web.ViewModel.Type.Date && DateTime.TryParse(value?.ToString() ?? string.Empty, out var parsedDate))
+                    {
+                        <td style="@colAlign" @cssName>@parsedDate.ToString("dd-MM-yyyy")</td>
+                    }
+                    else
+                    {
+                        <td style="@colAlign" @cssName>@value</td>
+                    }
                 }
             }
-        }
-    </tr>
+        </tr>
+    }
+}
+else
+{
+    <tr class="grid-no-records"><td colspan="@Model.Columns.Count()">No Records Found!</td></tr>
 }

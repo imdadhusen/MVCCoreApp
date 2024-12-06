@@ -74,24 +74,56 @@ a {
 .highlight-green td, .highlight-blue td, .highlight-yellow td, .highlight-red td, .highlight-reset td {
     transition: background-color 0.5s ease !important; /* Smooth transition effect */
 }
+
 .highlight-green td {
     background-color: #D0F2C8 !important; /* Temporary color */
 }
+
 .highlight-blue td {
     background-color: #D2ECFF !important; /* Temporary color */
 }
+
 .highlight-yellow td {
     background-color: #FFDED2 !important; /* Temporary color */
 }
+
 .highlight-red td {
     background-color: #FECCD8 !important; /* Temporary color */
 }
+
 .highlight-reset td {
     background-color: white !important; /* Original background color, adjust as needed */
 }
+
 .m-t-30 {
-    margin-top:30px;
+    margin-top: 30px;
 }
+
 .m-t-10 {
-    margin-top:10px;
+    margin-top: 10px;
 }
+
+.btn-back {
+    white-space: nowrap; /* Prevent text from wrapping */
+    display: inline-flex; /* Align icon and text in a single line */
+    align-items: center; /* Vertically center content */
+    gap: 0.5rem; /* Add space between icon and text */
+    padding: 0.5rem 1rem; /* Add uniform padding */
+    text-align: center; /* Center text */
+}
+
+.action-btn {
+    width: 150px; /* Ensure equal width */
+    padding: 10px; /* Uniform padding for all buttons */
+    font-size: 1rem; /* Consistent font size */
+    text-align: center; /* Center-align text */
+    display: inline-flex; /* Flexbox for icon and text alignment */
+    align-items: center; /* Vertically align icon and text */
+    justify-content: center; /* Center both icon and text */
+    gap: 0.5rem; /* Space between icon and text */
+    border-radius: 5px; /* Optional: Rounded corners */
+}
+
+    .action-btn:hover {
+        opacity: 0.9; /* Subtle hover effect */
+    }

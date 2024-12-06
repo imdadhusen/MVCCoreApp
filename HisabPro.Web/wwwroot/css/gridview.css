@@ -14,6 +14,17 @@
     z-index: 10;
 }
 
+.grid-wrapper {
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+}
+
+    .grid-wrapper table {
+        margin-bottom: unset;
+        table-layout: fixed;
+        width: 100%;
+    }
+
 .save-action, .delete-action {
     cursor: pointer;
 }
@@ -74,15 +85,47 @@
 }
 
 .grid-page-action {
-    float: left;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
     .grid-page-action button {
+        padding: 5px 10px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
         width: 100px;
     }
+
+        .grid-page-action button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+    .grid-page-action input.current-page {
+        width: 50px;
+        padding: 3px;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+.grid-page-records {
+    font-size: 14px;
+    color: #555;
+}
+
+.grid-footer span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
 
 .current-page {
     width: 70px;
@@ -92,63 +135,28 @@
     padding: 4px;
 }
 
-.grid-page-records {
-    float: right;
+.grid-no-records {
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #666;
 }
 
-.clear {
-    clear: both;
-}
-/*position Up and Down*/
-/*.sort-icons {
-    display: inline-block;
-    position: relative;
-    width: 1.2em;*/ /* Adjust width to fit icons */
-/*height: 1.2em;*/ /* Adjust height for consistency */
-/*font-size: 0.9rem;*/ /* Icon size */
-/*text-align: center;
-    color: gray;*/ /* Default grayed-out color */
-/*}
-
-    .sort-icons::before,
-    .sort-icons::after {
-        content: '';*/ /* Add icons via content */
-/*position: absolute;
-        left: 0;
-        right: 0;
-        font-family: Arial, sans-serif;*/ /* Adjust if using icon fonts */
-/*line-height: 1;
-        transition: color 0.2s ease;*/ /* Smooth transition */
-/*}*/
-
-/* Ascending icon (⬆) */
-/*.sort-icons::before {
-        content: '⬆';*/ /* Replace with your image if necessary */
-/*top: 0;
-    }*/
-
-/* Descending icon (⬇) */
-/*.sort-icons::after {
-        content: '⬇';*/ /* Replace with your image if necessary */
-/*bottom: 0;
-    }*/
-
-/* Highlight ascending */
-/*.sort-asc .sort-icons::before {
-    color: black;*/ /* Highlight color */
-/*font-weight: bold;
+.table-hover > tbody > tr.grid-no-records:hover {
+    --bs-table-accent-bg: transparent; /* Remove background color */
+    color: #666;
+    cursor: default;
 }
 
-.sort-asc .sort-icons::after {
-    color: gray;*/ /* Keep descending grayed out */
-/*}*/
-
-/* Highlight descending */
-/*.sort-desc .sort-icons::after {
-    color: black;*/ /* Highlight color */
-/*font-weight: bold;
+.grid-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
 }
-
-.sort-desc .sort-icons::before {
-    color: gray;*/ /* Keep ascending grayed out */
-/*}*/

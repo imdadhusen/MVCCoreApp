@@ -34,11 +34,13 @@ namespace HisabPro.Services.Implements
             return new ResponseDTO<List<ExpenseResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
         }
 
-        public async Task<PageDataRes<ExpenseResponse>> PageData(PageDataReq request)
+        public async Task<PageDataRes<ExpenseResponse>> PageData(LoadDataRequest request)
         {
             var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "ParentCategory", "ChildCategory");
-            data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
-            var pagedData = PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            data = data.ApplyDynamicFilters(request.Filters);
+
+            data = PageDataHelper.ApplySort(data, request.PageData.SortBy, request.PageData.SortDirection);
+            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageData.PageNumber, request.PageData.PageSize, _mapper);
             return pagedData;
         }
 

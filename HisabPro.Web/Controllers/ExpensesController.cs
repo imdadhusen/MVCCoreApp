@@ -1,4 +1,6 @@
-﻿using HisabPro.DTO.Request;
+﻿using AutoMapper;
+using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
@@ -17,21 +19,59 @@ namespace HisabPro.Web.Controllers
         private readonly IExpenseService _expenseService;
         private readonly IAccountService _accountService;
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public ExpensesController(IExpenseService expenseService, IAccountService accountService, ICategoryService categoryService)
+        public ExpensesController(IExpenseService expenseService, IAccountService accountService, ICategoryService categoryService, IMapper mapper)
         {
             _expenseService = expenseService;
             _accountService = accountService;
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var req = new PageDataReq() { PageNumber = 1, PageSize = 10 };
-            var model = await LoadGridData(req);
+            var parentCategories = await _categoryService.GetParentCategoriesAsync();
+            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            var filters = new List<BaseFilterModel>
+            {
+                new FilterModel<int> {
+                    FieldName = "ParentCategoryId",
+                    ChildFieldName="ChildCategoryId",
+                    FieldTitle="Category",
+                    Items =  _mapper.Map<List<IdNameAndRefId>>(parentCategories),
+                    ChildItems = _mapper.Map<List<IdNameAndRefId>>(childCategories)
+                },
+                new FilterModel<int> {
+                    FieldName = "ChildCategoryId",
+                    FieldTitle="Sub Category"
+                },
+                new FilterModel<string> {
+                    FieldName = "Title",
+                    FieldTitle="Title"
+                },
+                new FilterModel<string> {
+                    FieldName = "Note"
+                },
+                new FilterModel<DateTime> {
+                    FieldName = "CreatedOn",
+                    FieldTitle="Date Range"
+                },
+                new FilterModel<bool> {
+                    FieldName = "IsActive",
+                    FieldTitle="Is Active"
+                }
+            };
+
+            var req = new LoadDataRequest()
+            {
+                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
+                Filters = filters
+            };
+            var model = await LoadGridData(req, true);
             return View(model);
         }
-        public async Task<IActionResult> Load([FromBody] PageDataReq req)
+        public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
         {
             var model = await LoadGridData(req);
             return PartialView("_GridViewBody", model);
@@ -47,8 +87,7 @@ namespace HisabPro.Web.Controllers
             parentCategories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["ParentCategoryId"] = new SelectList(parentCategories, "Id", "Name");
 
-            var childCategories = await _categoryService.GetChildCategoriesAsync();
-            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(await _categoryService.GetChildCategoriesAsync());
 
             if (id != null)
             {
@@ -80,29 +119,36 @@ namespace HisabPro.Web.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private async Task<GridViewModel<object>> LoadGridData(PageDataReq req)
+        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var pageData = await _expenseService.PageData(req);
-            var model = new GridViewModel<object>
+            var model = new GridViewModel<object>()
             {
+                PageNumber = req.PageData.PageNumber,
+                PageSize = req.PageData.PageSize,
+                SortBy = req.PageData.SortBy,
+                SortDirection = req.PageData.SortDirection,
                 Columns = new List<Column> {
-                    new Column() { Name = "Title", Width = "150px"  },
+                    new Column() { Name = "Title", Width = "150px" },
                     new Column() { Name = "ExpenseOn", Title = "Date", Type = ColType.Date, Width = "100px" },
-                    new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
-                    new Column() { Name = "ParentCategory", Title = "Category", Width="140px" },
-                    new Column() { Name = "ChildCategory", Title = "Sub Category", Width= "150px" },
+                    new Column() { Name = "Amount", Align = Align.Right, Width = "95px" },
+                    new Column() { Name = "ParentCategory", Title = "Category", Width = "140px" },
+                    new Column() { Name = "ChildCategory", Title = "Sub Category", Width = "150px" },
                     new Column() { Name = "Account", Width = "100px" },
                     new Column() { Name = "Note", IsSortable = false },
-                    new Column() { Name = "Edit", Type = ColType.Edit, Width="50px" },
-                    new Column() { Name = "Delete", Type = ColType.Delete, Width="50px" }
-                },
-                Data = pageData.Data.Cast<object>().ToList(),
-                TotalRecords = pageData.TotalData,
-                PageNumber = req.PageNumber,
-                PageSize = req.PageSize,
-                SortBy = req.SortBy,
-                SortDirection = req.SortDirection
+                    new Column() { Name = "Edit", Type = ColType.Edit},
+                    new Column() { Name = "Delete", Type = ColType.Delete }
+                }
             };
+
+            if (firstTimeLoad)
+            {
+                model.Filters = req.Filters;
+                req.Filters = null;
+            }
+
+            var pageData = await _expenseService.PageData(req);
+            model.Data = pageData.Data.Cast<object>().ToList();
+            model.TotalRecords = pageData.TotalData;
             return model;
         }
     }

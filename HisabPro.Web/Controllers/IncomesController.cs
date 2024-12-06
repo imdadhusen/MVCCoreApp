@@ -1,4 +1,6 @@
-﻿using HisabPro.DTO.Request;
+﻿using AutoMapper;
+using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
@@ -14,19 +16,49 @@ namespace HisabPro.Web.Controllers
     {
         private readonly IIncomeService _incomeService;
         private readonly IAccountService _accountService;
-        public IncomesController(IIncomeService incomeService, IAccountService accountService)
+        private readonly IMapper _mapper;
+        public IncomesController(IIncomeService incomeService, IAccountService accountService, IMapper mapper)
         {
             _incomeService = incomeService;
             _accountService = accountService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var req = new PageDataReq() { PageNumber = 1, PageSize = 10 };
-            var model = await LoadGridData(req);
+            var accounts = await _accountService.GetAccountsAsync();
+            var filters = new List<BaseFilterModel>
+            {
+                new FilterModel<string> {
+                    FieldName = "Title"
+                },
+                new FilterModel<int> {
+                    FieldName = "AccountId",
+                    FieldTitle="Account",
+                    Items =  _mapper.Map<List<IdNameAndRefId>>(accounts),
+                },
+                new FilterModel<DateTime> {
+                    FieldName = "IncomeOn",
+                    FieldTitle="Date Range"
+                },
+                new FilterModel<string> {
+                    FieldName = "Note"
+                },
+                new FilterModel<bool> {
+                    FieldName = "IsActive",
+                    FieldTitle="Is Active"
+                }
+            };
+
+            var req = new LoadDataRequest()
+            {
+                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
+                Filters = filters
+            };
+            var model = await LoadGridData(req, true);
             return View(model);
         }
-        public async Task<IActionResult> Load([FromBody] PageDataReq req)
+        public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
         {
             var model = await LoadGridData(req);
             return PartialView("_GridViewBody", model);
@@ -67,28 +99,35 @@ namespace HisabPro.Web.Controllers
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private async Task<GridViewModel<object>> LoadGridData(PageDataReq req)
+        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var pageData = await _incomeService.PageData(req);
-            var model = new GridViewModel<object>
+            var model = new GridViewModel<object>()
             {
+                PageNumber = req.PageData.PageNumber,
+                PageSize = req.PageData.PageSize,
+                SortBy = req.PageData.SortBy,
+                SortDirection = req.PageData.SortDirection,
                 Columns = new List<Column> {
                     new Column() { Name = "Title", Width = "170px"  },
                     new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
-                    new Column() { Name = "Account", Width = "100px" },
+                    new Column() { Name = "Account", Width = "150px" },
                     new Column() { Name = "Note", IsSortable = false},
-                    new Column() { Name = "IsActive", Width = "80px" },
-                    new Column() { Name = "Edit", Type = ColType.Edit, Width="50px" },
-                    new Column() { Name = "Delete", Type = ColType.Delete, Width="50px" }
-                },
-                Data = pageData.Data.Cast<object>().ToList(),
-                TotalRecords = pageData.TotalData,
-                PageNumber = req.PageNumber,
-                PageSize = req.PageSize,
-                SortBy = req.SortBy,
-                SortDirection = req.SortDirection
+                    new Column() { Name = "IsActive", Width = "90px" },
+                    new Column() { Name = "Edit", Type = ColType.Edit },
+                    new Column() { Name = "Delete", Type = ColType.Delete }
+                }
             };
+
+            if (firstTimeLoad)
+            {
+                model.Filters = req.Filters;
+                req.Filters = null;
+            }
+
+            var pageData = await _incomeService.PageData(req);
+            model.Data = pageData.Data.Cast<object>().ToList();
+            model.TotalRecords = pageData.TotalData;
             return model;
         }
     }

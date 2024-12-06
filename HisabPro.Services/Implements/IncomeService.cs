@@ -34,11 +34,12 @@ namespace HisabPro.Services.Implements
             var map = _mapper.Map<List<IncomeResponse>>(accounts);
             return new ResponseDTO<List<IncomeResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
         }
-        public async Task<PageDataRes<IncomeResponse>> PageData(PageDataReq request)
+        public async Task<PageDataRes<IncomeResponse>> PageData(LoadDataRequest request)
         {
             var data = _incomeRepo.GetPageDataWithChildrenAsync("Account");
-            data = PageDataHelper.ApplySort(data, request.SortBy, request.SortDirection);
-            var pagedData = PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageNumber, request.PageSize, _mapper);
+            data = data.ApplyDynamicFilters(request.Filters);
+            data = PageDataHelper.ApplySort(data, request.PageData.SortBy, request.PageData.SortDirection);
+            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageData.PageNumber, request.PageData.PageSize, _mapper);
             return pagedData;
         }
 

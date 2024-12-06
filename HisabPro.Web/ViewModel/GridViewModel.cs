@@ -1,4 +1,6 @@
-﻿namespace HisabPro.Web.ViewModel
+﻿using HisabPro.DTO.Model;
+
+namespace HisabPro.Web.ViewModel
 {
     public class GridViewModel<T>
     {
@@ -9,6 +11,7 @@
         public int PageSize { get; set; }
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
+        public List<BaseFilterModel>? Filters { get; set; }  
     }
 
     public class Column
@@ -17,7 +20,13 @@
         public bool IsVisible { get; set; } = true;
         public Type Type { get; set; } = Type.Label;
         public Align Align { get; set; } = Align.Left;
-        public string Width { get; set; } = "Auto";
+
+        private string _width;
+        public string Width {
+            get => string.IsNullOrEmpty(_width) ? GetDefaultWidth(Type) : _width;
+            set => _width = value;
+        }
+
         public string CssName { get; set; }
 
         private string _title;
@@ -32,6 +41,16 @@
         {
             get => (Type == Type.Edit || Type == Type.Delete) ? false : _sortable;
             set => _sortable = value;
+        }
+
+        private static string GetDefaultWidth(Type type)
+        {
+            return type switch
+            {
+                Type.Edit => "50px",
+                Type.Delete => "65px",
+                _ => "Auto"
+            };
         }
     }
 
