@@ -39,8 +39,8 @@ namespace HisabPro.Services.Implements
             var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "ParentCategory", "ChildCategory");
             data = data.ApplyDynamicFilters(request.Filters);
 
-            data = PageDataHelper.ApplySort(data, request.PageData.SortBy, request.PageData.SortDirection);
-            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageData.PageNumber, request.PageData.PageSize, _mapper);
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageData, _mapper);
             return pagedData;
         }
 

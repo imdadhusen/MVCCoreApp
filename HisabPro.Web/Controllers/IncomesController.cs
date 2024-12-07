@@ -3,6 +3,7 @@ using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Services.Interfaces;
+using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,11 +51,7 @@ namespace HisabPro.Web.Controllers
                 }
             };
 
-            var req = new LoadDataRequest()
-            {
-                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
-                Filters = filters
-            };
+            var req = new LoadDataRequest() { Filters = filters };
             var model = await LoadGridData(req, true);
             return View(model);
         }
@@ -101,13 +98,7 @@ namespace HisabPro.Web.Controllers
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var model = new GridViewModel<object>()
-            {
-                PageNumber = req.PageData.PageNumber,
-                PageSize = req.PageData.PageSize,
-                SortBy = req.PageData.SortBy,
-                SortDirection = req.PageData.SortDirection,
-                Columns = new List<Column> {
+            var columns = new List<Column> {
                     new Column() { Name = "Title", Width = "170px"  },
                     new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
@@ -116,19 +107,8 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "IsActive", Width = "90px" },
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
-                }
             };
-
-            if (firstTimeLoad)
-            {
-                model.Filters = req.Filters;
-                req.Filters = null;
-            }
-
-            var pageData = await _incomeService.PageData(req);
-            model.Data = pageData.Data.Cast<object>().ToList();
-            model.TotalRecords = pageData.TotalData;
-            return model;
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _incomeService.PageData, columns);
         }
     }
 }
