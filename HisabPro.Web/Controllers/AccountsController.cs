@@ -1,6 +1,8 @@
 ﻿using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
+using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -84,13 +86,7 @@ namespace HisabPro.Web.Controllers
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var model = new GridViewModel<object>()
-            {
-                PageNumber = req.PageData.PageNumber,
-                PageSize = req.PageData.PageSize,
-                SortBy = req.PageData.SortBy,
-                SortDirection = req.PageData.SortDirection,
-                Columns = new List<Column> {
+            var columns = new List<Column> {
                     new Column() { Name = "Name", Width = "140px"  },
                     new Column() { Name = "FullName", Title = "Full Name"},
                     new Column() { Name = "Mobile", Width="120px" },
@@ -99,19 +95,8 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
-                }
             };
-
-            if (firstTimeLoad)
-            {
-                model.Filters = req.Filters;
-                req.Filters = null;
-            }
-
-            var pageData = await _accountService.PageData(req);
-            model.Data = pageData.Data.Cast<object>().ToList();
-            model.TotalRecords = pageData.TotalData;
-            return model;
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _accountService.PageData, columns);
         }
     }
 }
