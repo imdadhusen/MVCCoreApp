@@ -13,7 +13,7 @@ D		- If child exists then when parent selection it should load only associcated 
 D	- Checkbox replace with radio as we can clear both Yes and No
 D	- Apply/Clear Filter should be on header to utlize the space
 D	- Boolean type filter is not working for default (first time page load). As nullable is not supporting. Need to fix this
-	- Create generic component which holds Filter and Grid (no need to duplicate html for every page)
+D	- Create generic component which holds Filter and Grid (no need to duplicate html for every page)
 
 GridView
 -----------
