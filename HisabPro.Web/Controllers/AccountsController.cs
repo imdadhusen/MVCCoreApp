@@ -39,11 +39,7 @@ namespace HisabPro.Web.Controllers
                     FieldTitle="Is Active"
                 }
             };
-            var req = new LoadDataRequest()
-            {
-                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
-                Filters = filters
-            };
+            var req = new LoadDataRequest() { Filters = filters };
             var model = await LoadGridData(req, true);
             return View(model);
         }

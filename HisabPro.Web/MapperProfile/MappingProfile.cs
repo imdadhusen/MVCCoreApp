@@ -10,6 +10,10 @@ namespace HisabPro.Web.MapperProfile
     {
         public MappingProfile()
         {
+            CreateMap<SaveUser, User>().ReverseMap();  // This will map User <-> SaveUser
+            CreateMap<User, UserResponse>()
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
+
             CreateMap<SaveAccount, Account>().ReverseMap();  // This will map Account <-> SaveAccount
             CreateMap<Account, AccountResponse>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));

@@ -1,6 +1,16 @@
 ﻿---------------
 --- T A S K ---
 ---------------
+User
+-----------
+D	- In Filter add dropdown for Roles
+D	- Create/Edit function which will return rolles from enums as a dropdown
+	- As of now no field validation add it should be as follow
+		- Name  (max:25)
+		- Email (max:50)
+		- PhoneNumber needs to be added
+
+
 Filter
 -----------
 D	- Generic filter component

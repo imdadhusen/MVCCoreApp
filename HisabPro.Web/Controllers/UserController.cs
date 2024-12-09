@@ -1,19 +1,37 @@
-﻿using Hisab.CryptoService;
+﻿using AutoMapper;
+using Hisab.CryptoService;
 using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
+using HisabPro.DTO.Response;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services;
+using HisabPro.Services.Interfaces;
+using HisabPro.Web.Helper;
+using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ColType = HisabPro.Web.ViewModel.Type;
 
 namespace HisabPro.Web.Controllers
 {
-    public class UserController(IUserRepository userRpository, AuthService authService) : Controller
+    public class UserController : Controller
     {
-        public IUserRepository UserRpository { get; } = userRpository;
-        public AuthService AuthService { get; } = authService;
+        private readonly IUserRepository _userRpository;
+        private readonly AuthService _authService;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public UserController(IUserRepository userRpository, AuthService authService, IUserService userService, IMapper mapper)
+        {
+            _userRpository = userRpository;
+            _authService = authService;
+            _userService = userService;
+            _mapper = mapper;
+        }
 
         [AllowAnonymous]
         [HttpGet("user/login")]
@@ -33,14 +51,14 @@ namespace HisabPro.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserRpository.Authenticate(login.Email, login.Password);
+                var user = await _userRpository.Authenticate(login.Email, login.Password);
                 if (user == null)
                 {
                     return Unauthorized();
                 }
                 else
                 {
-                    var tokenString = await AuthService.SignInUser(user);
+                    var tokenString = await _authService.SignInUser(user);
                     if (login.RememberMe)
                     {
                         var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
@@ -75,6 +93,96 @@ namespace HisabPro.Web.Controllers
             // Clear the "Remember Me" cookie
             Response.Cookies.Delete(AppConst.Cookies.RememberMe);
             return RedirectToAction("Index", "Home"); // Redirect to login page or another page after logout
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
+            var filters = new List<BaseFilterModel>
+            {
+                new FilterModel<string> {
+                    FieldName = "Name"
+                },
+                 new FilterModel<string> {
+                    FieldName = "Email"
+                },
+                new FilterModel<int> {
+                    FieldName = "UserRole",
+                    FieldTitle="Role",
+                    Items = _mapper.Map<List<IdNameAndRefId>>(roles),
+                },
+                new FilterModel<DateTime> {
+                    FieldName = "CreatedOn",
+                    FieldTitle="Created Date Range"
+                },
+                new FilterModel<bool> {
+                    FieldName = "IsActive",
+                    FieldTitle="Is Active"
+                }
+            };
+            var req = new LoadDataRequest() { Filters = filters };
+            var model = await LoadGridData(req, true);
+            return View(model);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
+        {
+            var model = await LoadGridData(req);
+            return PartialView("_GridViewBody", model);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Save(int? id)
+        {
+            var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
+            roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
+
+            if (id != null)
+            {
+                var model = await _userService.GetByIdAsync(id.Value);
+                return View(model);
+            }
+            return View(new SaveUser { UserRole = 2 });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole")] SaveUser req)
+        {
+            var response = await _userService.Save(req);
+            return StatusCode((int)response.StatusCode, response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Delete([FromBody] DeleteReq req)
+        {
+            var response = await _userService.DeleteAsync(req.Id);
+            return StatusCode((int)response.StatusCode, response); ;
+        }
+
+        /// <summary>
+        /// This is used for generic gridview component which will perform sorting and pagination
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
+        {
+            var columns = new List<Column> {
+                    new Column() { Name = "Name", Width = "140px"  },
+                    new Column() { Name = "FullName", Title = "Full Name"},
+                    new Column() { Name = "Mobile", Width="120px" },
+                    new Column() { Name = "IsActive", Title = "Active", Width="90px" },
+                new Column() { Name = "CreatedBy", Title = "Created By", Width= "170px" },
+                    new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
+                    new Column() { Name = "Edit", Type = ColType.Edit},
+                    new Column() { Name = "Delete", Type = ColType.Delete}
+            };
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _userService.PageData, columns);
         }
     }
 }
