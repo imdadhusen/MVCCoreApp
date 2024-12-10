@@ -18,11 +18,13 @@
             public const int NameMax = 20;
             public const string NameMessage = "User name must be between 5 and 20 characters.";
 
-            public const int EmailMax = 50;
-            public const string EmailMessage = "Email address cannot exceed 50 characters.";
+            public const int PasswordSaltMin = 172;
+            public const int PasswordSaltMax = 200; //This is for future use, as of now lengh exactly 172
+            public const string PasswordSaltMessage = "Password salt must be between 172 and 200 characters.";
 
-            public const string EmailRegEx = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-            public const string EmailRegExMessage = "Invalid email address.";
+            public const int PasswordHashMin = 88;
+            public const int PasswordHashMax = 100; //This is for future use, as of now lengh exactly 88
+            public const string PasswordHashMessage = "Password hash must be between 88 and 100 characters.";
         }
     }
 }

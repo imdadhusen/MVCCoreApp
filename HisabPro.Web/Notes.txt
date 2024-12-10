@@ -1,6 +1,11 @@
 ﻿---------------
 --- T A S K ---
 ---------------
+Migration
+-----------
+	- Don't create default insertion script (with only timestamp change) everytime creating a migration. 
+	  It should include only change except default insertion.
+
 User
 -----------
 D	- In Filter add dropdown for Roles

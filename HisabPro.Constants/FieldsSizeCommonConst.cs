@@ -10,6 +10,16 @@
             public const string RegExMessage = Message;
         }
 
+        public static class Email
+        {
+            public const int Min = 10;
+            public const int Max = 50;
+            public const string Message = "Email address must be between 10 and 50 characters.";
+
+            public const string RegEx = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            public const string RegExMessage = "Invalid email address.";
+        }
+
         public const string DateOnlyMessage = "Please enter a valid date.";
         public const string NumberMessage = "Amount must be an integer value.";
 
