@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
+using HisabPro.Web.Helper;
 
 namespace HisabPro.Web.MapperProfile
 {
@@ -12,7 +14,9 @@ namespace HisabPro.Web.MapperProfile
         {
             CreateMap<SaveUser, User>().ReverseMap();  // This will map User <-> SaveUser
             CreateMap<User, UserResponse>()
-                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
+                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserRoleEnum)src.UserRole)))
+                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserGenederEnum)src.Gender)));
 
             CreateMap<SaveAccount, Account>().ReverseMap();  // This will map Account <-> SaveAccount
             CreateMap<Account, AccountResponse>()

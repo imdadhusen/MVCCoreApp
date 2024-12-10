@@ -187,7 +187,8 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "FullName", Title = "Full Name"},
                     new Column() { Name = "Mobile", Width="120px" },
                     new Column() { Name = "IsActive", Title = "Active", Width="90px" },
-                new Column() { Name = "CreatedBy", Title = "Created By", Width= "170px" },
+                    new Column() { Name = "GenderName", Title="Gender", Width="90px" },
+                    new Column() { Name = "UserRoleName", Title = "Role", Width= "120px" },
                     new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
