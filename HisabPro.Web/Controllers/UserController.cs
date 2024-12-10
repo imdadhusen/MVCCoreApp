@@ -99,6 +99,7 @@ namespace HisabPro.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
+            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
@@ -119,6 +120,11 @@ namespace HisabPro.Web.Controllers
                 new FilterModel<bool> {
                     FieldName = "IsActive",
                     FieldTitle="Is Active"
+                },
+                new FilterModel<int> {
+                    FieldName = "Gender",
+                    FieldTitle="Gender",
+                    Items = _mapper.Map<List<IdNameAndRefId>>(genders),
                 }
             };
             var req = new LoadDataRequest() { Filters = filters };
@@ -139,6 +145,10 @@ namespace HisabPro.Web.Controllers
             var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
             roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
+
+            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
+            genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
 
             if (id != null)
             {

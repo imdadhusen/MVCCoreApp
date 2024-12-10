@@ -7,5 +7,9 @@
 
         public const string NameRoleAdmin = "Admin";
         public const string NameRoleUser = "User";
+
+        public const string NameGenederMale = "Male";
+        public const string NameGenederFemale = "Female";
+        public const string NameGenederOther = "Other";
     }
 }

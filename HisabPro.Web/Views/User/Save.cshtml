@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <div class="form-group">
                         <label asp-for="UserRole" class="control-label"></label>
@@ -42,7 +42,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="Gender" class="control-label"></label>
+                        <select asp-for="Gender" class="form-control" asp-items="ViewBag.UserGender"></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label asp-for="Mobile" class="control-label"></label>
                     <input asp-for="Mobile" class="form-control" />

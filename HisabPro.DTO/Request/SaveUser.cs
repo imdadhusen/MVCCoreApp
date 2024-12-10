@@ -17,5 +17,7 @@ namespace HisabPro.DTO.Request
         public string? Mobile { get; set; }
         [Required]
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
+        [Required]
+        public int Gender { get; set; } = (int)UserGenederEnum.Male;
     }
 }
