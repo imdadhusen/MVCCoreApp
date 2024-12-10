@@ -5,7 +5,7 @@ namespace HisabPro.Entities.IEntities
 {
     public interface IAuditableEntity
     {
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
         public int CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
         public User Creator { get; set; }
