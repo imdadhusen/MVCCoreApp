@@ -14,7 +14,7 @@ namespace HisabPro.DTO.Request
         public string FullName { get; set; }
         [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessage = FieldsSizeCommonConst.Mobile.Message)]
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
-        public string Mobile { get; set; }
+        public string? Mobile { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
     }

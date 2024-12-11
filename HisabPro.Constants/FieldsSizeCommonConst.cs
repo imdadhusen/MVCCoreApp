@@ -29,5 +29,9 @@
 
         public const int NoteMax = 250;
         public const string NoteMessage = "Note cannot exceed 250 characters.";
+
+        public const int CategoryMin = 3;
+        public const int CategoryMax = 50;
+        public const string CategoryMessage = "Category must be between 3 and 50 characters.";
     }
 }

@@ -5,16 +5,18 @@ Migration
 -----------
 D	- Don't create default insertion script (with only timestamp change) everytime creating a migration. 
 	  It should include only change except default insertion.
-	- After running migration need to call script which will set CreatedOn for Users, Parent and Child Categories table 
+D	- After running migration need to call script which will set CreatedOn for Users, Parent and Child Categories table 
 
 User
 -----------
 D	- In Filter add dropdown for Roles
 D	- Create/Edit function which will return rolles from enums as a dropdown
-	- As of now no field validation add it should be as follow
-		- Name  (max:25)
-		- Email (max:50)
-		- PhoneNumber needs to be added
+D	- As of now no field validation add it should be as follow
+D		- Name  (max:25)
+D		- Email (max:50)
+D		- PhoneNumber needs to be added
+			- Phone number duplicate validation needs to be add
+D		- Gender
 
 
 Filter

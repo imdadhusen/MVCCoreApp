@@ -17,7 +17,9 @@ namespace HisabPro.Entities.SeedData
                 CreatedBy = 1,
                 PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
                 PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",
-                UserRole = (int)UserRoleEnum.Admin
+                UserRole = (int)UserRoleEnum.Admin,
+                Gender = (int)UserGenederEnum.Male,
+                Mobile = "9909544184"
             });
 
             //Seed data for Parent Category
@@ -116,6 +118,15 @@ namespace HisabPro.Entities.SeedData
             new ChildCategory { Id = 73, ParentCategoryId = 16, Name = "Cash", CreatedBy = 1 },
             new ChildCategory { Id = 74, ParentCategoryId = 16, Name = "Online Transfer", CreatedBy = 1 },
             new ChildCategory { Id = 75, ParentCategoryId = 2, Name = "Mall", CreatedBy = 1 });
+        }
+
+        public static void ExecutePostSeedSql(DbContext context)
+        {
+            // Execute the SQL script after the seed
+            context.Database.ExecuteSqlRaw(@"
+            UPDATE [dbo].[Users] SET [CreatedOn]=GETUTCDATE() WHERE [CreatedOn] IS NULL;
+            UPDATE [dbo].[ParentCategories] SET [CreatedOn]=GETUTCDATE() WHERE [CreatedOn] IS NULL;
+            UPDATE [dbo].[ChildCategories] SET [CreatedOn]=GETUTCDATE() WHERE [CreatedOn] IS NULL;");
         }
     }
 }

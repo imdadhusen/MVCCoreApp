@@ -94,6 +94,12 @@ namespace HisabPro.Entities.Models
             }
         }
 
+        // Call this after the context is initialized
+        public void ExecutePostSeedActions()
+        {
+            DatabaseSeeder.ExecutePostSeedSql(this);
+        }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             int currentUserId = _userContext.GetCurrentUserId();

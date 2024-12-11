@@ -60,7 +60,11 @@ public class Program
                     try
                     {
                         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                        // Apply pending migrations
                         context.Database.Migrate();
+
+                        // Execute post-seed actions
+                        context.ExecutePostSeedActions();
                     }
                     catch (Exception ex)
                     {
