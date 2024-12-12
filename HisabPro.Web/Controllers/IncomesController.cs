@@ -104,7 +104,7 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
                     new Column() { Name = "Account", Width = "150px" },
                     new Column() { Name = "Note", IsSortable = false},
-                    new Column() { Name = "IsActive", Width = "90px" },
+                    new Column() { Name = "IsActive", Width = "90px", Type = ColType.Checkbox },
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };

@@ -36,7 +36,23 @@
                     }
                     else
                     {
-                        <td style="@colAlign" @cssName>@value</td>
+                        if (column.Type == HisabPro.Web.ViewModel.Type.Checkbox)
+                        {
+                            <td style="text-align:center">
+                                @if(value is bool booleanValue && booleanValue)
+                                {
+                                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="@colAlign" @cssName>@value</td>
+                        }
                     }
                 }
             }

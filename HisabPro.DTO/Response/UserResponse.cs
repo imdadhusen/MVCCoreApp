@@ -7,6 +7,7 @@ namespace HisabPro.DTO.Response
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Mobile { get; set; }
         public string Email { get; set; }
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         public string UserRoleName { get; set; }

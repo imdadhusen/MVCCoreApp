@@ -43,6 +43,7 @@ D	- Page Textbox to jump on specific page
 D	- Recalculate Page Number, Navigation and Record message when any filter is applied
 D	- Allow enable/disable pagination (configurable)
 D	- Allow enable/disable sorting (configurable)
+D	- Show Active/Inactive icon in grid column for all screens
 
 Wizard
 -----------
@@ -53,7 +54,14 @@ Wizard
 	- Next shouldn't allow multiple times
 
 
-- Need to add Unit Test
+	- Need to add Unit Test
+D	- Roles and Claims
+	- React or Angular for Front End
+D	- Get all records globally except soft deleted (where IsDeleted=false)
+
+
+SETUP
+---------
 - Logging
 	Install following packages
 		dotnet add package Serilog.AspNetCore
@@ -66,8 +74,3 @@ Wizard
 	Install following packages
 		dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 		dotnet add package Microsoft.IdentityModel.Tokens
-- Roles and Claims
-- React or Angular for Front End
-- Get all records globally except soft deleted (where IsDeleted=false)
-
-
