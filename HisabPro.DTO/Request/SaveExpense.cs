@@ -27,5 +27,6 @@ namespace HisabPro.DTO.Request
         public int? ParentCategoryId { get; set; }
         [Display(Name = "Sub Category")]
         public int? ChildCategoryId { get; set; }
+        public bool IsBulkImported { get; set; } = false;
     }
 }

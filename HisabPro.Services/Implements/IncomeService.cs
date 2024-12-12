@@ -42,7 +42,12 @@ namespace HisabPro.Services.Implements
             var pagedData = await PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageData, _mapper);
             return pagedData;
         }
-
+        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncome> incomes)
+        {
+            var map = _mapper.Map<List<Income>>(incomes);
+            var result = await _incomeRepo.AddRangeAsync(map);
+            return new ResponseDTO<DataImportRes>() { Message = AppConst.ApiMessage.DataImportSuccess, Response = new DataImportRes { TotalRecords = result }, StatusCode = System.Net.HttpStatusCode.OK };
+        }
         public async Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req)
         {
             var map = _mapper.Map<Income>(req);

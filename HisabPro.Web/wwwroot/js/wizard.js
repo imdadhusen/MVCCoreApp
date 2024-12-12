@@ -3,6 +3,8 @@
     var actions = ['Upload', 'Extraction', 'Summary'];
     var wizardContent = '#wizard-content';
     var wizardError = '#wizard-error';
+    let url = window.location.href;
+    let actionName = url.substring(url.lastIndexOf('/') + 1);
 
     function loadStep() {
         if (currentStep == 2) {
@@ -12,13 +14,28 @@
             step2PerformDataValidation();
         }
         else {
+            toggleLoading();
             loadUI(actions[currentStep - 1]);
         }
     }
 
     function loadUI(action) {
-        $(wizardContent).load(`/Import/${action}`, function () {
-            updateStepUI(currentStep);
+        $(wizardContent).load(`/Import/${action}`, function (response, status, xhr) {
+            if (status === "error") {
+                showError(Wizard.Extraction.Error);
+            } else {
+                updateStepUI(currentStep);
+            }
+            if (currentStep == 3) {
+                var verifyData = $('#dataList');
+                if (actionName.toUpperCase() == "EXPENSE") {
+                    verifyData.attr('href', '/Expenses/Index');
+                }
+                else {
+                    verifyData.attr('href', '/Income/Index');
+                }
+            }
+            toggleLoading();
         });
     }
 
@@ -63,6 +80,7 @@
         // Check if a file is selected
         if (!file) {
             showError(Wizard.FileUpload.NoFile)
+            currentStep = 1;
         }
         else {
             // Create a FormData object to hold the file
@@ -70,6 +88,7 @@
             formData.append("file", file);
 
             var urlUpload = '/Import/savefile';
+            toggleLoading();
             ajax.upload(urlUpload, formData, saveFileSuccess, saveFileError);
         }
     }
@@ -80,8 +99,8 @@
         const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
         loadUI(action);
     }
-
     function saveFileError(error) {
+        toggleLoading();
         var errorMessage = error.responseJSON ? error.responseJSON.message : Wizard.FileUpload.Error;
         showError(errorMessage);
     }
@@ -99,19 +118,32 @@
 
                 // Construct an object for the current row
                 let rowData = {
-                    ExpenseOn: row.find('input[name*="Date"]').val(),
                     Title: row.find('input[name*="Description"]').val(),
                     Note: row.find('input[name*="Note"]').val(),
                     Amount: parseInt(row.find('input[name*="Amount"]').val()) || 0,
                     ParentCategoryId: row.find('select[name*="Category"]').val(),
                     ChildCategoryId: row.find('select[name*="SubCategory"]').val(),
-                    AccountId: row.find('select[name*="Person"]').val()
+                    AccountId: row.find('select[name*="Person"]').val(),
+                    IsBulkImported: true,
+                    IsActive: true
                 };
+
+                if (actionName.toUpperCase() == "EXPENSE") {
+                    rowData.ExpenseOn = row.find('input[name*="Date"]').val();
+                }
+                else {
+                    rowData.IncomeOn = row.find('input[name*="Date"]').val();
+                }
+
                 tableData.push(rowData);
             });
 
-            var urlSave = '/Import/SaveTableData';
-            ajax.post(urlSave, tableData, saveSuccess);
+            var urlSave = '/Import/SaveIncomes';
+            if (actionName.toUpperCase() == "EXPENSE") {
+                urlSave = '/Import/SaveExpenses';
+            }
+            toggleLoading();
+            ajax.post(urlSave, tableData, saveSuccess, null, saveError);
         }
         else {
             //Don't allow to show next step until all errors are not resolved
@@ -124,6 +156,13 @@
             const action = `${actions[currentStep - 1]}?totalRecords=${res.response.totalRecords}&totalSeconds=${res.response.totalTimeTaken}`;
             loadUI(action);
         }
+    }
+    function saveError() {
+        toggleLoading();
+    }
+
+    function toggleLoading() {
+        $(".wizard-loading").toggle();
     }
     // Initialize by loading the first step
     loadStep();

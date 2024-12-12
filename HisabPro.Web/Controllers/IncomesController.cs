@@ -48,6 +48,10 @@ namespace HisabPro.Web.Controllers
                 new FilterModel<bool> {
                     FieldName = "IsActive",
                     FieldTitle="Is Active"
+                },
+                new FilterModel<bool> {
+                    FieldName = "IsBulkImported",
+                    FieldTitle="Bulk Imported"
                 }
             };
 
@@ -104,6 +108,7 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "Account", Width = "150px" },
                     new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "IsActive", Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "IsBulkImported", Title="Imported", Width = "90px", Type = ColType.Checkbox },
                     new Column() { Name = "Note", IsSortable = false},
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }

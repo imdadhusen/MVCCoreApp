@@ -48,7 +48,6 @@
     margin: 5px 0px 10px 0px; /* Margin to separate it from the steps */
     font-size: 14px;
     border-radius: 4px; /* Rounded corners */
-    font-weight: bold; /* Bold text for emphasis */
     text-align: center; /* Centered text for readability */
 }
 #wizard-error.visible {

@@ -1,10 +1,9 @@
-﻿---------------
---- T A S K ---
----------------
+﻿-------------
+- T A S K S -
+-------------
 Migration
 -----------
-D	- Don't create default insertion script (with only timestamp change) everytime creating a migration. 
-	  It should include only change except default insertion.
+D	- Don't create default insertion script (with only timestamp change) everytime creating a migration. It should include only change except default insertion.
 D	- After running migration need to call script which will set CreatedOn for Users, Parent and Child Categories table 
 
 User
@@ -17,7 +16,6 @@ D		- Email (max:50)
 D		- PhoneNumber needs to be added
 			- Phone number duplicate validation needs to be add
 D		- Gender
-
 
 Filter
 -----------
@@ -47,21 +45,36 @@ D	- Show Active/Inactive icon in grid column for all screens
 
 Wizard
 -----------
-	- Check all validation or failure steps to show appropriate message on the wizard error area
+D	- Check all validation or failure steps to show appropriate message on the wizard error area
 	- Styling required for summary (step-3)
-	- Loading Indication
-	- Prev Button Disable for all steps
-	- Next shouldn't allow multiple times
+D	- Loading Indication
+D	- No Button display for last step
+D	- Next shouldn't allow multiple times
+D	- Set Layout as per the other Edit screens
+D	- Add field (IsBulkImported) to identify it is inserted single or bulk for Income & Expense
+D	- Also add field in Filter to get only Bulk imported or individual inserted for Income & Expense
+	- Auto Correct needs to be added for Category & SubCategory if missing
+D	- New feature for Import Incomes (same as expense)
+D	- Generic component for Import (Income & Expense)
 
+Category
+-----------
+	- Use single table to handle Category and Subcategory
+	- In single table category having flag which indicates it's for Income or Expense
+	- Also add columns in Income for Category and Subcategory
+	
 
+O T H E R
+-------------
 	- Need to add Unit Test
 D	- Roles and Claims
 	- React or Angular for Front End
 D	- Get all records globally except soft deleted (where IsDeleted=false)
 
 
-SETUP
----------
+-------------
+- S E T U P -
+-------------
 - Logging
 	Install following packages
 		dotnet add package Serilog.AspNetCore
