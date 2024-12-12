@@ -12,13 +12,19 @@
             step2PerformDataValidation();
         }
         else {
+            toggleLoading();
             loadUI(actions[currentStep - 1]);
         }
     }
 
     function loadUI(action) {
-        $(wizardContent).load(`/Import/${action}`, function () {
-            updateStepUI(currentStep);
+        $(wizardContent).load(`/Import/${action}`, function (response, status, xhr) {
+            if (status === "error") {
+                showError(Wizard.Extraction.Error);
+            } else {
+                updateStepUI(currentStep);
+            }
+            toggleLoading();
         });
     }
 
@@ -63,6 +69,7 @@
         // Check if a file is selected
         if (!file) {
             showError(Wizard.FileUpload.NoFile)
+            currentStep = 1;
         }
         else {
             // Create a FormData object to hold the file
@@ -70,6 +77,7 @@
             formData.append("file", file);
 
             var urlUpload = '/Import/savefile';
+            toggleLoading();
             ajax.upload(urlUpload, formData, saveFileSuccess, saveFileError);
         }
     }
@@ -80,8 +88,8 @@
         const action = `${actions[currentStep - 1]}?filename=${encodedFilename}`;
         loadUI(action);
     }
-
     function saveFileError(error) {
+        toggleLoading();
         var errorMessage = error.responseJSON ? error.responseJSON.message : Wizard.FileUpload.Error;
         showError(errorMessage);
     }
@@ -111,7 +119,8 @@
             });
 
             var urlSave = '/Import/SaveTableData';
-            ajax.post(urlSave, tableData, saveSuccess);
+            toggleLoading();
+            ajax.post(urlSave, tableData, saveSuccess, null, saveError);
         }
         else {
             //Don't allow to show next step until all errors are not resolved
@@ -124,6 +133,13 @@
             const action = `${actions[currentStep - 1]}?totalRecords=${res.response.totalRecords}&totalSeconds=${res.response.totalTimeTaken}`;
             loadUI(action);
         }
+    }
+    function saveError() {
+        toggleLoading();
+    }
+
+    function toggleLoading() {
+        $(".wizard-loading").toggle();
     }
     // Initialize by loading the first step
     loadStep();

@@ -1,7 +1,10 @@
 ﻿var Wizard = {
     FileUpload: {
-        NoFile: 'Please select a file to upload before proceeding to the next step.',
+        NoFile: 'Please select a file to upload before proceeding to the next step',
         Error: 'An error occurred during file upload'
+    },
+    Extraction: {
+        Error: 'An error occurred while extracting the file data'
     },
     AutoCorrect: {
         Date: {
