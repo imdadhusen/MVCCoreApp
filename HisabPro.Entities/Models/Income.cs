@@ -18,7 +18,7 @@ namespace HisabPro.Entities.Models
         [Range(0, int.MaxValue, ErrorMessage = FieldsSizeCommonConst.NumberMessage)]
         public double Amount { get; set; }
         [StringLength(FieldsSizeCommonConst.NoteMax, ErrorMessage = FieldsSizeCommonConst.NoteMessage)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
