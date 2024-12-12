@@ -32,5 +32,7 @@ namespace HisabPro.Entities.Models
         [ForeignKey("AccountId")]
         public Account Account { get; set; }
         public int AccountId { get; set; }
+
+        public bool IsBulkImported { get; set; } = false;
     }
 }

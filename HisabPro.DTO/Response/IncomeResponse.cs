@@ -13,5 +13,6 @@ namespace HisabPro.DTO.Response
         public string Note { get; set; }
         public bool IsActive { get; set; }
         public string Account { get; set; }
+        public bool IsBulkImported { get; set; }
     }
 }

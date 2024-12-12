@@ -113,7 +113,8 @@
                     Amount: parseInt(row.find('input[name*="Amount"]').val()) || 0,
                     ParentCategoryId: row.find('select[name*="Category"]').val(),
                     ChildCategoryId: row.find('select[name*="SubCategory"]').val(),
-                    AccountId: row.find('select[name*="Person"]').val()
+                    AccountId: row.find('select[name*="Person"]').val(),
+                    IsBulkImported: true
                 };
                 tableData.push(rowData);
             });

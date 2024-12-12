@@ -16,5 +16,6 @@ namespace HisabPro.DTO.Response
         public string Account { get; set; }
         public string ParentCategory { get; set; }
         public string ChildCategory { get; set; }
+        public bool IsBulkImported { get; set; }
     }
 }

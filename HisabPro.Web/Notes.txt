@@ -51,6 +51,17 @@ D	- Loading Indication
 D	- No Button display for last step
 D	- Next shouldn't allow multiple times
 D	- Set Layout as per the other Edit screens
+D	- Add field (IsBulkImported) to identify it is inserted single or bulk for Income & Expense
+D	- Also add field in Filter to get only Bulk imported or individual inserted for Income & Expense
+	- New feature for Import Incomes (same as expense)
+	- Generic component for Import (Income & Expense)
+
+Category
+-----------
+	- Use single table to handle Category and Subcategory
+	- In single table category having flag which indicates it's for Income or Expense
+	- Also add columns in Income for Category and Subcategory
+	
 
 O T H E R
 -------------

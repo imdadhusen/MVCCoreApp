@@ -23,5 +23,6 @@ namespace HisabPro.DTO.Request
 
         [Display(Name = "Account")]
         public int? AccountId { get; set; }
+        public bool IsBulkImported { get; set; } = false;
     }
 }
