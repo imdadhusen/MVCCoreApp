@@ -3,6 +3,8 @@
     var actions = ['Upload', 'Extraction', 'Summary'];
     var wizardContent = '#wizard-content';
     var wizardError = '#wizard-error';
+    let url = window.location.href;
+    let actionName = url.substring(url.lastIndexOf('/') + 1);
 
     function loadStep() {
         if (currentStep == 2) {
@@ -23,6 +25,15 @@
                 showError(Wizard.Extraction.Error);
             } else {
                 updateStepUI(currentStep);
+            }
+            if (currentStep == 3) {
+                var verifyData = $('#dataList');
+                if (actionName.toUpperCase() == "EXPENSE") {
+                    verifyData.attr('href', '/Expenses/Index');
+                }
+                else {
+                    verifyData.attr('href', '/Income/Index');
+                }
             }
             toggleLoading();
         });
@@ -107,19 +118,30 @@
 
                 // Construct an object for the current row
                 let rowData = {
-                    ExpenseOn: row.find('input[name*="Date"]').val(),
                     Title: row.find('input[name*="Description"]').val(),
                     Note: row.find('input[name*="Note"]').val(),
                     Amount: parseInt(row.find('input[name*="Amount"]').val()) || 0,
                     ParentCategoryId: row.find('select[name*="Category"]').val(),
                     ChildCategoryId: row.find('select[name*="SubCategory"]').val(),
                     AccountId: row.find('select[name*="Person"]').val(),
-                    IsBulkImported: true
+                    IsBulkImported: true,
+                    IsActive: true
                 };
+
+                if (actionName.toUpperCase() == "EXPENSE") {
+                    rowData.ExpenseOn = row.find('input[name*="Date"]').val();
+                }
+                else {
+                    rowData.IncomeOn = row.find('input[name*="Date"]').val();
+                }
+
                 tableData.push(rowData);
             });
 
-            var urlSave = '/Import/SaveTableData';
+            var urlSave = '/Import/SaveIncomes';
+            if (actionName.toUpperCase() == "EXPENSE") {
+                urlSave = '/Import/SaveExpenses';
+            }
             toggleLoading();
             ajax.post(urlSave, tableData, saveSuccess, null, saveError);
         }

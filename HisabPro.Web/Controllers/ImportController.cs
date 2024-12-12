@@ -21,12 +21,14 @@ namespace HisabPro.Web.Controllers
         private readonly IAccountService _accountService;
         private readonly ICategoryService _categoryService;
         private readonly IExpenseService _expenseService;
+        private readonly IIncomeService _incomeService;
 
-        public ImportController(IAccountService accountService, ICategoryService categoryService, IExpenseService expenseService)
+        public ImportController(IAccountService accountService, ICategoryService categoryService, IExpenseService expenseService, IIncomeService incomeService)
         {
             _accountService = accountService;
             _categoryService = categoryService;
             _expenseService = expenseService;
+            _incomeService = incomeService;
         }
 
         public async Task<ActionResult> Expense()
@@ -36,8 +38,10 @@ namespace HisabPro.Web.Controllers
             return View();
         }
 
-        public ActionResult Income()
+        public async Task<ActionResult> Income()
         {
+            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
             return View();
         }
 
@@ -127,12 +131,24 @@ namespace HisabPro.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveTableData([FromBody] List<SaveExpense> saveDataModels)
+        public async Task<IActionResult> SaveExpenses([FromBody] List<SaveExpense> expenses)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var response = await _expenseService.AddRangeAsync(saveDataModels);
+            var response = await _expenseService.AddRangeAsync(expenses);
+            stopwatch.Stop();
+
+            response.Response.TotalTimeTaken = stopwatch.Elapsed.Seconds;
+            return StatusCode((int)response.StatusCode, response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveIncomes([FromBody] List<SaveIncome> incomes)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var response = await _incomeService.AddRangeAsync(incomes);
             stopwatch.Stop();
 
             response.Response.TotalTimeTaken = stopwatch.Elapsed.Seconds;

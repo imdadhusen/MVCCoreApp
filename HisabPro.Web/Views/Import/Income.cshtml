@@ -1,6 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Income";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Import/_WizardLayout.cshtml";
+    ViewData["Title"] = "Import Incomes";
+    ViewData["SectionHeader"] = "Import Incomes Wizard";
+    ViewData["CardTitle"] = "Incomes";
 }
-<h4>Import Income</h4>
-<hr />
+
+@section BodyInfo {
+    <p class="text-muted mb-0">
+        <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
+        If you would like to add multiple expenses from the Excel file,
+        you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
+        You can get more details <a asp-controller="Import" asp-action="Expense">here</a>.
+    </p>
+}

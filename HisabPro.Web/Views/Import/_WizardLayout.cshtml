@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h4 text-primary">@ViewData["SectionHeader"]</h1>
+        @RenderSection("BodyInfo", required: false)
+    </div>
+</div>
+
+<div class="card mb-1">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-receipt me-2"></i>
+            <h5 class="mb-0 p-2">@ViewData["CardTitle"]</h5>
+        </div>
+    </div>
+    <div class="grid-filter-body card-body" style="position:relative">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="step-wizard">
+                        <div class="step active" data-step="1">
+                            Import Data File
+                            <div class="step-indicator"></div>
+                        </div>
+                        <div class="step" data-step="2">
+                            Extraction & Validation
+                            <div class="step-indicator"></div>
+                        </div>
+                        <div class="step" data-step="3">
+                            Import Summary
+                            <div class="step-indicator"></div>
+                        </div>
+                    </div>
+                    <div id="wizard-error">
+                        An error occurred. Please fix the highlighted fields.
+                    </div>
+                    <div id="wizard-content">
+                        <!-- Step content will be loaded here -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="wizard-loading loading" style="display:none">
+            Loading, please wait...
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        // Parse the JSON data for child categories in Wizard step-2
+        const allChildCategories = @Html.Raw(ViewData["ChildCategories"]);
+    </script>
+}

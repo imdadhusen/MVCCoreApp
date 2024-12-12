@@ -53,8 +53,9 @@ D	- Next shouldn't allow multiple times
 D	- Set Layout as per the other Edit screens
 D	- Add field (IsBulkImported) to identify it is inserted single or bulk for Income & Expense
 D	- Also add field in Filter to get only Bulk imported or individual inserted for Income & Expense
-	- New feature for Import Incomes (same as expense)
-	- Generic component for Import (Income & Expense)
+	- Auto Correct needs to be added for Category & SubCategory if missing
+D	- New feature for Import Incomes (same as expense)
+D	- Generic component for Import (Income & Expense)
 
 Category
 -----------
