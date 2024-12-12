@@ -4,6 +4,7 @@ using HisabPro.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HisabPro.Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241210051410_UserAddedMobileAndValidation")]
+    partial class UserAddedMobileAndValidation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FullName")
@@ -48,6 +51,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -82,7 +86,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -101,8 +105,7 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParentCategoryId")
                         .HasColumnType("int");
@@ -122,6 +125,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9256),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mobile",
@@ -131,6 +135,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 2,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9260),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Watch",
@@ -140,6 +145,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 3,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9262),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Electric",
@@ -149,6 +155,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 4,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9264),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Maintenance",
@@ -158,6 +165,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 5,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9266),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Property Tax",
@@ -167,6 +175,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 6,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9267),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Kitchen",
@@ -176,6 +185,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 7,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9269),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Bathroom",
@@ -185,6 +195,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 8,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9270),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Rooms",
@@ -194,6 +205,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 9,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9272),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Bread",
@@ -203,6 +215,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 10,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9273),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Milk",
@@ -212,6 +225,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 11,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9275),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Buttermilk",
@@ -221,6 +235,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 12,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9276),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Curd",
@@ -230,6 +245,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 13,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9278),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Juice",
@@ -239,6 +255,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 14,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9280),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Coldrink",
@@ -248,6 +265,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 15,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9281),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Icecreame",
@@ -257,6 +275,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 16,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9282),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Egg",
@@ -266,6 +285,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 17,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9284),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Pulses (Kathol)",
@@ -275,6 +295,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 18,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9285),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Dalaman",
@@ -284,6 +305,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 19,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9286),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Lunch",
@@ -293,6 +315,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 20,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9288),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Dinner",
@@ -302,6 +325,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 21,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9289),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Parcel",
@@ -311,6 +335,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 22,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9291),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Nasto",
@@ -320,6 +345,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 23,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9293),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Vegitables",
@@ -329,6 +355,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 24,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9294),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Masala",
@@ -338,6 +365,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 25,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9296),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fruits",
@@ -347,6 +375,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 26,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9297),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fish",
@@ -356,6 +385,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 27,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9299),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mango",
@@ -365,6 +395,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 28,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9300),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Sweets",
@@ -374,6 +405,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 29,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9302),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Chicken",
@@ -383,6 +415,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 30,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9304),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Oil",
@@ -392,6 +425,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 31,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9305),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Bakery Items",
@@ -401,6 +435,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 32,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9401),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mutton",
@@ -410,6 +445,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 33,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9404),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Dr Visit (Appointment)",
@@ -419,6 +455,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 34,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9406),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Reports",
@@ -428,6 +465,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 35,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9407),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Toothpaste",
@@ -437,6 +475,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 36,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9408),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Medicine",
@@ -446,6 +485,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 37,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9410),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Sadaka",
@@ -455,6 +495,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 38,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9412),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Saiyad Saheb",
@@ -464,6 +505,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 39,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9414),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Donation",
@@ -473,6 +515,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 40,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9415),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Molvi Saheb",
@@ -482,6 +525,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 41,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9416),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mujawar",
@@ -491,6 +535,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 42,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9418),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Dargah",
@@ -500,6 +545,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 43,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9419),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Nyaz",
@@ -509,6 +555,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 44,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9421),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Help",
@@ -518,6 +565,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 45,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9422),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Imam Bargah",
@@ -527,6 +575,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 46,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9424),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Masjid",
@@ -536,6 +585,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 47,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9426),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Zakat & Khums",
@@ -545,6 +595,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 48,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9428),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Watchman",
@@ -554,6 +605,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 49,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9429),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Personal Expense",
@@ -563,6 +615,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 50,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9431),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mobile Recharge",
@@ -572,6 +625,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 51,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9432),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fast Tag",
@@ -581,6 +635,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 52,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9434),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fees",
@@ -590,6 +645,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 53,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9435),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Tution",
@@ -599,6 +655,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 54,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9437),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Stationary",
@@ -608,6 +665,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 55,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9438),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Text Books",
@@ -617,6 +675,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 56,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9439),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Note Books",
@@ -626,6 +685,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 57,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9441),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "School Dress",
@@ -635,6 +695,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 58,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9442),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Hotel",
@@ -644,6 +705,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 59,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9443),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Picnic",
@@ -653,6 +715,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 60,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9445),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Tour",
@@ -662,6 +725,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 61,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9446),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Cloths",
@@ -671,6 +735,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 62,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9447),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Life Insurance",
@@ -680,6 +745,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 63,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9449),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Islamic",
@@ -689,6 +755,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 64,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9450),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Gift",
@@ -698,6 +765,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 65,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9452),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Hair Cut",
@@ -707,6 +775,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 66,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9453),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Transportation",
@@ -716,6 +785,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 67,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9455),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Beauty",
@@ -725,6 +795,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 68,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9456),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Shooe",
@@ -734,6 +805,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 69,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9457),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Diaper",
@@ -743,6 +815,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 70,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9459),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Petrol",
@@ -752,6 +825,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 71,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9460),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "GAS",
@@ -761,6 +835,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 72,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9462),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "CAR",
@@ -770,6 +845,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 73,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9463),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Cash",
@@ -779,6 +855,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 74,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9464),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Online Transfer",
@@ -788,6 +865,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 75,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9466),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Mall",
@@ -815,7 +893,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ExpenseOn")
@@ -834,6 +912,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -877,7 +956,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("IncomeOn")
@@ -896,6 +975,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -926,7 +1006,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -945,8 +1025,7 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -961,6 +1040,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9152),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "House Hold Items"
@@ -969,6 +1049,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 2,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9159),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Offline Shopping"
@@ -977,6 +1058,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 3,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9161),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Online Shopping"
@@ -985,6 +1067,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 4,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9163),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Bills"
@@ -993,6 +1076,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 5,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9165),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Insurance"
@@ -1001,6 +1085,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 6,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9166),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Education"
@@ -1009,6 +1094,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 7,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9168),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Vehical Service"
@@ -1017,6 +1103,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 8,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9170),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Fuel"
@@ -1025,6 +1112,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 9,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9172),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Donation"
@@ -1033,6 +1121,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 10,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9173),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Food"
@@ -1041,6 +1130,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 11,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9175),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Doctor"
@@ -1049,6 +1139,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 12,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9177),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Personal Care"
@@ -1057,6 +1148,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 13,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9179),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Recharge"
@@ -1065,6 +1157,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 14,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9180),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Tour (Picnic)"
@@ -1073,6 +1166,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 15,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9182),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Personal"
@@ -1081,6 +1175,7 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 16,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(9183),
                             IsActive = true,
                             IsDeleted = false,
                             Name = "Investment"
@@ -1098,7 +1193,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -1108,9 +1203,6 @@ namespace HisabPro.Entities.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -1118,7 +1210,6 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -1135,13 +1226,11 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordSalt")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
@@ -1159,11 +1248,10 @@ namespace HisabPro.Entities.Migrations
                         {
                             Id = 1,
                             CreatedBy = 1,
+                            CreatedOn = new DateTime(2024, 12, 10, 5, 14, 7, 57, DateTimeKind.Utc).AddTicks(8604),
                             Email = "Imdadhusen.sunasara@gmail.com",
-                            Gender = 1,
                             IsActive = true,
                             IsDeleted = false,
-                            Mobile = "9909544184",
                             Name = "Imdadhusen",
                             PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
                             PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",

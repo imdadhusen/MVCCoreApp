@@ -1,6 +1,24 @@
 ﻿---------------
 --- T A S K ---
 ---------------
+Migration
+-----------
+D	- Don't create default insertion script (with only timestamp change) everytime creating a migration. 
+	  It should include only change except default insertion.
+D	- After running migration need to call script which will set CreatedOn for Users, Parent and Child Categories table 
+
+User
+-----------
+D	- In Filter add dropdown for Roles
+D	- Create/Edit function which will return rolles from enums as a dropdown
+D	- As of now no field validation add it should be as follow
+D		- Name  (max:25)
+D		- Email (max:50)
+D		- PhoneNumber needs to be added
+			- Phone number duplicate validation needs to be add
+D		- Gender
+
+
 Filter
 -----------
 D	- Generic filter component
@@ -25,6 +43,7 @@ D	- Page Textbox to jump on specific page
 D	- Recalculate Page Number, Navigation and Record message when any filter is applied
 D	- Allow enable/disable pagination (configurable)
 D	- Allow enable/disable sorting (configurable)
+D	- Show Active/Inactive icon in grid column for all screens
 
 Wizard
 -----------
@@ -35,7 +54,14 @@ Wizard
 	- Next shouldn't allow multiple times
 
 
-- Need to add Unit Test
+	- Need to add Unit Test
+D	- Roles and Claims
+	- React or Angular for Front End
+D	- Get all records globally except soft deleted (where IsDeleted=false)
+
+
+SETUP
+---------
 - Logging
 	Install following packages
 		dotnet add package Serilog.AspNetCore
@@ -48,8 +74,3 @@ Wizard
 	Install following packages
 		dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 		dotnet add package Microsoft.IdentityModel.Tokens
-- Roles and Claims
-- React or Angular for Front End
-- Get all records globally except soft deleted (where IsDeleted=false)
-
-

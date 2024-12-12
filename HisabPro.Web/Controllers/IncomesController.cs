@@ -100,11 +100,11 @@ namespace HisabPro.Web.Controllers
         {
             var columns = new List<Column> {
                     new Column() { Name = "Title", Width = "170px"  },
-                    new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
                     new Column() { Name = "Account", Width = "150px" },
+                    new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
+                    new Column() { Name = "IsActive", Width = "90px", Type = ColType.Checkbox },
                     new Column() { Name = "Note", IsSortable = false},
-                    new Column() { Name = "IsActive", Width = "90px" },
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };

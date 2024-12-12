@@ -47,6 +47,7 @@ namespace HisabPro
             services.AddScoped(typeof(UpdateRepository<,>));
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<ICategoryService, CategoryService>();

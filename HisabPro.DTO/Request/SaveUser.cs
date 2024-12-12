@@ -1,14 +1,11 @@
 ﻿using HisabPro.Constants;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HisabPro.Entities.Models
+namespace HisabPro.DTO.Request
 {
-    public class User : AuditableEntity
+    public class SaveUser
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int? Id { get; set; }
         [Required]
         [StringLength(FieldsSizeConst.User.NameMax, MinimumLength = FieldsSizeConst.User.NameMin, ErrorMessage = FieldsSizeConst.User.NameMessage)]
         public string Name { get; set; }
@@ -20,12 +17,6 @@ namespace HisabPro.Entities.Models
         [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessage = FieldsSizeCommonConst.Mobile.Message)]
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
         public string Mobile { get; set; }
-        [Required]
-        [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordHash { get; set; }
-        [Required]
-        [StringLength(FieldsSizeConst.User.PasswordSaltMax, MinimumLength = FieldsSizeConst.User.PasswordSaltMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordSalt { get; set; }
         [Required]
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         [Required]

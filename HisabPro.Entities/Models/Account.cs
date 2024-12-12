@@ -16,7 +16,7 @@ namespace HisabPro.Entities.Models
         public string FullName { get; set; }
         [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessage = FieldsSizeCommonConst.Mobile.Message)]
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
-        public string Mobile { get; set; }
+        public string? Mobile { get; set; }
 
         public ICollection<Income> Incomes { get; set; }
         public ICollection<Expense> Expenses { get; set; }

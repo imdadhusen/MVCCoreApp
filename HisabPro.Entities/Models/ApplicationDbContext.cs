@@ -40,16 +40,16 @@ namespace HisabPro.Entities.Models
             // Configure self-referencing relationships in the User entity
             modelBuilder.Entity<User>().HasOne(u => u.Creator).WithMany().HasForeignKey(u => u.CreatedBy).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>().HasOne(u => u.Modifier).WithMany().HasForeignKey(u => u.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<User>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<User>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
 
             modelBuilder.Entity<ParentCategory>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(c => c.ParentCategoryId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ParentCategory>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ParentCategory>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<ParentCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
 
             modelBuilder.Entity<ChildCategory>().HasOne(c => c.Creator).WithMany().HasForeignKey(c => c.CreatedBy).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<ChildCategory>().HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<ChildCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
 
             // Configure relationship for Account - Income and Expense
             modelBuilder.Entity<Account>().HasMany(e => e.Incomes).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
@@ -92,6 +92,12 @@ namespace HisabPro.Entities.Models
                     }
                 }
             }
+        }
+
+        // Call this after the context is initialized
+        public void ExecutePostSeedActions()
+        {
+            DatabaseSeeder.ExecutePostSeedSql(this);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

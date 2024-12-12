@@ -4,6 +4,7 @@ using HisabPro.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HisabPro.Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241210063914_AddedUserGender")]
+    partial class AddedUserGender
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,6 +51,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -101,8 +105,7 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParentCategoryId")
                         .HasColumnType("int");
@@ -834,6 +837,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -896,6 +900,7 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -945,8 +950,7 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1118,7 +1122,6 @@ namespace HisabPro.Entities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Mobile")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -1163,7 +1166,6 @@ namespace HisabPro.Entities.Migrations
                             Gender = 1,
                             IsActive = true,
                             IsDeleted = false,
-                            Mobile = "9909544184",
                             Name = "Imdadhusen",
                             PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
                             PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",

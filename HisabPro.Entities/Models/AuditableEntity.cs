@@ -6,7 +6,7 @@ namespace HisabPro.Entities.Models
 {
     public abstract class AuditableEntity : IAuditableEntity
     {
-        public DateTime CreatedOn { get; set; } = DateHelper.GetUTC;
+        public DateTime? CreatedOn { get; set; } //= DateHelper.GetUTC;
         public int CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
         public User Creator { get; set; }

@@ -39,11 +39,7 @@ namespace HisabPro.Web.Controllers
                     FieldTitle="Is Active"
                 }
             };
-            var req = new LoadDataRequest()
-            {
-                PageData = new PageDataReq() { PageNumber = 1, PageSize = 10 },
-                Filters = filters
-            };
+            var req = new LoadDataRequest() { Filters = filters };
             var model = await LoadGridData(req, true);
             return View(model);
         }
@@ -90,7 +86,7 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "Name", Width = "140px"  },
                     new Column() { Name = "FullName", Title = "Full Name"},
                     new Column() { Name = "Mobile", Width="120px" },
-                    new Column() { Name = "IsActive", Title = "Active", Width="90px" },
+                    new Column() { Name = "IsActive", Title = "Active", Width="90px", Type = ColType.Checkbox },
                     new Column() { Name = "CreatedBy", Title = "Created By", Width= "170px" },
                     new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
