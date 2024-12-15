@@ -1,0 +1,90 @@
+﻿@model IEnumerable<HisabPro.DTO.Response.CategoryRes>
+
+@foreach (var item in Model)
+{
+    <tr id="row_@item.Id" style="background-color:#F0F0F0; font-weight:500">
+        <td>@item.Name</td>
+        <td>@item.Type</td>
+        <td style="text-align:center">
+            @if (item.IsStandard)
+            {
+                <i class="bi bi-check-circle text-success" title="Yes"></i>
+            }
+            else
+            {
+                <i class="bi bi-x-circle text-danger" title="No"></i>
+            }
+        </td>
+        <td style="text-align:center">
+            @if (item.IsActive)
+            {
+                <i class="bi bi-check-circle text-success" title="Yes"></i>
+            }
+            else
+            {
+                <i class="bi bi-x-circle text-danger" title="No"></i>
+            }
+        </td>
+        <td>@item.CreatedOn.ToString("dd-MM-yyyy")</td>
+        <td style="text-align:center">
+            @if (!item.IsStandard)
+            {
+                <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@item.Id">
+                    <i class="bi bi-pencil-fill"></i>
+                </button>
+            }
+        </td>
+        <td style="text-align:center">
+            @if (!item.IsStandard)
+            {
+                <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@@item.Id">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+            }
+        </td>
+    </tr>
+    @foreach (var child in item.SubCategories)
+    {
+        <tr class="row_@child.ParentId">
+            <td style="padding-left:30px;">@child.Name</td>
+            <td style="color:lightgray">@item.Type</td>
+            <td style="text-align:center">
+                @if (child.IsStandard)
+                {
+                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                }
+                else
+                {
+                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                }
+            </td>
+            <td style="text-align:center">
+                @if (child.IsActive)
+                {
+                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                }
+                else
+                {
+                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                }
+            </td>
+            <td>@child.CreatedOn.ToString("dd-MM-yyyy")</td>
+            <td style="text-align:center">
+                @if (!item.IsStandard)
+                {
+                    <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@child.Id">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                }
+            </td>
+            <td style="text-align:center">
+                @if (!item.IsStandard)
+                {
+                    <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@child.Id">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                }
+            </td>
+        </tr>
+    }
+}

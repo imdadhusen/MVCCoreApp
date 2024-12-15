@@ -9,6 +9,8 @@ namespace HisabPro.Repository.Interfaces
         Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children);
         IQueryable<T> GetPageDataWithChildrenAsync(params string[] children);
 
+        IQueryable<T> GetAllDataWithSelfRefAsync(Expression<Func<T, bool>> filter, params string[] children);
+
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name);
         Task<bool> ExistsAsync(string name, int? id = null); // Optional id for edit

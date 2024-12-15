@@ -34,5 +34,25 @@ namespace HisabPro.Web.Helper
 
             return model;
         }
+
+        public static async Task<GridViewModel<T>> LoadGridDataStrongType<T>(LoadDataRequest req, bool firstTimeLoad, Func<LoadDataRequest, Task<PageDataRes<T>>> fetchPageData, List<Column> columns)
+        {
+            var model = new GridViewModel<T>
+            {
+                SortBy = req.PageData?.SortBy,
+                SortDirection = req.PageData?.SortDirection,
+                Columns = columns
+            };
+
+            if (firstTimeLoad)
+            {
+                model.Filters = req.Filters;
+                req.Filters = null;
+            }
+
+            var pageData = await fetchPageData(req);
+            model.Data = pageData.Data;
+            return model;
+        }
     }
 }

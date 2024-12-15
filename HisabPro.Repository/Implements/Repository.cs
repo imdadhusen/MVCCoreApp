@@ -46,6 +46,15 @@ namespace HisabPro.Repository.Implements
             }
             return query.AsQueryable();
         }
+        public IQueryable<T> GetAllDataWithSelfRefAsync(Expression<Func<T, bool>> filter, params string[] children)
+        {
+            IQueryable<T> query = _dbSet;
+            foreach (var child in children)
+            {
+                query = query.Include(child).Where(filter);
+            }
+            return query.AsQueryable();
+        }
 
         public async Task<T> GetByIdAsync(int id)
         {
