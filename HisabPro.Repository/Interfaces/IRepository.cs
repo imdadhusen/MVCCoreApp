@@ -4,6 +4,7 @@ namespace HisabPro.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {
+        IQueryable<T> GetAll();
         Task<List<T>> GetAllAsync();
         Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector);
         Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children);

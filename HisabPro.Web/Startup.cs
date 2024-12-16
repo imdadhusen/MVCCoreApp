@@ -95,6 +95,8 @@ namespace HisabPro
             //});
             services.AddAuthorization(options =>
             {
+                // Require 'SuperAdmin' role for this policy
+                options.AddPolicy(AuthorizePolicy.RequiredRoleSuperAdmin, policy => policy.RequireRole(AuthorizePolicy.NameRoleSuperAdmin));
                 // Require 'Admin' role for this policy
                 options.AddPolicy(AuthorizePolicy.RequiredRoleAdmin, policy => policy.RequireRole(AuthorizePolicy.NameRoleAdmin));
                 // Require 'User' role for this policy

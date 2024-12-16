@@ -9,6 +9,7 @@ using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ColType = HisabPro.Web.ViewModel.Type;
 
 namespace HisabPro.Web.Controllers
@@ -54,8 +55,27 @@ namespace HisabPro.Web.Controllers
             return PartialView("_GridBody", model.Data);
         }
 
+        public async Task<IActionResult> Save(int? id)
+        {
+            if (id != null)
+            {
+                var model = await _categoryService.GetByIdAsync(id.Value);
+                SelectList? categoryList = null;
+                if (model.ParentId.HasValue)
+                {
+                    var categories = await _categoryService.GetAllParentCategoryByType(model.Type);
+                    categoryList = new SelectList(categories, "Id", "Name", model.ParentId);
+                }
+                ViewData["ParentCategories"] = categoryList;
+                return View(model);
+
+            }
+            return View(new SaveCategory());
+        }
+
         // POST: /Category/Save
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save([FromBody] SaveCategoryDTO model)
         {
             var response = await _categoryRepository.SaveCategory(model);

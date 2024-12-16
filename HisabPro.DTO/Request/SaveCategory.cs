@@ -9,6 +9,7 @@ namespace HisabPro.DTO.Request
         [Required]
         [StringLength(FieldsSizeCommonConst.CategoryMax, MinimumLength = FieldsSizeCommonConst.CategoryMin, ErrorMessage = FieldsSizeCommonConst.CategoryMessage)]
         public string Name { get; set; }
+        [Display(Name = "Parent Category")]
         public int? ParentId { get; set; }
         public int Type { get; set; } = (int)EnumCategoryType.Expense; //1:Expense, 2:Income
         public bool IsStandard { get; set; } = false; 

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services.Interfaces;
-using HisabPro.Constants;
-using HisabPro.DTO.Request;
 using HisabPro.Services.Helper;
+using HisabPro.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Category = HisabPro.Entities.Models.Category;
 
 namespace HisabPro.Services.Implements
 {
@@ -23,6 +25,19 @@ namespace HisabPro.Services.Implements
             _mapper = mapper;
             _parentCategoryRepo = parentCategoryRepo;
             _childCategoryRepo = childCategoryRepo;
+        }
+
+        public async Task<SaveCategory> GetByIdAsync(int id)
+        {
+            var category = await _categoryRepo.GetByIdAsync(id);
+            var map = _mapper.Map<SaveCategory>(category);
+            return map;
+        }
+        public async Task<List<IdNameAndRefId>> GetAllParentCategoryByType(int type)
+        {
+            var categories = await _categoryRepo.GetAll().Where(c => c.Type == type && c.ParentId == null).ToListAsync();
+            var map = _mapper.Map<List<IdNameAndRefId>>(categories);
+            return map;
         }
 
         public async Task<ResponseDTO<List<CategoryRes>>> GetAll()
