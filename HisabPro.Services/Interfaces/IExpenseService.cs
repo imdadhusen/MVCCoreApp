@@ -6,12 +6,12 @@ namespace HisabPro.Services.Implements
 {
     public interface IExpenseService
     {
-        Task<SaveExpense> GetByIdAsync(int id);
-        Task<ResponseDTO<List<ExpenseResponse>>> GetAll();
-        Task<ResponseDTO<ExpenseResponse>> Save(SaveExpense req);
-        Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpense> expenses);
+        Task<SaveExpenseReq> GetByIdAsync(int id);
+        Task<ResponseDTO<List<ExpenseRes>>> GetAll();
+        Task<ResponseDTO<ExpenseRes>> SaveAsync(SaveExpenseReq req);
+        Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpenseReq> expenses);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
-        Task<PageDataRes<ExpenseResponse>> PageData(LoadDataRequest request);
+        Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request);
     }
 }

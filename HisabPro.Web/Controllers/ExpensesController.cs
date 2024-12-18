@@ -97,14 +97,14 @@ namespace HisabPro.Web.Controllers
                 return View(model);
             }
 
-            return View(new SaveExpense { IsActive = true, ExpenseOn = DateTime.Now });
+            return View(new SaveExpenseReq { IsActive = true, ExpenseOn = DateTime.Now });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("Id,Title,ExpenseOn,Amount,Note,ParentCategoryId,ChildCategoryId,AccountId,IsActive")] SaveExpense req)
+        public async Task<IActionResult> Save([Bind("Id,Title,ExpenseOn,Amount,Note,ParentCategoryId,ChildCategoryId,AccountId,IsActive")] SaveExpenseReq req)
         {
-            var response = await _expenseService.Save(req);
+            var response = await _expenseService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 

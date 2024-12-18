@@ -4,6 +4,7 @@ using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Repository.Interfaces;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
@@ -15,10 +16,9 @@ using ColType = HisabPro.Web.ViewModel.Type;
 namespace HisabPro.Web.Controllers
 {
     [Authorize]
-    public class CategoryController(ICategoryService categoryService, ICategoryRepository categoryRepository, IMapper mapper) : Controller
+    public class CategoryController(ICategoryService categoryService, IMapper mapper) : Controller
     {
         private readonly ICategoryService _categoryService = categoryService;
-        private readonly ICategoryRepository _categoryRepository = categoryRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<IActionResult> Index()
@@ -55,20 +55,32 @@ namespace HisabPro.Web.Controllers
             return PartialView("_GridBody", model.Data);
         }
 
-        public async Task<IActionResult> Save(int? id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="category">1:Parent, 2:SubCategory</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Save(int? id, int? category)
         {
             if (id != null)
             {
                 var model = await _categoryService.GetByIdAsync(id.Value);
                 SelectList? categoryList = null;
-                if (model.ParentId.HasValue)
+                if (model.ParentId.HasValue || category == 2)
                 {
                     var categories = await _categoryService.GetAllParentCategoryByType(model.Type);
-                    categoryList = new SelectList(categories, "Id", "Name", model.ParentId);
+                    categoryList = new SelectList(categories, "Id", "Name", (category == 2) ? model.Id : model.ParentId);
                 }
                 ViewData["ParentCategories"] = categoryList;
-                return View(model);
 
+                //Create subcategory under selected parent category
+                if (!model.ParentId.HasValue && category == 2)
+                {
+                    model.Id = null;
+                    model.Name = "";
+                }
+                return View(model);
             }
             return View(new SaveCategory());
         }
@@ -76,17 +88,17 @@ namespace HisabPro.Web.Controllers
         // POST: /Category/Save
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([FromBody] SaveCategoryDTO model)
+        public async Task<IActionResult> Save([Bind("Id,Name,ParentId,Type,IsStandard")] SaveCategory req)
         {
-            var response = await _categoryRepository.SaveCategory(model);
+            var response = await _categoryService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete([FromBody] DeleteCategoryDTO request)
+        public async Task<IActionResult> Delete([FromBody] DeleteReq req)
         {
-            var response = await _categoryRepository.Delete(request);
-            return StatusCode((int)response.StatusCode, response);
+            var response = await _categoryService.DeleteAsync(req.Id);
+            return StatusCode((int)response.StatusCode, response); ;
         }
 
         /// <summary>

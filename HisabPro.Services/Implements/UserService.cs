@@ -24,10 +24,10 @@ namespace HisabPro.Services.Implements
             _userRepo = userRepo;
         }
 
-        public async Task<SaveUser> GetByIdAsync(int id)
+        public async Task<SaveUserReq> GetByIdAsync(int id)
         {
             var account = await _userRepo.GetByIdAsync(id);
-            var map = _mapper.Map<SaveUser>(account);
+            var map = _mapper.Map<SaveUserReq>(account);
             return map;
         }
 
@@ -35,7 +35,7 @@ namespace HisabPro.Services.Implements
         {
             var users = await _userRepo.GetAllWithChildrenAsync("Creator", "Modifier");
             var map = _mapper.Map<List<UserResponse>>(users);
-            return new ResponseDTO<List<UserResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<List<UserResponse>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
         public async Task<PageDataRes<UserResponse>> PageData(LoadDataRequest request)
         {
@@ -46,11 +46,11 @@ namespace HisabPro.Services.Implements
             return pagedData;
         }
 
-        public async Task<ResponseDTO<UserResponse>> Save(SaveUser req)
+        public async Task<ResponseDTO<UserResponse>> SaveAsync(SaveUserReq req)
         {
             var map = _mapper.Map<User>(req);
             var result = await _updateRepo.SaveAsync(map, req.Email, req.Id);
-            return new ResponseDTO<UserResponse>() { Message = AppConst.ApiMessage.Save, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<UserResponse>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -58,11 +58,11 @@ namespace HisabPro.Services.Implements
             var result = await _userRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.Delete, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
             }
             else
             {
-                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.NotFound, Response = result, StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
             }
         }
 

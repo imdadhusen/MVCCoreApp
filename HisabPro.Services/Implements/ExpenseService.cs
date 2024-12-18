@@ -20,49 +20,49 @@ namespace HisabPro.Services.Implements
             _mapper = mapper;
         }
 
-        public async Task<SaveExpense> GetByIdAsync(int id)
+        public async Task<SaveExpenseReq> GetByIdAsync(int id)
         {
             var account = await _expenseRepo.GetByIdAsync(id);
-            var map = _mapper.Map<SaveExpense>(account);
+            var map = _mapper.Map<SaveExpenseReq>(account);
             return map;
         }
 
-        public async Task<ResponseDTO<List<ExpenseResponse>>> GetAll()
+        public async Task<ResponseDTO<List<ExpenseRes>>> GetAll()
         {
             var expense = await _expenseRepo.GetAllWithChildrenAsync("Account", "ParentCategory", "ChildCategory"); //"Creator", "Modifier"
-            var map = _mapper.Map<List<ExpenseResponse>>(expense);
-            return new ResponseDTO<List<ExpenseResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+            var map = _mapper.Map<List<ExpenseRes>>(expense);
+            return new ResponseDTO<List<ExpenseRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
 
-        public async Task<PageDataRes<ExpenseResponse>> PageData(LoadDataRequest request)
+        public async Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request)
         {
             var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "ParentCategory", "ChildCategory");
             data = data.ApplyDynamicFilters(request.Filters);
 
             data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseResponse>(data, request.PageData, _mapper);
+            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseRes>(data, request.PageData, _mapper);
             return pagedData;
         }
 
-        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpense> expenses)
+        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveExpenseReq> expenses)
         {
             var map = _mapper.Map<List<Expense>>(expenses);
             var result = await _expenseRepo.AddRangeAsync(map);
-            return new ResponseDTO<DataImportRes>() { Message = AppConst.ApiMessage.DataImportSuccess, Response = new DataImportRes { TotalRecords = result }, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataImportSuccess, new DataImportRes { TotalRecords = result });
         }
 
-        public async Task<ResponseDTO<ExpenseResponse>> Save(SaveExpense req)
+        public async Task<ResponseDTO<ExpenseRes>> SaveAsync(SaveExpenseReq req)
         {
             var map = _mapper.Map<Expense>(req);
             var result = await _expenseRepo.SaveAsync(map);
-            var response = _mapper.Map<ExpenseResponse>(result);
-            return new ResponseDTO<ExpenseResponse>() { Message = AppConst.ApiMessage.Save, Response = response, StatusCode = System.Net.HttpStatusCode.OK };
+            var response = _mapper.Map<ExpenseRes>(result);
+            return new ResponseDTO<ExpenseRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, response);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
         {
             var result = await _expenseRepo.DeleteAsync(id);
-            return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.Delete, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
         }
     }
 }

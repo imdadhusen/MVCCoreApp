@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Response
 {
-    public class IncomeResponse
+    public class IncomeRes
     {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -12,7 +12,7 @@ namespace HisabPro.Web.MapperProfile
     {
         public MappingProfile()
         {
-            CreateMap<SaveUser, User>().ReverseMap();  // This will map User <-> SaveUser
+            CreateMap<SaveUserReq, User>().ReverseMap();  // This will map User <-> SaveUser
             CreateMap<User, UserResponse>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserRoleEnum)src.UserRole)))
@@ -25,16 +25,16 @@ namespace HisabPro.Web.MapperProfile
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumHelper.GetEnumText((EnumCategoryType)src.Type)))
                 .ForMember(dest => dest.SubCategories, opt => opt.MapFrom(src => src.SubCategories));
 
-            CreateMap<SaveAccount, Account>().ReverseMap();  // This will map Account <-> SaveAccount
-            CreateMap<Account, AccountResponse>()
+            CreateMap<SaveAccountReq, Account>().ReverseMap();  // This will map Account <-> SaveAccount
+            CreateMap<Account, AccountRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name));
 
-            CreateMap<SaveIncome, Income>().ReverseMap();
-            CreateMap<Income, IncomeResponse>()
+            CreateMap<SaveIncomeReq, Income>().ReverseMap();
+            CreateMap<Income, IncomeRes>()
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name));
 
-            CreateMap<SaveExpense, Expense>().ReverseMap();
-            CreateMap<Expense, ExpenseResponse>()
+            CreateMap<SaveExpenseReq, Expense>().ReverseMap();
+            CreateMap<Expense, ExpenseRes>()
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name))
                 .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.ParentCategory.Name))
                 .ForMember(dest => dest.ChildCategory, opt => opt.MapFrom(src => src.ChildCategory.Name));

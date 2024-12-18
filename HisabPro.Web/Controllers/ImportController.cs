@@ -131,7 +131,7 @@ namespace HisabPro.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveExpenses([FromBody] List<SaveExpense> expenses)
+        public async Task<IActionResult> SaveExpenses([FromBody] List<SaveExpenseReq> expenses)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -143,7 +143,7 @@ namespace HisabPro.Web.Controllers
             return StatusCode((int)response.StatusCode, response);
         }
         [HttpPost]
-        public async Task<IActionResult> SaveIncomes([FromBody] List<SaveIncome> incomes)
+        public async Task<IActionResult> SaveIncomes([FromBody] List<SaveIncomeReq> incomes)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

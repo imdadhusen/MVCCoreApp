@@ -12,14 +12,7 @@ namespace HisabPro.Web.Helper
             if (!context.ModelState.IsValid)
             {
                 var (message, errors) = ValidationHelper.GetValidationErrors(context.ModelState);
-
-                var response = new ResponseDTO<List<string>>
-                {
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = message,
-                    Response = errors
-                };
-
+                var response = new ResponseDTO<List<string>>(HttpStatusCode.BadRequest, message, errors);
                 context.Result = new BadRequestObjectResult(response);
             }
         }

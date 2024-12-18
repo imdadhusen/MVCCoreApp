@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Request
 {
-    public class SaveAccount
+    public class SaveAccountReq
     {
         public int? Id { get; set; }
         [Required]

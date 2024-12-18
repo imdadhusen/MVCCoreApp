@@ -57,14 +57,14 @@ namespace HisabPro.Web.Controllers
                 return View(model);
 
             }
-            return View(new SaveAccount { IsActive = true });
+            return View(new SaveAccountReq { IsActive = true });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("Id,Name,FullName,Mobile,IsActive")] SaveAccount req)
+        public async Task<IActionResult> Save([Bind("Id,Name,FullName,Mobile,IsActive")] SaveAccountReq req)
         {
-            var response = await _accountService.Save(req);
+            var response = await _accountService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 

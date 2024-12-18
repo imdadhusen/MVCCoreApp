@@ -51,7 +51,6 @@ namespace HisabPro
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));

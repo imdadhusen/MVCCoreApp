@@ -110,7 +110,16 @@
             // Grid : Handle save action
             $table.on('click', '.save-action', function (e) {
                 var button = $(this);
-                var urlSave = `${settings.controllerName}/${settings.actionSave}?Id=${button.data('id')}`;
+                var queryString = '';
+
+                // Loop through all data attributes
+                $.each(button.data(), function (key, value) {
+                    queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+                });
+
+                // Remove the trailing '&' from the query string
+                queryString = queryString.slice(0, -1);
+                var urlSave = `${settings.controllerName}/${settings.actionSave}?${queryString}`;
                 window.location.assign(urlSave);
             });
             // Grid : Handle delete action

@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using HisabPro.DTO.Model;
+using HisabPro.Web.Helper;
+using System;
+using System.Net;
 using System.Text.Json;
 
 namespace HisabPro.Web.Middleware
@@ -21,9 +24,20 @@ namespace HisabPro.Web.Middleware
             {
                 await _next(context);
             }
+            catch (CustomValidationException ex)
+            {
+                var response = new ResponseDTO<bool>(HttpStatusCode.BadRequest, ex.Message, false);
+                context.Response.StatusCode = (int)response.StatusCode;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(response));
+            }
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, ex);
+                //var response = new ResponseDTO<bool>(HttpStatusCode.InternalServerError, "An unexpected error occurred.", false);
+                //context.Response.StatusCode = (int)response.StatusCode;
+                //context.Response.ContentType = "application/json";
+                //await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(response));
             }
         }
 

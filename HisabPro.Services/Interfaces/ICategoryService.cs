@@ -11,6 +11,9 @@ namespace HisabPro.Services.Interfaces
         Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request);
         Task<List<IdNameAndRefId>> GetAllParentCategoryByType(int type);
 
+        Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategory req);
+        Task<ResponseDTO<bool>> DeleteAsync(int id);
+
         Task<List<IdNameRes>> GetParentCategoriesAsync();
         Task<List<ChildCategoryRes>> GetChildCategoriesAsync();
     }

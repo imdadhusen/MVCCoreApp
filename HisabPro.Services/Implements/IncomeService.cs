@@ -21,45 +21,45 @@ namespace HisabPro.Services.Implements
             _incomeRepo = incomeRepo;
         }
 
-        public async Task<SaveIncome> GetByIdAsync(int id)
+        public async Task<SaveIncomeReq> GetByIdAsync(int id)
         {
             var account = await _incomeRepo.GetByIdAsync(id);
-            var map = _mapper.Map<SaveIncome>(account);
+            var map = _mapper.Map<SaveIncomeReq>(account);
             return map;
         }
 
-        public async Task<ResponseDTO<List<IncomeResponse>>> GetAll()
+        public async Task<ResponseDTO<List<IncomeRes>>> GetAll()
         {
             var accounts = await _incomeRepo.GetAllWithChildrenAsync("Account"); //"Creator", "Modifier"
-            var map = _mapper.Map<List<IncomeResponse>>(accounts);
-            return new ResponseDTO<List<IncomeResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+            var map = _mapper.Map<List<IncomeRes>>(accounts);
+            return new ResponseDTO<List<IncomeRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
-        public async Task<PageDataRes<IncomeResponse>> PageData(LoadDataRequest request)
+        public async Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request)
         {
             var data = _incomeRepo.GetPageDataWithChildrenAsync("Account");
             data = data.ApplyDynamicFilters(request.Filters);
             data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeResponse>(data, request.PageData, _mapper);
+            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeRes>(data, request.PageData, _mapper);
             return pagedData;
         }
-        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncome> incomes)
+        public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncomeReq> incomes)
         {
             var map = _mapper.Map<List<Income>>(incomes);
             var result = await _incomeRepo.AddRangeAsync(map);
-            return new ResponseDTO<DataImportRes>() { Message = AppConst.ApiMessage.DataImportSuccess, Response = new DataImportRes { TotalRecords = result }, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataImportSuccess, new DataImportRes { TotalRecords = result });
         }
-        public async Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req)
+        public async Task<ResponseDTO<IncomeRes>> SaveAsync(SaveIncomeReq req)
         {
             var map = _mapper.Map<Income>(req);
             var result = await _incomeRepo.SaveAsync(map);
-            var response = _mapper.Map<IncomeResponse>(result);
-            return new ResponseDTO<IncomeResponse>() { Message = AppConst.ApiMessage.Save, Response = response, StatusCode = System.Net.HttpStatusCode.OK };
+            var response = _mapper.Map<IncomeRes>(result);
+            return new ResponseDTO<IncomeRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, response);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
         {
             var result = await _incomeRepo.DeleteAsync(id);
-            return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.Delete, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
         }
     }
 }
