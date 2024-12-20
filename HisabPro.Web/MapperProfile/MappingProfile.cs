@@ -40,9 +40,6 @@ namespace HisabPro.Web.MapperProfile
                 .ForMember(dest => dest.ChildCategory, opt => opt.MapFrom(src => src.ChildCategory.Name));
 
             CreateMap<User, LoginRes>();
-            CreateMap<ParentCategory, CategoryListRes>();
-            CreateMap<ParentCategory, ParentCategoryRes>();
-            CreateMap<ChildCategory, ChildCategoryRes>();
 
             CreateMap<IdNameRes, IdNameAndRefId>();
             CreateMap<ChildCategoryRes, IdNameAndRefId>()

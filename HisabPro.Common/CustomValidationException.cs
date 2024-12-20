@@ -1,4 +1,4 @@
-﻿namespace HisabPro.Web.Helper
+﻿namespace HisabPro.Common
 {
     public class CustomValidationException : Exception
     {

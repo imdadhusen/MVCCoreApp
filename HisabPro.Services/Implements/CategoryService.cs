@@ -3,7 +3,6 @@ using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Entities.Models;
 using HisabPro.Repository;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Helper;
@@ -19,19 +18,11 @@ namespace HisabPro.Services.Implements
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
 
-        //TODO: This need to be get from Category table not Parent and Child tables
-        private readonly IRepository<ParentCategory> _parentCategoryRepo;
-        private readonly IRepository<ChildCategory> _childCategoryRepo;
-
-        public CategoryService(UpdateRepository<Category, CategoryRes> updateRepo, IRepository<Category> categoryRepo, IMapper mapper,
-            IRepository<ParentCategory> parentCategoryRepo, IRepository<ChildCategory> childCategoryRepo)
+        public CategoryService(UpdateRepository<Category, CategoryRes> updateRepo, IRepository<Category> categoryRepo, IMapper mapper)
         {
             _updateRepo = updateRepo;
             _categoryRepo = categoryRepo;
             _mapper = mapper;
-
-            _parentCategoryRepo = parentCategoryRepo;
-            _childCategoryRepo = childCategoryRepo;
         }
 
         public async Task<SaveCategory> GetByIdAsync(int id)
@@ -82,14 +73,26 @@ namespace HisabPro.Services.Implements
             }
         }
 
-        public async Task<List<IdNameRes>> GetParentCategoriesAsync()
+        public async Task<List<IdNameRes>> GetParentCategoriesAsync(EnumCategoryType? categoryType)
         {
-            return await _parentCategoryRepo.GetAllAsync(a => new IdNameRes { Id = a.Id.ToString(), Name = a.Name });
+            IQueryable<Category> query = _categoryRepo.GetAll().Where(c => c.ParentId == null);
+            if (categoryType != null)
+            {
+                query = query.Where(c => c.Type == (int)categoryType);
+            }
+            return await query.Select(c => new IdNameRes { Id = c.Id.ToString(), Name = c.Name })
+                    .ToListAsync();
         }
 
-        public async Task<List<ChildCategoryRes>> GetChildCategoriesAsync()
+        public async Task<List<ChildCategoryRes>> GetChildCategoriesAsync(EnumCategoryType? categoryType)
         {
-            return await _childCategoryRepo.GetAllAsync(a => new ChildCategoryRes { Id = a.Id, Name = a.Name, ParentCategoryId = a.ParentCategoryId });
+            IQueryable<Category> query = _categoryRepo.GetAll().Where(c => c.ParentId != null);
+            if (categoryType != null)
+            {
+                query = query.Where(c => c.Type == (int)categoryType);
+            }
+            return await query.Select(c => new ChildCategoryRes { Id = c.Id, Name = c.Name, ParentCategoryId = c.ParentId.Value })
+                    .ToListAsync();
         }
     }
 }

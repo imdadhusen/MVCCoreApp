@@ -10,8 +10,6 @@ namespace HisabPro.Entities.Models
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<ParentCategory> ParentCategories { get; set; }
-        public DbSet<ChildCategory> ChildCategories { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
@@ -60,16 +58,7 @@ namespace HisabPro.Entities.Models
                 entity.HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
             });
-
-            modelBuilder.Entity<ParentCategory>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(c => c.ParentCategoryId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Creator).WithMany().HasForeignKey(c => c.CreatedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
-
+            
             // Configure relationship for Account - Income and Expense
             modelBuilder.Entity<Account>().HasMany(e => e.Incomes).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Account>().HasMany(e => e.Expenses).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);

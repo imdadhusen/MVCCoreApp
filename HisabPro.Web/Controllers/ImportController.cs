@@ -33,14 +33,14 @@ namespace HisabPro.Web.Controllers
 
         public async Task<ActionResult> Expense()
         {
-            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            var childCategories = await _categoryService.GetChildCategoriesAsync(EnumCategoryType.Expense);
             ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
             return View();
         }
 
         public async Task<ActionResult> Income()
         {
-            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            var childCategories = await _categoryService.GetChildCategoriesAsync(EnumCategoryType.Income);
             ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
             return View();
         }
@@ -123,7 +123,7 @@ namespace HisabPro.Web.Controllers
             accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["Accounts"] = new SelectList(accounts, "Id", "Name");
 
-            var categories = await _categoryService.GetParentCategoriesAsync();
+            var categories = await _categoryService.GetParentCategoriesAsync(EnumCategoryType.Expense);
             categories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["Categories"] = new SelectList(categories, "Id", "Name");
 

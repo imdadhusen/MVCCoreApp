@@ -1,4 +1,5 @@
-﻿using HisabPro.DTO.Model;
+﻿using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 
@@ -14,7 +15,7 @@ namespace HisabPro.Services.Interfaces
         Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategory req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
-        Task<List<IdNameRes>> GetParentCategoriesAsync();
-        Task<List<ChildCategoryRes>> GetChildCategoriesAsync();
+        Task<List<IdNameRes>> GetParentCategoriesAsync(EnumCategoryType? categoryType);
+        Task<List<ChildCategoryRes>> GetChildCategoriesAsync(EnumCategoryType? categoryType);
     }
 }

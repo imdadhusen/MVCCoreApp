@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.Repository
 {
@@ -24,7 +24,8 @@ namespace HisabPro.Repository
             // Check if Name already exists
             if (await _repository.ExistsAsync(name, id))
             {
-                throw new ValidationException(AppConst.ApiMessage.DataWithSameName);
+                throw new CustomValidationException(AppConst.ApiMessage.DataWithSameName);
+                //throw new ValidationException(AppConst.ApiMessage.DataWithSameName);
             }
             else if (id.HasValue)
             {

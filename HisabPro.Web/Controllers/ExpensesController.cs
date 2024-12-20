@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -32,8 +33,8 @@ namespace HisabPro.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var parentCategories = await _categoryService.GetParentCategoriesAsync();
-            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            var parentCategories = await _categoryService.GetParentCategoriesAsync(EnumCategoryType.Expense);
+            var childCategories = await _categoryService.GetChildCategoriesAsync(EnumCategoryType.Expense);
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<int> {
@@ -84,11 +85,11 @@ namespace HisabPro.Web.Controllers
             accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["AccountId"] = new SelectList(accounts, "Id", "Name");
 
-            var parentCategories = await _categoryService.GetParentCategoriesAsync();
+            var parentCategories = await _categoryService.GetParentCategoriesAsync(EnumCategoryType.Expense);
             parentCategories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["ParentCategoryId"] = new SelectList(parentCategories, "Id", "Name");
 
-            ViewData["ChildCategories"] = JsonSerializer.Serialize(await _categoryService.GetChildCategoriesAsync());
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(await _categoryService.GetChildCategoriesAsync(EnumCategoryType.Expense));
 
             if (id != null)
             {

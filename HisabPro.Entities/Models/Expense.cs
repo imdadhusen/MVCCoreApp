@@ -22,11 +22,11 @@ namespace HisabPro.Entities.Models
         public string? Note { get; set; }
 
         [ForeignKey("ParentCategoryId")]
-        public ParentCategory ParentCategory { get; set; }
+        public Category ParentCategory { get; set; }
         public int ParentCategoryId { get; set; }
 
         [ForeignKey("ChildCategoryId")]
-        public ChildCategory ChildCategory { get; set; }
+        public Category ChildCategory { get; set; }
         public int ChildCategoryId { get; set; }
 
         [ForeignKey("AccountId")]
