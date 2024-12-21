@@ -3,8 +3,6 @@ using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Repository.Interfaces;
-using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
@@ -45,8 +43,6 @@ namespace HisabPro.Web.Controllers
             var req = new LoadDataRequest() { Filters = filters };
             var model = await LoadGridData(req, true);
             return View(model);
-            //var response = await _categoryRepository.CategoriesWithChilds();
-            //return View(response);
         }
 
         public async Task<IActionResult> Load([FromBody] LoadDataRequest req)
@@ -63,7 +59,7 @@ namespace HisabPro.Web.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Save(int? id, int? category)
         {
-            SaveCategory model = new SaveCategory();
+            SaveCategoryReq model = new SaveCategoryReq();
             if (id != null)
             {
                 model = await _categoryService.GetByIdAsync(id.Value);
@@ -96,7 +92,7 @@ namespace HisabPro.Web.Controllers
         // POST: /Category/Save
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("Id,Name,ParentId,Type,IsStandard")] SaveCategory req)
+        public async Task<IActionResult> Save([Bind("Id,Name,ParentId,Type,IsStandard")] SaveCategoryReq req)
         {
             var response = await _categoryService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);

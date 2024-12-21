@@ -7,12 +7,12 @@ namespace HisabPro.Services.Interfaces
 {
     public interface ICategoryService
     {
-        Task<SaveCategory> GetByIdAsync(int id);
+        Task<SaveCategoryReq> GetByIdAsync(int id);
         Task<ResponseDTO<List<CategoryRes>>> GetAll();
         Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request);
         Task<List<IdNameAndRefId>> GetAllParentCategoryByType(int type);
 
-        Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategory req);
+        Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
         Task<List<IdNameRes>> GetCategoriesAsync(EnumCategoryType? categoryType);

@@ -13,12 +13,12 @@ namespace HisabPro.Web.MapperProfile
         public MappingProfile()
         {
             CreateMap<SaveUserReq, User>().ReverseMap();  // This will map User <-> SaveUser
-            CreateMap<User, UserResponse>()
+            CreateMap<User, UserRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserRoleEnum)src.UserRole)))
                 .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserGenederEnum)src.Gender)));
             
-            CreateMap<SaveCategory, Category>().ReverseMap();
+            CreateMap<SaveCategoryReq, Category>().ReverseMap();
             CreateMap<Category, CategoryRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.Name : null))

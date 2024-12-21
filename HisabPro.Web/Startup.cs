@@ -29,6 +29,7 @@ namespace HisabPro
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateModelStateFilter>();
+                options.Filters.Add<CustomExceptionFilter>();
             });
             services.AddControllersWithViews();
             //services.AddControllers().AddNewtonsoftJson(options =>
@@ -105,8 +106,6 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // Register the exception handling middleware
-            app.UseMiddleware<ExceptionHandler>();
             // Register the remember me middleware
             app.UseMiddleware<RememberMe>();
 

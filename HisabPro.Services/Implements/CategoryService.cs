@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
+using HisabPro.Entities.IEntities;
 using HisabPro.Repository;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Helper;
@@ -17,18 +19,20 @@ namespace HisabPro.Services.Implements
         private readonly UpdateRepository<Category, CategoryRes> _updateRepo;
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
 
-        public CategoryService(UpdateRepository<Category, CategoryRes> updateRepo, IRepository<Category> categoryRepo, IMapper mapper)
+        public CategoryService(UpdateRepository<Category, CategoryRes> updateRepo, IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext)
         {
             _updateRepo = updateRepo;
             _categoryRepo = categoryRepo;
             _mapper = mapper;
+            _userContext = userContext;
         }
 
-        public async Task<SaveCategory> GetByIdAsync(int id)
+        public async Task<SaveCategoryReq> GetByIdAsync(int id)
         {
             var category = await _categoryRepo.GetByIdAsync(id);
-            var map = _mapper.Map<SaveCategory>(category);
+            var map = _mapper.Map<SaveCategoryReq>(category);
             return map;
         }
         public async Task<List<IdNameAndRefId>> GetAllParentCategoryByType(int type)
@@ -52,12 +56,30 @@ namespace HisabPro.Services.Implements
             var mappedData = _mapper.Map<List<CategoryRes>>(data);
             return new PageDataRes<CategoryRes> { Data = mappedData };
         }
-        public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategory req)
+        public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req)
         {
-            var map = _mapper.Map<Category>(req);
-            //TODO : Category should not duplicate within Standard and User Created (own). User can create same category as per other user
-            var result = await _updateRepo.SaveAsync(map, req.Name, req.Id);
-            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
+            var categories = await _categoryRepo.GetAll()
+                .Where(c => c.Type == req.Type && (c.IsStandard == true || c.CreatedBy == _userContext.GetCurrentUserId()))
+                .Select(c => c)
+                .ToListAsync();
+
+            var duplicates = Exists(categories, req.Name, req.Id);
+            if (duplicates.Count >= 1)
+            {
+                if (duplicates[0].IsStandard)
+                {
+                    throw new CustomValidationException(AppConst.ApiMessage.SameNameInStandardCategory);
+                }
+                else
+                {
+                    throw new CustomValidationException(AppConst.ApiMessage.DataWithSameName);
+                }
+            }
+
+            var category = _mapper.Map<Category>(req);
+            var result = await _categoryRepo.SaveAsync(category);
+            var map = _mapper.Map<CategoryRes>(result);
+            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, map);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -93,6 +115,15 @@ namespace HisabPro.Services.Implements
             }
             return await query.Select(c => new SubCategoryRes { Id = c.Id, Name = c.Name, CategoryId = c.ParentId.Value })
                     .ToListAsync();
+        }
+
+        private List<Category> Exists(List<Category> categories, string name, int? id = null)
+        {
+            if (id.HasValue)
+            {
+                return categories.Where(c => c.Name == name && c.Id != id.Value).ToList();
+            }
+            return categories.Where(c => c.Name == name).ToList();
         }
     }
 }

@@ -7,9 +7,9 @@ namespace HisabPro.Services.Interfaces
     public interface IUserService
     {
         Task<SaveUserReq> GetByIdAsync(int id);
-        Task<ResponseDTO<List<UserResponse>>> GetAll();
-        Task<PageDataRes<UserResponse>> PageData(LoadDataRequest request);
-        Task<ResponseDTO<UserResponse>> SaveAsync(SaveUserReq req);
+        Task<ResponseDTO<List<UserRes>>> GetAll();
+        Task<PageDataRes<UserRes>> PageData(LoadDataRequest request);
+        Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
     }
 }
