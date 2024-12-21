@@ -63,9 +63,10 @@ namespace HisabPro.Web.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Save(int? id, int? category)
         {
+            SaveCategory model = new SaveCategory();
             if (id != null)
             {
-                var model = await _categoryService.GetByIdAsync(id.Value);
+                model = await _categoryService.GetByIdAsync(id.Value);
                 SelectList? categoryList = null;
                 if (model.ParentId.HasValue || category == 2)
                 {
@@ -82,7 +83,14 @@ namespace HisabPro.Web.Controllers
                 }
                 return View(model);
             }
-            return View(new SaveCategory());
+
+            //Allow parent category to select type 
+            if (model.Id == null && model.ParentId == null)
+            {
+                var types = EnumHelper.ToIdNameList<EnumCategoryType>();
+                ViewData["Types"] = types;
+            }
+            return View(model);
         }
 
         // POST: /Category/Save
