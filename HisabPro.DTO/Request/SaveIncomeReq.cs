@@ -23,6 +23,10 @@ namespace HisabPro.DTO.Request
 
         [Display(Name = "Account")]
         public int? AccountId { get; set; }
+        [Display(Name = "Category")]
+        public int? CategoryId { get; set; }
+        [Display(Name = "Sub Category")]
+        public int? SubCategoryId { get; set; }
         public bool IsBulkImported { get; set; } = false;
     }
 }

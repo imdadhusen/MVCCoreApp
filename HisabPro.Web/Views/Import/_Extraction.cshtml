@@ -108,9 +108,9 @@
 
         drpChildCategory.empty();
         drpChildCategory.append($('<option>', { value: '', text: '' }));
-        $(allChildCategories).each(function (index, category) {
-            if (category.ParentCategoryId == selectedParentId) {
-                drpChildCategory.append($('<option>', { value: category.Id, text: category.Name }));
+        $(allChildCategories).each(function (index, c) {
+            if (c.CategoryId == selectedParentId) {
+                drpChildCategory.append($('<option>', { value: c.Id, text: c.Name }));
             }
         });
     }

@@ -73,7 +73,7 @@ namespace HisabPro.Services.Implements
             }
         }
 
-        public async Task<List<IdNameRes>> GetParentCategoriesAsync(EnumCategoryType? categoryType)
+        public async Task<List<IdNameRes>> GetCategoriesAsync(EnumCategoryType? categoryType)
         {
             IQueryable<Category> query = _categoryRepo.GetAll().Where(c => c.ParentId == null);
             if (categoryType != null)
@@ -84,14 +84,14 @@ namespace HisabPro.Services.Implements
                     .ToListAsync();
         }
 
-        public async Task<List<ChildCategoryRes>> GetChildCategoriesAsync(EnumCategoryType? categoryType)
+        public async Task<List<SubCategoryRes>> GetSubCategoriesAsync(EnumCategoryType? categoryType)
         {
             IQueryable<Category> query = _categoryRepo.GetAll().Where(c => c.ParentId != null);
             if (categoryType != null)
             {
                 query = query.Where(c => c.Type == (int)categoryType);
             }
-            return await query.Select(c => new ChildCategoryRes { Id = c.Id, Name = c.Name, ParentCategoryId = c.ParentId.Value })
+            return await query.Select(c => new SubCategoryRes { Id = c.Id, Name = c.Name, CategoryId = c.ParentId.Value })
                     .ToListAsync();
         }
     }

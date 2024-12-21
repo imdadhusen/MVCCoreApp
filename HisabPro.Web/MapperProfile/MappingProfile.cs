@@ -36,14 +36,14 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<SaveExpenseReq, Expense>().ReverseMap();
             CreateMap<Expense, ExpenseRes>()
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name))
-                .ForMember(dest => dest.ParentCategory, opt => opt.MapFrom(src => src.ParentCategory.Name))
-                .ForMember(dest => dest.ChildCategory, opt => opt.MapFrom(src => src.ChildCategory.Name));
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.SubCategory, opt => opt.MapFrom(src => src.SubCategory.Name));
 
             CreateMap<User, LoginRes>();
 
             CreateMap<IdNameRes, IdNameAndRefId>();
-            CreateMap<ChildCategoryRes, IdNameAndRefId>()
-                .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.ParentCategoryId));
+            CreateMap<SubCategoryRes, IdNameAndRefId>()
+                .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.CategoryId));
 
             CreateMap<Category, IdNameAndRefId>()
                  .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.ParentId));

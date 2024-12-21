@@ -21,13 +21,13 @@ namespace HisabPro.Entities.Models
         [StringLength(FieldsSizeCommonConst.NoteMax, ErrorMessage = FieldsSizeCommonConst.NoteMessage)]
         public string? Note { get; set; }
 
-        [ForeignKey("ParentCategoryId")]
-        public Category ParentCategory { get; set; }
-        public int ParentCategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+        public int CategoryId { get; set; }
 
-        [ForeignKey("ChildCategoryId")]
-        public Category ChildCategory { get; set; }
-        public int ChildCategoryId { get; set; }
+        [ForeignKey("SubCategoryId")]
+        public Category SubCategory { get; set; }
+        public int SubCategoryId { get; set; }
 
         [ForeignKey("AccountId")]
         public Account Account { get; set; }

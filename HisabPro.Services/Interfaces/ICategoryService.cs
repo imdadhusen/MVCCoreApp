@@ -15,7 +15,7 @@ namespace HisabPro.Services.Interfaces
         Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategory req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
-        Task<List<IdNameRes>> GetParentCategoriesAsync(EnumCategoryType? categoryType);
-        Task<List<ChildCategoryRes>> GetChildCategoriesAsync(EnumCategoryType? categoryType);
+        Task<List<IdNameRes>> GetCategoriesAsync(EnumCategoryType? categoryType);
+        Task<List<SubCategoryRes>> GetSubCategoriesAsync(EnumCategoryType? categoryType);
     }
 }

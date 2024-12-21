@@ -56,7 +56,7 @@
                                     @if (filter.ChildItems != null && filter.ChildItems.Count >= 1)
                                     {
                                         <script>
-                                            var dynamicVarName = "@filter.ChildFieldName"; //ChildCategoryId
+                                            var dynamicVarName = "@filter.ChildFieldName"; //SubCategoryId
                                             //Create dynamic variable to filter children data
                                             window[dynamicVarName] = @Html.Raw(Json.Serialize(@filter.ChildItems));
                                         </script>

@@ -56,17 +56,17 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="ParentCategoryId" class="control-label"></label>
-                    <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId" onchange="filterChildCategories(this)"></select>
-                    <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId" onchange="filterChildCategories(this)"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
             </div>
             @* TODO: Child category should be display according to Parent *@
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="ChildCategoryId" class="control-label"></label>
-                    <select asp-for="ChildCategoryId" class="form-control" id="ChildCategoryId"></select>
-                    <span asp-validation-for="ChildCategoryId" class="text-danger"></span>
+                    <label asp-for="SubCategoryId" class="control-label"></label>
+                    <select asp-for="SubCategoryId" class="form-control" id="SubCategoryId"></select>
+                    <span asp-validation-for="SubCategoryId" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -103,8 +103,8 @@
         // Parse the JSON data for child categories
         const allChildCategories = @Html.Raw(ViewData["ChildCategories"]);
 
-        var parentCategory = '#ParentCategoryId';
-        var childCategory = '#ChildCategoryId';
+        var category = '#CategoryId';
+        var subCategory = '#SubCategoryId';
         var urlSave = '/Expenses/Save';
         var form = $('#saveForm');
         var createNew = $('#btnCreateNew');
@@ -128,29 +128,29 @@
         }
 
         //This will set the sub categories in edit mode
-        var selectedChildCategoryId = '@ViewBag.SelectedChildCategoryId';
-        filterChildCategories();
+        var selectedSubCategoryId = '@ViewBag.SelectedSubCategoryId';
+        filterSubCategories();
 
 
-        function filterChildCategories() {
-            const selectedParentId = $(parentCategory).val();
-            const drpChildCategory = $(childCategory);
+        function filterSubCategories() {
+            const selectedParentId = $(category).val();
+            const drpSubCategory = $(subCategory);
             if (selectedParentId > 0) {
-                drpChildCategory.attr("required", "required");
+                drpSubCategory.attr("required", "required");
             } else {
-                drpChildCategory.removeAttr("required");
+                drpSubCategory.removeAttr("required");
             }
 
-            drpChildCategory.empty();
-            $(allChildCategories).each(function (index, category) {
-                if (category.ParentCategoryId == selectedParentId) {
-                    drpChildCategory.append($('<option>', { value: category.Id, text: category.Name }));
+            drpSubCategory.empty();
+            $(allChildCategories).each(function (index, c) {
+                if (c.CategoryId == selectedParentId) {
+                    drpSubCategory.append($('<option>', { value: c.Id, text: c.Name }));
                 }
             });
 
             //In edit child category should be selected
-            if (selectedChildCategoryId > 0) {
-                drpChildCategory.val(selectedChildCategoryId);
+            if (selectedSubCategoryId > 0) {
+                drpSubCategory.val(selectedSubCategoryId);
             }
         }
     </script>

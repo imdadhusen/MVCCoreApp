@@ -14,8 +14,8 @@ namespace HisabPro.DTO.Response
         public bool IsActive { get; set; }
 
         public string Account { get; set; }
-        public string ParentCategory { get; set; }
-        public string ChildCategory { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
         public bool IsBulkImported { get; set; }
     }
 }
