@@ -34,7 +34,7 @@
                                 </td>
                                 <td>
                                     <input type="text" name="Description[@r]" maxlength="25" value="@data.Description" class="form-control titleColumn" required />
-                                    <input type="hidden" name="Note[@r]" value="@data.Description" class="form-control"/>
+                                    <input type="hidden" name="Note[@r]" value="@data.Description" class="form-control" />
                                 </td>
                                 <td class="widthAmount">
                                     <input type="number" name="Amount[@r]" value="@data.Amount" class="form-control" required />
@@ -62,10 +62,15 @@
     var tblData = '#tblData';
     var autoCorrectDate = '#autoCorrectDate';
     var autoCorrectTitle = '#autoCorrectTitle';
+    var totalRows = 0;
 
-    setDropdownItems();
+    $(document).ready(function () {
+        totalRows = $(tblData).find('tr').length;
+        setDropdownItems();
+        categorizeIncomes();
+    })
+
     function setDropdownItems() {
-        var totalRows = $(tblData).find('tr').length;
         for (var r = 1; r <= totalRows; r++) {
             //Set category item selected
             var category = $('select[name="Category[' + r + ']"]');
@@ -80,7 +85,6 @@
             setSelectedItem(subCategory);
         }
     }
-
     function setSelectedItem(drp) {
         var text = drp.data('text');
         drp.find('option').each(function () {
@@ -89,18 +93,57 @@
             }
         });
     }
+    function categorizeIncomes() {
+        console.log('allChildCategories:', allChildCategories);
+        console.log('allCategories:', allCategories);
+        for (var r = 1; r <= totalRows; r++) {
+            const note = $(`[name="Note[${r}]"`).val();
+            //console.log("note:", note);
+
+            var searched = findCategoryAndSubcategory(note);
+            console.log("note:", note, ', Serached:', searched);
+        }
+    }
+
+    function findCategoryAndSubcategory(description) {
+        let matchedCategory = null;
+        let matchedSubcategory = null;
+
+        // Normalize the description for matching
+        let normalizedDescription = description.toLowerCase();
+
+        // Find the matching category
+        $.each(allCategories, function (index, category) {
+            if (normalizedDescription.includes(category.Name.toLowerCase())) {
+                matchedCategory = category.Id;
+                return false; // Break the loop once a match is found
+            }
+        });
+
+        // If a category is matched, find the associated subcategory
+        if (matchedCategory) {
+            $.each(allChildCategories, function (index, subcategory) {
+                if (subcategory.CategoryId == matchedCategory &&
+                    normalizedDescription.includes(subcategory.Name.toLowerCase())) {
+                    matchedSubcategory = subcategory.Id;
+                    return false; // Break the loop once a match is found
+                }
+            });
+        }
+
+        return { CategoryId: matchedCategory, SubcategoryId: matchedSubcategory };
+    }
+
 
     $('.parentCategory').on('change', function () {
         filterChildCategories($(this).data('row'));
     });
-
     $(autoCorrectDate).click(function () {
         showConfirm(Wizard.AutoCorrect.Date.Title, Wizard.AutoCorrect.Date.Message, autoCorrectDateYes, null);
     });
     $(autoCorrectTitle).click(function () {
         showConfirm(Wizard.AutoCorrect.Title.Title, Wizard.AutoCorrect.Title.Message, autoCorrectTitleYes, null);
-    })
-
+    });
 
     function filterChildCategories(row) {
         const selectedParentId = $('select[name="Category[' + row + ']"]').val();
@@ -114,7 +157,6 @@
             }
         });
     }
-
     function autoCorrectDateYes() {
         hideConfirm();
         let previousDate = null;

@@ -31,7 +31,9 @@ namespace HisabPro.Web.MapperProfile
 
             CreateMap<SaveIncomeReq, Income>().ReverseMap();
             CreateMap<Income, IncomeRes>()
-                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name));
+                .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account.Name))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.SubCategory, opt => opt.MapFrom(src => src.SubCategory.Name));
 
             CreateMap<SaveExpenseReq, Expense>().ReverseMap();
             CreateMap<Expense, ExpenseRes>()

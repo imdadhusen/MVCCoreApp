@@ -1,4 +1,5 @@
-﻿using HisabPro.Constants;
+﻿using HisabPro.Common;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -33,15 +34,13 @@ namespace HisabPro.Web.Controllers
 
         public async Task<ActionResult> Expense()
         {
-            var childCategories = await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Expense);
-            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
+            await setCatgoriesInJson(EnumCategoryType.Expense);
             return View();
         }
 
         public async Task<ActionResult> Income()
         {
-            var childCategories = await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Income);
-            ViewData["ChildCategories"] = JsonSerializer.Serialize(childCategories);
+            await setCatgoriesInJson(EnumCategoryType.Income);
             return View();
         }
 
@@ -123,7 +122,10 @@ namespace HisabPro.Web.Controllers
             accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["Accounts"] = new SelectList(accounts, "Id", "Name");
 
-            var categories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Expense);
+            var url = HttpContext.Request.Headers["Referer"].ToString();
+            //var url = HttpContext.Request.Path.Value;
+            string categoryType = StringHelper.GetActionFromUrl(url);
+            var categories = await _categoryService.GetCategoriesAsync((categoryType.ToUpper() == "INCOME") ? EnumCategoryType.Income : EnumCategoryType.Expense);
             categories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["Categories"] = new SelectList(categories, "Id", "Name");
 
@@ -160,7 +162,13 @@ namespace HisabPro.Web.Controllers
             return PartialView("_Summary", new SummaryModel() { Records = totalRecords, Seconds = totalSeconds });
         }
 
-
+        private async Task setCatgoriesInJson(EnumCategoryType categoryType)
+        {
+            var categories = await _categoryService.GetCategoriesAsync(categoryType);
+            ViewData["Categories"] = JsonSerializer.Serialize(categories);
+            var childCategories = await _categoryService.GetSubCategoriesAsync(categoryType);
+            ViewData["SubCategories"] = JsonSerializer.Serialize(childCategories);
+        }
         private DateTime? getDateTime(string rawDate)
         {
             // Assign value

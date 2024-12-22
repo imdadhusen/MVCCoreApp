@@ -29,14 +29,14 @@ namespace HisabPro.Services.Implements
 
         public async Task<ResponseDTO<List<ExpenseRes>>> GetAll()
         {
-            var expense = await _expenseRepo.GetAllWithChildrenAsync("Account", "ParentCategory", "ChildCategory"); //"Creator", "Modifier"
+            var expense = await _expenseRepo.GetAllWithChildrenAsync("Account", "Category", "SubCategory"); //"Creator", "Modifier"
             var map = _mapper.Map<List<ExpenseRes>>(expense);
             return new ResponseDTO<List<ExpenseRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
 
         public async Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request)
         {
-            var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "ParentCategory", "ChildCategory");
+            var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
             data = data.ApplyDynamicFilters(request.Filters);
 
             data = PageDataHelper.ApplySort(data, request.PageData);

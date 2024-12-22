@@ -30,13 +30,13 @@ namespace HisabPro.Services.Implements
 
         public async Task<ResponseDTO<List<IncomeRes>>> GetAll()
         {
-            var accounts = await _incomeRepo.GetAllWithChildrenAsync("Account"); //"Creator", "Modifier"
+            var accounts = await _incomeRepo.GetAllWithChildrenAsync("Account", "Category", "SubCategory"); //"Creator", "Modifier"
             var map = _mapper.Map<List<IncomeRes>>(accounts);
             return new ResponseDTO<List<IncomeRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
         public async Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request)
         {
-            var data = _incomeRepo.GetPageDataWithChildrenAsync("Account");
+            var data = _incomeRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
             data = data.ApplyDynamicFilters(request.Filters);
             data = PageDataHelper.ApplySort(data, request.PageData);
             var pagedData = await PageDataHelper.ApplyPage<Income, IncomeRes>(data, request.PageData, _mapper);
