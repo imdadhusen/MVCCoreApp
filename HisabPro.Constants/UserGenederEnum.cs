@@ -2,11 +2,11 @@
 {
     public enum UserGenederEnum
     {
-        [EnumText(AuthorizePolicy.NameGenederMale)]
+        [EnumText(EnumLabel.Gender.Male)]
         Male = 1,
-        [EnumText(AuthorizePolicy.NameGenederFemale)]
+        [EnumText(EnumLabel.Gender.Female)]
         Female = 2,
-        [EnumText(AuthorizePolicy.NameGenederOther)]
+        [EnumText(EnumLabel.Gender.Other)]
         Other = 3,
     }
 }

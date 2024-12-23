@@ -29,6 +29,7 @@ namespace HisabPro
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateModelStateFilter>();
+                options.Filters.Add<CustomExceptionFilter>();
             });
             services.AddControllersWithViews();
             //services.AddControllers().AddNewtonsoftJson(options =>
@@ -51,7 +52,6 @@ namespace HisabPro
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));
@@ -95,6 +95,8 @@ namespace HisabPro
             //});
             services.AddAuthorization(options =>
             {
+                // Require 'SuperAdmin' role for this policy
+                options.AddPolicy(AuthorizePolicy.RequiredRoleSuperAdmin, policy => policy.RequireRole(AuthorizePolicy.NameRoleSuperAdmin));
                 // Require 'Admin' role for this policy
                 options.AddPolicy(AuthorizePolicy.RequiredRoleAdmin, policy => policy.RequireRole(AuthorizePolicy.NameRoleAdmin));
                 // Require 'User' role for this policy
@@ -104,8 +106,6 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // Register the exception handling middleware
-            app.UseMiddleware<ExceptionHandler>();
             // Register the remember me middleware
             app.UseMiddleware<RememberMe>();
 

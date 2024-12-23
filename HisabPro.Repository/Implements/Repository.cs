@@ -16,6 +16,11 @@ namespace HisabPro.Repository.Implements
             _dbSet = _context.Set<T>();
         }
 
+        public IQueryable<T> GetAll()
+        {
+            return _dbSet.AsQueryable(); 
+        }
+
         public async Task<List<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
@@ -43,6 +48,15 @@ namespace HisabPro.Repository.Implements
             foreach (var child in children)
             {
                 query = query.Include(child);
+            }
+            return query.AsQueryable();
+        }
+        public IQueryable<T> GetAllDataWithSelfRefAsync(Expression<Func<T, bool>> filter, params string[] children)
+        {
+            IQueryable<T> query = _dbSet;
+            foreach (var child in children)
+            {
+                query = query.Include(child).Where(filter);
             }
             return query.AsQueryable();
         }

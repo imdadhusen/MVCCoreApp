@@ -11,6 +11,7 @@
             public const string ReferenceDeleteError = "Reference data cannot be deleted as it is linked to other records";
             public const string NotFound = "Data not found";
             public const string DataWithSameName = "Data with same name already exists";
+            public const string SameNameInStandardCategory = "A duplicate name already exists within the standard category.";
             public const string DataRetrived = "Data retrived successfully";
             public const string DataRetrivedFailed = "Data retrived failed";
             public const string DataImportSuccess = "Data imported successfully";

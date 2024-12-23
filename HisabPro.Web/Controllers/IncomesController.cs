@@ -77,14 +77,14 @@ namespace HisabPro.Web.Controllers
                 return View(model);
 
             }
-            return View(new SaveIncome { IsActive = true, IncomeOn = DateTime.Now });
+            return View(new SaveIncomeReq { IsActive = true, IncomeOn = DateTime.Now });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("Id,Title,IncomeOn,Amount,Note,AccountId,IsActive")] SaveIncome req)
+        public async Task<IActionResult> Save([Bind("Id,Title,IncomeOn,Amount,Note,AccountId,IsActive")] SaveIncomeReq req)
         {
-            var response = await _incomeService.Save(req);
+            var response = await _incomeService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 
@@ -104,11 +104,12 @@ namespace HisabPro.Web.Controllers
         {
             var columns = new List<Column> {
                     new Column() { Name = "Title", Width = "170px"  },
-                    new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
-                    new Column() { Name = "Account", Width = "150px" },
                     new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
-                    new Column() { Name = "IsActive", Width = "90px", Type = ColType.Checkbox },
-                    new Column() { Name = "IsBulkImported", Title="Imported", Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
+                    new Column() { Name = "Category", Title = "Category", Width = "140px" },
+                    new Column() { Name = "SubCategory", Title = "Sub Category", Width = "150px" },
+                    new Column() { Name = "Account", Width = "150px" },
+                    new Column() { Name = "IsBulkImported", Title="Import", Width = "90px", Type = ColType.Checkbox },
                     new Column() { Name = "Note", IsSortable = false},
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }

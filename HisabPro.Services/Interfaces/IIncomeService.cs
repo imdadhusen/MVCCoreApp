@@ -6,11 +6,11 @@ namespace HisabPro.Services.Interfaces
 {
     public interface IIncomeService
     {
-        Task<SaveIncome> GetByIdAsync(int id);
-        Task<ResponseDTO<List<IncomeResponse>>> GetAll();
-        Task<PageDataRes<IncomeResponse>> PageData(LoadDataRequest request);
-        Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncome> incomes);
-        Task<ResponseDTO<IncomeResponse>> Save(SaveIncome req);
+        Task<SaveIncomeReq> GetByIdAsync(int id);
+        Task<ResponseDTO<List<IncomeRes>>> GetAll();
+        Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request);
+        Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncomeReq> incomes);
+        Task<ResponseDTO<IncomeRes>> SaveAsync(SaveIncomeReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
     }
 }

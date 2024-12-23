@@ -121,8 +121,8 @@
                     Title: row.find('input[name*="Description"]').val(),
                     Note: row.find('input[name*="Note"]').val(),
                     Amount: parseInt(row.find('input[name*="Amount"]').val()) || 0,
-                    ParentCategoryId: row.find('select[name*="Category"]').val(),
-                    ChildCategoryId: row.find('select[name*="SubCategory"]').val(),
+                    CategoryId: row.find('select[name*="Category"]').val(),
+                    SubCategoryId: row.find('select[name*="SubCategory"]').val(),
                     AccountId: row.find('select[name*="Person"]').val(),
                     IsBulkImported: true,
                     IsActive: true

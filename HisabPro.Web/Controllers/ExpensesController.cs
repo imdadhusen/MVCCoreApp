@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -32,19 +33,19 @@ namespace HisabPro.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var parentCategories = await _categoryService.GetParentCategoriesAsync();
-            var childCategories = await _categoryService.GetChildCategoriesAsync();
+            var parentCategories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Expense);
+            var childCategories = await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Expense);
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<int> {
-                    FieldName = "ParentCategoryId",
-                    ChildFieldName="ChildCategoryId",
+                    FieldName = "CategoryId",
+                    ChildFieldName="SubCategoryId",
                     FieldTitle="Category",
                     Items =  _mapper.Map<List<IdNameAndRefId>>(parentCategories),
                     ChildItems = _mapper.Map<List<IdNameAndRefId>>(childCategories)
                 },
                 new FilterModel<int> {
-                    FieldName = "ChildCategoryId",
+                    FieldName = "SubCategoryId",
                     FieldTitle="Sub Category"
                 },
                 new FilterModel<string> {
@@ -84,27 +85,27 @@ namespace HisabPro.Web.Controllers
             accounts.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["AccountId"] = new SelectList(accounts, "Id", "Name");
 
-            var parentCategories = await _categoryService.GetParentCategoriesAsync();
+            var parentCategories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Expense);
             parentCategories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
-            ViewData["ParentCategoryId"] = new SelectList(parentCategories, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(parentCategories, "Id", "Name");
 
-            ViewData["ChildCategories"] = JsonSerializer.Serialize(await _categoryService.GetChildCategoriesAsync());
+            ViewData["ChildCategories"] = JsonSerializer.Serialize(await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Expense));
 
             if (id != null)
             {
                 var model = await _expenseService.GetByIdAsync(id.Value);
-                ViewBag.SelectedChildCategoryId = model.ChildCategoryId;
+                ViewBag.SelectedSubCategoryId = model.SubCategoryId;
                 return View(model);
             }
 
-            return View(new SaveExpense { IsActive = true, ExpenseOn = DateTime.Now });
+            return View(new SaveExpenseReq { IsActive = true, ExpenseOn = DateTime.Now });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("Id,Title,ExpenseOn,Amount,Note,ParentCategoryId,ChildCategoryId,AccountId,IsActive")] SaveExpense req)
+        public async Task<IActionResult> Save([Bind("Id,Title,ExpenseOn,Amount,Note,CategoryId,SubCategoryId,AccountId,IsActive")] SaveExpenseReq req)
         {
-            var response = await _expenseService.Save(req);
+            var response = await _expenseService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 
@@ -126,10 +127,10 @@ namespace HisabPro.Web.Controllers
                     new Column() { Name = "Title", Width = "150px" },
                     new Column() { Name = "ExpenseOn", Title = "Date", Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Align = Align.Right, Width = "95px" },
-                    new Column() { Name = "ParentCategory", Title = "Category", Width = "140px" },
-                    new Column() { Name = "ChildCategory", Title = "Sub Category", Width = "150px" },
+                    new Column() { Name = "Category", Title = "Category", Width = "140px" },
+                    new Column() { Name = "SubCategory", Title = "Sub Category", Width = "150px" },
                     new Column() { Name = "Account", Width = "100px" },
-                    new Column() { Name = "IsBulkImported", Title="Imported", Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "IsBulkImported", Title="Import", Width = "90px", Type = ColType.Checkbox },
                     new Column() { Name = "Note", IsSortable = false },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete }

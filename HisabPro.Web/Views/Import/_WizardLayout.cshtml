@@ -54,6 +54,7 @@
 @section Scripts {
     <script>
         // Parse the JSON data for child categories in Wizard step-2
-        const allChildCategories = @Html.Raw(ViewData["ChildCategories"]);
+        const allChildCategories = @Html.Raw(ViewData["SubCategories"]);
+        const allCategories = @Html.Raw(ViewData["Categories"]);
     </script>
 }

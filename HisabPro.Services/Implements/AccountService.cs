@@ -13,44 +13,44 @@ namespace HisabPro.Services.Implements
 {
     public class AccountService : IAccountService
     {
-        private readonly UpdateRepository<Account, AccountResponse> _updateRepo;
+        private readonly UpdateRepository<Account, AccountRes> _updateRepo;
         private readonly IRepository<Account> _accountRepo;
         private readonly IMapper _mapper;
 
-        public AccountService(UpdateRepository<Account, AccountResponse> updateRepo, IMapper mapper, IRepository<Account> accountRepo)
+        public AccountService(UpdateRepository<Account, AccountRes> updateRepo, IMapper mapper, IRepository<Account> accountRepo)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _accountRepo = accountRepo;
         }
 
-        public async Task<SaveAccount> GetByIdAsync(int id)
+        public async Task<SaveAccountReq> GetByIdAsync(int id)
         {
             var account = await _accountRepo.GetByIdAsync(id);
-            var map = _mapper.Map<SaveAccount>(account);
+            var map = _mapper.Map<SaveAccountReq>(account);
             return map;
         }
 
-        public async Task<ResponseDTO<List<AccountResponse>>> GetAll()
+        public async Task<ResponseDTO<List<AccountRes>>> GetAll()
         {
             var accounts = await _accountRepo.GetAllWithChildrenAsync("Creator", "Modifier");
-            var map = _mapper.Map<List<AccountResponse>>(accounts);
-            return new ResponseDTO<List<AccountResponse>>() { Message = AppConst.ApiMessage.DataRetrived, Response = map, StatusCode = System.Net.HttpStatusCode.OK };
+            var map = _mapper.Map<List<AccountRes>>(accounts);
+            return new ResponseDTO<List<AccountRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
         }
-        public async Task<PageDataRes<AccountResponse>> PageData(LoadDataRequest request)
+        public async Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request)
         {
             var data = _accountRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
             data = data.ApplyDynamicFilters(request.Filters);
             data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Account, AccountResponse>(data, request.PageData, _mapper);
+            var pagedData = await PageDataHelper.ApplyPage<Account, AccountRes>(data, request.PageData, _mapper);
             return pagedData;
         }
 
-        public async Task<ResponseDTO<AccountResponse>> Save(SaveAccount req)
+        public async Task<ResponseDTO<AccountRes>> SaveAsync(SaveAccountReq req)
         {
             var map = _mapper.Map<Account>(req);
             var result = await _updateRepo.SaveAsync(map, req.Name, req.Id);
-            return new ResponseDTO<AccountResponse>() { Message = AppConst.ApiMessage.Save, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+            return new ResponseDTO<AccountRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -58,11 +58,11 @@ namespace HisabPro.Services.Implements
             var result = await _accountRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.Delete, Response = result, StatusCode = System.Net.HttpStatusCode.OK };
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
             }
             else
             {
-                return new ResponseDTO<bool>() { Message = AppConst.ApiMessage.NotFound, Response = result, StatusCode = System.Net.HttpStatusCode.BadRequest };
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
             }
         }
 

@@ -4,10 +4,13 @@ namespace HisabPro.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {
+        IQueryable<T> GetAll();
         Task<List<T>> GetAllAsync();
         Task<List<TResult>> GetAllAsync<TResult>(Expression<Func<T, TResult>> selector);
         Task<IEnumerable<T>> GetAllWithChildrenAsync(params string[] children);
         IQueryable<T> GetPageDataWithChildrenAsync(params string[] children);
+
+        IQueryable<T> GetAllDataWithSelfRefAsync(Expression<Func<T, bool>> filter, params string[] children);
 
         Task<T> GetByIdAsync(int id);
         Task<T> GetByNameAsync(string name);

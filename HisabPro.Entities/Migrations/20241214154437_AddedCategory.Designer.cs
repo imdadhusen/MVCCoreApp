@@ -4,6 +4,7 @@ using HisabPro.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HisabPro.Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241214154437_AddedCategory")]
+    partial class AddedCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1380,6 +1383,53 @@ namespace HisabPro.Entities.Migrations
                         });
                 });
 
+            modelBuilder.Entity("HisabPro.Entities.Models.ChildCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ParentCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ModifiedBy");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.ToTable("ChildCategories");
+                });
+
             modelBuilder.Entity("HisabPro.Entities.Models.Expense", b =>
                 {
                     b.Property<int>("Id")
@@ -1394,7 +1444,7 @@ namespace HisabPro.Entities.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("ChildCategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("CreatedBy")
@@ -1425,7 +1475,7 @@ namespace HisabPro.Entities.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int>("ParentCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -1437,13 +1487,13 @@ namespace HisabPro.Entities.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ChildCategoryId");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("ModifiedBy");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Expenses");
                 });
@@ -1461,9 +1511,6 @@ namespace HisabPro.Entities.Migrations
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
@@ -1493,9 +1540,6 @@ namespace HisabPro.Entities.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -1505,15 +1549,53 @@ namespace HisabPro.Entities.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("ModifiedBy");
+
+                    b.ToTable("Incomes");
+                });
+
+            modelBuilder.Entity("HisabPro.Entities.Models.ParentCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("ModifiedBy");
 
-                    b.HasIndex("SubCategoryId");
-
-                    b.ToTable("Incomes");
+                    b.ToTable("ParentCategories");
                 });
 
             modelBuilder.Entity("HisabPro.Entities.Models.User", b =>
@@ -1596,7 +1678,7 @@ namespace HisabPro.Entities.Migrations
                             Name = "Imdadhusen",
                             PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
                             PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",
-                            UserRole = 2
+                            UserRole = 1
                         });
                 });
 
@@ -1643,6 +1725,32 @@ namespace HisabPro.Entities.Migrations
                     b.Navigation("Parent");
                 });
 
+            modelBuilder.Entity("HisabPro.Entities.Models.ChildCategory", b =>
+                {
+                    b.HasOne("HisabPro.Entities.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HisabPro.Entities.Models.User", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HisabPro.Entities.Models.ParentCategory", "ParentCategory")
+                        .WithMany("ChildCategories")
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Modifier");
+
+                    b.Navigation("ParentCategory");
+                });
+
             modelBuilder.Entity("HisabPro.Entities.Models.Expense", b =>
                 {
                     b.HasOne("HisabPro.Entities.Models.Account", "Account")
@@ -1651,9 +1759,9 @@ namespace HisabPro.Entities.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HisabPro.Entities.Models.Category", "Category")
+                    b.HasOne("HisabPro.Entities.Models.ChildCategory", "ChildCategory")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("ChildCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1668,21 +1776,21 @@ namespace HisabPro.Entities.Migrations
                         .HasForeignKey("ModifiedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("HisabPro.Entities.Models.Category", "SubCategory")
+                    b.HasOne("HisabPro.Entities.Models.ParentCategory", "ParentCategory")
                         .WithMany()
-                        .HasForeignKey("SubCategoryId")
+                        .HasForeignKey("ParentCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
 
-                    b.Navigation("Category");
+                    b.Navigation("ChildCategory");
 
                     b.Navigation("Creator");
 
                     b.Navigation("Modifier");
 
-                    b.Navigation("SubCategory");
+                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("HisabPro.Entities.Models.Income", b =>
@@ -1693,12 +1801,6 @@ namespace HisabPro.Entities.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("HisabPro.Entities.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HisabPro.Entities.Models.User", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -1710,21 +1812,29 @@ namespace HisabPro.Entities.Migrations
                         .HasForeignKey("ModifiedBy")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("HisabPro.Entities.Models.Category", "SubCategory")
-                        .WithMany()
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Account");
-
-                    b.Navigation("Category");
 
                     b.Navigation("Creator");
 
                     b.Navigation("Modifier");
+                });
 
-                    b.Navigation("SubCategory");
+            modelBuilder.Entity("HisabPro.Entities.Models.ParentCategory", b =>
+                {
+                    b.HasOne("HisabPro.Entities.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HisabPro.Entities.Models.User", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Modifier");
                 });
 
             modelBuilder.Entity("HisabPro.Entities.Models.User", b =>
@@ -1755,6 +1865,11 @@ namespace HisabPro.Entities.Migrations
             modelBuilder.Entity("HisabPro.Entities.Models.Category", b =>
                 {
                     b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("HisabPro.Entities.Models.ParentCategory", b =>
+                {
+                    b.Navigation("ChildCategories");
                 });
 #pragma warning restore 612, 618
         }

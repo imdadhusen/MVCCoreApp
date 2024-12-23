@@ -5,7 +5,7 @@
 }
 
 .wizard-step button.btn {
-    margin-top:15px;
+    margin-top: 15px;
 }
 
 .step {
@@ -50,21 +50,59 @@
     border-radius: 4px; /* Rounded corners */
     text-align: center; /* Centered text for readability */
 }
-#wizard-error.visible {
-    display: block; /* Show when an error is triggered */
+
+    #wizard-error.visible {
+        display: block; /* Show when an error is triggered */
+    }
+
+.table-container {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-/*Table inside wizard > Set a wrapper around the table to control scrolling */
-.table-wrapper {
-    display: block;
-    height: calc(100vh - 200px); /* Adjust height based on remaining page space */
-    overflow-y: auto; /* Enable vertical scrolling */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.scrollable-table {
+    max-height: 300px; /* Default height */
+    overflow-y: auto;
+}
+
+.fullscreen .scrollable-table {
+    max-height: none; /* Override max-height */
+    height: calc(100vh - 70px); /* Dynamically fill screen height, adjust based on header height */
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: 1050;
+    overflow: auto;
+    padding: 0px 15px 15px 15px;
+}
+
+.action-icons .btn {
+    margin-left: 5px;
+    padding: 5px;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .headerLink {
     float: right;
     font-size: small;
@@ -76,15 +114,17 @@
     background-color: darkgray;
     color: black;
 }
+
     .headerLink:hover {
-        color:blue;
+        color: blue;
     }
-    thead th {
-        position: sticky; /* Keep header fixed */
-        top: 0;
-        z-index: 2;
-        background-color: #EDEDED !important;
-    }
+
+thead th {
+    position: sticky; /* Keep header fixed */
+    top: 0;
+    z-index: 2;
+    background-color: #EDEDED !important;
+}
 
 tr.header {
     background-color: #EDEDED; /* Add a background to prevent text overlap */

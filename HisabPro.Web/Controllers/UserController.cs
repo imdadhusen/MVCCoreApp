@@ -155,15 +155,15 @@ namespace HisabPro.Web.Controllers
                 var model = await _userService.GetByIdAsync(id.Value);
                 return View(model);
             }
-            return View(new SaveUser { UserRole = 2 });
+            return View(new SaveUserReq { UserRole = 2 });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole")] SaveUser req)
+        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole")] SaveUserReq req)
         {
-            var response = await _userService.Save(req);
+            var response = await _userService.SaveAsync(req);
             return StatusCode((int)response.StatusCode, response);
         }
 

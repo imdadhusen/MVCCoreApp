@@ -6,10 +6,10 @@ namespace HisabPro.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<SaveAccount> GetByIdAsync(int id);
-        Task<ResponseDTO<List<AccountResponse>>> GetAll();
-        Task<PageDataRes<AccountResponse>> PageData(LoadDataRequest request);
-        Task<ResponseDTO<AccountResponse>> Save(SaveAccount req);
+        Task<SaveAccountReq> GetByIdAsync(int id);
+        Task<ResponseDTO<List<AccountRes>>> GetAll();
+        Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request);
+        Task<ResponseDTO<AccountRes>> SaveAsync(SaveAccountReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
         Task<List<IdNameRes>> GetAccountsAsync();

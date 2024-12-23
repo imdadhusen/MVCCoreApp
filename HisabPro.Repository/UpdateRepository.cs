@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.DTO.Request;
 using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.Repository
 {
@@ -18,13 +19,13 @@ namespace HisabPro.Repository
             _mapper = mapper;
             _userContext = userContext;
         }
-
         public async Task<TDto> SaveAsync(T entity, string name, int? id = null)
         {
             // Check if Name already exists
             if (await _repository.ExistsAsync(name, id))
             {
-                throw new ValidationException(AppConst.ApiMessage.DataWithSameName);
+                throw new CustomValidationException(AppConst.ApiMessage.DataWithSameName);
+                //throw new ValidationException(AppConst.ApiMessage.DataWithSameName);
             }
             else if (id.HasValue)
             {

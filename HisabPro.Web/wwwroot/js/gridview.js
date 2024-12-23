@@ -7,6 +7,7 @@
             actionSave: 'Save',
             actionDelete: 'Delete',
             titleDelete: 'Delete Record',
+            allData: false,
             filter: {
                 enable: true,
                 defaultOpen: false
@@ -52,7 +53,7 @@
             // Gird : Handle sorting
             $table.on('click', 'th.sort', function () {
                 //Don't do sort if record is single
-                if (totalRecords > 1) {
+                if (totalRecords > 1 ) {
                     showHideLoading(true);
 
                     var $header = $(this);
@@ -109,7 +110,16 @@
             // Grid : Handle save action
             $table.on('click', '.save-action', function (e) {
                 var button = $(this);
-                var urlSave = `${settings.controllerName}/${settings.actionSave}?Id=${button.data('id') }`;
+                var queryString = '';
+
+                // Loop through all data attributes
+                $.each(button.data(), function (key, value) {
+                    queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+                });
+
+                // Remove the trailing '&' from the query string
+                queryString = queryString.slice(0, -1);
+                var urlSave = `${settings.controllerName}/${settings.actionSave}?${queryString}`;
                 window.location.assign(urlSave);
             });
             // Grid : Handle delete action
@@ -134,19 +144,32 @@
 
             // Grid : Helper functions
             function initializeGrid() {
-                lblRecords = $table.find('.grid-page-records span');
-                lblTotalPage = $table.find('.grid-page-action span.total-page');
-                txtCurrentPage = $table.find('.grid-page-action input.current-page');
                 filterContainer = $table.find('.grid-filter');
                 filterToggleButton = $table.find('.toggleFilters');
                 filterBody = $table.find('.grid-filter-body');
-                pageContainer = $table.find('.grid-footer');
                 sortIcons = $table.find('th.sort');
+                lblRecords = $table.find('.grid-page-records span');
 
-                const firstDiv = $table.find('#spnTotalRec');
-                totalRecords = Number(firstDiv.text());
-                firstDiv.remove();
-                currentPage = 1;
+                if (!settings.allData) {
+                    lblTotalPage = $table.find('.grid-page-action span.total-page');
+                    txtCurrentPage = $table.find('.grid-page-action input.current-page');
+                    pageContainer = $table.find('.grid-footer');
+
+                    const firstDiv = $table.find('#spnTotalRec');
+                    totalRecords = Number(firstDiv.text());
+                    firstDiv.remove();
+                    currentPage = 1;
+
+                    setPageTitle();
+                }
+                else {
+                    totalRecords = $table.find("table.table tbody tr").length;
+                    lblRecords.text(`Showing 1 - ${totalRecords} out of ${totalRecords}`);
+                }
+
+                if (!settings.pagination.enable) {
+                    pageContainer.hide();
+                }
 
                 if (!settings.filter.enable) {
                     filterContainer.hide();
@@ -154,14 +177,9 @@
                 if (!settings.filter.defaultOpen) {
                     toggleFilter();
                 }
-
-                if (!settings.pagination.enable) {
-                    pageContainer.hide();
-                }
                 if (!settings.sort.enable) {
                     sortIcons.removeClass('sort').find('span').hide();
                 }
-                setPageTitle();
             }
             function showHideLoading(isVisible) {
                 if (isVisible) {
@@ -178,37 +196,44 @@
                 ajax.html(url, data, refreshGridviewData, data);
             }
             function refreshGridviewData(res) {
-                const firstDiv = $(res).first();
-                totalRecords = Number(firstDiv.text());
-                var bodyWithoutTotalPageCount = res.replace(/<span id="spnTotalRec">.*?<\/span>/, '');
-                $table.find('tbody').html(bodyWithoutTotalPageCount);
+                if (settings.allData) {
+                    $table.find('tbody').html(res);
+                }
+                else {
+                    const firstDiv = $(res).first();
+                    totalRecords = Number(firstDiv.text());
+                    var bodyWithoutTotalPageCount = res.replace(/<span id="spnTotalRec">.*?<\/span>/, '');
+                    $table.find('tbody').html(bodyWithoutTotalPageCount);
 
-                setPageTitle();
+                    setPageTitle();
+                }
                 showHideLoading(false);
             }
             function setPageTitle() {
-                $('.prev-page, .next-page').removeAttr('disabled');
+                if (!settings.allData) {
+                    $('.prev-page, .next-page').removeAttr('disabled');
 
-                if (totalRecords >= 1) {
-                    totalPage = Math.ceil(totalRecords / settings.pagination.pageSize);
-                    txtCurrentPage.removeAttr("disabled");
-                }
-                else {
-                    totalPage = 0;
-                    currentPage = 0;
-                    txtCurrentPage.attr("disabled", "disabled");
-                }
+                    if (totalRecords >= 1) {
+                        totalPage = Math.ceil(totalRecords / settings.pagination.pageSize);
+                        txtCurrentPage.removeAttr("disabled");
+                    }
+                    else {
+                        totalPage = 0;
+                        currentPage = 0;
+                        txtCurrentPage.attr("disabled", "disabled");
+                    }
 
-                if (currentPage >= totalPage || totalPage <= 1) {
-                    $table.find('.next-page').attr('disabled', 'disabled');
-                }
-                if (currentPage == 1 || totalPage <= 1) {
-                    $table.find('.prev-page').attr('disabled', 'disabled');
-                }
+                    if (currentPage >= totalPage || totalPage <= 1) {
+                        $table.find('.next-page').attr('disabled', 'disabled');
+                    }
+                    if (currentPage == 1 || totalPage <= 1) {
+                        $table.find('.prev-page').attr('disabled', 'disabled');
+                    }
 
-                txtCurrentPage.val(currentPage);
-                lblTotalPage.text(totalPage);
-                setPageRecords();
+                    txtCurrentPage.val(currentPage);
+                    lblTotalPage.text(totalPage);
+                    setPageRecords();
+                }
             }
             function setPageRecords() {
                 if (totalRecords >= 1) {

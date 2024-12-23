@@ -10,11 +10,10 @@ namespace HisabPro.Entities.Models
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<ParentCategory> ParentCategories { get; set; }
-        public DbSet<ChildCategory> ChildCategories { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         private readonly ILogger<ApplicationDbContext> _logger;
         private readonly FilterService _filterService;
@@ -42,15 +41,24 @@ namespace HisabPro.Entities.Models
             modelBuilder.Entity<User>().HasOne(u => u.Modifier).WithMany().HasForeignKey(u => u.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<ParentCategory>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(c => c.ParentCategoryId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Creator).WithMany().HasForeignKey(p => p.CreatedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().HasOne(p => p.Modifier).WithMany().HasForeignKey(p => p.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ParentCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
+            modelBuilder.Entity<Category>(entity =>
+            {
+                // Table Mapping (Optional)
+                //entity.ToTable("Categories");
+                //// Primary Key
+                //entity.HasKey(e => e.Id);
+                //// Property Configurations
+                //entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
+                //entity.Property(e => e.Type).IsRequired().HasDefaultValue(1); // Default value for Type = 1
+                //entity.Property(e => e.IsStandard).IsRequired().HasDefaultValue(false); // Default value for IsStandard = true
+                // Self-referencing Relationship
+                entity.HasOne(e => e.Parent).WithMany(e => e.SubCategories).HasForeignKey(e => e.ParentId).OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
 
-            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Creator).WithMany().HasForeignKey(c => c.CreatedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>().HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ChildCategory>().Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
-
+                entity.HasOne(c => c.Creator).WithMany().HasForeignKey(c => c.CreatedBy).OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
+                entity.Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
+            });
+            
             // Configure relationship for Account - Income and Expense
             modelBuilder.Entity<Account>().HasMany(e => e.Incomes).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Account>().HasMany(e => e.Expenses).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
