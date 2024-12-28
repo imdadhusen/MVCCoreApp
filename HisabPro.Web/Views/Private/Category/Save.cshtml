@@ -1,0 +1,100 @@
+﻿@using HisabPro.DTO.Response;
+@using System.Collections.Generic;
+@model HisabPro.DTO.Request.SaveCategoryReq
+
+@{
+    Layout = "~/Views/Shared/_EditLayout.cshtml";
+    ViewData["Title"] = "Save Category";
+    ViewData["SectionHeader"] = "Save Category";
+    ViewData["CardTitle"] = "Save Category";
+}
+
+@* @section BodyInfo {
+    <p class="text-muted mb-0"></p>
+} *@
+
+@section BodyContent {
+    <form id="saveForm" asp-action="Save">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @if (Model.Id.HasValue)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input type="hidden" asp-for="IsStandard" />
+
+        <div class="row">
+            @{
+                var categories = ViewData["ParentCategories"] as SelectList;
+                if (categories != null && categories.Any())
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ParentId" class="control-label"></label>
+                            <select asp-for="ParentId" class="form-control" asp-items="ViewBag.ParentCategories"></select>
+                            <span asp-validation-for="ParentId" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            @if (ViewBag.Types != null)
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label"></label>
+                        <select asp-for="Type" class="form-control">
+                            @foreach (var type in (List<IdNameRes>)ViewBag.Types)
+                            {
+                                <option value="@type.Id">@type.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="Type" />
+            }
+        </div>
+        <div class="form-group m-t-10">
+            <button class="btn btn-primary action-btn">
+                <i class="fas fa-save"></i> Save
+            </button>
+            <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
+                <i class="fas fa-plus"></i> Create New
+            </button>
+        </div>
+    </form>
+}
+
+@section Scripts {
+    <script>
+        var urlSave = '/Category/Save';
+        var form = $('#saveForm');
+        var createNew = $('#btnCreateNew');
+
+        createNew.click(function () {
+            window.location.href = urlSave;
+        });
+        form.submit(function (event) {
+            event.preventDefault();
+            form.validate();
+            if (form.valid()) {
+                ajax.submitForm(urlSave, form, SaveSuccess);
+            }
+        });
+
+        function SaveSuccess(res) {
+            if (res.statusCode == 200) {
+                showNotification(res.message);
+            }
+        }
+    </script>
+}

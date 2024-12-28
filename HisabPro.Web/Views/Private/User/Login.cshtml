@@ -1,0 +1,89 @@
+﻿@model HisabPro.Web.ViewModel.LoginModel
+@{
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+    ViewData["Title"] = "Login";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="card mb-1">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-key me-2 fs-3"></i>
+                        <h5 class="mb-0 p-2">Login</h5>
+                    </div>
+                </div>
+                <div class="grid-filter-body card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="post" asp-action="Login" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="form-group">
+                                    <label asp-for="Input.Email" class="control-label"></label>
+                                    <input id="txtEmail" asp-for="Input.Email" class="form-control" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Input.Password" class="control-label"></label>
+                                    <input id="txtPassword" asp-for="Input.Password" class="form-control" type="password" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input id="chkRemember" asp-for="Input.RememberMe" class="form-check-input" />
+                                        <label asp-for="Input.RememberMe" class="form-check-label"></label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    async function login() {
+        const loginData = {
+            Email: document.getElementById('txtEmail').value,
+            Password: document.getElementById('txtPassword').value,
+            RememberMe: document.getElementById('chkRemember').checked
+        };
+
+        try {
+            const response = await fetch('/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            window.location.href = '@Url.Action("Index", "Category")';
+            // const data = await response.json();
+            // localStorage.setItem('jwtToken', data.token);
+            // console.log('Login successful:', data);
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
+    }
+</script>

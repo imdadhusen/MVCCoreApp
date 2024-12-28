@@ -31,7 +31,12 @@ namespace HisabPro
                 options.Filters.Add<ValidateModelStateFilter>();
                 options.Filters.Add<CustomExceptionFilter>();
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorOptions(options =>
+            {
+                options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+            });
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
             //    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -140,11 +145,11 @@ namespace HisabPro
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
+
                 endpoints.MapControllerRoute(name: "user", pattern: "user/{action=Login}", defaults: new { controller = "User", action = "Login" });
                 endpoints.MapControllerRoute(name: "account", pattern: "account/{controller=Account}/{action=Index}", defaults: new { controller = "Account", action = "Index" });
                 endpoints.MapControllerRoute(name: "income", pattern: "income/{controller=Income}/{action=Index}", defaults: new { controller = "Income", action = "Index" });
                 endpoints.MapControllerRoute(name: "expense", pattern: "expense/{controller=Expense}/{action=Index}", defaults: new { controller = "Expense", action = "Index" });
-
                 endpoints.MapControllerRoute(name: "import", pattern: "import/{controller=Import}/{action=Expense}", defaults: new { controller = "Import", action = "Expense" });
             });
 

@@ -1,23 +1,23 @@
 ﻿@{ 
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
-<div class="d-flex justify-content-between align-items-center mb-3">
+@* <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
         <h1 class="h4 text-primary">@ViewData["SectionHeader"]</h1>
         @RenderSection("BodyInfo", required: false)
     </div>
-    <div>
-        <a asp-action="Index" class="btn btn-light btn-back border">
-            <i class="bi bi-arrow-left me-2"></i> Back to List
-        </a>
-    </div>
-</div>
+</div> *@
 
 <div class="card mb-1">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <i class="bi bi-save me-2"></i>
             <h5 class="mb-0 p-2">@ViewData["CardTitle"]</h5>
+        </div>
+        <div>
+            <a asp-action="Index" class="btn btn-light btn-back border">
+                <i class="bi bi-arrow-left me-2"></i> Back to List
+            </a>
         </div>
     </div>
     <div class="grid-filter-body card-body">

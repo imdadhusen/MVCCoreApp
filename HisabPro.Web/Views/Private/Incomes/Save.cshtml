@@ -1,0 +1,104 @@
+﻿@model HisabPro.DTO.Request.SaveIncomeReq
+
+@{
+    Layout = "~/Views/Shared/_EditLayout.cshtml";
+    ViewData["Title"] = "Save Income";
+    ViewData["SectionHeader"] = "Save Income";
+    ViewData["CardTitle"] = "Save Income";
+}
+
+@* @section BodyInfo {
+    <p class="text-muted mb-0">
+    </p>
+}
+ *@
+@section BodyContent {
+    <form id="saveForm" asp-action="Save">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="IncomeOn" class="control-label"></label>
+                    <input asp-for="IncomeOn" class="form-control" />
+                    <span asp-validation-for="IncomeOn" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="AccountId" class="control-label"></label>
+                    <select asp-for="AccountId" class="form-control" asp-items="ViewBag.AccountId"></select>
+                    <span asp-validation-for="AccountId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Note" class="control-label"></label>
+                    <input asp-for="Note" class="form-control" />
+                    <span asp-validation-for="Note" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group form-check m-t-30">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" checked="checked" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group m-t-10">
+            <button class="btn btn-primary action-btn">
+                <i class="fas fa-save"></i> Save
+            </button>
+            <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
+                <i class="fas fa-plus"></i> Create New
+            </button>
+        </div>
+    </form>
+}
+
+
+@section Scripts {
+    <script>
+        var urlSave = '/Incomes/Save';
+        var form = $('#saveForm');
+        var createNew = $('#btnCreateNew');
+
+        createNew.click(function () {
+            window.location.href = urlSave;
+        });
+        form.submit(function (event) {
+            event.preventDefault();
+            form.validate();
+            if (form.valid()) {
+                ajax.submitForm(urlSave, form, SaveSuccess);
+            }
+        });
+
+        function SaveSuccess(res) {
+            if (res.statusCode == 200) {
+                showNotification(res.message);
+            }
+        }
+    </script>
+}
