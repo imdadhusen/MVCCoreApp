@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Hisab.CryptoService;
+using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
@@ -161,10 +162,27 @@ namespace HisabPro.Web.Controllers.Private
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole")] SaveUserReq req)
+        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole,Mobile")] SaveUserReq req)
         {
-            var response = await _userService.SaveAsync(req);
+            var activationLink = Url.Action("ActivateUser", "User", new { Email = req.Email, Token = "000" }, Request.Scheme);
+            var response = await _userService.SaveAsync(req, activationLink);
             return StatusCode((int)response.StatusCode, response);
+        }
+
+        public async Task<IActionResult> ActivateUser(string email, string token)
+        {
+            // Retrieve user from database (pseudo-code):
+            // var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Token == token);
+            // if (user == null || user.TokenExpiry < DateTime.UtcNow) return View("ActivationFailed");
+
+            // Mark user as activated (pseudo-code):
+            // user.IsActivated = true;
+            // user.Token = null;
+            // user.TokenExpiry = null;
+            // await _dbContext.SaveChangesAsync();
+
+            ViewBag.Message = "Account activated successfully!";
+            return View("ActivationSuccess");
         }
 
         [HttpPost]

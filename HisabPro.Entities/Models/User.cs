@@ -21,14 +21,16 @@ namespace HisabPro.Entities.Models
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
         public string Mobile { get; set; }
         [Required]
-        [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordHash { get; set; }
-        [Required]
-        [StringLength(FieldsSizeConst.User.PasswordSaltMax, MinimumLength = FieldsSizeConst.User.PasswordSaltMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordSalt { get; set; }
-        [Required]
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         [Required]
         public int Gender { get; set; } = (int)UserGenederEnum.Male;
+
+        [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
+        public string? PasswordHash { get; set; }
+        [StringLength(FieldsSizeConst.User.PasswordSaltMax, MinimumLength = FieldsSizeConst.User.PasswordSaltMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
+        public string? PasswordSalt { get; set; }
+        [StringLength(FieldsSizeConst.User.TokenMin)]
+        public string? Token { get; set; }
+        public DateTime? TokenExpiry { get; set; }
     }
 }

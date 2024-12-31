@@ -8,6 +8,9 @@ using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Interfaces;
 using HisabPro.Constants;
 using HisabPro.Services.Helper;
+using System.Security.Cryptography;
+using HisabPro.Common;
+using Microsoft.Extensions.Options;
 
 namespace HisabPro.Services.Implements
 {
@@ -16,12 +19,16 @@ namespace HisabPro.Services.Implements
         private readonly UpdateRepository<User, UserRes> _updateRepo;
         private readonly IRepository<User> _userRepo;
         private readonly IMapper _mapper;
+        private readonly EmailService _emailService;
+        private readonly AppSettings _appSettings;
 
-        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo)
+        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _userRepo = userRepo;
+            _emailService = emailService;
+            _appSettings = appSettings.Value;
         }
 
         public async Task<SaveUserReq> GetByIdAsync(int id)
@@ -46,10 +53,24 @@ namespace HisabPro.Services.Implements
             return pagedData;
         }
 
-        public async Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req)
+        public async Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req, string activationLink)
         {
             var map = _mapper.Map<User>(req);
+            // Set activation link and expiry when user is created
+            if (!req.Id.HasValue)
+            {
+                map.IsActive = false;
+                map.Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+                map.TokenExpiry = DateTime.UtcNow.AddHours(_appSettings.User.PasswordResetExpiryHours);
+            }
             var result = await _updateRepo.SaveAsync(map, req.Email, req.Id);
+
+            // Send user activation link in email when user is created
+            if (result != null && !req.Id.HasValue)
+            {
+                string link = activationLink.Replace("000", map.Token);
+                await _emailService.SendEmailAsync(EnumEmailTypes.ActivateAccount, req.Email, new { ActivationLink = link }); //new { FirstName = firstName, LastName = lastName }
+            }
             return new ResponseDTO<UserRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
         }
 

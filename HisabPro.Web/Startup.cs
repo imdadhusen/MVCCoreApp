@@ -1,4 +1,5 @@
-﻿using HisabPro.Constants;
+﻿using HisabPro.Common;
+using HisabPro.Constants;
 using HisabPro.Entities.IEntities;
 using HisabPro.Entities.Models;
 using HisabPro.Repository;
@@ -14,17 +15,25 @@ using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using System.Configuration;
 using System.Net;
 
 namespace HisabPro
 {
-    public class Startup(IConfiguration configuartion)
+    public class Startup
     {
-        //private readonly IConfiguration _configuartion;
-        public IConfiguration Configuartion { get; } = configuartion;
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Bind the AppSettings section to the AppSettings class
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddMvc();
             services.AddControllers(options =>
             {
@@ -46,6 +55,7 @@ namespace HisabPro
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();
             services.AddTransient<AuthService>();
+            services.AddSingleton<EmailService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -63,7 +73,7 @@ namespace HisabPro
 
             services.AddDbContext<ApplicationDbContext>(o =>
             {
-                o.UseSqlServer(Configuartion[AppConst.Configs.DatabaseConnectionString]);
+                o.UseSqlServer(Configuration.GetConnectionString(AppConst.Configs.DatabaseConnectionString));
             });
 
             // Configure JWT authentication
