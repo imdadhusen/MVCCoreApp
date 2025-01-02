@@ -27,6 +27,11 @@
             public const string PasswordHashMessage = "Password hash must be between 88 and 100 characters.";
 
             public const int TokenMin = 88;
+
+            public const int NewPasswordMin = 8;
+            public const string NewPasswordMessage = "The new password must be at least 8 characters long.";
+            public const string ConfirmPasswordMessage = "The new password and confirmation password do not match.";
+
         }
     }
 }

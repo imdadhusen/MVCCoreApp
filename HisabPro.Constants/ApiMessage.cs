@@ -6,6 +6,13 @@
         {
             public const string ValidationFailed = "Validation failed";
             public const string Save = "Data saved successfully";
+            public const string UserNotFound = "User not found";
+            public const string PasswordShouldNotMatchCurrent = "New password cannot be the same as the current password";
+            public const string PasswordUpdated = "Password changed successfully";
+            public const string UserActivate = "User activated successfully";
+            public const string UserActivateFailed = "User activation failed";
+            public const string UserDeactivate = "User deactivated successfully";
+            public const string UserDeactivateFailed = "User deactivation failed";
             public const string InternalError = "Internal server error";
             public const string Delete = "Data deleted successfully";
             public const string ReferenceDeleteError = "Reference data cannot be deleted as it is linked to other records";

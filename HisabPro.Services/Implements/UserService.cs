@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
+using Hisab.Tools.PasswordService;
+using HisabPro.Common;
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Entities.Models;
 using HisabPro.Repository;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services.Interfaces;
-using HisabPro.Constants;
 using HisabPro.Services.Helper;
-using System.Security.Cryptography;
-using HisabPro.Common;
+using HisabPro.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Security.Cryptography;
+using User = HisabPro.Entities.Models.User;
 
 namespace HisabPro.Services.Implements
 {
@@ -21,14 +23,16 @@ namespace HisabPro.Services.Implements
         private readonly IMapper _mapper;
         private readonly EmailService _emailService;
         private readonly AppSettings _appSettings;
+        private readonly AuthService _authService;
 
-        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings)
+        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings, AuthService authService)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _userRepo = userRepo;
             _emailService = emailService;
             _appSettings = appSettings.Value;
+            _authService = authService;
         }
 
         public async Task<SaveUserReq> GetByIdAsync(int id)
@@ -87,9 +91,63 @@ namespace HisabPro.Services.Implements
             }
         }
 
-        //public async Task<List<IdNameRes>> GetAccountsAsync()
-        //{
-        //    return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id.ToString(), Name = a.Name });
-        //}
+        public async Task<ResponseDTO<UserRes?>> ActivateUser(string email, string token)
+        {
+            var user = await _userRepo.GetAll()
+                .Where(u => u.Email == email && u.Token == token && u.IsActive == false)
+                .FirstOrDefaultAsync();
+            if (user == null || user.TokenExpiry < DateTime.UtcNow)
+            {
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.UserActivateFailed, null);
+            }
+            else
+            {
+                user.IsActive = true;
+                user.Token = null;
+                user.TokenExpiry = null;
+                var savedUser = await _userRepo.SaveAsync(user);
+                var map = _mapper.Map<UserRes>(savedUser);
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.UserActivate, map);
+            }
+        }
+
+        public async Task<ResponseDTO<bool>> ChangePassword(SetPasswordReq request)
+        {
+            var user = await _userRepo.GetByIdAsync(request.UserId);
+            var map = new LoginRes()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                PasswordHash = user.PasswordHash,
+                PasswordSalt = user.PasswordSalt,
+                Name = user.Name,
+                UserRole = user.UserRole
+            };
+            await _authService.SignInUser(map);
+            if (user == null)
+            {
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
+            }
+            // Check if the new password is the same as the old one
+            if (!string.IsNullOrEmpty(user.PasswordHash) && !string.IsNullOrEmpty(user.PasswordSalt))
+            {
+                bool isUnique = Argon2PasswordHelper.IsNewPasswordUnique(request.NewPassword, user.PasswordHash, user.PasswordSalt);
+                if (!isUnique)
+                {
+                    return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.PasswordShouldNotMatchCurrent, false);
+                }
+                else
+                {
+                    // Generate a new salt and hash for the new password
+                    string passwordSalt;
+                    string passwordHash = Argon2PasswordHelper.CreatePasswordHash(request.NewPassword, out passwordSalt);
+
+                    user.PasswordHash = passwordHash;
+                    user.PasswordSalt = passwordSalt;
+                    await _userRepo.SaveAsync(user);
+                }
+            }
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.PasswordUpdated, true);
+        }
     }
 }

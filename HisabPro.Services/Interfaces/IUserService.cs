@@ -11,5 +11,8 @@ namespace HisabPro.Services.Interfaces
         Task<PageDataRes<UserRes>> PageData(LoadDataRequest request);
         Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req, string activationLink);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
+
+        Task<ResponseDTO<UserRes?>> ActivateUser(string email, string token);
+        Task<ResponseDTO<bool>> ChangePassword(SetPasswordReq request);
     }
 }

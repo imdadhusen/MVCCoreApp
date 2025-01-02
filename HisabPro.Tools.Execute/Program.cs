@@ -1,5 +1,5 @@
-﻿using HisabPro.Tools.CryptoService;
-using HisabPro.Tools.PasswordService;
+﻿using Hisab.Tools.PasswordService;
+using HisabPro.Tools.CryptoService;
 using System;
 
 namespace HisabPro.Tools.Execute
@@ -8,12 +8,10 @@ namespace HisabPro.Tools.Execute
     {
         static void Main(string[] args)
         {
-           string s =  CryptoHelper.GenerateSalt(16).ToString();
-
-            string hash;
+            //string s = CryptoHelper.GenerateSalt(16).ToString();
             string salt;
             string password = "imdad@123";
-            PasswordHelper.CreatePasswordHash(password, out hash, out salt);
+            string hash = Argon2PasswordHelper.CreatePasswordHash(password, out salt);
             Console.WriteLine($"Password:{password}, Hash:{hash}, Salt:{salt}");
         }
     }

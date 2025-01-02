@@ -90,9 +90,7 @@ namespace HisabPro.Web.Controllers.Private
         //[HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            // Clear the "Remember Me" cookie
-            Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+            await logoutUser();
             return RedirectToAction("Index", "Home"); // Redirect to login page or another page after logout
         }
 
@@ -171,18 +169,33 @@ namespace HisabPro.Web.Controllers.Private
 
         public async Task<IActionResult> ActivateUser(string email, string token)
         {
-            // Retrieve user from database (pseudo-code):
-            // var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Token == token);
-            // if (user == null || user.TokenExpiry < DateTime.UtcNow) return View("ActivationFailed");
+            var response = await _userService.ActivateUser(email, token);
+            if (response.Response?.Id >= 1)
+            {
+                return View("ActivationSuccess", response.Response);
+            }
+            else
+            {
+                return View("ActivationFailed");
+            }
+        }
 
-            // Mark user as activated (pseudo-code):
-            // user.IsActivated = true;
-            // user.Token = null;
-            // user.TokenExpiry = null;
-            // await _dbContext.SaveChangesAsync();
+        public IActionResult ChangePassword(int userId)
+        {
+            return PartialView(new SetPasswordReq() { UserId = userId });
+        }
 
-            ViewBag.Message = "Account activated successfully!";
-            return View("ActivationSuccess");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(SetPasswordReq model)
+        {
+            var response = await _userService.ChangePassword(model);
+            if(response.Response)
+            {
+                // After succesful password set user must nevigate to login
+                logoutUser();
+            }
+            return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpPost]
@@ -212,6 +225,13 @@ namespace HisabPro.Web.Controllers.Private
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };
             return await GridviewHelper.LoadGridData(req, firstTimeLoad, _userService.PageData, columns);
+        }
+
+        private async Task logoutUser()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            // Clear the "Remember Me" cookie
+            Response.Cookies.Delete(AppConst.Cookies.RememberMe);
         }
     }
 }

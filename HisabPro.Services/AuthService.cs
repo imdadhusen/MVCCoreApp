@@ -47,6 +47,9 @@ namespace HisabPro.Services
                     IsPersistent = true
                 };
                 await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
+                
+                // Manually set HttpContext.User for user setting password first time
+                context.User = claimsPrincipal;
 
                 return GenerateToken(claims);
             }

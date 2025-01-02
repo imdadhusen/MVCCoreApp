@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Hisab.Tools.PasswordService;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Tools.PasswordService;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -33,7 +33,7 @@ namespace HisabPro.Repository.Implements
         }
         public async Task<User?> Register(string name, string email, string password)
         {
-            PasswordHelper.CreatePasswordHash(password, out string passwordHash, out string passwordSalt);
+            string passwordHash = Argon2PasswordHelper.CreatePasswordHash(password, out string passwordSalt);
 
             var user = new User
             {
@@ -50,7 +50,7 @@ namespace HisabPro.Repository.Implements
         public async Task<LoginRes?> Authenticate(string email, string password)
         {
             var user = await GetUser(u => u.Email == email);
-            if (user == null || !PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            if (user == null || !Argon2PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             {
                 return null;
             }
