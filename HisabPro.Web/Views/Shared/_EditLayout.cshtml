@@ -8,7 +8,7 @@
     </div>
 </div> *@
 
-<div class="card mb-1">
+<div class="card mb-1" style="position:relative">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <i class="bi bi-save me-2"></i>
@@ -26,6 +26,9 @@
                 @RenderSection("BodyContent", required: true)
             </div>
         </div>
+    </div>
+    <div id="form-view" class="loading" style="display:none">
+        Loading, please wait...
     </div>
 </div>
 

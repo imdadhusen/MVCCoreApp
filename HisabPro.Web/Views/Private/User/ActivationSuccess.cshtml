@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6" id="dvContent">
-            <div class="card mb-1">
+            <div class="card mb-1" style="position:relative">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
@@ -25,6 +25,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="form-view" class="loading" style="display:none">
+                    Loading, please wait...
+                </div>
             </div>
         </div>
         <div class="col-3">
@@ -35,10 +38,13 @@
 
 <script>
     $(document).ready(function () {
+        var formLoading = $('#form-view');
         var urlChangePassword = '/User/ChangePassword';
 
         $("#btnSetPassword").click(function () {
+            formLoading.show()
             $("#dvContent").load(urlChangePassword + '?userId=' + @Model.Id, function (response, status, xhr) {
+                formLoading.hide();
                 if (status === "error") {
                     showError("Error while getting password screen");
                 }
@@ -51,18 +57,22 @@
             var form = $('#saveForm');
             form.validate();
             if (form.valid()) {
-                ajax.submitForm(urlChangePassword, form, ChangeSuccess);
+                formLoading = $('#form-view');
+                formLoading.show();
+                ajax.submitForm(urlChangePassword, form, ChangeSuccess, null, ChangeFailed);
             }
         });
 
         function ChangeSuccess(res) {
-            if (res.statusCode == 200) {
-                showNotification(res.message);
-                //Show success message and then navigate to login after 1 second
-                window.setTimeout(function () {
-                    window.location.href = '/User/login'
-                }, 1000);
+            formLoading.hide();
+            if (res.statusCode == 200 && res.response) {
+                $('#saveForm, #container-setPassword').toggle();
             }
+        }
+
+        function ChangeFailed(res){
+            formLoading.hide();
+            showNotification(res.responseJSON.message, 'danger');
         }
     });
 </script>

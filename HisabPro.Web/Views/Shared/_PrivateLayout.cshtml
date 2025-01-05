@@ -100,8 +100,7 @@
             </div>
 
             <a href="#"><i class="bi bi-gear-fill"></i> Settings</a>
-            <a href="#"><i class="bi bi-person-fill"></i> Profile</a>
-            <a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+           
         </div>
     </div>
 
@@ -121,7 +120,7 @@
     @RenderSection("Scripts", required: false)
     <script>
         $(document).ready(function () {
-            $("#publicBrand, #publicMenu, #dvMyApp").hide();
+            $("#publicBrand, #publicMenu").hide();
 
             $("#brandLogo").click(function () {
                 window.location.href = '/Home/Index';

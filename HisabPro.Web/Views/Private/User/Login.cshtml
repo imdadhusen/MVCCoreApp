@@ -5,9 +5,9 @@
 }
 <div class="container">
     <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
-            <div class="card mb-1">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card mb-1" style="position:relative">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-key me-2 fs-3"></i>
@@ -39,18 +39,22 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary w-50" onclick="login()">Login</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+                <div id="form-view" class="loading" style="display:none">
+                    Loading, please wait...
+                </div>
             </div>
         </div>
-        <div class="col-4"></div>
+        <div class="col-3"></div>
     </div>
 </div>
+
 
 @section Scripts {
     @{
@@ -58,32 +62,28 @@
     }
 }
 <script>
-    async function login() {
+    function login() {
+        var formLoading = $('#form-view');
+        formLoading.show();
         const loginData = {
-            Email: document.getElementById('txtEmail').value,
-            Password: document.getElementById('txtPassword').value,
-            RememberMe: document.getElementById('chkRemember').checked
+            Email: $('#txtEmail').val(),
+            Password: $('#txtPassword').val(),
+            RememberMe: $('#chkRemember').prop('checked')
         };
 
-        try {
-            const response = await fetch('/user/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(loginData)
-            });
+        var data = { 'Data': loginData, 'Url': '/user/login' };
+        ajax.post(data.Url, data.Data, loginSuccess, data, loginFailed);
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        function loginSuccess(res) {
+            formLoading.hide();
+            if (res.statusCode == 200) {
+                window.location.href = '@Url.Action("Index", "Dashboard")';
             }
+        }
 
-            window.location.href = '@Url.Action("Index", "Category")';
-            // const data = await response.json();
-            // localStorage.setItem('jwtToken', data.token);
-            // console.log('Login successful:', data);
-        } catch (error) {
-            console.error('Login failed:', error);
+        function loginFailed(res) {
+            formLoading.hide();
+            showNotification(res.responseJSON.message, 'danger');
         }
     }
 </script>

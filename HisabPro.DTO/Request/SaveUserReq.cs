@@ -18,6 +18,7 @@ namespace HisabPro.DTO.Request
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
         public string Mobile { get; set; }
         [Required]
+        [Display(Name = "User Role")]
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         [Required]
         public int Gender { get; set; } = (int)UserGenederEnum.Male;

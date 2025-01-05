@@ -12,6 +12,7 @@ namespace HisabPro.DTO.Request
         [Display(Name = "Parent Category")]
         public int? ParentId { get; set; }
         public int Type { get; set; } = (int)EnumCategoryType.Expense; //1:Expense, 2:Income
+        [Display(Name = "Is Standard")]
         public bool IsStandard { get; set; } = false; 
     }
 }

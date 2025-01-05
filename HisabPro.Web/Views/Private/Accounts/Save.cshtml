@@ -63,6 +63,7 @@
 
 @section Scripts {
     <script>
+        var formLoading = $('#form-view');
         var urlSave = '/Accounts/Save';
         var form = $('#saveForm');
         var createNew = $('#btnCreateNew');
@@ -74,11 +75,13 @@
             event.preventDefault();
             form.validate();
             if (form.valid()) {
+                formLoading.show();
                 ajax.submitForm(urlSave, form, SaveSuccess);
             }
         });
 
         function SaveSuccess(res) {
+            formLoading.hide();
             if (res.statusCode == 200) {
                 showNotification(res.message);
             }

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using Azure;
 using Hisab.CryptoService;
-using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
+using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services;
 using HisabPro.Services.Interfaces;
@@ -25,13 +26,15 @@ namespace HisabPro.Web.Controllers.Private
         private readonly AuthService _authService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
 
-        public UserController(IUserRepository userRpository, AuthService authService, IUserService userService, IMapper mapper)
+        public UserController(IUserRepository userRpository, AuthService authService, IUserService userService, IMapper mapper, IUserContext userContext)
         {
             _userRpository = userRpository;
             _authService = authService;
             _userService = userService;
             _mapper = mapper;
+            _userContext = userContext;
         }
 
         [AllowAnonymous]
@@ -47,47 +50,43 @@ namespace HisabPro.Web.Controllers.Private
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            if (ModelState.IsValid)
+            var user = await _userRpository.Authenticate(login.Email, login.Password);
+            if (user == null)
             {
-                var user = await _userRpository.Authenticate(login.Email, login.Password);
-                if (user == null)
-                {
-                    return Unauthorized();
-                }
-                else
-                {
-                    var tokenString = await _authService.SignInUser(user);
-                    if (login.RememberMe)
-                    {
-                        var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
-                        // Set a persistent cookie
-                        Response.Cookies.Append(AppConst.Cookies.RememberMe, encryptedUserId,
-                            new CookieOptions
-                            {
-                                Expires = DateTimeOffset.Now.AddDays(30),
-                                HttpOnly = true,
-                                Secure = true // Ensure the cookie is only sent over HTTPS
-                            });
-                    }
-                    else
-                    {
-                        // Clear the cookie if not remembered
-                        Response.Cookies.Delete(AppConst.Cookies.RememberMe);
-                    }
-                    return Ok(new { Token = tokenString });
-                }
+                ResponseDTO<bool> response = new ResponseDTO<bool>(System.Net.HttpStatusCode.Unauthorized, "The email or password is incorrect", false);
+                return StatusCode((int)response.StatusCode, response);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, MessageConst.Validations.ValidationFailed);
-                return View(login);
+                var tokenString = await _authService.SignInUser(user);
+                if (login.RememberMe)
+                {
+                    var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
+                    // Set a persistent cookie
+                    Response.Cookies.Append(AppConst.Cookies.RememberMe, encryptedUserId,
+                        new CookieOptions
+                        {
+                            Expires = DateTimeOffset.Now.AddDays(30),
+                            HttpOnly = true,
+                            Secure = true // Ensure the cookie is only sent over HTTPS
+                        });
+                }
+                else
+                {
+                    // Clear the cookie if not remembered
+                    Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+                }
+                ResponseDTO<bool> response = new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, "", true);
+                return StatusCode((int)response.StatusCode, response);
+                //return Ok(new { Token = tokenString });
             }
         }
 
-        //[HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await logoutUser();
@@ -167,9 +166,14 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> ActivateUser(string email, string token)
         {
             var response = await _userService.ActivateUser(email, token);
+
+            var users = await _userService.GetAll();
+            response.Response = users.Response.FirstOrDefault();
+
             if (response.Response?.Id >= 1)
             {
                 return View("ActivationSuccess", response.Response);
@@ -180,21 +184,58 @@ namespace HisabPro.Web.Controllers.Private
             }
         }
 
+        /// <summary>
+        /// Newly registered user setting password view
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult ChangePassword(int userId)
         {
             return PartialView(new SetPasswordReq() { UserId = userId });
         }
 
+        /// <summary>
+        /// Newly registered user setting password via password reset link
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(SetPasswordReq model)
         {
             var response = await _userService.ChangePassword(model);
-            if(response.Response)
+            if (response.Response)
             {
                 // After succesful password set user must nevigate to login
                 logoutUser();
             }
+            return StatusCode((int)response.StatusCode, response);
+        }
+
+        /// <summary>
+        /// Logged in user change password view
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [Authorize]
+        public IActionResult UpdatePassword()
+        {
+            return View(new ResetPasswordReq());
+        }
+        /// <summary>
+        /// Logged in user can change password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> UpdatePassword(ResetPasswordReq model)
+        {
+            model.UserId = _userContext.GetCurrentUserId();
+            var response = await _userService.ChangePassword(model);
             return StatusCode((int)response.StatusCode, response);
         }
 
