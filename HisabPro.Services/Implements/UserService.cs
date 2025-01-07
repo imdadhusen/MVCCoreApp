@@ -113,12 +113,12 @@ namespace HisabPro.Services.Implements
 
         public async Task<ResponseDTO<bool>> ChangePassword(SetPasswordReq request)
         {
-            if(request.UserId == null)
+            if (request.UserId == null)
             {
                 return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
             }
             var user = await _userRepo.GetByIdAsync(request.UserId);
-            
+
             if (user == null)
             {
                 return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
@@ -130,7 +130,9 @@ namespace HisabPro.Services.Implements
                 PasswordHash = user.PasswordHash,
                 PasswordSalt = user.PasswordSalt,
                 Name = user.Name,
-                UserRole = user.UserRole
+                UserRole = user.UserRole,
+                PasswordChangedOn = DateHelper.GetUTC,
+                MustChangePassword = false
             };
             await _authService.SignInUser(map);
             // Check if the new password is the same as the old one

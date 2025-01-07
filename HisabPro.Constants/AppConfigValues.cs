@@ -7,6 +7,7 @@
         public class UserSettings
         {
             public int PasswordResetExpiryHours { get; set; }
+            public int MustChangePasswordInDays { get; set; }
         }
     }
 }

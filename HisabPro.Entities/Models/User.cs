@@ -32,5 +32,7 @@ namespace HisabPro.Entities.Models
         [StringLength(FieldsSizeConst.User.TokenMin)]
         public string? Token { get; set; }
         public DateTime? TokenExpiry { get; set; }
+        public DateTime? PasswordChangedOn { get; set; }
+        public bool MustChangePassword { get; set; } = false; //Admin reset or Password recovery/reset
     }
 }

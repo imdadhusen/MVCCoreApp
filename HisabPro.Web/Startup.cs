@@ -15,7 +15,6 @@ using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using System.Configuration;
 using System.Net;
 
 namespace HisabPro
@@ -58,7 +57,7 @@ namespace HisabPro
             services.AddSingleton<EmailService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
-
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(UpdateRepository<,>));
 
@@ -121,9 +120,7 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // Register the remember me middleware
-            app.UseMiddleware<RememberMe>();
-
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -151,6 +148,11 @@ namespace HisabPro
                 return Task.CompletedTask;
             });
             app.UseAuthorization();
+
+            // Register the remember me middleware after login
+            app.UseMiddleware<RememberMe>();
+            // Register the Password expirey middleware after login
+            app.UseMiddleware<PasswordExpiry>();
 
             app.UseEndpoints(endpoints =>
             {

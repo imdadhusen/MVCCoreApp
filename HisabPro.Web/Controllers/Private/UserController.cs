@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using Hisab.CryptoService;
 using HisabPro.Constants;
 using HisabPro.DTO.Model;
@@ -171,8 +170,8 @@ namespace HisabPro.Web.Controllers.Private
         {
             var response = await _userService.ActivateUser(email, token);
 
-            var users = await _userService.GetAll();
-            response.Response = users.Response.FirstOrDefault();
+            //var users = await _userService.GetAll();
+            //response.Response = users.Response.FirstOrDefault();
 
             if (response.Response?.Id >= 1)
             {
@@ -245,6 +244,26 @@ namespace HisabPro.Web.Controllers.Private
         {
             var response = await _userService.DeleteAsync(req.Id);
             return StatusCode((int)response.StatusCode, response); ;
+        }
+
+        [HttpGet]
+        public IActionResult ForcePasswordChange()
+        {
+            ViewData["IsForcePasswordChange"] = true;
+            var id = _userContext.GetCurrentUserId();
+            return View("UpdatePassword", new ResetPasswordReq() { UserId = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForcePasswordChange(ResetPasswordReq model)
+        {
+            var response = new ResponseDTO<bool>();
+            var user = await _userService.GetByIdAsync(model.UserId);
+            if (user != null)
+            {
+                response = await _userService.ChangePassword(model);
+            }
+            return StatusCode((int)response.StatusCode, response);
         }
 
         /// <summary>
