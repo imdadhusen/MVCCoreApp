@@ -1,5 +1,6 @@
 ﻿using HisabPro.Constants;
 using HisabPro.DTO.Response;
+using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +10,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace HisabPro.Services
+namespace HisabPro.Services.Implements
 {
-    public class AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor)
+    public class AuthService(IConfiguration configuartion, IHttpContextAccessor contextAccessor) : IAuthService
     {
         public IConfiguration Configuartion { get; } = configuartion;
         private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
@@ -47,9 +48,9 @@ namespace HisabPro.Services
                     IsPersistent = true
                 };
                 await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
-                
+
                 // Manually set HttpContext.User for user setting password first time
-                context.User = claimsPrincipal;
+                //context.User = claimsPrincipal;
 
                 return GenerateToken(claims);
             }

@@ -1,5 +1,7 @@
 ﻿using HisabPro.Constants;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace HisabPro.DTO.Request
 {
@@ -22,5 +24,16 @@ namespace HisabPro.DTO.Request
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         [Required]
         public int Gender { get; set; } = (int)UserGenederEnum.Male;
+        public DateTime? PasswordChangedOn { get; set; }
+        public bool MustChangePassword { get; set; }
+
+        [JsonIgnore]
+        public string PasswordHash { get; set; }
+        [JsonIgnore]
+        public string PasswordSalt { get; set; }
+        [JsonIgnore]
+        public int FailedLoginAttempts { get; set; }
+        [JsonIgnore]
+        public DateTime? LockoutEnd { get; set; }
     }
 }

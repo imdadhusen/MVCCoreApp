@@ -12,5 +12,9 @@ namespace HisabPro.DTO.Response
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         public DateTime? PasswordChangedOn { get; set; }
         public bool MustChangePassword { get; set; }
+
+        public int FailedLoginAttempts { get; set; }
+        public DateTime? LockoutEnd { get; set; } 
+        public bool IsLockedOut => LockoutEnd.HasValue && LockoutEnd.Value > DateTime.UtcNow;
     }
 }

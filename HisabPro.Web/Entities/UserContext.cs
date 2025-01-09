@@ -12,9 +12,13 @@ namespace HisabPro.Web.Entities
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public int GetCurrentUserId()
+        public int GetCurrentUserId(bool useFallback = false)
         {
             // Assuming user ID is stored in claims
+            if(useFallback)
+            {
+                return 1;
+            }
             var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
             return userIdClaim != null ? int.Parse(userIdClaim.Value) : throw new InvalidOperationException("User is not authenticated");
         }

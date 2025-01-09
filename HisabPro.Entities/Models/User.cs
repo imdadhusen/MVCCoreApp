@@ -34,5 +34,10 @@ namespace HisabPro.Entities.Models
         public DateTime? TokenExpiry { get; set; }
         public DateTime? PasswordChangedOn { get; set; }
         public bool MustChangePassword { get; set; } = false; //Admin reset or Password recovery/reset
+
+        // lockout properties
+        public int FailedLoginAttempts { get; set; } = 0; // Track the number of failed login attempts
+        public DateTime? LockoutEnd { get; set; } // Track when the lockout ends
+        public bool IsLockedOut => LockoutEnd.HasValue && LockoutEnd.Value > DateTime.UtcNow; // Determines if the user is locked out
     }
 }

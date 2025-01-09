@@ -1,7 +1,5 @@
 ﻿using HisabPro.Constants;
-using HisabPro.Entities.IEntities;
-using HisabPro.Repository.Interfaces;
-using HisabPro.Services;
+using HisabPro.Services.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace HisabPro.Web.Middleware
@@ -11,9 +9,9 @@ namespace HisabPro.Web.Middleware
         private readonly RequestDelegate _next;
         private readonly IServiceProvider _serviceProvider;
         private readonly AppSettings _appSettings;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
 
-        public PasswordExpiry(RequestDelegate next, IServiceProvider serviceProvider, IOptions<AppSettings> appSettings, AuthService authService)
+        public PasswordExpiry(RequestDelegate next, IServiceProvider serviceProvider, IOptions<AppSettings> appSettings, IAuthService authService)
         {
             _next = next;
             _serviceProvider = serviceProvider;
@@ -26,10 +24,10 @@ namespace HisabPro.Web.Middleware
             if (context.User?.Identity?.IsAuthenticated == true)
             {
                 using var scope = _serviceProvider.CreateScope();
-                var _userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
                 var id = _authService.GetCurrentUserId();
-                var user = await _userRepository.GetUser(u => u.Id == id);
+                var user = await _userService.GetByIdAsync(id);
 
                 if (user != null)
                 {

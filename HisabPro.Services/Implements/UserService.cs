@@ -23,16 +23,14 @@ namespace HisabPro.Services.Implements
         private readonly IMapper _mapper;
         private readonly EmailService _emailService;
         private readonly AppSettings _appSettings;
-        private readonly AuthService _authService;
 
-        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings, AuthService authService)
+        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _userRepo = userRepo;
             _emailService = emailService;
             _appSettings = appSettings.Value;
-            _authService = authService;
         }
 
         public async Task<SaveUserReq> GetByIdAsync(int id)
@@ -123,18 +121,18 @@ namespace HisabPro.Services.Implements
             {
                 return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
             }
-            var map = new LoginRes()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                PasswordHash = user.PasswordHash,
-                PasswordSalt = user.PasswordSalt,
-                Name = user.Name,
-                UserRole = user.UserRole,
-                PasswordChangedOn = DateHelper.GetUTC,
-                MustChangePassword = false
-            };
-            await _authService.SignInUser(map);
+            //var map = new LoginRes()
+            //{
+            //    Id = user.Id,
+            //    Email = user.Email,
+            //    PasswordHash = user.PasswordHash,
+            //    PasswordSalt = user.PasswordSalt,
+            //    Name = user.Name,
+            //    UserRole = user.UserRole,
+            //    PasswordChangedOn = DateHelper.GetUTC,
+            //    MustChangePassword = false
+            //};
+            //await _authService.SignInUser(map);
             // Check if the new password is the same as the old one
             if (!string.IsNullOrEmpty(user.PasswordHash) && !string.IsNullOrEmpty(user.PasswordSalt))
             {
@@ -151,7 +149,7 @@ namespace HisabPro.Services.Implements
 
                     user.PasswordHash = passwordHash;
                     user.PasswordSalt = passwordSalt;
-                    await _userRepo.SaveAsync(user);
+                    await _userRepo.SaveAsync(user, true);
                 }
             }
             return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.PasswordUpdated, true);

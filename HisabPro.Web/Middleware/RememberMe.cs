@@ -1,34 +1,25 @@
-﻿using Hisab.CryptoService;
+﻿using AutoMapper;
+using Hisab.CryptoService;
 using HisabPro.Constants;
+using HisabPro.DTO.Response;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services;
+using HisabPro.Services.Implements;
+using HisabPro.Services.Interfaces;
 
 namespace HisabPro.Web.Middleware
 {
-    public class RememberMe(RequestDelegate next, AuthService authService, IServiceProvider serviceProvider, IConfiguration configuartion)
+    public class RememberMe(RequestDelegate next, IAuthService authService, IServiceProvider serviceProvider, IConfiguration configuartion, IMapper mapper)
     {
         private readonly RequestDelegate _next = next;
-        private readonly AuthService _authService = authService;
+        private readonly IAuthService _authService = authService;
         private readonly IServiceProvider _serviceProvider = serviceProvider;
         public IConfiguration Configuartion { get; } = configuartion;
+        private readonly IMapper _mapper = mapper;
 
         public async Task InvokeAsync(HttpContext context)
         {
             using var scope = _serviceProvider.CreateScope();
-            var _userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-            //Check if the request requires authentication using JWT token
-            //if (context.User.Identity.IsAuthenticated)
-            //{
-            //    
-            //    Handle token validation here
-            //     Example: Check for token expiration
-            //    var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            //    if (string.IsNullOrEmpty(token) || !ValidateToken(token))
-            //    {
-            //        context.Response.Redirect("/login"); // Redirect to login if token is invalid
-            //        return;
-            //    }
-            //}
+            var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
             if (context.User.Identity != null)
             {
                 if (!context.User.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AppConst.Cookies.RememberMe, out var encryptedUserId))
@@ -36,10 +27,11 @@ namespace HisabPro.Web.Middleware
                     var userId = EncryptionHelper.Decrypt(encryptedUserId);
                     if (int.TryParse(userId, out var id))
                     {
-                        var user = await _userRepository.GetUser(u => u.Id == id);
+                        var user = await _userService.GetByIdAsync(id);
                         if (user != null)
                         {
-                            await _authService.SignInUser(user);
+                            var map = _mapper.Map<LoginRes>(user);
+                            await _authService.SignInUser(map);
                         }
                     }
                 }

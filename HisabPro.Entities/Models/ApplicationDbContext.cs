@@ -58,7 +58,7 @@ namespace HisabPro.Entities.Models
                 entity.HasOne(c => c.Modifier).WithMany().HasForeignKey(c => c.ModifiedBy).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(p => p.CreatedOn).HasDefaultValueSql("GETUTCDATE()").ValueGeneratedOnAdd();
             });
-            
+
             // Configure relationship for Account - Income and Expense
             modelBuilder.Entity<Account>().HasMany(e => e.Incomes).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Account>().HasMany(e => e.Expenses).WithOne(a => a.Account).HasForeignKey(a => a.AccountId).OnDelete(DeleteBehavior.Restrict);
@@ -108,9 +108,10 @@ namespace HisabPro.Entities.Models
             DatabaseSeeder.ExecutePostSeedSql(this);
         }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesWithAuditAsync(bool useFallback = false, CancellationToken cancellationToken = default)
         {
-            int currentUserId = _userContext.GetCurrentUserId();
+            //Default user if operation is outside from the authentication
+            int currentUserId = _userContext.GetCurrentUserId(useFallback);
 
             foreach (var changedEntity in ChangeTracker.Entries())
             {
@@ -124,6 +125,7 @@ namespace HisabPro.Entities.Models
                             entity.CreatedBy = currentUserId;
                             entity.ModifiedBy = currentUserId;
                             break;
+
                         case EntityState.Modified:
                             Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                             Entry(entity).Property(x => x.CreatedOn).IsModified = false;
@@ -133,7 +135,9 @@ namespace HisabPro.Entities.Models
                     }
                 }
             }
+
             return await base.SaveChangesAsync(cancellationToken);
         }
+
     }
 }

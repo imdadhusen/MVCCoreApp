@@ -5,7 +5,6 @@ using HisabPro.Entities.Models;
 using HisabPro.Repository;
 using HisabPro.Repository.Implements;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Entities;
@@ -53,11 +52,11 @@ namespace HisabPro
 
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();
-            services.AddTransient<AuthService>();
+            services.AddTransient<IAuthService, AuthService>();
             services.AddSingleton<EmailService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
-            
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(UpdateRepository<,>));
 
@@ -120,7 +119,7 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-           
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

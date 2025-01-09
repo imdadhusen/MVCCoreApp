@@ -1,19 +1,23 @@
 ﻿using AutoMapper;
 using Hisab.Tools.PasswordService;
+using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static HisabPro.Constants.AppConst;
 
 namespace HisabPro.Repository.Implements
 {
-    public class UserRepository(ApplicationDbContext context, IMapper mapper) : IUserRepository
+    public class UserRepository(ApplicationDbContext context, IMapper mapper, AppSettings appSettings) : IUserRepository
     {
         public readonly ApplicationDbContext _context = context;
         private readonly IMapper _mapper = mapper;
+        private readonly AppSettings _appSettings = appSettings;
 
-        public async Task<LoginRes?> GetUser(Expression<Func<User, bool>> predicate)
+        public async Task<User?> GetUser(Expression<Func<User, bool>> predicate)
         {
             User? data;
             if (predicate != null)
@@ -24,37 +28,63 @@ namespace HisabPro.Repository.Implements
             {
                 data = await _context.Users.FirstOrDefaultAsync();
             }
-
-            if (data == null)
-            {
-                return null;
-            }
-            return _mapper.Map<User, LoginRes>(data);
-        }
-        public async Task<User?> Register(string name, string email, string password)
-        {
-            string passwordHash = Argon2PasswordHelper.CreatePasswordHash(password, out string passwordSalt);
-
-            var user = new User
-            {
-                Name = name,
-                Email = email,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            };
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
+            return data;
+            //return _mapper.Map<User, LoginRes>(data);
         }
 
-        public async Task<LoginRes?> Authenticate(string email, string password)
+
+        public async Task<ResponseDTO<LoginRes?>> Authenticate(string email, string password)
         {
+            var response = new ResponseDTO<LoginRes>(System.Net.HttpStatusCode.Unauthorized, "", null);
             var user = await GetUser(u => u.Email == email);
-            if (user == null || !Argon2PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            if (user == null)
             {
-                return null;
+                response.Message = ApiMessage.LoginMsg.EMailNotFound;
             }
-            return user;
+            else if (user.IsLockedOut)
+            {
+                response.Message = ApiMessage.LoginMsg.AccountLocked;
+            }
+            else
+            {
+                var isPasswordValid = Argon2PasswordHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt);
+
+                if (!isPasswordValid)
+                {
+                    // Failed login attempt
+                    user.FailedLoginAttempts++;
+                    if (user.FailedLoginAttempts >= _appSettings.User.MaxLoginAttempts)
+                    {
+                        // Lock the account after 3 failed attempts
+                        response.Message = ApiMessage.LoginMsg.AccountLocked;
+                        user.LockoutEnd = DateTime.UtcNow.AddMinutes(_appSettings.User.AccountLockedForMins); // Lock for 15 minutes
+                    }
+                    var attemptRemain = _appSettings.User.MaxLoginAttempts - user.FailedLoginAttempts;
+                    if (attemptRemain > 0)
+                    {
+                        response.Message = string.Format(ApiMessage.LoginMsg.InvalidAttempt, attemptRemain);
+                    }
+                    else
+                    {
+                        response.Message = string.Format(ApiMessage.LoginMsg.AccountLockedWithUnlockTime, _appSettings.User.AccountLockedForMins);
+                    }
+
+                    _context.Users.Update(user);
+                    await _context.SaveChangesWithAuditAsync(useFallback: true);
+                }
+                else
+                {
+                    // Successful login
+                    user.FailedLoginAttempts = 0; // Reset failed attempts
+                    _context.Users.Update(user);
+                    await _context.SaveChangesWithAuditAsync(useFallback: true);
+
+                    response.StatusCode = System.Net.HttpStatusCode.OK;
+                    response.Message = ApiMessage.LoginMsg.Success;
+                    response.Response = _mapper.Map<User, LoginRes>(user);
+                }
+            }
+            return response;
         }
     }
 }

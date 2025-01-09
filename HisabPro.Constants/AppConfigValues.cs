@@ -8,6 +8,8 @@
         {
             public int PasswordResetExpiryHours { get; set; }
             public int MustChangePasswordInDays { get; set; }
+            public int MaxLoginAttempts { get; set; }
+            public int AccountLockedForMins { get; set; }
         }
     }
 }

@@ -6,7 +6,7 @@ using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
@@ -22,12 +22,12 @@ namespace HisabPro.Web.Controllers.Private
     public class UserController : Controller
     {
         private readonly IUserRepository _userRpository;
-        private readonly AuthService _authService;
+        private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
 
-        public UserController(IUserRepository userRpository, AuthService authService, IUserService userService, IMapper mapper, IUserContext userContext)
+        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, IMapper mapper, IUserContext userContext)
         {
             _userRpository = userRpository;
             _authService = authService;
@@ -53,36 +53,33 @@ namespace HisabPro.Web.Controllers.Private
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            var user = await _userRpository.Authenticate(login.Email, login.Password);
-            if (user == null)
+            var response = await _userRpository.Authenticate(login.Email, login.Password);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                ResponseDTO<bool> response = new ResponseDTO<bool>(System.Net.HttpStatusCode.Unauthorized, "The email or password is incorrect", false);
-                return StatusCode((int)response.StatusCode, response);
-            }
-            else
-            {
-                var tokenString = await _authService.SignInUser(user);
-                if (login.RememberMe)
+                var user = response.Response;
+                if (user != null)
                 {
-                    var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
-                    // Set a persistent cookie
-                    Response.Cookies.Append(AppConst.Cookies.RememberMe, encryptedUserId,
-                        new CookieOptions
-                        {
-                            Expires = DateTimeOffset.Now.AddDays(30),
-                            HttpOnly = true,
-                            Secure = true // Ensure the cookie is only sent over HTTPS
-                        });
+                    await _authService.SignInUser(user);
+                    if (login.RememberMe)
+                    {
+                        var encryptedUserId = EncryptionHelper.Encrypt(user.Id.ToString());
+                        // Set a persistent cookie
+                        Response.Cookies.Append(AppConst.Cookies.RememberMe, encryptedUserId,
+                            new CookieOptions
+                            {
+                                Expires = DateTimeOffset.Now.AddDays(30),
+                                HttpOnly = true,
+                                Secure = true // Ensure the cookie is only sent over HTTPS
+                            });
+                    }
+                    else
+                    {
+                        // Clear the cookie if not remembered
+                        Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+                    }
                 }
-                else
-                {
-                    // Clear the cookie if not remembered
-                    Response.Cookies.Delete(AppConst.Cookies.RememberMe);
-                }
-                ResponseDTO<bool> response = new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, "", true);
-                return StatusCode((int)response.StatusCode, response);
-                //return Ok(new { Token = tokenString });
             }
+            return StatusCode((int)response.StatusCode, response);
         }
 
         [Authorize]
@@ -205,11 +202,11 @@ namespace HisabPro.Web.Controllers.Private
         public async Task<IActionResult> ChangePassword(SetPasswordReq model)
         {
             var response = await _userService.ChangePassword(model);
-            if (response.Response)
-            {
-                // After succesful password set user must nevigate to login
-                logoutUser();
-            }
+            //if (response.Response)
+            //{
+            //    // After succesful password set user must nevigate to login
+            //    logoutUser();
+            //}
             return StatusCode((int)response.StatusCode, response);
         }
 
@@ -247,6 +244,7 @@ namespace HisabPro.Web.Controllers.Private
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult ForcePasswordChange()
         {
             ViewData["IsForcePasswordChange"] = true;
@@ -255,6 +253,7 @@ namespace HisabPro.Web.Controllers.Private
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ForcePasswordChange(ResetPasswordReq model)
         {
             var response = new ResponseDTO<bool>();
