@@ -14,6 +14,7 @@ using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using System.Net;
 
 namespace HisabPro
@@ -31,6 +32,8 @@ namespace HisabPro
         {
             // Bind the AppSettings section to the AppSettings class
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddSingleton<AppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
+
 
             services.AddMvc();
             services.AddControllers(options =>

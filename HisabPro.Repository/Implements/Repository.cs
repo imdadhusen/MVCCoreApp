@@ -79,10 +79,10 @@ namespace HisabPro.Repository.Implements
             return affectedRows;
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity, bool useFallback = false)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesWithAuditAsync();
+            await _context.SaveChangesWithAuditAsync(useFallback);
             return entity;
         }
 

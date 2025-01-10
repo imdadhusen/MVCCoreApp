@@ -55,7 +55,7 @@ namespace HisabPro.Services.Implements
             return pagedData;
         }
 
-        public async Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req, string activationLink)
+        public async Task<ResponseDTO<UserRes>> SaveAsync(SaveUserReq req, string activationLink, bool useFallback = false)
         {
             var map = _mapper.Map<User>(req);
             // Set activation link and expiry when user is created
@@ -65,7 +65,7 @@ namespace HisabPro.Services.Implements
                 map.Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 map.TokenExpiry = DateTime.UtcNow.AddHours(_appSettings.User.PasswordResetExpiryHours);
             }
-            var result = await _updateRepo.SaveAsync(map, req.Email, req.Id);
+            var result = await _updateRepo.SaveAsync(map, req.Email, req.Id, useFallback);
 
             // Send user activation link in email when user is created
             if (result != null && !req.Id.HasValue)

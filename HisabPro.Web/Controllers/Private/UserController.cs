@@ -6,7 +6,6 @@ using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using HisabPro.Web.ViewModel;
@@ -155,7 +154,7 @@ namespace HisabPro.Web.Controllers.Private
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole,Mobile")] SaveUserReq req)
+        public async Task<IActionResult> Save([Bind("Id,Name,Email,UserRole,Gender,Mobile")] SaveUserReq req)
         {
             var activationLink = Url.Action("ActivateUser", "User", new { Email = req.Email, Token = "000" }, Request.Scheme);
             var response = await _userService.SaveAsync(req, activationLink);
@@ -262,6 +261,36 @@ namespace HisabPro.Web.Controllers.Private
             {
                 response = await _userService.ChangePassword(model);
             }
+            return StatusCode((int)response.StatusCode, response);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Authorize]
+        public IActionResult Register()
+        {
+            // User can register with User role only and Admin/Super admin can assign appropriate role 
+            var roles = EnumHelper.ToIdNameList<UserRoleEnum>().Where(r => r.Id == ((int)UserRoleEnum.User).ToString()).ToList();
+            roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
+
+            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
+            genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
+
+            return View(new SaveUserReq { UserRole = 2 });
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Register([Bind("Name,Email,UserRole,Gender,Mobile")] SaveUserReq req)
+        {
+            // If user trying to set other role by injectting script then this will overwrite
+            req.UserRole = (int)UserRoleEnum.User;
+
+            var activationLink = Url.Action("ActivateUser", "User", new { Email = req.Email, Token = "000" }, Request.Scheme);
+            var response = await _userService.SaveAsync(req, activationLink, true);
             return StatusCode((int)response.StatusCode, response);
         }
 

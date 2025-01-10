@@ -19,7 +19,7 @@ namespace HisabPro.Repository
             _mapper = mapper;
             _userContext = userContext;
         }
-        public async Task<TDto> SaveAsync(T entity, string name, int? id = null)
+        public async Task<TDto> SaveAsync(T entity, string name, int? id = null, bool useFallback = false)
         {
             // Check if Name already exists
             if (await _repository.ExistsAsync(name, id))
@@ -38,7 +38,7 @@ namespace HisabPro.Repository
             else
             {
                 // Add new entity
-                var addedEntity = await _repository.AddAsync(entity);
+                var addedEntity = await _repository.AddAsync(entity, useFallback);
                 var dto = _mapper.Map<TDto>(addedEntity);
                 SetAuditProperties(dto, DBOperationEnum.Add);
                 return dto;

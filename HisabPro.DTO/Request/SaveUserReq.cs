@@ -28,9 +28,9 @@ namespace HisabPro.DTO.Request
         public bool MustChangePassword { get; set; }
 
         [JsonIgnore]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
         [JsonIgnore]
-        public string PasswordSalt { get; set; }
+        public string? PasswordSalt { get; set; }
         [JsonIgnore]
         public int FailedLoginAttempts { get; set; }
         [JsonIgnore]

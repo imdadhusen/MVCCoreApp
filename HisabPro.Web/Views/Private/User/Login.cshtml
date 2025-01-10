@@ -39,8 +39,9 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
                                     <button type="button" class="btn btn-primary w-50" onclick="login()">Login</button>
+                                    <button type="button" class="btn btn-secondary w-50" onclick="register()">Register</button>
                                 </div>
                             </form>
                         </div>
@@ -62,8 +63,8 @@
     }
 }
 <script>
+    var formLoading = $('#form-view');
     function login() {
-        var formLoading = $('#form-view');
         formLoading.show();
         const loginData = {
             Email: $('#txtEmail').val(),
@@ -73,17 +74,20 @@
 
         var data = { 'Data': loginData, 'Url': '/user/login' };
         ajax.post(data.Url, data.Data, loginSuccess, data, loginFailed);
-
-        function loginSuccess(res) {
-            formLoading.hide();
-            if (res.statusCode == 200) {
-                window.location.href = '@Url.Action("Index", "Dashboard")';
-            }
+    }
+    function loginSuccess(res) {
+        formLoading.hide();
+        if (res.statusCode == 200) {
+            window.location.href = '@Url.Action("Index", "Dashboard")';
         }
+    }
 
-        function loginFailed(res) {
-            formLoading.hide();
-            showNotification(res.responseJSON.message, 'danger');
-        }
+    function loginFailed(res) {
+        formLoading.hide();
+        showNotification(res.responseJSON.message, 'danger');
+    }
+
+    function register() {
+        window.location.href = '/user/register';
     }
 </script>
