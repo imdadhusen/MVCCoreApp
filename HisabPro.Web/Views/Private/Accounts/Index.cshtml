@@ -1,0 +1,18 @@
+﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
+@{
+    ViewData["Title"] = "Accounts";
+    Layout = "~/Views/Shared/_PrivateLayout.cshtml";
+}
+
+<div id="tblAccount" style="position:relative">
+    @await Html.PartialAsync("~/Views/Shared/_GridView.cshtml", Model)
+</div>
+
+@section Scripts {
+    <script>
+        $('#tblAccount').gridview({
+            controllerName: 'Accounts',
+            titleDelete: 'Delete Accout'
+        });
+    </script>
+}

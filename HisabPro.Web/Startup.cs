@@ -1,10 +1,10 @@
-﻿using HisabPro.Constants;
+﻿using HisabPro.Common;
+using HisabPro.Constants;
 using HisabPro.Entities.IEntities;
 using HisabPro.Entities.Models;
 using HisabPro.Repository;
 using HisabPro.Repository.Implements;
 using HisabPro.Repository.Interfaces;
-using HisabPro.Services;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Entities;
@@ -14,24 +14,39 @@ using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 using System.Net;
 
 namespace HisabPro
 {
-    public class Startup(IConfiguration configuartion)
+    public class Startup
     {
-        //private readonly IConfiguration _configuartion;
-        public IConfiguration Configuartion { get; } = configuartion;
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Bind the AppSettings section to the AppSettings class
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddSingleton<AppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
+
+
             services.AddMvc();
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidateModelStateFilter>();
                 options.Filters.Add<CustomExceptionFilter>();
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorOptions(options =>
+            {
+                options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+            });
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
             //    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -40,7 +55,8 @@ namespace HisabPro
 
             // Register IHttpContextAccessor
             services.AddHttpContextAccessor();
-            services.AddTransient<AuthService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddSingleton<EmailService>();
             services.AddScoped<IUserContext, UserContext>();
             services.AddScoped<IUserRepository, UserRepository>();
 
@@ -58,7 +74,7 @@ namespace HisabPro
 
             services.AddDbContext<ApplicationDbContext>(o =>
             {
-                o.UseSqlServer(Configuartion[AppConst.Configs.DatabaseConnectionString]);
+                o.UseSqlServer(Configuration.GetConnectionString(AppConst.Configs.DatabaseConnectionString));
             });
 
             // Configure JWT authentication
@@ -106,8 +122,6 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            // Register the remember me middleware
-            app.UseMiddleware<RememberMe>();
 
             if (env.IsDevelopment())
             {
@@ -137,14 +151,19 @@ namespace HisabPro
             });
             app.UseAuthorization();
 
+            // Register the remember me middleware after login
+            app.UseMiddleware<RememberMe>();
+            // Register the Password expirey middleware after login
+            app.UseMiddleware<PasswordExpiry>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}");
+
                 endpoints.MapControllerRoute(name: "user", pattern: "user/{action=Login}", defaults: new { controller = "User", action = "Login" });
                 endpoints.MapControllerRoute(name: "account", pattern: "account/{controller=Account}/{action=Index}", defaults: new { controller = "Account", action = "Index" });
                 endpoints.MapControllerRoute(name: "income", pattern: "income/{controller=Income}/{action=Index}", defaults: new { controller = "Income", action = "Index" });
                 endpoints.MapControllerRoute(name: "expense", pattern: "expense/{controller=Expense}/{action=Index}", defaults: new { controller = "Expense", action = "Index" });
-
                 endpoints.MapControllerRoute(name: "import", pattern: "import/{controller=Import}/{action=Expense}", defaults: new { controller = "Import", action = "Expense" });
             });
 

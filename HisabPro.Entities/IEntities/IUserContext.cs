@@ -2,7 +2,7 @@
 {
     public interface IUserContext
     {
-        int GetCurrentUserId();
+        int GetCurrentUserId(bool useFallback = false);
         string GetCurrentUserName();
     }
 }

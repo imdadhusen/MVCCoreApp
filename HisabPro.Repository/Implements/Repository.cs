@@ -18,7 +18,7 @@ namespace HisabPro.Repository.Implements
 
         public IQueryable<T> GetAll()
         {
-            return _dbSet.AsQueryable(); 
+            return _dbSet.AsQueryable();
         }
 
         public async Task<List<T>> GetAllAsync()
@@ -75,25 +75,25 @@ namespace HisabPro.Repository.Implements
         public async Task<int> AddRangeAsync(IEnumerable<T> entities)
         {
             await _dbSet.AddRangeAsync(entities);
-            var affectedRows = await _context.SaveChangesAsync();
+            var affectedRows = await _context.SaveChangesWithAuditAsync();
             return affectedRows;
         }
 
-        public async Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity, bool useFallback = false)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesWithAuditAsync(useFallback);
             return entity;
         }
 
         public async Task<T> UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesWithAuditAsync();
             return entity;
         }
 
-        public async Task<T> SaveAsync(T entity)
+        public async Task<T> SaveAsync(T entity, bool useFallback = false)
         {
             var primaryKey = _context.Model.FindEntityType(typeof(T))?.FindPrimaryKey();
             if (primaryKey == null)
@@ -116,7 +116,7 @@ namespace HisabPro.Repository.Implements
                 _dbSet.Update(entity);
             }
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesWithAuditAsync(useFallback: useFallback);
             return entity;
         }
 
@@ -140,7 +140,7 @@ namespace HisabPro.Repository.Implements
             }
 
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesWithAuditAsync();
             return true;
         }
 
@@ -153,7 +153,7 @@ namespace HisabPro.Repository.Implements
             }
 
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesWithAuditAsync();
             return true;
         }
     }

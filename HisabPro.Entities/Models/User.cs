@@ -21,14 +21,23 @@ namespace HisabPro.Entities.Models
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = FieldsSizeCommonConst.Mobile.RegExMessage)]
         public string Mobile { get; set; }
         [Required]
-        [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordHash { get; set; }
-        [Required]
-        [StringLength(FieldsSizeConst.User.PasswordSaltMax, MinimumLength = FieldsSizeConst.User.PasswordSaltMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
-        public string PasswordSalt { get; set; }
-        [Required]
         public int UserRole { get; set; } = (int)UserRoleEnum.User;
         [Required]
         public int Gender { get; set; } = (int)UserGenederEnum.Male;
+
+        [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
+        public string? PasswordHash { get; set; }
+        [StringLength(FieldsSizeConst.User.PasswordSaltMax, MinimumLength = FieldsSizeConst.User.PasswordSaltMin, ErrorMessage = FieldsSizeConst.User.PasswordHashMessage)]
+        public string? PasswordSalt { get; set; }
+        [StringLength(FieldsSizeConst.User.TokenMin)]
+        public string? Token { get; set; }
+        public DateTime? TokenExpiry { get; set; }
+        public DateTime? PasswordChangedOn { get; set; }
+        public bool MustChangePassword { get; set; } = false; //Admin reset or Password recovery/reset
+
+        // lockout properties
+        public int FailedLoginAttempts { get; set; } = 0; // Track the number of failed login attempts
+        public DateTime? LockoutEnd { get; set; } // Track when the lockout ends
+        public bool IsLockedOut => LockoutEnd.HasValue && LockoutEnd.Value > DateTime.UtcNow; // Determines if the user is locked out
     }
 }

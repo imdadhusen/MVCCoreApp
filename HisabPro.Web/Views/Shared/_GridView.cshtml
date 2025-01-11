@@ -1,6 +1,6 @@
 ﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
 
-@await Html.PartialAsync("_Filter", Model.Filters)
+@await Html.PartialAsync("../Shared/_Filter", Model.Filters)
 <div class="grid-wrapper">
     <table class="table table-hover sortable">
         <thead>
@@ -30,7 +30,7 @@
             </tr>
         </thead>
         <tbody>
-            @await Html.PartialAsync("_GridViewBody", Model)
+            @await Html.PartialAsync("~/Views/Shared/_GridViewBody.cshtml", Model)
         </tbody>
     </table>
     <div class="grid-footer">
@@ -67,5 +67,5 @@
     <div class="grid-loading loading" style="display:none">
         Loading, please wait...
     </div>
-    @await Html.PartialAsync("_ModalPartial")
+    @await Html.PartialAsync("~/Views/Shared/_ModalPartial.cshtml")
 </div>

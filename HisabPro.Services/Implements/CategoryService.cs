@@ -5,7 +5,6 @@ using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.IEntities;
-using HisabPro.Repository;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Helper;
 using HisabPro.Services.Interfaces;
@@ -16,14 +15,12 @@ namespace HisabPro.Services.Implements
 {
     public class CategoryService : ICategoryService
     {
-        private readonly UpdateRepository<Category, CategoryRes> _updateRepo;
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
 
-        public CategoryService(UpdateRepository<Category, CategoryRes> updateRepo, IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext)
+        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext)
         {
-            _updateRepo = updateRepo;
             _categoryRepo = categoryRepo;
             _mapper = mapper;
             _userContext = userContext;
@@ -59,7 +56,7 @@ namespace HisabPro.Services.Implements
         public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req)
         {
             var categories = await _categoryRepo.GetAll()
-                .Where(c => c.Type == req.Type && (c.IsStandard == true || c.CreatedBy == _userContext.GetCurrentUserId()))
+                .Where(c => c.Type == req.Type && (c.IsStandard == true || c.CreatedBy == _userContext.GetCurrentUserId(false)))
                 .Select(c => c)
                 .ToListAsync();
 

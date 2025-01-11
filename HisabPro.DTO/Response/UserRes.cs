@@ -19,5 +19,8 @@ namespace HisabPro.DTO.Response
         public DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedOn { get; set; }
+
+        public DateTime? PasswordChangedOn { get; set; }
+        public bool MustChangePassword { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace HisabPro.Web.MapperProfile
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserRoleEnum)src.UserRole)))
                 .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserGenederEnum)src.Gender)));
-            
+
             CreateMap<SaveCategoryReq, Category>().ReverseMap();
             CreateMap<Category, CategoryRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
@@ -42,8 +42,19 @@ namespace HisabPro.Web.MapperProfile
                 .ForMember(dest => dest.SubCategory, opt => opt.MapFrom(src => src.SubCategory.Name));
 
             CreateMap<User, LoginRes>();
+            CreateMap<SaveUserReq, LoginRes>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.PasswordHash))
+                .ForMember(dest => dest.PasswordSalt, opt => opt.MapFrom(src => src.PasswordSalt))
+                .ForMember(dest => dest.UserRole, opt => opt.MapFrom(src => src.UserRole))
+                .ForMember(dest => dest.PasswordChangedOn, opt => opt.MapFrom(src => src.PasswordChangedOn))
+                .ForMember(dest => dest.MustChangePassword, opt => opt.MapFrom(src => src.MustChangePassword))
+                .ForMember(dest => dest.FailedLoginAttempts, opt => opt.MapFrom(src => src.FailedLoginAttempts))
+                .ForMember(dest => dest.LockoutEnd, opt => opt.MapFrom(src => src.LockoutEnd));
 
-            CreateMap<IdNameRes, IdNameAndRefId>();
+        CreateMap<IdNameRes, IdNameAndRefId>();
             CreateMap<SubCategoryRes, IdNameAndRefId>()
                 .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.CategoryId));
 
