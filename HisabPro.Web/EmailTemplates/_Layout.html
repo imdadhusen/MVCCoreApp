@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: #0047ab;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+
+            .email-header img {
+                max-height: 50px;
+                margin-bottom: 10px;
+            }
+
+        .email-title {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .email-body {
+            padding: 20px;
+            color: #333333;
+        }
+
+            .email-body h1 {
+                font-size: 20px;
+                margin-top: 0;
+            }
+
+            .email-body p {
+                margin: 10px 0;
+                line-height: 1.6;
+            }
+
+        .email-footer {
+            background-color: #f0f0f0;
+            color: #555555;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 12px;
+        }
+
+            .email-footer a {
+                color: #0047ab;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="email-header">
+            <img src="{{CompanyLogo}}" alt="Company Logo">
+            <h1 class="email-title">HisabPro</h1>
+        </div>
+
+        <!-- Body -->
+        <div class="email-body">
+            <h1>{{Header}}</h1>
+            <p>
+                {{Content}}
+            </p>
+            <p>
+                If you have any questions, feel free to contact our support team at
+                <a href="mailto:{{SupportEmail}}">{{SupportEmail}}</a>.
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="email-footer">
+            <p>&copy; {{Year}} HisabPro. All rights reserved.</p>
+            <p>
+                <a href="{{PrivacyLink}}">Privacy Policy</a> |
+                <a href="{{TermsLink}}">Terms of Service</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,11 +9,13 @@ namespace HisabPro.Common
     {
         private readonly IConfiguration _configuration;
         private readonly string _templatesPath;
+        private readonly AppSettings _appSettings;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, AppSettings appSettings)
         {
             _configuration = configuration;
             _templatesPath = Path.Combine(Directory.GetCurrentDirectory(), AppConst.Configs.EmailTemplatesFolder);
+            _appSettings = appSettings;
         }
 
         public async Task SendEmailAsync(EnumEmailTypes emailType, string toEmail, object placeholders)
@@ -22,8 +24,8 @@ namespace HisabPro.Common
             string emailTitle = "";
             if (emailType == EnumEmailTypes.ActivateAccount)
             {
-                emailBody = await ReplacePlaceholders("ActivateAccount.html", placeholders);
                 emailTitle = "Activate Your Account";
+                emailBody = await ReplacePlaceholders("ActivateAccount.html", placeholders, emailTitle);
             }
 
             await SendEmailAsync(toEmail, emailTitle, emailBody);
@@ -61,8 +63,18 @@ namespace HisabPro.Common
             }
         }
 
-        private async Task<string> ReplacePlaceholders(string templateFileName, object placeholders)
+        private async Task<string> ReplacePlaceholders(string templateFileName, object placeholders, string emailTitle)
         {
+            string layoutPath = Path.Combine(_templatesPath, "_Layout.html");
+            string layoutContent = await File.ReadAllTextAsync(layoutPath);
+
+            layoutContent = layoutContent.Replace("{{CompanyLogo}}", string.Join("/", _appSettings.ApiUrl, "icons/Logo.png"));
+            layoutContent = layoutContent.Replace("{{Header}}", emailTitle);
+            layoutContent = layoutContent.Replace("{{SupportEmail}}", _appSettings.SupportEmail);
+            layoutContent = layoutContent.Replace("{{Year}}", DateTime.Now.ToString("yyyy"));
+            layoutContent = layoutContent.Replace("{{PrivacyLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.PrivacyLinkAction));
+            layoutContent = layoutContent.Replace("{{TermsLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.TermsAndConditionLinkAction));
+
             string templatePath = Path.Combine(_templatesPath, templateFileName);
 
             if (!File.Exists(templatePath))
@@ -80,8 +92,9 @@ namespace HisabPro.Common
             {
                 templateContent = templateContent.Replace($"{{{placeholder.Key}}}", placeholder.Value);
             }
+            layoutContent = layoutContent.Replace("{{Content}}", templateContent);
 
-            return templateContent;
+            return layoutContent;
         }
     }
 
