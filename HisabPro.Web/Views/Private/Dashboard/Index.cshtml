@@ -18,6 +18,19 @@
             overflow: visible !important; /* Ensures no clipping */
             margin: 0 !important; /* Remove any default margins */
         }
+
+    .sectionLoading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -26,7 +39,11 @@
             <div class="col-md-12">
                 <h1 class="h4 text-primary">Dashboard</h1>
                 <p class="text-muted">
-                    This dashboard provides an overview of financial activities like incomes, expenses, and investments.
+                    This dashboard provides an overview of financial activities like incomes, expenses, and investments.<br />
+                    <span class="d-inline">
+                        Choose an account to view statistics for the current year
+                        <select id="AccountId" class="form-control d-inline w-auto" asp-items="ViewBag.AccountId"></select>
+                    </span>
                 </p>
             </div>
         </div>
@@ -35,7 +52,7 @@
             <!-- Existing Income vs Expense Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-success">
-                    <div class="card-body">
+                    <div class="card-body" id="dvIncomeVsExpense">
                         <h5 class="card-title text-success"><i class="bi bi-bar-chart-fill"></i> Income vs Expense</h5>
                         <canvas id="incomeExpenseChart"></canvas>
                     </div>
@@ -45,7 +62,7 @@
             <!-- Existing Investment Growth Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-primary">
-                    <div class="card-body">
+                    <div class="card-body" id="dvInvestmentGrowth">
                         <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Investment Growth</h5>
                         <canvas id="investmentChart"></canvas>
                     </div>
@@ -55,7 +72,7 @@
             <!-- Pie Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
-                    <div class="card-body">
+                    <div class="card-body" id="dvExpenseDistribution">
                         <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Expense Distribution</h5>
                         <canvas id="expensePieChart"></canvas>
                     </div>
@@ -65,9 +82,9 @@
             <!-- New Pie Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Expense Distribution</h5>
-                        <div id="expenseHighChart"></div>
+                    <div class="card-body" id="dvIncomeDistribution">
+                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Income Distribution</h5>
+                        <div id="incomePieChart"></div>
                     </div>
                 </div>
             </div>
@@ -77,171 +94,253 @@
 
 @section Scripts {
     <script>
-        // Pseudo-3D Income vs Expense Chart
-        // Income vs Expense Chart with Click Handler
-        const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
-        const incomeExpenseChart = new Chart(incomeExpenseCtx, {
-            type: 'bar',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [
-                    {
-                        label: 'Income',
-                        data: [5000, 6000, 5500, 7000, 8000],
-                        backgroundColor: 'rgba(75, 192, 192, 0.9)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
+
+        var accountId = 0;
+
+        $(document).ready(function () {
+            loadStatisticsForAccount();
+        });
+        $("#AccountId").change(function(){
+            loadStatisticsForAccount();
+        })
+
+        function loadStatisticsForAccount(){
+            accountId = $("#AccountId").val();
+            loadIncomeVsExpense('#dvIncomeVsExpense');
+            loadInvestmentGrowth('#dvInvestmentGrowth');
+            loadIncomeDistribution('#dvExpenseDistribution');
+            loadExpenseDistribution('#dvIncomeDistribution');
+        }
+
+        function loadIncomeVsExpense(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': '/dashboard/IncomeVsExpense?accountId=' + accountId };
+            ajax.get(data.Url, successIncomeVsExpense, data.Data);
+        }
+        function successIncomeVsExpense(res) {
+            toggleLoading(res.additionalData);
+            if (res.statusCode == 200) {
+
+            }
+        }
+
+        function loadInvestmentGrowth(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': '/dashboard/InvestmentGrowth?accountId=' + accountId };
+            ajax.get(data.Url, successInvestmentGrowth, data.Data);
+        }
+        function successInvestmentGrowth(res) {
+            toggleLoading(res.additionalData);
+            if (res.statusCode == 200) {
+
+            }
+        }
+
+        function loadIncomeDistribution(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': '/dashboard/IncomeDistribution?accountId=' + accountId };
+            ajax.get(data.Url, successIncomeDistribution, data.Data);
+        }
+        function successIncomeDistribution(res) {
+            toggleLoading(res.additionalData);
+            if (res.statusCode == 200) {
+
+            }
+        }
+
+        function loadExpenseDistribution(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': '/dashboard/ExpenseDistribution?accountId=' + accountId };
+            ajax.get(data.Url, successExpenseDistribution, data.Data);
+        }
+        function successExpenseDistribution(res) {
+            toggleLoading(res.additionalData);
+            if (res.statusCode == 200) {
+
+            }
+        }
+
+        function toggleLoading(container, isVisible = false) {
+            var loadingDiv = $(container).find('.sectionLoading');
+            if (isVisible) {
+                if (loadingDiv.length === 0) {
+                    const loadingOverlay = `<div class="sectionLoading"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
+                    $(container).css('position', 'relative').append(loadingOverlay);
+                } else {
+                    loadingDiv.fadeIn();
+                }
+            }
+            else {
+                loadingDiv.fadeOut();
+            }
+        }
+
+        function dummyData() {
+            // Pseudo-3D Income vs Expense Chart
+            // Income vs Expense Chart with Click Handler
+            const incomeExpenseCtx = document.getElementById('incomeExpenseChart1').getContext('2d');
+            const incomeExpenseChart = new Chart(incomeExpenseCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May'],
+                    datasets: [
+                        {
+                            label: 'Income',
+                            data: [5000, 6000, 5500, 7000, 8000],
+                            backgroundColor: 'rgba(75, 192, 192, 0.9)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Expense',
+                            data: [3000, 2500, 4000, 4500, 3000],
+                            backgroundColor: 'rgba(255, 99, 132, 0.9)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     },
-                    {
-                        label: 'Expense',
-                        data: [3000, 2500, 4000, 4500, 3000],
-                        backgroundColor: 'rgba(255, 99, 132, 0.9)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex;
+                            const dataIndex = elements[0].index;
+                            const label = incomeExpenseChart.data.labels[dataIndex];
+                            const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
+                            alert(`Clicked on ${label}: ${value}`);
+                        }
                     }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
+                }
+            });
+
+            // Pseudo-3D Pie Chart
+            const expensePieCtx = document.getElementById('expensePieChart').getContext('2d');
+            // Set the canvas height and width (optional)
+            const expensePieChart = new Chart(expensePieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Rent', 'Groceries', 'Utilities', 'Entertainment', 'Other'],
+                    datasets: [{
+                        data: [500, 300, 200, 100, 150],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.9)',
+                            'rgba(54, 162, 235, 0.9)',
+                            'rgba(255, 206, 86, 0.9)',
+                            'rgba(75, 192, 192, 0.9)',
+                            'rgba(153, 102, 255, 0.9)'
+                        ],
+                        borderColor: '#000',
+                        borderWidth: 1,
+                    }]
                 },
-                onClick: (event, elements) => {
-                    if (elements.length > 0) {
-                        const datasetIndex = elements[0].datasetIndex;
-                        const dataIndex = elements[0].index;
-                        const label = incomeExpenseChart.data.labels[dataIndex];
-                        const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
-                        alert(`Clicked on ${label}: ${value}`);
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        // Check if an element was clicked
+                        if (elements && elements.length > 0) {
+                            // Get the index of the clicked segment
+                            const clickedElementIndex = elements[0].index;
+
+                            // Retrieve the label and value for the clicked segment
+                            const label = expensePieChart.data.labels[clickedElementIndex];
+                            const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
+
+                            // Display the result
+                            alert(`You clicked on ${label} with value ${value}`);
+                        } else {
+                            alert("No segment clicked!");
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Pseudo-3D Pie Chart
-        const expensePieCtx = document.getElementById('expensePieChart').getContext('2d');
-        // Set the canvas height and width (optional)
-        const expensePieChart = new Chart(expensePieCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Rent', 'Groceries', 'Utilities', 'Entertainment', 'Other'],
-                datasets: [{
-                    data: [500, 300, 200, 100, 150],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.9)',
-                        'rgba(54, 162, 235, 0.9)',
-                        'rgba(255, 206, 86, 0.9)',
-                        'rgba(75, 192, 192, 0.9)',
-                        'rgba(153, 102, 255, 0.9)'
-                    ],
-                    borderColor: '#000',
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
+
+            //Highcharts.chart('expenseHighChart', {
+            //    chart: {
+            //        height: 400, // Set chart height explicitly
+            //        type: 'pie',
+            //        options3d: {
+            //            enabled: true,
+            //            alpha: 45
+            //        },
+            //        spacing: [0, 0, 0, 0],
+            //        marginTop: 0, // Removes unnecessary top margin
+            //        marginBottom: 0, // Removes unnecessary bottom margin
+            //        spacingTop: 0, // Remove top spacing
+            //        spacingBottom: 0, // Remove bottom spacing
+            //        spacingLeft: 0, // Optional: remove left spacing
+            //        spacingRight: 0 // Optional: remove right spacing
+            //    },
+            //    title: {
+            //        text: null
+            //    },
+            //    plotOptions: {
+            //        pie: {
+            //            innerSize: 100,
+            //            depth: 45,
+            //            cursor: 'pointer',
+            //            dataLabels: {
+            //                enabled: true,
+            //                format: '{point.name}: {point.y}'
+            //            },
+            //            point: {
+            //                events: {
+            //                    click: function () {
+            //                        alert(`You clicked on ${this.name} with value ${this.y}`);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    },
+            //    series: [{
+            //        data: [
+            //            { name: 'Rent', y: 500 },
+            //            { name: 'Groceries', y: 300 },
+            //            { name: 'Utilities', y: 200 },
+            //            { name: 'Entertainment', y: 100 },
+            //            { name: 'Other', y: 150 }
+            //        ]
+            //    }]
+            //});
+
+            // Investment Growth Line Chart
+            const investmentCtx = document.getElementById('investmentChart').getContext('2d');
+            new Chart(investmentCtx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May'],
+                    datasets: [
+                        {
+                            label: 'Investment Growth',
+                            data: [1000, 1500, 2000, 2500, 3000],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderWidth: 3,
+                            tension: 0.3, // Smooth lines
+                        }
+                    ]
                 },
-                onClick: (event, elements) => {
-                    // Check if an element was clicked
-                    if (elements && elements.length > 0) {
-                        // Get the index of the clicked segment
-                        const clickedElementIndex = elements[0].index;
-
-                        // Retrieve the label and value for the clicked segment
-                        const label = expensePieChart.data.labels[clickedElementIndex];
-                        const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
-
-                        // Display the result
-                        alert(`You clicked on ${label} with value ${value}`);
-                    } else {
-                        alert("No segment clicked!");
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
-            }
-        });
-
-
-        //Highcharts.chart('expenseHighChart', {
-        //    chart: {
-        //        height: 400, // Set chart height explicitly
-        //        type: 'pie',
-        //        options3d: {
-        //            enabled: true,
-        //            alpha: 45
-        //        },
-        //        spacing: [0, 0, 0, 0],
-        //        marginTop: 0, // Removes unnecessary top margin
-        //        marginBottom: 0, // Removes unnecessary bottom margin
-        //        spacingTop: 0, // Remove top spacing
-        //        spacingBottom: 0, // Remove bottom spacing
-        //        spacingLeft: 0, // Optional: remove left spacing
-        //        spacingRight: 0 // Optional: remove right spacing
-        //    },
-        //    title: {
-        //        text: null
-        //    },
-        //    plotOptions: {
-        //        pie: {
-        //            innerSize: 100,
-        //            depth: 45,
-        //            cursor: 'pointer',
-        //            dataLabels: {
-        //                enabled: true,
-        //                format: '{point.name}: {point.y}'
-        //            },
-        //            point: {
-        //                events: {
-        //                    click: function () {
-        //                        alert(`You clicked on ${this.name} with value ${this.y}`);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    },
-        //    series: [{
-        //        data: [
-        //            { name: 'Rent', y: 500 },
-        //            { name: 'Groceries', y: 300 },
-        //            { name: 'Utilities', y: 200 },
-        //            { name: 'Entertainment', y: 100 },
-        //            { name: 'Other', y: 150 }
-        //        ]
-        //    }]
-        //});
-
-        // Investment Growth Line Chart
-        const investmentCtx = document.getElementById('investmentChart').getContext('2d');
-        new Chart(investmentCtx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [
-                    {
-                        label: 'Investment Growth',
-                        data: [1000, 1500, 2000, 2500, 3000],
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderWidth: 3,
-                        tension: 0.3, // Smooth lines
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                }
-            }
-        });
-
+            });
+        }
 
     </script>
 }
