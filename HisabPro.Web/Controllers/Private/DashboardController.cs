@@ -25,30 +25,30 @@ namespace HisabPro.Web.Controllers.Private
         }
 
         [HttpGet("IncomeVsExpense")]
-        public async Task<IActionResult> IncomeVsExpense([FromQuery] int accountId)
+        public async Task<IActionResult> IncomeVsExpense([FromQuery] int accountId, int year)
         {
-            var response = await _dashboardService.IncomeVsExpense(accountId);
+            var response = await _dashboardService.IncomeVsExpense(accountId, year);
             return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpGet("InvestmentGrowth")]
-        public async Task<IActionResult> InvestmentGrowth(int accountId)
+        public async Task<IActionResult> InvestmentGrowth(int accountId, int year)
         {
-            var response = await _dashboardService.InvestmentGrowth(accountId);
+            var response = await _dashboardService.InvestmentGrowth(accountId, year);
             return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpGet("IncomeDistribution")]
-        public async Task<IActionResult> IncomeDistribution(int accountId)
+        public async Task<IActionResult> IncomeDistribution(int accountId, int year)
         {
-            var response = await _dashboardService.IncomeDistribution(accountId);
+            var response = await _dashboardService.IncomeDistribution(accountId, year);
             return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpGet("ExpenseDistribution")]
-        public async Task<IActionResult> ExpenseDistribution(int accountId)
+        public async Task<IActionResult> ExpenseDistribution(int accountId, int year)
         {
-            var response = await _dashboardService.ExpenseDistribution(accountId);
+            var response = await _dashboardService.ExpenseDistribution(accountId, year);
             return StatusCode((int)response.StatusCode, response);
         }
     }

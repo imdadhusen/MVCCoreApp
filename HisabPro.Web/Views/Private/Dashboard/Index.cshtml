@@ -41,8 +41,10 @@
                 <p class="text-muted">
                     This dashboard provides an overview of financial activities like incomes, expenses, and investments.<br />
                     <span class="d-inline">
-                        Choose an account to view statistics for the current year
+                        Choose an account to view statistics of
                         <select id="AccountId" class="form-control d-inline w-auto" asp-items="ViewBag.AccountId"></select>
+                        for the year
+                        <select id="Year" class="form-control d-inline w-auto"></select>
                     </span>
                 </p>
             </div>
@@ -63,7 +65,7 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-primary">
                     <div class="card-body" id="dvInvestmentGrowth">
-                        <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Investment Growth</h5>
+                        <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Income & Charity</h5>
                         <canvas id="investmentChart"></canvas>
                     </div>
                 </div>
@@ -94,18 +96,37 @@
 
 @section Scripts {
     <script>
-
         var accountId = 0;
+        var year = 0;
+        let incomeExpenseChart; // Variable to hold the chart instance
 
         $(document).ready(function () {
+            bindFinancialYers();
             loadStatisticsForAccount();
         });
-        $("#AccountId").change(function(){
+        $("#AccountId").change(function () {
+            loadStatisticsForAccount();
+        })
+        $("#Year").change(function () {
             loadStatisticsForAccount();
         })
 
-        function loadStatisticsForAccount(){
-            accountId = $("#AccountId").val();
+        function bindFinancialYers() {
+            const currentYear = new Date().getFullYear();
+            const years = [];
+            for (let i = 0; i < 3; i++) {
+                years.push(currentYear - i);
+            }
+
+            const $dropdown = $('#Year');
+            years.forEach(year => {
+                $dropdown.append(new Option(year, year));
+            });
+        }
+
+        function loadStatisticsForAccount() {
+            accountId = $('#AccountId').val();
+            year = $('#Year').val();
             loadIncomeVsExpense('#dvIncomeVsExpense');
             loadInvestmentGrowth('#dvInvestmentGrowth');
             loadIncomeDistribution('#dvExpenseDistribution');
@@ -114,19 +135,55 @@
 
         function loadIncomeVsExpense(container) {
             toggleLoading(container, true);
-            var data = { 'Data': container, 'Url': '/dashboard/IncomeVsExpense?accountId=' + accountId };
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeVsExpense?accountId=${accountId}&year=${year}` };
             ajax.get(data.Url, successIncomeVsExpense, data.Data);
         }
         function successIncomeVsExpense(res) {
             toggleLoading(res.additionalData);
+            const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (incomeExpenseChart) {
+                incomeExpenseChart.destroy();
+            }
+
             if (res.statusCode == 200) {
+                const incomes = res.response.incomes.map(i => i.amount);
+                const expenses = res.response.expense.map(e => e.amount);
+                const lables = res.response.incomes.map(i => getMonthName(i.month));
+                incomeExpenseChart = new Chart(incomeExpenseCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: lables,
+                        datasets: [
+                            { label: 'Income', data: incomes, backgroundColor: 'rgba(75, 192, 192, 0.9)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
+                            { label: 'Expense', data: expenses, backgroundColor: 'rgba(255, 99, 132, 0.9)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            if (elements.length > 0) {
+                                const datasetIndex = elements[0].datasetIndex;
+                                const dataIndex = elements[0].index;
+                                const label = incomeExpenseChart.data.labels[dataIndex];
+                                const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
+                                alert(`Clicked on ${label}: ${value}`);
+                            }
+                        }
+                    }
+                });
 
             }
         }
 
         function loadInvestmentGrowth(container) {
             toggleLoading(container, true);
-            var data = { 'Data': container, 'Url': '/dashboard/InvestmentGrowth?accountId=' + accountId };
+            var data = { 'Data': container, 'Url': `/dashboard/InvestmentGrowth?accountId=${accountId}&year=${year}` };
             ajax.get(data.Url, successInvestmentGrowth, data.Data);
         }
         function successInvestmentGrowth(res) {
@@ -138,7 +195,7 @@
 
         function loadIncomeDistribution(container) {
             toggleLoading(container, true);
-            var data = { 'Data': container, 'Url': '/dashboard/IncomeDistribution?accountId=' + accountId };
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeDistribution?accountId=${accountId}&year=${year}` };
             ajax.get(data.Url, successIncomeDistribution, data.Data);
         }
         function successIncomeDistribution(res) {
@@ -150,7 +207,7 @@
 
         function loadExpenseDistribution(container) {
             toggleLoading(container, true);
-            var data = { 'Data': container, 'Url': '/dashboard/ExpenseDistribution?accountId=' + accountId };
+            var data = { 'Data': container, 'Url': `/dashboard/ExpenseDistribution?accountId=${accountId}&year=${year}` };
             ajax.get(data.Url, successExpenseDistribution, data.Data);
         }
         function successExpenseDistribution(res) {
@@ -176,49 +233,6 @@
         }
 
         function dummyData() {
-            // Pseudo-3D Income vs Expense Chart
-            // Income vs Expense Chart with Click Handler
-            const incomeExpenseCtx = document.getElementById('incomeExpenseChart1').getContext('2d');
-            const incomeExpenseChart = new Chart(incomeExpenseCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May'],
-                    datasets: [
-                        {
-                            label: 'Income',
-                            data: [5000, 6000, 5500, 7000, 8000],
-                            backgroundColor: 'rgba(75, 192, 192, 0.9)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Expense',
-                            data: [3000, 2500, 4000, 4500, 3000],
-                            backgroundColor: 'rgba(255, 99, 132, 0.9)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    },
-                    onClick: (event, elements) => {
-                        if (elements.length > 0) {
-                            const datasetIndex = elements[0].datasetIndex;
-                            const dataIndex = elements[0].index;
-                            const label = incomeExpenseChart.data.labels[dataIndex];
-                            const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
-                            alert(`Clicked on ${label}: ${value}`);
-                        }
-                    }
-                }
-            });
-
             // Pseudo-3D Pie Chart
             const expensePieCtx = document.getElementById('expensePieChart').getContext('2d');
             // Set the canvas height and width (optional)

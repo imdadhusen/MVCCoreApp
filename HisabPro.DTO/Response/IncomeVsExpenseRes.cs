@@ -1,11 +1,14 @@
-﻿using HisabPro.Constants;
-
-namespace HisabPro.DTO.Response
+﻿namespace HisabPro.DTO.Response
 {
     public class IncomeVsExpenseRes
     {
-        public string Month { get; set; }
-        public int Amount { get; set; }
-        public EnumCategoryType Type { get; set; }
+        public List<MonthlyFinanceSummary> Incomes { get; set; }
+        public List<MonthlyFinanceSummary> Expense { get; set; }
+    }
+
+    public class MonthlyFinanceSummary
+    {
+        public int Month { get; set; }
+        public double Amount { get; set; }
     }
 }
