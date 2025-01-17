@@ -31,10 +31,10 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response);
         }
 
-        [HttpGet("InvestmentGrowth")]
-        public async Task<IActionResult> InvestmentGrowth(int accountId, int year)
+        [HttpGet("IncomeVsCharity")]
+        public async Task<IActionResult> IncomeVsCharity(int accountId, int year)
         {
-            var response = await _dashboardService.InvestmentGrowth(accountId, year);
+            var response = await _dashboardService.IncomeVsCharity(accountId, year);
             return StatusCode((int)response.StatusCode, response);
         }
 

@@ -5,9 +5,9 @@ namespace HisabPro.Services.Interfaces
 {
     public interface IDashboardService
     {
-        Task<ResponseDTO<IncomeVsExpenseRes>> IncomeVsExpense(int accountId, int year);
-        Task<ResponseDTO<InvestmentGrowthRes>> InvestmentGrowth(int accountId, int year);
-        Task<ResponseDTO<IncomeDistributionRes>> IncomeDistribution(int accountId, int year);
-        Task<ResponseDTO<ExpenseDistributionRes>> ExpenseDistribution(int accountId, int year);
+        public Task<ResponseDTO<IncomeVsExpenseRes>> IncomeVsExpense(int accountId, int year);
+        public Task<ResponseDTO<IncomeVsCharityRes>> IncomeVsCharity(int accountId, int year);
+        public Task<ResponseDTO<List<WealthBreakdownRes>>> IncomeDistribution(int accountId, int year);
+        public Task<ResponseDTO<List<WealthBreakdownRes>>> ExpenseDistribution(int accountId, int year);
     }
 }

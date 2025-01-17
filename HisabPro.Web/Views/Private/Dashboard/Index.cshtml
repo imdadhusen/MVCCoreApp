@@ -64,9 +64,9 @@
             <!-- Existing Investment Growth Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-primary">
-                    <div class="card-body" id="dvInvestmentGrowth">
+                    <div class="card-body" id="dvIncomeVsCharity">
                         <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Income & Charity</h5>
-                        <canvas id="investmentChart"></canvas>
+                        <canvas id="investmentCharityChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                 <div class="card mb-4 border-warning">
                     <div class="card-body" id="dvIncomeDistribution">
                         <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Income Distribution</h5>
-                        <div id="incomePieChart"></div>
+                        <canvas id="incomePieChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,10 @@
     <script>
         var accountId = 0;
         var year = 0;
-        let incomeExpenseChart; // Variable to hold the chart instance
+        // Variable to hold the chart instance
+        let incomeExpenseChart;
+        let expenseDistributionChart;
+        let incomeDistributionChart;
 
         $(document).ready(function () {
             bindFinancialYers();
@@ -128,7 +131,7 @@
             accountId = $('#AccountId').val();
             year = $('#Year').val();
             loadIncomeVsExpense('#dvIncomeVsExpense');
-            loadInvestmentGrowth('#dvInvestmentGrowth');
+            loadIncomeVsCharity('#dvIncomeVsCharity');
             loadIncomeDistribution('#dvExpenseDistribution');
             loadExpenseDistribution('#dvIncomeDistribution');
         }
@@ -140,7 +143,7 @@
         }
         function successIncomeVsExpense(res) {
             toggleLoading(res.additionalData);
-            const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+            const Ctx = document.getElementById('incomeExpenseChart').getContext('2d');
             // Destroy existing chart instance if it exists
             if (incomeExpenseChart) {
                 incomeExpenseChart.destroy();
@@ -150,7 +153,7 @@
                 const incomes = res.response.incomes.map(i => i.amount);
                 const expenses = res.response.expense.map(e => e.amount);
                 const lables = res.response.incomes.map(i => getMonthName(i.month));
-                incomeExpenseChart = new Chart(incomeExpenseCtx, {
+                incomeExpenseChart = new Chart(Ctx, {
                     type: 'bar',
                     data: {
                         labels: lables,
@@ -181,15 +184,39 @@
             }
         }
 
-        function loadInvestmentGrowth(container) {
+        function loadIncomeVsCharity(container) {
             toggleLoading(container, true);
-            var data = { 'Data': container, 'Url': `/dashboard/InvestmentGrowth?accountId=${accountId}&year=${year}` };
-            ajax.get(data.Url, successInvestmentGrowth, data.Data);
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeVsCharity?accountId=${accountId}&year=${year}` };
+            ajax.get(data.Url, successloadIncomeVsCharity, data.Data);
         }
-        function successInvestmentGrowth(res) {
+        function successloadIncomeVsCharity(res) {
             toggleLoading(res.additionalData);
             if (res.statusCode == 200) {
-
+                const investmentCtx = document.getElementById('investmentCharityChart').getContext('2d');
+                new Chart(investmentCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['January', 'February', 'March', 'April', 'May'],
+                        datasets: [
+                            {
+                                label: 'Investment Growth',
+                                data: [1000, 1500, 2000, 2500, 3000],
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderWidth: 3,
+                                tension: 0.3, // Smooth lines
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
             }
         }
 
@@ -200,8 +227,48 @@
         }
         function successIncomeDistribution(res) {
             toggleLoading(res.additionalData);
-            if (res.statusCode == 200) {
+            const Ctx = document.getElementById('incomePieChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (incomeDistributionChart) {
+                incomeDistributionChart.destroy();
+            }
 
+            if (res.statusCode == 200) {
+                const lables = res.response.map(i => i.category);
+                const dataPoints = res.response.map(i => i.amount);
+                const colors = generateColors(dataPoints.length);
+
+                incomeDistributionChart = new Chart(Ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: lables,
+                        datasets: [{ data: dataPoints, backgroundColor: colors, borderColor: '#000', borderWidth: 1, }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            // Check if an element was clicked
+                            if (elements && elements.length > 0) {
+                                // Get the index of the clicked segment
+                                const clickedElementIndex = elements[0].index;
+
+                                // Retrieve the label and value for the clicked segment
+                                const label = expensePieChart.data.labels[clickedElementIndex];
+                                const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
+
+                                // Display the result
+                                alert(`You clicked on ${label} with value ${value}`);
+                            } else {
+                                alert("No segment clicked!");
+                            }
+                        }
+                    }
+                });
             }
         }
 
@@ -212,8 +279,48 @@
         }
         function successExpenseDistribution(res) {
             toggleLoading(res.additionalData);
-            if (res.statusCode == 200) {
+            const Ctx = document.getElementById('expensePieChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (expenseDistributionChart) {
+                expenseDistributionChart.destroy();
+            }
 
+            if (res.statusCode == 200) {
+                const lables = res.response.map(e => e.category);
+                const dataPoints = res.response.map(e => e.amount);
+                const colors = generateColors(dataPoints.length);
+
+                expenseDistributionChart = new Chart(Ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: lables,
+                        datasets: [{ data: dataPoints, backgroundColor: colors, borderColor: '#000', borderWidth: 1, }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            // Check if an element was clicked
+                            if (elements && elements.length > 0) {
+                                // Get the index of the clicked segment
+                                const clickedElementIndex = elements[0].index;
+
+                                // Retrieve the label and value for the clicked segment
+                                const label = expensePieChart.data.labels[clickedElementIndex];
+                                const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
+
+                                // Display the result
+                                alert(`You clicked on ${label} with value ${value}`);
+                            } else {
+                                alert("No segment clicked!");
+                            }
+                        }
+                    }
+                });
             }
         }
 
@@ -231,130 +338,5 @@
                 loadingDiv.fadeOut();
             }
         }
-
-        function dummyData() {
-            // Pseudo-3D Pie Chart
-            const expensePieCtx = document.getElementById('expensePieChart').getContext('2d');
-            // Set the canvas height and width (optional)
-            const expensePieChart = new Chart(expensePieCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Rent', 'Groceries', 'Utilities', 'Entertainment', 'Other'],
-                    datasets: [{
-                        data: [500, 300, 200, 100, 150],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.9)',
-                            'rgba(54, 162, 235, 0.9)',
-                            'rgba(255, 206, 86, 0.9)',
-                            'rgba(75, 192, 192, 0.9)',
-                            'rgba(153, 102, 255, 0.9)'
-                        ],
-                        borderColor: '#000',
-                        borderWidth: 1,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    },
-                    onClick: (event, elements) => {
-                        // Check if an element was clicked
-                        if (elements && elements.length > 0) {
-                            // Get the index of the clicked segment
-                            const clickedElementIndex = elements[0].index;
-
-                            // Retrieve the label and value for the clicked segment
-                            const label = expensePieChart.data.labels[clickedElementIndex];
-                            const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
-
-                            // Display the result
-                            alert(`You clicked on ${label} with value ${value}`);
-                        } else {
-                            alert("No segment clicked!");
-                        }
-                    }
-                }
-            });
-
-
-            //Highcharts.chart('expenseHighChart', {
-            //    chart: {
-            //        height: 400, // Set chart height explicitly
-            //        type: 'pie',
-            //        options3d: {
-            //            enabled: true,
-            //            alpha: 45
-            //        },
-            //        spacing: [0, 0, 0, 0],
-            //        marginTop: 0, // Removes unnecessary top margin
-            //        marginBottom: 0, // Removes unnecessary bottom margin
-            //        spacingTop: 0, // Remove top spacing
-            //        spacingBottom: 0, // Remove bottom spacing
-            //        spacingLeft: 0, // Optional: remove left spacing
-            //        spacingRight: 0 // Optional: remove right spacing
-            //    },
-            //    title: {
-            //        text: null
-            //    },
-            //    plotOptions: {
-            //        pie: {
-            //            innerSize: 100,
-            //            depth: 45,
-            //            cursor: 'pointer',
-            //            dataLabels: {
-            //                enabled: true,
-            //                format: '{point.name}: {point.y}'
-            //            },
-            //            point: {
-            //                events: {
-            //                    click: function () {
-            //                        alert(`You clicked on ${this.name} with value ${this.y}`);
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    },
-            //    series: [{
-            //        data: [
-            //            { name: 'Rent', y: 500 },
-            //            { name: 'Groceries', y: 300 },
-            //            { name: 'Utilities', y: 200 },
-            //            { name: 'Entertainment', y: 100 },
-            //            { name: 'Other', y: 150 }
-            //        ]
-            //    }]
-            //});
-
-            // Investment Growth Line Chart
-            const investmentCtx = document.getElementById('investmentChart').getContext('2d');
-            new Chart(investmentCtx, {
-                type: 'line',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May'],
-                    datasets: [
-                        {
-                            label: 'Investment Growth',
-                            data: [1000, 1500, 2000, 2500, 3000],
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderWidth: 3,
-                            tension: 0.3, // Smooth lines
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                }
-            });
-        }
-
     </script>
 }

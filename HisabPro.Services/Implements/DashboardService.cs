@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using HisabPro.Common;
+﻿using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Response;
@@ -16,20 +15,17 @@ namespace HisabPro.Services.Implements
     {
         private readonly IRepository<Income> _incomeRepo;
         private readonly IRepository<Expense> _expenseRepo;
-        private readonly IMapper _mapper;
         EnumFinanceYear financeYear;
-        private const string monthFormat = "MMMM";
-        public DashboardService(IRepository<Income> incomeRepo, IRepository<Expense> expenseRepo, IMapper mapper)
+        public DashboardService(IRepository<Income> incomeRepo, IRepository<Expense> expenseRepo)
         {
             _incomeRepo = incomeRepo;
             _expenseRepo = expenseRepo;
-            _mapper = mapper;
 
             //TODO: This should be get it from user's setting instead hardcoded
             financeYear = EnumFinanceYear.Islamic;
         }
 
-        async Task<ResponseDTO<IncomeVsExpenseRes>> IDashboardService.IncomeVsExpense(int accountId, int year)
+        public async Task<ResponseDTO<IncomeVsExpenseRes>> IncomeVsExpense(int accountId, int year)
         {
             var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
             var incomes = await _incomeRepo.GetAll().Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
@@ -64,25 +60,42 @@ namespace HisabPro.Services.Implements
             return new ResponseDTO<IncomeVsExpenseRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, response);
         }
 
-        async Task<ResponseDTO<InvestmentGrowthRes>> IDashboardService.InvestmentGrowth(int accountId, int year)
+        public async Task<ResponseDTO<IncomeVsCharityRes>> IncomeVsCharity(int accountId, int year)
         {
             await Task.Delay(2500);
-            var response = new ResponseDTO<InvestmentGrowthRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, new InvestmentGrowthRes());
+            var response = new ResponseDTO<IncomeVsCharityRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, new IncomeVsCharityRes());
             return response;
         }
 
-        async Task<ResponseDTO<IncomeDistributionRes>> IDashboardService.IncomeDistribution(int accountId, int year)
+        public async Task<ResponseDTO<List<WealthBreakdownRes>>> IncomeDistribution(int accountId, int year)
         {
-            await Task.Delay(1000);
-            var response = new ResponseDTO<IncomeDistributionRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, new IncomeDistributionRes());
-            return response;
+            var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
+            var incomes = await _incomeRepo.GetAll().Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
+                .GroupBy(e => new { e.CategoryId, e.Category.Name })
+                .Select(g => new WealthBreakdownRes
+                {
+                    CategoryId = g.Key.CategoryId,
+                    Category = g.Key.Name,
+                    Amount = g.Sum(e => e.Amount)
+                })
+                .ToListAsync();
+            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, incomes);
         }
 
-        async Task<ResponseDTO<ExpenseDistributionRes>> IDashboardService.ExpenseDistribution(int accountId, int year)
+        public async Task<ResponseDTO<List<WealthBreakdownRes>>> ExpenseDistribution(int accountId, int year)
         {
-            await Task.Delay(3500);
-            var response = new ResponseDTO<ExpenseDistributionRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, new ExpenseDistributionRes());
-            return response;
+            var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
+            var expenses = await _expenseRepo.GetAll().Where(e => e.AccountId == accountId && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate)
+                .GroupBy(e => new { e.CategoryId, e.Category.Name })
+                .Select(g => new WealthBreakdownRes
+                {
+                    CategoryId = g.Key.CategoryId,
+                    Category = g.Key.Name,
+                    Amount = g.Sum(e => e.Amount)
+                })
+                .ToListAsync();
+
+            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, expenses);
         }
     }
 }
