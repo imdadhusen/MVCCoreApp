@@ -1,5 +1,369 @@
 ﻿@{
-    ViewData["Title"] = "Expenses";
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
-THis is dashboard
+<style>
+    .card-title i {
+        margin-right: 0.5rem;
+    }
+
+    #expenseHighChart {
+        margin: 0;
+        padding: 0;
+        height: 400px; /* Ensure a fixed height */
+        overflow: hidden; /* Prevent content from overflowing */
+    }
+
+        #expenseHighChart svg {
+            overflow: visible !important; /* Ensures no clipping */
+            margin: 0 !important; /* Remove any default margins */
+        }
+
+    .sectionLoading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="container-fluid m-b-10" style="margin-bottom:35px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="h4 text-primary">Dashboard</h1>
+                <p class="text-muted">
+                    This dashboard provides an overview of financial activities like incomes, expenses, and investments.<br />
+                    <span class="d-inline">
+                        Choose an account to view statistics of
+                        <select id="AccountId" class="form-control d-inline w-auto" asp-items="ViewBag.AccountId"></select>
+                        for the year
+                        <select id="Year" class="form-control d-inline w-auto"></select>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <!-- Charts Section -->
+        <div class="row">
+            <!-- Existing Income vs Expense Chart -->
+            <div class="col-md-6">
+                <div class="card mb-4 border-success">
+                    <div class="card-body" id="dvIncomeVsExpense">
+                        <h5 class="card-title text-success"><i class="bi bi-bar-chart-fill"></i> Income vs Expense</h5>
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Existing Investment Growth Chart -->
+            <div class="col-md-6">
+                <div class="card mb-4 border-primary">
+                    <div class="card-body" id="dvIncomeVsCharity">
+                        <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Income & Charity</h5>
+                        <canvas id="incomeCharityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-md-6">
+                <div class="card mb-4 border-warning">
+                    <div class="card-body" id="dvExpenseDistribution">
+                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Expense Distribution</h5>
+                        <canvas id="expensePieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Pie Chart -->
+            <div class="col-md-6">
+                <div class="card mb-4 border-warning">
+                    <div class="card-body" id="dvIncomeDistribution">
+                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Income Distribution</h5>
+                        <canvas id="incomePieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var accountId = 0;
+        var year = 0;
+        // Variable to hold the chart instance
+        let incomeExpenseChart;
+        let expenseDistributionChart;
+        let incomeDistributionChart;
+        let incomeCharityChart;
+
+        $(document).ready(function () {
+            bindFinancialYers();
+            loadStatisticsForAccount();
+        });
+        $("#AccountId").change(function () {
+            loadStatisticsForAccount();
+        })
+        $("#Year").change(function () {
+            loadStatisticsForAccount();
+        })
+
+        function bindFinancialYers() {
+            const currentYear = new Date().getFullYear();
+            const years = [];
+            for (let i = 0; i < 3; i++) {
+                years.push(currentYear - i);
+            }
+
+            const $dropdown = $('#Year');
+            years.forEach(year => {
+                $dropdown.append(new Option(year, year));
+            });
+        }
+
+        function loadStatisticsForAccount() {
+            accountId = $('#AccountId').val();
+            year = $('#Year').val();
+            loadIncomeVsExpense('#dvIncomeVsExpense');
+            loadIncomeVsCharity('#dvIncomeVsCharity');
+            loadIncomeDistribution('#dvExpenseDistribution');
+            loadExpenseDistribution('#dvIncomeDistribution');
+        }
+
+        function loadIncomeVsExpense(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeVsExpense?accountId=${accountId}&year=${year}` };
+            ajax.get(data.Url, successIncomeVsExpense, data.Data);
+        }
+        function successIncomeVsExpense(res) {
+            toggleLoading(res.additionalData);
+            const Ctx = document.getElementById('incomeExpenseChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (incomeExpenseChart) {
+                incomeExpenseChart.destroy();
+            }
+
+            if (res.statusCode == 200) {
+                const incomes = res.response.income.map(i => i.amount);
+                const expenses = res.response.expense.map(e => e.amount);
+                const lables = res.response.income.map(i => getMonthName(i.month));
+                incomeExpenseChart = new Chart(Ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: lables,
+                        datasets: [
+                            { label: 'Income', data: incomes, backgroundColor: 'rgba(75, 192, 192, 0.9)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
+                            { label: 'Expense', data: expenses, backgroundColor: 'rgba(255, 99, 132, 0.9)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            if (elements.length > 0) {
+                                const datasetIndex = elements[0].datasetIndex;
+                                const dataIndex = elements[0].index;
+                                const label = incomeExpenseChart.data.labels[dataIndex];
+                                const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
+                                alert(`Clicked on ${label}: ${value}`);
+                            }
+                        }
+                    }
+                });
+
+            }
+        }
+
+        function loadIncomeVsCharity(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeVsCharity?accountId=${accountId}&year=${year}` };
+            ajax.get(data.Url, successloadIncomeVsCharity, data.Data);
+        }
+        function successloadIncomeVsCharity(res) {
+            toggleLoading(res.additionalData);
+            const Ctx = document.getElementById('incomeCharityChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (incomeCharityChart) {
+                incomeCharityChart.destroy();
+            }
+
+            if (res.statusCode == 200) {
+                const incomes = res.response.income.map(i => i.amount);
+                const charity = res.response.charity.map(e => e.amount);
+                const lables = res.response.income.map(i => getMonthName(i.month));
+
+                incomeCharityChart = new Chart(Ctx, {
+                    type: 'line',
+                    data: {
+                        labels: lables,
+                        datasets: [
+                            { label: 'Income', data: incomes, borderColor: 'rgba(54, 162, 235, 1)', backgroundColor: 'rgba(54, 162, 235, 0.2)', borderWidth: 3, tension: 0.3 },
+                            { label: 'Charity', data: charity, borderColor: "rgba(255, 99, 132, 1)", backgroundColor: "rgba(255, 99, 132, 0.2)", borderWidth: 3, tension: 0.3 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function loadIncomeDistribution(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': `/dashboard/IncomeDistribution?accountId=${accountId}&year=${year}` };
+            ajax.get(data.Url, successIncomeDistribution, data.Data);
+        }
+        function successIncomeDistribution(res) {
+            toggleLoading(res.additionalData);
+            const Ctx = document.getElementById('incomePieChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (incomeDistributionChart) {
+                incomeDistributionChart.destroy();
+            }
+
+            if (res.statusCode == 200 && res.response) {
+                const dataPoints = res.response.map(i => i.amount);
+                if (dataPoints.length === 0) {
+                    noDataInPieChart(Ctx);
+                }
+                else {
+                    const lables = res.response.map(i => i.category);
+                    const colors = generateColors(dataPoints.length);
+                    incomeDistributionChart = new Chart(Ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: lables,
+                            datasets: [{ data: dataPoints, backgroundColor: colors, borderColor: '#000', borderWidth: 1, }]
+                        },
+                        options: {
+                            responsive: true,
+                            aspectRatio: 1.5,   // Control the aspect ratio (1 means square)
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            onClick: (event, elements) => {
+                                // Check if an element was clicked
+                                if (elements && elements.length > 0) {
+                                    // Get the index of the clicked segment
+                                    const clickedElementIndex = elements[0].index;
+
+                                    // Retrieve the label and value for the clicked segment
+                                    const label = expensePieChart.data.labels[clickedElementIndex];
+                                    const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
+
+                                    // Display the result
+                                    alert(`You clicked on ${label} with value ${value}`);
+                                } else {
+                                    alert("No segment clicked!");
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+                noDataInPieChart(Ctx);
+            }
+        }
+
+        function loadExpenseDistribution(container) {
+            toggleLoading(container, true);
+            var data = { 'Data': container, 'Url': `/dashboard/ExpenseDistribution?accountId=${accountId}&year=${year}` };
+            ajax.get(data.Url, successExpenseDistribution, data.Data);
+        }
+        function successExpenseDistribution(res) {
+            toggleLoading(res.additionalData);
+            const Ctx = document.getElementById('expensePieChart').getContext('2d');
+            // Destroy existing chart instance if it exists
+            if (expenseDistributionChart) {
+                expenseDistributionChart.destroy();
+            }
+
+            if (res.statusCode == 200 && res.response) {
+                const dataPoints = res.response.map(e => e.amount);
+                if (dataPoints.length === 0) {
+                    noDataInPieChart(Ctx);
+                }
+                else {
+                    const lables = res.response.map(e => e.category);
+                    const colors = generateColors(dataPoints.length);
+                    expenseDistributionChart = new Chart(Ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: lables,
+                            datasets: [{ data: dataPoints, backgroundColor: colors, borderColor: '#000', borderWidth: 1, }]
+                        },
+                        options: {
+                            responsive: true,
+                            aspectRatio: 1.5,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            onClick: (event, elements) => {
+                                // Check if an element was clicked
+                                if (elements && elements.length > 0) {
+                                    // Get the index of the clicked segment
+                                    const clickedElementIndex = elements[0].index;
+
+                                    // Retrieve the label and value for the clicked segment
+                                    const label = expensePieChart.data.labels[clickedElementIndex];
+                                    const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
+
+                                    // Display the result
+                                    alert(`You clicked on ${label} with value ${value}`);
+                                } else {
+                                    alert("No segment clicked!");
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+                noDataInPieChart(Ctx);
+            }
+        }
+
+        function toggleLoading(container, isVisible = false) {
+            var loadingDiv = $(container).find('.sectionLoading');
+            if (isVisible) {
+                if (loadingDiv.length === 0) {
+                    const loadingOverlay = `<div class="sectionLoading"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>`;
+                    $(container).css('position', 'relative').append(loadingOverlay);
+                } else {
+                    loadingDiv.fadeIn();
+                }
+            }
+            else {
+                loadingDiv.fadeOut();
+            }
+        }
+
+        function noDataInPieChart(ctx) {
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'gray';
+            ctx.fillText('No data available', ctx.canvas.width / 2, ctx.canvas.height / 2);
+        }
+    </script>
+}
