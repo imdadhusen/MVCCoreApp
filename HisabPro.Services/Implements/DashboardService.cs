@@ -28,49 +28,80 @@ namespace HisabPro.Services.Implements
         public async Task<ResponseDTO<IncomeVsExpenseRes>> IncomeVsExpense(int accountId, int year)
         {
             var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
-            var incomes = await _incomeRepo.GetAll().Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
+            var incomes = await _incomeRepo.GetAll()
+                .Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
                 .GroupBy(i => i.IncomeOn.Month)
                 .Select(g => new MonthlyFinanceSummary
                 {
                     Month = g.Key,
                     Amount = g.Sum(i => i.Amount)
                 })
-                //.OrderBy(g => g.MonthNumber)
                 .ToListAsync();
 
-            var expenses = await _expenseRepo.GetAll().Where(e => e.AccountId == accountId && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate)
+            var expenses = await _expenseRepo.GetAll()
+                .Where(e => e.AccountId == accountId && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate)
                 .GroupBy(e => e.ExpenseOn.Month)
                 .Select(g => new MonthlyFinanceSummary
                 {
                     Month = g.Key,
                     Amount = g.Sum(e => e.Amount)
                 })
-                //.OrderBy(g => g.MonthNumber)
                 .ToListAsync();
 
             var response = new IncomeVsExpenseRes()
             {
-                Incomes = incomes,
+                Income = incomes,
                 Expense = expenses
             };
 
             // Ensure all months exist in both lists
-            DashboardHelper.EnsureAllMonthsExist(response);
+            DashboardHelper.EnsureAllMonthsExist(response, res => res.Income, res => res.Expense);
 
             return new ResponseDTO<IncomeVsExpenseRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, response);
         }
 
         public async Task<ResponseDTO<IncomeVsCharityRes>> IncomeVsCharity(int accountId, int year)
         {
-            await Task.Delay(2500);
-            var response = new ResponseDTO<IncomeVsCharityRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, new IncomeVsCharityRes());
-            return response;
+            var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
+            var incomes = await _incomeRepo.GetAll()
+                .Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
+                .GroupBy(i => i.IncomeOn.Month)
+                .Select(g => new MonthlyFinanceSummary
+                {
+                    Month = g.Key,
+                    Amount = g.Sum(i => i.Amount)
+                })
+                .ToListAsync();
+
+            var charity = await _expenseRepo.GetAll()
+                .Where(e => e.AccountId == accountId 
+                && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate
+                && e.CategoryId == CategoryHelper.GetCharityCategoryId)
+               .GroupBy(e => e.ExpenseOn.Month)
+               .Select(g => new MonthlyFinanceSummary
+               {
+                   Month = g.Key,
+                   Amount = g.Sum(e => e.Amount)
+               })
+               .ToListAsync();
+
+            var response = new IncomeVsCharityRes()
+            {
+                Income = incomes,
+                Charity = charity
+            };
+
+            // Ensure all months exist in both lists
+            DashboardHelper.EnsureAllMonthsExist(response, res => res.Income, res => res.Charity);
+
+            return new ResponseDTO<IncomeVsCharityRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, response);
         }
 
         public async Task<ResponseDTO<List<WealthBreakdownRes>>> IncomeDistribution(int accountId, int year)
         {
             var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
-            var incomes = await _incomeRepo.GetAll().Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
+            var incomes = await _incomeRepo.GetAll()
+                .Where(i => i.AccountId == accountId && i.IncomeOn >= financeDateRange.StartDate && i.IncomeOn <= financeDateRange.EndDate)
                 .GroupBy(e => new { e.CategoryId, e.Category.Name })
                 .Select(g => new WealthBreakdownRes
                 {
@@ -85,7 +116,8 @@ namespace HisabPro.Services.Implements
         public async Task<ResponseDTO<List<WealthBreakdownRes>>> ExpenseDistribution(int accountId, int year)
         {
             var financeDateRange = FinanceYearHelper.GetFinanceYearRange(financeYear, year);
-            var expenses = await _expenseRepo.GetAll().Where(e => e.AccountId == accountId && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate)
+            var expenses = await _expenseRepo.GetAll()
+                .Where(e => e.AccountId == accountId && e.ExpenseOn >= financeDateRange.StartDate && e.ExpenseOn <= financeDateRange.EndDate)
                 .GroupBy(e => new { e.CategoryId, e.Category.Name })
                 .Select(g => new WealthBreakdownRes
                 {
