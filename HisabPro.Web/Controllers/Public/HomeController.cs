@@ -1,15 +1,23 @@
 using HisabPro.DTO.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers.Public
 {
-    public class HomeController(ILogger<HomeController> logger) : Controller
+    public class HomeController : Controller
     {
         private readonly string sharedController = "/Views/Shared/{0}.cshtml";
+        private readonly IStringLocalizer _localizer;
+
+        public HomeController(IStringLocalizerFactory factory)
+        {
+            _localizer = factory.Create("SharedResource", "HisabPro.Web");
+        }
 
         public IActionResult Index()
         {
+            ViewData["WelcomeMessage"] = _localizer["WelcomeMessage"];
             return View();
         }
 

@@ -41,12 +41,18 @@ namespace HisabPro
                 options.Filters.Add<ValidateModelStateFilter>();
                 options.Filters.Add<CustomExceptionFilter>();
             });
-            services.AddControllersWithViews().AddRazorOptions(options =>
-            {
-                options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
-            });
+            services.AddControllersWithViews()
+                .AddViewLocalization() // Enable view localization
+                .AddDataAnnotationsLocalization() // Enable model validation localization
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+                });
+            // Configure localization options
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
             //    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -123,7 +129,6 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -133,6 +138,14 @@ namespace HisabPro
                 app.UseExceptionHandler(AppConst.Views.Error);
                 app.UseHsts();
             }
+
+            // Configure localization middleware
+            var supportedCultures = new[] { "en-US", "gu-IN" };
+            var localizationOptions = new RequestLocalizationOptions()
+                .SetDefaultCulture("en-US") // Default culture
+                .AddSupportedCultures(supportedCultures) // Supported cultures
+                .AddSupportedUICultures(supportedCultures);
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
@@ -152,6 +165,7 @@ namespace HisabPro
             });
             app.UseAuthorization();
 
+            app.UseMiddleware<CultureMiddleware>();
             // Register the remember me middleware after login
             app.UseMiddleware<RememberMe>();
             // Register the Password expirey middleware after login
