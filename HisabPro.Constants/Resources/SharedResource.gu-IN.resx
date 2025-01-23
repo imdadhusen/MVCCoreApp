@@ -117,7 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="WelcomeMessage" xml:space="preserve">
-    <value>Welcome to HisabPro!</value>
+  <data name="FieldEmail" xml:space="preserve">
+    <value>ઈમેઇલ સરનામું</value>
+  </data>
+  <data name="FieldPassword" xml:space="preserve">
+    <value>પાસવર્ડ</value>
+  </data>
+  <data name="FieldRememberMe" xml:space="preserve">
+    <value>મને યાદ રાખો?</value>
+  </data>
+  <data name="LabelAboutUs" xml:space="preserve">
+    <value>અમારા વિશે</value>
+  </data>
+  <data name="LabelChangePassword" xml:space="preserve">
+    <value>પાસવર્ડ બદલો</value>
+  </data>
+  <data name="LabelContact" xml:space="preserve">
+    <value>સંપર્ક</value>
+  </data>
+  <data name="LabelDashboard" xml:space="preserve">
+    <value>ડેશબોર્ડ</value>
+  </data>
+  <data name="LabelHello" xml:space="preserve">
+    <value>નમસ્તે</value>
+  </data>
+  <data name="LabelHome" xml:space="preserve">
+    <value>હોમ</value>
+  </data>
+  <data name="LabelLogin" xml:space="preserve">
+    <value>લોગિન</value>
+  </data>
+  <data name="LabelLogout" xml:space="preserve">
+    <value>લૉગઆઉટ</value>
+  </data>
+  <data name="LabelPrivacy" xml:space="preserve">
+    <value>પ્રાઇવસી</value>
+  </data>
+  <data name="LabelProfile" xml:space="preserve">
+    <value>પ્રોફાઇલ</value>
+  </data>
+  <data name="LabelRegisterUser" xml:space="preserve">
+    <value>યુઝર રજીસ્ટર કરો</value>
+  </data>
+  <data name="MessageWelcome" xml:space="preserve">
+    <value>HisabPro પર આપનું સ્વાગત છે!</value>
+  </data>
+  <data name="ValidationInvalidEmail" xml:space="preserve">
+    <value>કૃપા કરીને માન્ય ઈમેઇલ દાખલ કરો.</value>
+  </data>
+  <data name="ValidationRequiredEmail" xml:space="preserve">
+    <value>ઈમેઇલ આવશ્યક છે.</value>
+  </data>
+  <data name="ValidationRequiredPassword" xml:space="preserve">
+    <value>પાસવર્ડ આવશ્યક છે.</value>
   </data>
 </root>

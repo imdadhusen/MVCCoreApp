@@ -1,6 +1,6 @@
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers.Public
@@ -8,16 +8,14 @@ namespace HisabPro.Web.Controllers.Public
     public class HomeController : Controller
     {
         private readonly string sharedController = "/Views/Shared/{0}.cshtml";
-        private readonly IStringLocalizer _localizer;
-
-        public HomeController(IStringLocalizerFactory factory)
+        
+        public HomeController()
         {
-            _localizer = factory.Create("SharedResource", "HisabPro.Web");
         }
 
         public IActionResult Index()
         {
-            ViewData["WelcomeMessage"] = _localizer["WelcomeMessage"];
+            ViewData["WelcomeMessage"] = SharedResource.MessageWelcome;
             return View();
         }
 
