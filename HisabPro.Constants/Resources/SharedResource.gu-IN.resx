@@ -159,11 +159,32 @@
   <data name="LabelActivationTitle" xml:space="preserve">
     <value>વપરાશકર્તાની સક્રિયતા સફળ થઈ</value>
   </data>
+  <data name="LabelAutoCorrect" xml:space="preserve">
+    <value>સ્વચાલિત ઠીક કરવું</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>પાસવર્ડ બદલો</value>
   </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>તમારું ઇમેઇલ તપાસો!</value>
+  </data>
+  <data name="LabelColumnAmount" xml:space="preserve">
+    <value>રકમ</value>
+  </data>
+  <data name="LabelColumnCategory" xml:space="preserve">
+    <value>શ્રેણી</value>
+  </data>
+  <data name="LabelColumnDate" xml:space="preserve">
+    <value>તારીખ</value>
+  </data>
+  <data name="LabelColumnPerson" xml:space="preserve">
+    <value>વ્યક્તિ</value>
+  </data>
+  <data name="LabelColumnSubCategory" xml:space="preserve">
+    <value>ઉપશ્રેણી</value>
+  </data>
+  <data name="LabelColumnTitle" xml:space="preserve">
+    <value>શિર્ષક</value>
   </data>
   <data name="LabelConfirmPassword" xml:space="preserve">
     <value>પાસવર્ડની પુષ્ટિ કરો</value>
@@ -204,8 +225,66 @@
   <data name="LabelHello" xml:space="preserve">
     <value>નમસ્તે</value>
   </data>
+  <data name="LabelHere" xml:space="preserve">
+    <value>અહીં</value>
+  </data>
   <data name="LabelHome" xml:space="preserve">
     <value>હોમ</value>
+  </data>
+  <data name="LabelImportExpense" xml:space="preserve">
+    <value>ખર્ચ આયાત કરો</value>
+  </data>
+  <data name="LabelImportExpenseMessage" xml:space="preserve">
+    <value>જો તમે Excel ફાઇલમાંથી અનેક ખર્ચો ઉમેરવા માંગતા હોવ,
+તો તમે આયાત સુવિધાનો ઉપયોગ કરી શકો છો, જે દરેક ખર્ચને યોગ્ય રીતે વર્ગીકૃત કરીને તમારું કામ સરળ બનાવશે.
+તમે વધુ વિગતો મેળવી શકો છો.</value>
+  </data>
+  <data name="LabelImportExpenseWizard" xml:space="preserve">
+    <value>ખર્ચ આયાત વિઝાર્ડ</value>
+  </data>
+  <data name="LabelImportExtractColumnDateCorrect" xml:space="preserve">
+    <value>ખાલી તારીખ(ઓ)ને સ્વચાલિત રીતે ઠીક કરવા માટે ક્લિક કરો</value>
+  </data>
+  <data name="LabelImportExtractColumnTitleCorrect" xml:space="preserve">
+    <value>વિશાળ શિર્ષકને નાના માં સ્વચાલિત રીતે ઠીક કરવા માટે ક્લિક કરો</value>
+  </data>
+  <data name="LabelImportExtractMaximizeTable" xml:space="preserve">
+    <value>ટેબલ વધારવું</value>
+  </data>
+  <data name="LabelImportExtractResetTable" xml:space="preserve">
+    <value>ટેબલ ફરીથી સેટ કરો</value>
+  </data>
+  <data name="LabelImportExtractTitle" xml:space="preserve">
+    <value>કઢાયેલ ડેટાની તપાસ કરો</value>
+  </data>
+  <data name="LabelImportFile" xml:space="preserve">
+    <value>ફાઇલ પસંદ કરો</value>
+  </data>
+  <data name="LabelImportFileTitle" xml:space="preserve">
+    <value>ફાઇલ અપલોડ કરો</value>
+  </data>
+  <data name="LabelImportIncomes" xml:space="preserve">
+    <value>આવકો આયાત કરો</value>
+  </data>
+  <data name="LabelImportIncomesMessage" xml:space="preserve">
+    <value>જો તમે Excel ફાઇલમાંથી અનેક ખર્ચો ઉમેરવા માંગતા હોવ,
+તો તમે આયાત સુવિધાનો ઉપયોગ કરી શકો છો, જે દરેક ખર્ચને યોગ્ય રીતે વર્ગીકૃત કરીને તમારા અનુભવને સરળ બનાવશે.
+તમે વધુ વિગતો મેળવી શકો છો.</value>
+  </data>
+  <data name="LabelImportIncomesWizard" xml:space="preserve">
+    <value>આવકો આયાત વિઝાર્ડ</value>
+  </data>
+  <data name="LabelImportWizardError" xml:space="preserve">
+    <value>એક ભૂલ થઈ છે. કૃપા કરીને હાઇલાઇટ કરેલ ફીલ્ડ્સ ઠીક કરો.</value>
+  </data>
+  <data name="LabelImportWizardStep1" xml:space="preserve">
+    <value>ડેટા ફાઇલ આયાત કરો</value>
+  </data>
+  <data name="LabelImportWizardStep2" xml:space="preserve">
+    <value>કઢાણ અને માન્યતા</value>
+  </data>
+  <data name="LabelImportWizardStep3" xml:space="preserve">
+    <value>આયાત સારાંશ</value>
   </data>
   <data name="LabelIncome" xml:space="preserve">
     <value>આવક</value>
@@ -222,8 +301,14 @@
   <data name="LabelNewPassword" xml:space="preserve">
     <value>નવો પાસવર્ડ</value>
   </data>
+  <data name="LabelNext" xml:space="preserve">
+    <value>આગળ</value>
+  </data>
   <data name="LabelPasswordResetRequired" xml:space="preserve">
     <value>તમારા ખાતાને સુરક્ષાના કારણોસર પાસવર્ડ રિસેટ કરવાની જરૂર છે. કૃપા કરીને તમારું પાસવર્ડ રિસેટ કરો જેથી કરીને તમે તમારું ખાતું વાપરી શકો.</value>
+  </data>
+  <data name="LabelPrevious" xml:space="preserve">
+    <value>પાછળ</value>
   </data>
   <data name="LabelPrivacy" xml:space="preserve">
     <value>પ્રાઇવસી</value>
@@ -248,6 +333,21 @@
   </data>
   <data name="LabelSaveUser" xml:space="preserve">
     <value>યુઝરને સાચવો</value>
+  </data>
+  <data name="LabelSummaryCongratulation" xml:space="preserve">
+    <value>અભિનંદન! બલ્ક ડેટા આયાત સફળતાપૂર્વક પૂર્ણ થઈ ગઈ છે!</value>
+  </data>
+  <data name="LabelSummaryImported" xml:space="preserve">
+    <value>ડેટા આયાત થયો</value>
+  </data>
+  <data name="LabelSummaryNote" xml:space="preserve">
+    <value>જો તમે કોઈ વિશિષ્ટ ડેટાનું સમીક્ષણ અથવા ફેરફાર કરવા માંગતા હોવ, તો કૃપા કરીને ક્લિક કરો</value>
+  </data>
+  <data name="LabelSummaryTotalRecords" xml:space="preserve">
+    <value>કુલ રેકોર્ડ્સ</value>
+  </data>
+  <data name="LabelSummaryTotalTime" xml:space="preserve">
+    <value>કુલ સમય</value>
   </data>
   <data name="LabelUpdatePassword" xml:space="preserve">
     <value>પાસવર્ડ અપડેટ કરો</value>

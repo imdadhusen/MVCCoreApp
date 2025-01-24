@@ -1,11 +1,12 @@
-﻿@model HisabPro.Web.ViewModel.SummaryModel
-<!-- Step 3 -->
+﻿<!-- Step 3 -->
+@model HisabPro.Web.ViewModel.SummaryModel
+@using HisabPro.Constants.Resources;
 <div class="wizard-step" data-step="1">
-    <h4 class="mb-3">Data imported</h4>
+    <h4 class="mb-3">@SharedResource.LabelSummaryImported</h4>
     <div class="form-group center">
-        <div class="title">Congratulation! Bulk data import completed successfully!</div>
-        <div class="total-records">Total Records: @Model.Records</div>
-        <div class="total-time">Total Time: @Model.Seconds seconds</div><br /><br />
-        Note:<div class="note">If you would like to review or modify any specific data, please click <a id="dataList">here</a></div>
+        <div class="title">@SharedResource.LabelSummaryCongratulation</div>
+        <div class="total-records">@SharedResource.LabelSummaryTotalRecords: @Model.Records</div>
+        <div class="total-time">@SharedResource.LabelSummaryTotalTime: @Model.Seconds seconds</div><br /><br />
+        Note:<div class="note">@SharedResource.LabelSummaryNote <a id="dataList">@SharedResource.LabelHere</a></div>
     </div>
 </div>

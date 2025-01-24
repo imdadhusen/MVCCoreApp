@@ -1,15 +1,16 @@
 ﻿<!-- Step 2 -->
+@using HisabPro.Constants.Resources;
 @model IEnumerable<HisabPro.Web.ViewModel.ImportDataModel>
 
 <div class="wizard-step" data-step="2">
     <div class="table-container">
         <div class="table-header">
-            <h5>Verify Extracted Data</h5>
+            <h5>@SharedResource.LabelImportExtractTitle</h5>
             <div class="action-icons">
-                <button id="maximizeTable" class="btn btn-light" title="Maximize Table" style="margin-top:unset">
+                <button id="maximizeTable" class="btn btn-light" title="@SharedResource.LabelImportExtractMaximizeTable" style="margin-top:unset">
                     <i class="fas fa-expand"></i>
                 </button>
-                <button id="resetTable" class="btn btn-light d-none" title="Reset Table" style="margin-top:unset">
+                <button id="resetTable" class="btn btn-light d-none" title="@SharedResource.LabelImportExtractResetTable" style="margin-top:unset">
                     <i class="fas fa-compress"></i>
                 </button>
             </div>
@@ -20,17 +21,17 @@
                     <thead>
                         <tr class="header">
                             <th class="widthDate">
-                                Date
-                                <a id="autoCorrectDate" href="#" class="headerLink" title="Click to auto correct empty date(s)">Auto Correct</a>
+                                @SharedResource.LabelColumnDate
+                                <a id="autoCorrectDate" href="#" class="headerLink" title="@SharedResource.LabelImportExtractColumnDateCorrect">@SharedResource.LabelAutoCorrect</a>
                             </th>
                             <th class="autoWidth">
-                                Title
-                                <a id="autoCorrectTitle" href="#" class="headerLink" title="Click to auto correct large title to small">Auto Correct</a>
+                                @SharedResource.LabelColumnTitle
+                                <a id="autoCorrectTitle" href="#" class="headerLink" title="@SharedResource.LabelImportExtractColumnTitleCorrect">@SharedResource.LabelAutoCorrect</a>
                             </th>
-                            <th class="widthAmount">Amount</th>
-                            <th class="widthCategory">Category</th>
-                            <th class="widthCategory">SubCategory</th>
-                            <th class="widthPerson">Person</th>
+                            <th class="widthAmount">@SharedResource.LabelColumnAmount</th>
+                            <th class="widthCategory">@SharedResource.LabelColumnCategory</th>
+                            <th class="widthCategory">@SharedResource.LabelColumnSubCategory</th>
+                            <th class="widthPerson">@SharedResource.LabelColumnPerson</th>
                         </tr>
                     </thead>
                     <tbody id="tblData">
@@ -67,8 +68,8 @@
             </form>
         </div>
     </div>
-    <button type="button" class="btn btn-secondary prev">Previous</button>
-    <button type="button" class="btn btn-primary next">Next</button>
+    <button type="button" class="btn btn-secondary prev">@SharedResource.LabelPrevious</button>
+    <button type="button" class="btn btn-primary next">@SharedResource.LabelNext</button>
 </div>
 <script>
     var tblData = '#tblData';

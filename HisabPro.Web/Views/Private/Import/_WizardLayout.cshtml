@@ -1,4 +1,5 @@
-﻿@{
+﻿@using HisabPro.Constants.Resources;
+@{
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
@@ -22,20 +23,20 @@
                 <div class="container">
                     <div class="step-wizard">
                         <div class="step active" data-step="1">
-                            Import Data File
+                            @SharedResource.LabelImportWizardStep1
                             <div class="step-indicator"></div>
                         </div>
                         <div class="step" data-step="2">
-                            Extraction & Validation
+                            @SharedResource.LabelImportWizardStep1
                             <div class="step-indicator"></div>
                         </div>
                         <div class="step" data-step="3">
-                            Import Summary
+                            @SharedResource.LabelImportWizardStep1
                             <div class="step-indicator"></div>
                         </div>
                     </div>
                     <div id="wizard-error">
-                        An error occurred. Please fix the highlighted fields.
+                        @SharedResource.LabelImportWizardError
                     </div>
                     <div id="wizard-content">
                         <!-- Step content will be loaded here -->
@@ -45,7 +46,7 @@
             </div>
         </div>
         <div class="wizard-loading loading" style="display:none">
-            Loading, please wait...
+            @SharedResource.LabelLoading
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HisabPro.Constants.Resources
 {
@@ -30,6 +31,37 @@ namespace HisabPro.Constants.Resources
         public static string LabelDashboard { get; private set; }
         public static string LabelProfile { get; private set; }
         public static string LabelLogout { get; private set; }
+
+        //Start: Import Incomes and Expense related settings
+        public static string LabelImportExpense { get; private set; }
+        public static string LabelImportExpenseWizard { get; private set; }
+        public static string LabelImportExpenseMessage { get; private set; }
+
+        public static string LabelImportIncomes { get; private set; }
+        public static string LabelImportIncomesWizard { get; private set; }
+        public static string LabelImportIncomesMessage { get; private set; }
+        public static string LabelImportWizardStep1 { get; private set; }
+        public static string LabelImportWizardStep2 { get; private set; }
+        public static string LabelImportWizardStep3 { get; private set; }
+        public static string LabelImportWizardError { get; private set; }
+        //Step 1
+        public static string LabelImportFileTitle { get; private set; }
+        public static string LabelImportFile { get; private set; }
+        //Step 2
+        public static string LabelImportExtractTitle { get; private set; }
+        public static string LabelImportExtractMaximizeTable { get; private set; }
+        public static string LabelImportExtractResetTable { get; private set; }
+        public static string LabelImportExtractColumnDateCorrect { get; private set; }
+        public static string LabelImportExtractColumnTitleCorrect { get; private set; }
+        //Step 3
+        public static string LabelSummaryImported { get; private set; }
+        public static string LabelSummaryCongratulation { get; private set; }
+        public static string LabelSummaryTotalRecords { get; private set; }
+        public static string LabelSummaryTotalTime { get; private set; }
+        public static string LabelSummaryNote { get; private set; }
+
+
+        //End: Import Incomes and Expense related settings
 
         //Start: Account related settings
         public static string LabelDeleteAccount { get; private set; }
@@ -85,8 +117,19 @@ namespace HisabPro.Constants.Resources
         public static string LabelCreateNew { get; private set; }
         public static string LabelContactSupport { get; private set; }
         public static string LabelContactSupportMessage { get; private set; }
-        
-        
+
+        public static string LabelHere { get; private set; }
+        public static string LabelAutoCorrect { get; private set; }
+
+        public static string LabelNext { get; private set; }
+        public static string LabelPrevious { get; private set; }
+
+        public static string LabelColumnDate { get; private set; }
+        public static string LabelColumnTitle { get; private set; }
+        public static string LabelColumnAmount { get; private set; }
+        public static string LabelColumnCategory { get; private set; }
+        public static string LabelColumnSubCategory { get; private set; }
+        public static string LabelColumnPerson { get; private set; }
 
         static SharedResource()
         {

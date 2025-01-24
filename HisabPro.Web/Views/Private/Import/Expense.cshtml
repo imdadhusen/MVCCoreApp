@@ -1,15 +1,14 @@
-﻿@{
+﻿@using HisabPro.Constants.Resources;
+@{
     Layout = "~/Views/Private/Import/_WizardLayout.cshtml";
-    ViewData["Title"] = "Import Expenses";
-    ViewData["SectionHeader"] = "Import Expenses Wizard";
-    ViewData["CardTitle"] = "Expenses";
+    ViewData["Title"] = SharedResource.LabelImportExpense;
+    ViewData["SectionHeader"] = SharedResource.LabelImportExpenseWizard;
+    ViewData["CardTitle"] = SharedResource.LabelExpense;
 }
 
 @section BodyInfo {
     <p class="text-muted mb-0">
         <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
-        If you would like to add multiple expenses from the Excel file,
-        you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
-        You can get more details <a asp-controller="Import" asp-action="Expense">here</a>.
+        @SharedResource.LabelImportExpenseMessage <a asp-controller="Import" asp-action="Expense">@SharedResource.LabelHere</a>.
     </p>
 }

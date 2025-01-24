@@ -159,11 +159,32 @@
   <data name="LabelActivationTitle" xml:space="preserve">
     <value>User Activation Successful</value>
   </data>
+  <data name="LabelAutoCorrect" xml:space="preserve">
+    <value>Auto Correct</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>Check Your Email!</value>
+  </data>
+  <data name="LabelColumnAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="LabelColumnCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="LabelColumnDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="LabelColumnPerson" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="LabelColumnSubCategory" xml:space="preserve">
+    <value>SubCategory</value>
+  </data>
+  <data name="LabelColumnTitle" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="LabelConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
@@ -204,8 +225,66 @@
   <data name="LabelHello" xml:space="preserve">
     <value>Hello</value>
   </data>
+  <data name="LabelHere" xml:space="preserve">
+    <value>here</value>
+  </data>
   <data name="LabelHome" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="LabelImportExpense" xml:space="preserve">
+    <value>Import Expense</value>
+  </data>
+  <data name="LabelImportExpenseMessage" xml:space="preserve">
+    <value>If you would like to add multiple expenses from the Excel file,
+you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
+You can get more details</value>
+  </data>
+  <data name="LabelImportExpenseWizard" xml:space="preserve">
+    <value>Import Expense Wizard</value>
+  </data>
+  <data name="LabelImportExtractColumnDateCorrect" xml:space="preserve">
+    <value>Click to auto correct empty date(s)</value>
+  </data>
+  <data name="LabelImportExtractColumnTitleCorrect" xml:space="preserve">
+    <value>Click to auto correct large title to small</value>
+  </data>
+  <data name="LabelImportExtractMaximizeTable" xml:space="preserve">
+    <value>Maximize Table</value>
+  </data>
+  <data name="LabelImportExtractResetTable" xml:space="preserve">
+    <value>Reset Table</value>
+  </data>
+  <data name="LabelImportExtractTitle" xml:space="preserve">
+    <value>Verify Extracted Data</value>
+  </data>
+  <data name="LabelImportFile" xml:space="preserve">
+    <value>Choose file</value>
+  </data>
+  <data name="LabelImportFileTitle" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="LabelImportIncomes" xml:space="preserve">
+    <value>Import Incomes</value>
+  </data>
+  <data name="LabelImportIncomesMessage" xml:space="preserve">
+    <value>If you would like to add multiple expenses from the Excel file,
+you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
+You can get more details</value>
+  </data>
+  <data name="LabelImportIncomesWizard" xml:space="preserve">
+    <value>Import Incomes Wizard</value>
+  </data>
+  <data name="LabelImportWizardError" xml:space="preserve">
+    <value>An error occurred. Please fix the highlighted fields.</value>
+  </data>
+  <data name="LabelImportWizardStep1" xml:space="preserve">
+    <value>Import Data File</value>
+  </data>
+  <data name="LabelImportWizardStep2" xml:space="preserve">
+    <value>Extraction &amp; Validation</value>
+  </data>
+  <data name="LabelImportWizardStep3" xml:space="preserve">
+    <value>Import Summary</value>
   </data>
   <data name="LabelIncome" xml:space="preserve">
     <value>Income</value>
@@ -222,8 +301,14 @@
   <data name="LabelNewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
+  <data name="LabelNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
   <data name="LabelPasswordResetRequired" xml:space="preserve">
     <value>Your account requires a password reset for security reasons. Please reset your password to continue using your account.</value>
+  </data>
+  <data name="LabelPrevious" xml:space="preserve">
+    <value>Previous</value>
   </data>
   <data name="LabelPrivacy" xml:space="preserve">
     <value>Privacy</value>
@@ -248,6 +333,21 @@
   </data>
   <data name="LabelSaveUser" xml:space="preserve">
     <value>Save User</value>
+  </data>
+  <data name="LabelSummaryCongratulation" xml:space="preserve">
+    <value>Congratulation! Bulk data import completed successfully!</value>
+  </data>
+  <data name="LabelSummaryImported" xml:space="preserve">
+    <value>Data Imported</value>
+  </data>
+  <data name="LabelSummaryNote" xml:space="preserve">
+    <value>If you would like to review or modify any specific data, please click</value>
+  </data>
+  <data name="LabelSummaryTotalRecords" xml:space="preserve">
+    <value>Total Records</value>
+  </data>
+  <data name="LabelSummaryTotalTime" xml:space="preserve">
+    <value>Total Time</value>
   </data>
   <data name="LabelUpdatePassword" xml:space="preserve">
     <value>Update Password</value>
