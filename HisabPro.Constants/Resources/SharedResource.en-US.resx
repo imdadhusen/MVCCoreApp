@@ -129,14 +129,62 @@
   <data name="LabelAboutUs" xml:space="preserve">
     <value>About Us</value>
   </data>
+  <data name="LabelActivationFailed" xml:space="preserve">
+    <value>Activation Failed</value>
+  </data>
+  <data name="LabelActivationFailedMessage" xml:space="preserve">
+    <value>We're sorry, but your account activation could not be completed. This may have happened for one of the following reasons:</value>
+  </data>
+  <data name="LabelActivationFailedReason1" xml:space="preserve">
+    <value>The activation link has expired.</value>
+  </data>
+  <data name="LabelActivationFailedReason2" xml:space="preserve">
+    <value>The activation link has already been used.</value>
+  </data>
+  <data name="LabelActivationFailedReason3" xml:space="preserve">
+    <value>There was an issue processing your request.</value>
+  </data>
+  <data name="LabelActivationFailedTitle" xml:space="preserve">
+    <value>User Activation Failed</value>
+  </data>
+  <data name="LabelActivationHead" xml:space="preserve">
+    <value>Activation Successful</value>
+  </data>
+  <data name="LabelActivationMessage" xml:space="preserve">
+    <value>Congratulations! Your account has been successfully activated. To access your account, please set a password.</value>
+  </data>
+  <data name="LabelActivationTitle" xml:space="preserve">
+    <value>User Activation Successful</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>Change Password</value>
+  </data>
+  <data name="LabelCheckEmail" xml:space="preserve">
+    <value>Check Your Email!</value>
+  </data>
+  <data name="LabelConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
   </data>
   <data name="LabelContact" xml:space="preserve">
     <value>Contact</value>
   </data>
+  <data name="LabelContactSupport" xml:space="preserve">
+    <value>Contact Support</value>
+  </data>
+  <data name="LabelContactSupportMessage" xml:space="preserve">
+    <value>If you need assistance, please contact our support team</value>
+  </data>
+  <data name="LabelCreateNew" xml:space="preserve">
+    <value>Create New</value>
+  </data>
   <data name="LabelDashboard" xml:space="preserve">
     <value>Dashboard</value>
+  </data>
+  <data name="LabelDeleteUser" xml:space="preserve">
+    <value>Delete User</value>
+  </data>
+  <data name="LabelEmailActivation" xml:space="preserve">
+    <value>We have sent you an account activation link. Please check your email to activate your account and set your password before logging in.</value>
   </data>
   <data name="LabelHello" xml:space="preserve">
     <value>Hello</value>
@@ -144,11 +192,20 @@
   <data name="LabelHome" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="LabelLoading" xml:space="preserve">
+    <value>Loading, please wait...</value>
+  </data>
   <data name="LabelLogin" xml:space="preserve">
     <value>Login</value>
   </data>
   <data name="LabelLogout" xml:space="preserve">
     <value>Logout</value>
+  </data>
+  <data name="LabelNewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="LabelPasswordResetRequired" xml:space="preserve">
+    <value>Your account requires a password reset for security reasons. Please reset your password to continue using your account.</value>
   </data>
   <data name="LabelPrivacy" xml:space="preserve">
     <value>Privacy</value>
@@ -158,6 +215,18 @@
   </data>
   <data name="LabelRegisterUser" xml:space="preserve">
     <value>Register User</value>
+  </data>
+  <data name="LabelSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="LabelSaveUser" xml:space="preserve">
+    <value>Save User</value>
+  </data>
+  <data name="LabelUpdatePassword" xml:space="preserve">
+    <value>Update Password</value>
+  </data>
+  <data name="LabelUser" xml:space="preserve">
+    <value>User</value>
   </data>
   <data name="MessageWelcome" xml:space="preserve">
     <value>Welcome to HisabPro!</value>

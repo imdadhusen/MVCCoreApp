@@ -1,6 +1,7 @@
-﻿@model HisabPro.DTO.Request.SaveUserReq
+﻿@using HisabPro.Constants.Resources;
+@model HisabPro.DTO.Request.SaveUserReq
 @{
-    ViewData["Title"] = "Register User";
+    ViewData["Title"] = @SharedResource.LabelRegisterUser;
 }
 
 <div class="container">
@@ -11,7 +12,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-person-plus me-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-0 p-2">Register User</h5>
+                        <h5 class="mb-0 p-2">@SharedResource.LabelRegisterUser</h5>
                     </div>
                 </div>
                 <div class="grid-filter-body card-body">
@@ -67,7 +68,7 @@
 
                                 <div class="form-group m-t-10 text-center">
                                     <button class="btn btn-primary action-btn">
-                                        <i class="fas fa-save"></i> Register
+                                        <i class="fas fa-save"></i> @SharedResource.LabelRegisterUser
                                     </button>
                                 </div>
                             </form>
@@ -76,15 +77,15 @@
                         <div id="dvRegisterSuccess" class="justify-content-center align-items-center" style="display:none">
                             <div class="text-center">
                                 <i class="bi bi-envelope-check-fill text-primary" style="font-size: 3rem;"></i>
-                                <h1 class="mt-3">Check Your Email!</h1>
-                                <p class="lead">We have sent you an account activation link. Please check your email to activate your account and set your password before logging in.</p>
+                                <h1 class="mt-3">@SharedResource.LabelCheckEmail</h1>
+                                <p class="lead">@SharedResource.LabelEmailActivation</p>
                                 <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="form-view" class="loading" style="display:none">
-                    Loading, please wait...
+                    @SharedResource.LabelLoading
                 </div>
             </div>
         </div>

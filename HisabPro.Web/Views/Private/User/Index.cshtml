@@ -1,17 +1,9 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
+﻿@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<object>
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = @SharedResource.LabelUser;
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
-
-@* <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="h4 text-primary">Manage Users</h1>
-    </div>
-    <a asp-action="Save" class="btn btn-success">
-        <i class="bi bi-plus-lg me-1"></i> Create New
-    </a>
-</div> *@
 
 <div id="tblAccount" style="position:relative">
     @await Html.PartialAsync("~/Views/Shared/_GridView.cshtml", Model)
@@ -21,7 +13,7 @@
     <script>
         $('#tblAccount').gridview({
             controllerName: 'User',
-            titleDelete: 'Delete User'
+            titleDelete: '@SharedResource.LabelDeleteUser'
         });
     </script>
 }

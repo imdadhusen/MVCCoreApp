@@ -2,7 +2,7 @@
 @model HisabPro.Web.ViewModel.LoginModel
 @{
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = @SharedResource.LabelLogin;
 }
 <div class="container">
     <div class="row">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div id="form-view" class="loading" style="display:none">
-                    Loading, please wait...
+                    @SharedResource.LabelLoading
                 </div>
             </div>
         </div>

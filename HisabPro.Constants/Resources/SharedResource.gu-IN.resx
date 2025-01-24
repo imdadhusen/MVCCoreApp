@@ -129,14 +129,62 @@
   <data name="LabelAboutUs" xml:space="preserve">
     <value>અમારા વિશે</value>
   </data>
+  <data name="LabelActivationFailed" xml:space="preserve">
+    <value>સક્રિયતા નિષ્ફળ ગઈ</value>
+  </data>
+  <data name="LabelActivationFailedMessage" xml:space="preserve">
+    <value>માફ કરશો, પરંતુ તમારું ખાતું સક્રિય કરી શકાયું નથી. આ નીચેના કારણો પૈકી કોઈ એક કારણે થઈ શકે છે:</value>
+  </data>
+  <data name="LabelActivationFailedReason1" xml:space="preserve">
+    <value>સક્રિયતા લિંકની સમયમર્યાદા સમાપ્ત થઈ ગઈ છે.</value>
+  </data>
+  <data name="LabelActivationFailedReason2" xml:space="preserve">
+    <value>સક્રિયતા લિંક પહેલેથી જ ઉપયોગમાં લઈ લેવાઈ છે.</value>
+  </data>
+  <data name="LabelActivationFailedReason3" xml:space="preserve">
+    <value>તમારા વિનંતીની પ્રક્રિયામાં કોઈ સમસ્યા આવી હતી.</value>
+  </data>
+  <data name="LabelActivationFailedTitle" xml:space="preserve">
+    <value>વપરાશકર્તાની સક્રિયતા નિષ્ફળ ગઈ</value>
+  </data>
+  <data name="LabelActivationHead" xml:space="preserve">
+    <value>સક્રિયતા સફળ થઈ</value>
+  </data>
+  <data name="LabelActivationMessage" xml:space="preserve">
+    <value>અભિનંદન! તમારું ખાતું સફળતાપૂર્વક સક્રિય કરવામાં આવ્યું છે. તમારું ખાતું ઍક્સેસ કરવા માટે કૃપા કરીને પાસવર્ડ સેટ કરો.</value>
+  </data>
+  <data name="LabelActivationTitle" xml:space="preserve">
+    <value>વપરાશકર્તાની સક્રિયતા સફળ થઈ</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>પાસવર્ડ બદલો</value>
+  </data>
+  <data name="LabelCheckEmail" xml:space="preserve">
+    <value>તમારું ઇમેઇલ તપાસો!</value>
+  </data>
+  <data name="LabelConfirmPassword" xml:space="preserve">
+    <value>પાસવર્ડની પુષ્ટિ કરો</value>
   </data>
   <data name="LabelContact" xml:space="preserve">
     <value>સંપર્ક</value>
   </data>
+  <data name="LabelContactSupport" xml:space="preserve">
+    <value>સપોર્ટથી સંપર્ક કરો</value>
+  </data>
+  <data name="LabelContactSupportMessage" xml:space="preserve">
+    <value>તમને સહાયની જરૂર હોય તો કૃપા કરીને અમારી સપોર્ટ ટીમ સાથે સંપર્ક કરો.</value>
+  </data>
+  <data name="LabelCreateNew" xml:space="preserve">
+    <value>નવું બનાવો</value>
+  </data>
   <data name="LabelDashboard" xml:space="preserve">
     <value>ડેશબોર્ડ</value>
+  </data>
+  <data name="LabelDeleteUser" xml:space="preserve">
+    <value>વપરાશકર્તાને કાઢી નાખો</value>
+  </data>
+  <data name="LabelEmailActivation" xml:space="preserve">
+    <value>અમે તમને ખાતું સક્રિય કરવા માટેની લિંક મોકલી છે. કૃપા કરીને તમારું ઈમેઇલ તપાસો, તમારું ખાતું સક્રિય કરો અને લોગિન કરવા પહેલા તમારું પાસવર્ડ સેટ કરો.</value>
   </data>
   <data name="LabelHello" xml:space="preserve">
     <value>નમસ્તે</value>
@@ -144,11 +192,20 @@
   <data name="LabelHome" xml:space="preserve">
     <value>હોમ</value>
   </data>
+  <data name="LabelLoading" xml:space="preserve">
+    <value>લોડ થઈ રહ્યું છે, કૃપા કરીને રાહ જુઓ...</value>
+  </data>
   <data name="LabelLogin" xml:space="preserve">
     <value>લોગિન</value>
   </data>
   <data name="LabelLogout" xml:space="preserve">
     <value>લૉગઆઉટ</value>
+  </data>
+  <data name="LabelNewPassword" xml:space="preserve">
+    <value>નવો પાસવર્ડ</value>
+  </data>
+  <data name="LabelPasswordResetRequired" xml:space="preserve">
+    <value>તમારા ખાતાને સુરક્ષાના કારણોસર પાસવર્ડ રિસેટ કરવાની જરૂર છે. કૃપા કરીને તમારું પાસવર્ડ રિસેટ કરો જેથી કરીને તમે તમારું ખાતું વાપરી શકો.</value>
   </data>
   <data name="LabelPrivacy" xml:space="preserve">
     <value>પ્રાઇવસી</value>
@@ -157,7 +214,19 @@
     <value>પ્રોફાઇલ</value>
   </data>
   <data name="LabelRegisterUser" xml:space="preserve">
-    <value>યુઝર રજીસ્ટર કરો</value>
+    <value>વપરાશકર્તા નોંધણી કરો</value>
+  </data>
+  <data name="LabelSave" xml:space="preserve">
+    <value>સાચવો</value>
+  </data>
+  <data name="LabelSaveUser" xml:space="preserve">
+    <value>યુઝરને સાચવો</value>
+  </data>
+  <data name="LabelUpdatePassword" xml:space="preserve">
+    <value>પાસવર્ડ અપડેટ કરો</value>
+  </data>
+  <data name="LabelUser" xml:space="preserve">
+    <value>વપરાશકર્તા</value>
   </data>
   <data name="MessageWelcome" xml:space="preserve">
     <value>HisabPro પર આપનું સ્વાગત છે!</value>
