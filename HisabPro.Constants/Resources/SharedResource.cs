@@ -31,8 +31,26 @@ namespace HisabPro.Constants.Resources
         public static string LabelProfile { get; private set; }
         public static string LabelLogout { get; private set; }
 
+        //Start: Account related settings
+        public static string LabelDeleteAccount { get; private set; }
+        public static string LabelAccount { get; private set; }
+        public static string LabelSaveAccount { get; private set; }
+        //End: Account related settings
+
+        //Start: Expense related settings
+        public static string LabelDeleteExpense { get; private set; }
+        public static string LabelExpense { get; private set; }
+        public static string LabelSaveExpense { get; private set; }
+        //End: Expense related settings
+
+        //Start: Income related settings
+        public static string LabelDeleteIncome { get; private set; }
+        public static string LabelIncome { get; private set; }
+        public static string LabelSaveIncome { get; private set; }
+        //End: Income related settings
+
         //Start: Users related settings
-        //Login screen
+        //Login
         public static string LabelHello { get; private set; }
         public static string LabelDeleteUser { get; private set; }
         public static string LabelUser { get; private set; }
@@ -48,11 +66,11 @@ namespace HisabPro.Constants.Resources
         public static string LabelPasswordResetRequired { get; private set; }
         //Save user
         public static string LabelSaveUser { get; private set; }
-        //Activation success screen
+        //Activation success
         public static string LabelActivationHead { get; private set; }
         public static string LabelActivationTitle { get; private set; }
         public static string LabelActivationMessage { get; private set; }
-        //Activation failed screen
+        //Activation failed
         public static string LabelActivationFailed { get; private set; }
         public static string LabelActivationFailedTitle { get; private set; }
         public static string LabelActivationFailedMessage { get; private set; }

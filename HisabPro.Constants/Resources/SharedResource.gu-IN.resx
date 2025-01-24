@@ -129,6 +129,9 @@
   <data name="LabelAboutUs" xml:space="preserve">
     <value>અમારા વિશે</value>
   </data>
+  <data name="LabelAccount" xml:space="preserve">
+    <value>ખાતું</value>
+  </data>
   <data name="LabelActivationFailed" xml:space="preserve">
     <value>સક્રિયતા નિષ્ફળ ગઈ</value>
   </data>
@@ -180,17 +183,32 @@
   <data name="LabelDashboard" xml:space="preserve">
     <value>ડેશબોર્ડ</value>
   </data>
+  <data name="LabelDeleteAccount" xml:space="preserve">
+    <value>ખાતું દૂર કરો</value>
+  </data>
+  <data name="LabelDeleteExpense" xml:space="preserve">
+    <value>ખર્ચ દૂર કરો</value>
+  </data>
+  <data name="LabelDeleteIncome" xml:space="preserve">
+    <value>આવક દૂર કરો</value>
+  </data>
   <data name="LabelDeleteUser" xml:space="preserve">
     <value>વપરાશકર્તાને કાઢી નાખો</value>
   </data>
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>અમે તમને ખાતું સક્રિય કરવા માટેની લિંક મોકલી છે. કૃપા કરીને તમારું ઈમેઇલ તપાસો, તમારું ખાતું સક્રિય કરો અને લોગિન કરવા પહેલા તમારું પાસવર્ડ સેટ કરો.</value>
   </data>
+  <data name="LabelExpense" xml:space="preserve">
+    <value>ખર્ચ</value>
+  </data>
   <data name="LabelHello" xml:space="preserve">
     <value>નમસ્તે</value>
   </data>
   <data name="LabelHome" xml:space="preserve">
     <value>હોમ</value>
+  </data>
+  <data name="LabelIncome" xml:space="preserve">
+    <value>આવક</value>
   </data>
   <data name="LabelLoading" xml:space="preserve">
     <value>લોડ થઈ રહ્યું છે, કૃપા કરીને રાહ જુઓ...</value>
@@ -218,6 +236,15 @@
   </data>
   <data name="LabelSave" xml:space="preserve">
     <value>સાચવો</value>
+  </data>
+  <data name="LabelSaveAccount" xml:space="preserve">
+    <value>ખાતું સાચવો</value>
+  </data>
+  <data name="LabelSaveExpense" xml:space="preserve">
+    <value>ખર્ચ સાચવો</value>
+  </data>
+  <data name="LabelSaveIncome" xml:space="preserve">
+    <value>આવક સાચવો</value>
   </data>
   <data name="LabelSaveUser" xml:space="preserve">
     <value>યુઝરને સાચવો</value>

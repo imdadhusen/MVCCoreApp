@@ -1,16 +1,11 @@
-﻿@model HisabPro.DTO.Request.SaveAccountReq
-
+﻿@using HisabPro.Constants.Resources;
+@model HisabPro.DTO.Request.SaveAccountReq
 @{
     Layout = "~/Views/Shared/_EditLayout.cshtml";
-    ViewData["Title"] = "Save Account";
-    ViewData["SectionHeader"] = "Save Account";
-    ViewData["CardTitle"] = "Save Account";
+    ViewData["Title"] = SharedResource.LabelSaveAccount;
+    ViewData["SectionHeader"] = SharedResource.LabelSaveAccount;
+    ViewData["CardTitle"] = SharedResource.LabelSaveAccount;
 }
-
-@* @section BodyInfo {
-    <p class="text-muted mb-0">
-    </p>
-} *@
 
 @section BodyContent {
     <form id="saveForm" asp-action="Save">
@@ -52,10 +47,10 @@
 
         <div class="form-group m-t-10">
             <button class="btn btn-primary action-btn">
-                <i class="fas fa-save"></i> Save
+                <i class="fas fa-save"></i> @SharedResource.LabelSave
             </button>
             <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
-                <i class="fas fa-plus"></i> Create New
+                <i class="fas fa-plus"></i> @SharedResource.LabelCreateNew
             </button>
         </div>
     </form>

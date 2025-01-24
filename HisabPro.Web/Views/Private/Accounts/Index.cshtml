@@ -1,6 +1,7 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
+﻿@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<object>
 @{
-    ViewData["Title"] = "Accounts";
+    ViewData["Title"] = SharedResource.LabelAccount;
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
@@ -12,7 +13,7 @@
     <script>
         $('#tblAccount').gridview({
             controllerName: 'Accounts',
-            titleDelete: 'Delete Accout'
+            titleDelete: '@SharedResource.LabelDeleteAccount'
         });
     </script>
 }
