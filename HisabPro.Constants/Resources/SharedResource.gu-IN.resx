@@ -162,6 +162,12 @@
   <data name="LabelAutoCorrect" xml:space="preserve">
     <value>સ્વચાલિત ઠીક કરવું</value>
   </data>
+  <data name="LabelCategories" xml:space="preserve">
+    <value>શ્રેણીઓ</value>
+  </data>
+  <data name="LabelCategoryTitle" xml:space="preserve">
+    <value>'{0}' માટે ઉપશ્રેણી બનાવો</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>પાસવર્ડ બદલો</value>
   </data>
@@ -204,8 +210,14 @@
   <data name="LabelDashboard" xml:space="preserve">
     <value>ડેશબોર્ડ</value>
   </data>
+  <data name="LabelDelete" xml:space="preserve">
+    <value>દૂર કરો</value>
+  </data>
   <data name="LabelDeleteAccount" xml:space="preserve">
     <value>ખાતું દૂર કરો</value>
+  </data>
+  <data name="LabelDeleteCategory" xml:space="preserve">
+    <value>શ્રેણી દૂર કરો</value>
   </data>
   <data name="LabelDeleteExpense" xml:space="preserve">
     <value>ખર્ચ દૂર કરો</value>
@@ -216,11 +228,20 @@
   <data name="LabelDeleteUser" xml:space="preserve">
     <value>વપરાશકર્તાને કાઢી નાખો</value>
   </data>
+  <data name="LabelEdit" xml:space="preserve">
+    <value>ફેરફાર કરો</value>
+  </data>
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>અમે તમને ખાતું સક્રિય કરવા માટેની લિંક મોકલી છે. કૃપા કરીને તમારું ઈમેઇલ તપાસો, તમારું ખાતું સક્રિય કરો અને લોગિન કરવા પહેલા તમારું પાસવર્ડ સેટ કરો.</value>
   </data>
   <data name="LabelExpense" xml:space="preserve">
     <value>ખર્ચ</value>
+  </data>
+  <data name="LabelGridShowing" xml:space="preserve">
+    <value>દેખાડવામાં આવી રહ્યું છે</value>
+  </data>
+  <data name="LabelGridShowingOutOf" xml:space="preserve">
+    <value>માંથી</value>
   </data>
   <data name="LabelHello" xml:space="preserve">
     <value>નમસ્તે</value>
@@ -304,6 +325,12 @@
   <data name="LabelNext" xml:space="preserve">
     <value>આગળ</value>
   </data>
+  <data name="LabelNo" xml:space="preserve">
+    <value>ના</value>
+  </data>
+  <data name="LabelNoRecords" xml:space="preserve">
+    <value>કોઈ રેકોર્ડ્સ મળ્યાં નહીં!</value>
+  </data>
   <data name="LabelPasswordResetRequired" xml:space="preserve">
     <value>તમારા ખાતાને સુરક્ષાના કારણોસર પાસવર્ડ રિસેટ કરવાની જરૂર છે. કૃપા કરીને તમારું પાસવર્ડ રિસેટ કરો જેથી કરીને તમે તમારું ખાતું વાપરી શકો.</value>
   </data>
@@ -324,6 +351,9 @@
   </data>
   <data name="LabelSaveAccount" xml:space="preserve">
     <value>ખાતું સાચવો</value>
+  </data>
+  <data name="LabelSaveCategory" xml:space="preserve">
+    <value>શ્રેણી સાચવો</value>
   </data>
   <data name="LabelSaveExpense" xml:space="preserve">
     <value>ખર્ચ સાચવો</value>
@@ -354,6 +384,9 @@
   </data>
   <data name="LabelUser" xml:space="preserve">
     <value>વપરાશકર્તા</value>
+  </data>
+  <data name="LabelYes" xml:space="preserve">
+    <value>હા</value>
   </data>
   <data name="MessageWelcome" xml:space="preserve">
     <value>HisabPro પર આપનું સ્વાગત છે!</value>

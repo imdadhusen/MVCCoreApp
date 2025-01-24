@@ -1,5 +1,6 @@
 ﻿@using HisabPro.Constants;
 @using HisabPro.Web.Helper;
+@using HisabPro.Constants.Resources;
 @model IEnumerable<HisabPro.DTO.Response.CategoryRes>
 @{
     var userRole = User.GetUserRole();
@@ -11,28 +12,28 @@
             <td style="text-align:center">
                 @if (item.IsStandard)
                 {
-                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                    <i class="bi bi-check-circle text-success" title="@SharedResource.LabelYes"></i>
                 }
                 else
                 {
-                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                    <i class="bi bi-x-circle text-danger" title="@SharedResource.LabelNo"></i>
                 }
             </td>
             <td style="text-align:center">
                 @if (item.IsActive)
                 {
-                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                    <i class="bi bi-check-circle text-success" title="@SharedResource.LabelYes"></i>
                 }
                 else
                 {
-                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                    <i class="bi bi-x-circle text-danger" title="@SharedResource.LabelNo"></i>
                 }
             </td>
             <td>@item.CreatedOn.ToString("dd-MM-yyyy")</td>
             <td style="text-align:center">
                 @if (userRole == UserRoleEnum.SuperAdmin || (userRole == UserRoleEnum.Admin && !item.IsStandard))
                 {
-                    <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@item.Id" data-category="1">
+                    <button class="save-action btn btn-primary btn-sm" title="@SharedResource.LabelEdit" data-id="@item.Id" data-category="1">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
                 }
@@ -40,7 +41,7 @@
             <td style="text-align:center">
                 @if (userRole == UserRoleEnum.SuperAdmin || (userRole == UserRoleEnum.Admin && !item.IsStandard))
                 {
-                    <button class="save-action btn btn-success btn-sm" title="Create Subcategory for '@item.Name'" data-id="@item.Id" data-category="2">
+                    <button class="save-action btn btn-success btn-sm" title="@String.Format(SharedResource.LabelCategoryTitle,item.Name)" data-id="@item.Id" data-category="2">
                         <i class="bi bi-file-earmark-plus"></i>
                     </button>
                 }
@@ -54,28 +55,28 @@
                 <td style="text-align:center">
                     @if (child.IsStandard)
                     {
-                        <i class="bi bi-check-circle text-success" title="Yes"></i>
+                        <i class="bi bi-check-circle text-success" title="@SharedResource.LabelYes"></i>
                     }
                     else
                     {
-                        <i class="bi bi-x-circle text-danger" title="No"></i>
+                        <i class="bi bi-x-circle text-danger" title="@SharedResource.LabelNo"></i>
                     }
                 </td>
                 <td style="text-align:center">
                     @if (child.IsActive)
                     {
-                        <i class="bi bi-check-circle text-success" title="Yes"></i>
+                        <i class="bi bi-check-circle text-success" title="@SharedResource.LabelYes"></i>
                     }
                     else
                     {
-                        <i class="bi bi-x-circle text-danger" title="No"></i>
+                        <i class="bi bi-x-circle text-danger" title="@SharedResource.LabelNo"></i>
                     }
                 </td>
                 <td>@child.CreatedOn.ToString("dd-MM-yyyy")</td>
                 <td style="text-align:center">
                     @if (userRole == UserRoleEnum.SuperAdmin || (userRole == UserRoleEnum.Admin && !item.IsStandard))
                     {
-                        <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@child.Id" data-category="2">
+                        <button class="save-action btn btn-primary btn-sm" title="@SharedResource.LabelEdit" data-id="@child.Id" data-category="2">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
                     }
@@ -83,7 +84,7 @@
                 <td style="text-align:center">
                     @if (userRole == UserRoleEnum.SuperAdmin || (userRole == UserRoleEnum.Admin && !item.IsStandard))
                     {
-                        <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@child.Id">
+                        <button class="delete-action btn btn-danger btn-sm" title="@SharedResource.LabelDelete" data-id="@child.Id">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     }

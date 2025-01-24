@@ -32,6 +32,13 @@ namespace HisabPro.Constants.Resources
         public static string LabelProfile { get; private set; }
         public static string LabelLogout { get; private set; }
 
+        //Start: Category related settings
+        public static string LabelDeleteCategory { get; private set; }
+        public static string LabelCategories { get; private set; }
+        public static string LabelSaveCategory { get; private set; }
+        public static string LabelCategoryTitle { get; private set; }
+        //End: Category related settings
+
         //Start: Import Incomes and Expense related settings
         public static string LabelImportExpense { get; private set; }
         public static string LabelImportExpenseWizard { get; private set; }
@@ -59,8 +66,6 @@ namespace HisabPro.Constants.Resources
         public static string LabelSummaryTotalRecords { get; private set; }
         public static string LabelSummaryTotalTime { get; private set; }
         public static string LabelSummaryNote { get; private set; }
-
-
         //End: Import Incomes and Expense related settings
 
         //Start: Account related settings
@@ -130,6 +135,13 @@ namespace HisabPro.Constants.Resources
         public static string LabelColumnCategory { get; private set; }
         public static string LabelColumnSubCategory { get; private set; }
         public static string LabelColumnPerson { get; private set; }
+        public static string LabelGridShowing { get; private set; }
+        public static string LabelGridShowingOutOf { get; private set; }
+        public static string LabelNoRecords { get; private set; }
+        public static string LabelYes { get; private set; }
+        public static string LabelNo { get; private set; }
+        public static string LabelEdit { get; private set; }
+        public static string LabelDelete { get; private set; }
 
         static SharedResource()
         {

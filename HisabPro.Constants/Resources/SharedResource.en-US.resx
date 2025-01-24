@@ -162,6 +162,12 @@
   <data name="LabelAutoCorrect" xml:space="preserve">
     <value>Auto Correct</value>
   </data>
+  <data name="LabelCategories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="LabelCategoryTitle" xml:space="preserve">
+    <value>Create Subcategory for '{0}'</value>
+  </data>
   <data name="LabelChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
@@ -204,8 +210,14 @@
   <data name="LabelDashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="LabelDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="LabelDeleteAccount" xml:space="preserve">
     <value>Delete Account</value>
+  </data>
+  <data name="LabelDeleteCategory" xml:space="preserve">
+    <value>Delete Category</value>
   </data>
   <data name="LabelDeleteExpense" xml:space="preserve">
     <value>Delete Expense</value>
@@ -216,11 +228,20 @@
   <data name="LabelDeleteUser" xml:space="preserve">
     <value>Delete User</value>
   </data>
+  <data name="LabelEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>We have sent you an account activation link. Please check your email to activate your account and set your password before logging in.</value>
   </data>
   <data name="LabelExpense" xml:space="preserve">
     <value>Expense</value>
+  </data>
+  <data name="LabelGridShowing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="LabelGridShowingOutOf" xml:space="preserve">
+    <value>out of</value>
   </data>
   <data name="LabelHello" xml:space="preserve">
     <value>Hello</value>
@@ -304,6 +325,12 @@ You can get more details</value>
   <data name="LabelNext" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="LabelNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="LabelNoRecords" xml:space="preserve">
+    <value>No records found!</value>
+  </data>
   <data name="LabelPasswordResetRequired" xml:space="preserve">
     <value>Your account requires a password reset for security reasons. Please reset your password to continue using your account.</value>
   </data>
@@ -324,6 +351,9 @@ You can get more details</value>
   </data>
   <data name="LabelSaveAccount" xml:space="preserve">
     <value>Save Account</value>
+  </data>
+  <data name="LabelSaveCategory" xml:space="preserve">
+    <value>Save Category</value>
   </data>
   <data name="LabelSaveExpense" xml:space="preserve">
     <value>Save Expense</value>
@@ -354,6 +384,9 @@ You can get more details</value>
   </data>
   <data name="LabelUser" xml:space="preserve">
     <value>User</value>
+  </data>
+  <data name="LabelYes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="MessageWelcome" xml:space="preserve">
     <value>Welcome to HisabPro!</value>

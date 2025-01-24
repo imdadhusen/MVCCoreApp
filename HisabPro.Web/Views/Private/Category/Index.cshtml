@@ -1,6 +1,7 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<HisabPro.DTO.Response.CategoryRes>
+﻿@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<HisabPro.DTO.Response.CategoryRes>
 @{
-    ViewData["Title"] = "Categories";
+    ViewData["Title"] = SharedResource.LabelCategories;
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
@@ -47,24 +48,24 @@
             <div class="grid-page-records text-end">
                 @if (totalRecords >= 1)
                 {
-                    <span>Showing 1 - @totalRecords out of @totalRecords</span>
+                    <span>@SharedResource.LabelGridShowing 1 - @totalRecords @SharedResource.LabelGridShowingOutOf @totalRecords</span>
                 }
                 else
                 {
-                    <span>No records found!</span>
+                    <span>@SharedResource.LabelNoRecords</span>
                 }
             </div>
         </div>
     </div>
     <div class="grid-loading loading" style="display:none">
-        Loading, please wait...
+        @SharedResource.LabelLoading
     </div>
 </div>
 @section Scripts {
     <script>
         $('#tblCategory').gridview({
             controllerName: 'Category',
-            titleDelete: 'Delete Category',
+            titleDelete: '@SharedResource.LabelDeleteCategory',
             allData: true
         });
     </script>
