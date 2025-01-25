@@ -39,6 +39,18 @@ namespace HisabPro.Constants.Resources
         public static string LabelCategoryTitle { get; private set; }
         //End: Category related settings
 
+        //Start: Dashboard related settings
+        public static string LabelDashboardDescription { get; private set; }
+        public static string LabelDashboardAccount { get; private set; }
+        public static string LabelDashboardForYear { get; private set; }
+        public static string LabelDashboardIncomeVsExpense { get; private set; }
+        public static string LabelDashboardIncomeNCharity { get; private set; }
+        public static string LabelDashboardExpenseDistribution { get; private set; }
+        public static string LabelDashboardIncomeDistribution { get; private set; }
+        public static string LabelCharity { get; private set; }
+        
+        //End: Dashboard related settings
+
         //Start: Import Incomes and Expense related settings
         public static string LabelImportExpense { get; private set; }
         public static string LabelImportExpenseWizard { get; private set; }

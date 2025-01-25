@@ -171,6 +171,9 @@
   <data name="LabelChangePassword" xml:space="preserve">
     <value>પાસવર્ડ બદલો</value>
   </data>
+  <data name="LabelCharity" xml:space="preserve">
+    <value>દાન</value>
+  </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>તમારું ઇમેઇલ તપાસો!</value>
   </data>
@@ -209,6 +212,28 @@
   </data>
   <data name="LabelDashboard" xml:space="preserve">
     <value>ડેશબોર્ડ</value>
+  </data>
+  <data name="LabelDashboardAccount" xml:space="preserve">
+    <value>આંકડાઓ જોવા માટે એક ખાતું પસંદ કરો</value>
+  </data>
+  <data name="LabelDashboardDescription" xml:space="preserve">
+    <value>આ ડૅશબોર્ડ આવક, ખર્ચ અને રોકાણ જેવી નાણાકીય પ્રવૃત્તિઓની સમીક્ષા પ્રદાન કરે છે.
+</value>
+  </data>
+  <data name="LabelDashboardExpenseDistribution" xml:space="preserve">
+    <value>ખર્ચ વિતરણ</value>
+  </data>
+  <data name="LabelDashboardForYear" xml:space="preserve">
+    <value>વર્ષ માટે</value>
+  </data>
+  <data name="LabelDashboardIncomeDistribution" xml:space="preserve">
+    <value>આવક વિતરણ</value>
+  </data>
+  <data name="LabelDashboardIncomeNCharity" xml:space="preserve">
+    <value>આવક અને દાન</value>
+  </data>
+  <data name="LabelDashboardIncomeVsExpense" xml:space="preserve">
+    <value>આવક સામે ખર્ચ</value>
   </data>
   <data name="LabelDelete" xml:space="preserve">
     <value>દૂર કરો</value>

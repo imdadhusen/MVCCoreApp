@@ -171,6 +171,9 @@
   <data name="LabelChangePassword" xml:space="preserve">
     <value>Change Password</value>
   </data>
+  <data name="LabelCharity" xml:space="preserve">
+    <value>Charity</value>
+  </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>Check Your Email!</value>
   </data>
@@ -209,6 +212,27 @@
   </data>
   <data name="LabelDashboard" xml:space="preserve">
     <value>Dashboard</value>
+  </data>
+  <data name="LabelDashboardAccount" xml:space="preserve">
+    <value>Choose an account to view statistics of</value>
+  </data>
+  <data name="LabelDashboardDescription" xml:space="preserve">
+    <value>This dashboard provides an overview of financial activities like incomes, expenses, and investments.</value>
+  </data>
+  <data name="LabelDashboardExpenseDistribution" xml:space="preserve">
+    <value>Expense Distribution</value>
+  </data>
+  <data name="LabelDashboardForYear" xml:space="preserve">
+    <value>for the year</value>
+  </data>
+  <data name="LabelDashboardIncomeDistribution" xml:space="preserve">
+    <value>Income Distribution</value>
+  </data>
+  <data name="LabelDashboardIncomeNCharity" xml:space="preserve">
+    <value>Income &amp; Charity</value>
+  </data>
+  <data name="LabelDashboardIncomeVsExpense" xml:space="preserve">
+    <value>Income vs Expense</value>
   </data>
   <data name="LabelDelete" xml:space="preserve">
     <value>Delete</value>

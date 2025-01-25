@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
+﻿@using HisabPro.Constants.Resources;
+@{
+    ViewData["Title"] = SharedResource.LabelDashboard;
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 <style>
@@ -37,13 +38,13 @@
     <div class="container-fluid m-b-10" style="margin-bottom:35px;">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="h4 text-primary">Dashboard</h1>
+                <h1 class="h4 text-primary">@SharedResource.LabelDashboard</h1>
                 <p class="text-muted">
-                    This dashboard provides an overview of financial activities like incomes, expenses, and investments.<br />
+                    @SharedResource.LabelDashboardDescription<br />
                     <span class="d-inline">
-                        Choose an account to view statistics of
+                        @SharedResource.LabelDashboardAccount
                         <select id="AccountId" class="form-control d-inline w-auto" asp-items="ViewBag.AccountId"></select>
-                        for the year
+                        @SharedResource.LabelDashboardForYear
                         <select id="Year" class="form-control d-inline w-auto"></select>
                     </span>
                 </p>
@@ -55,7 +56,7 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-success">
                     <div class="card-body" id="dvIncomeVsExpense">
-                        <h5 class="card-title text-success"><i class="bi bi-bar-chart-fill"></i> Income vs Expense</h5>
+                        <h5 class="card-title text-success"><i class="bi bi-bar-chart-fill"></i> @SharedResource.LabelDashboardIncomeVsExpense</h5>
                         <canvas id="incomeExpenseChart"></canvas>
                     </div>
                 </div>
@@ -65,7 +66,7 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-primary">
                     <div class="card-body" id="dvIncomeVsCharity">
-                        <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> Income & Charity</h5>
+                        <h5 class="card-title text-primary"><i class="bi bi-graph-up-arrow"></i> @SharedResource.LabelDashboardIncomeNCharity</h5>
                         <canvas id="incomeCharityChart"></canvas>
                     </div>
                 </div>
@@ -75,7 +76,7 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
                     <div class="card-body" id="dvExpenseDistribution">
-                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Expense Distribution</h5>
+                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> @SharedResource.LabelDashboardExpenseDistribution</h5>
                         <canvas id="expensePieChart"></canvas>
                     </div>
                 </div>
@@ -85,7 +86,7 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
                     <div class="card-body" id="dvIncomeDistribution">
-                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> Income Distribution</h5>
+                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> @SharedResource.LabelDashboardIncomeDistribution</h5>
                         <canvas id="incomePieChart"></canvas>
                     </div>
                 </div>
@@ -159,8 +160,8 @@
                     data: {
                         labels: lables,
                         datasets: [
-                            { label: 'Income', data: incomes, backgroundColor: 'rgba(75, 192, 192, 0.9)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
-                            { label: 'Expense', data: expenses, backgroundColor: 'rgba(255, 99, 132, 0.9)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }
+                            { label: '@SharedResource.LabelIncome', data: incomes, backgroundColor: 'rgba(75, 192, 192, 0.9)', borderColor: 'rgba(75, 192, 192, 1)', borderWidth: 1 },
+                            { label: '@SharedResource.LabelExpense', data: expenses, backgroundColor: 'rgba(255, 99, 132, 0.9)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }
                         ]
                     },
                     options: {
@@ -176,7 +177,7 @@
                                 const dataIndex = elements[0].index;
                                 const label = incomeExpenseChart.data.labels[dataIndex];
                                 const value = incomeExpenseChart.data.datasets[datasetIndex].data[dataIndex];
-                                alert(`Clicked on ${label}: ${value}`);
+                                //alert(`Clicked on ${label}: ${value}`);
                             }
                         }
                     }
@@ -208,8 +209,8 @@
                     data: {
                         labels: lables,
                         datasets: [
-                            { label: 'Income', data: incomes, borderColor: 'rgba(54, 162, 235, 1)', backgroundColor: 'rgba(54, 162, 235, 0.2)', borderWidth: 3, tension: 0.3 },
-                            { label: 'Charity', data: charity, borderColor: "rgba(255, 99, 132, 1)", backgroundColor: "rgba(255, 99, 132, 0.2)", borderWidth: 3, tension: 0.3 }
+                            { label: '@SharedResource.LabelIncome', data: incomes, borderColor: 'rgba(54, 162, 235, 1)', backgroundColor: 'rgba(54, 162, 235, 0.2)', borderWidth: 3, tension: 0.3 },
+                            { label: '@SharedResource.LabelCharity', data: charity, borderColor: "rgba(255, 99, 132, 1)", backgroundColor: "rgba(255, 99, 132, 0.2)", borderWidth: 3, tension: 0.3 }
                         ]
                     },
                     options: {
@@ -270,9 +271,9 @@
                                     const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
 
                                     // Display the result
-                                    alert(`You clicked on ${label} with value ${value}`);
+                                    //alert(`You clicked on ${label} with value ${value}`);
                                 } else {
-                                    alert("No segment clicked!");
+                                    //alert("No segment clicked!");
                                 }
                             }
                         }
@@ -330,9 +331,9 @@
                                     const value = expensePieChart.data.datasets[0].data[clickedElementIndex];
 
                                     // Display the result
-                                    alert(`You clicked on ${label} with value ${value}`);
+                                    //alert(`You clicked on ${label} with value ${value}`);
                                 } else {
-                                    alert("No segment clicked!");
+                                    //alert("No segment clicked!");
                                 }
                             }
                         }
@@ -363,7 +364,7 @@
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
             ctx.fillStyle = 'gray';
-            ctx.fillText('No data available', ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.fillText('@SharedResource.LabelNoRecords', ctx.canvas.width / 2, ctx.canvas.height / 2);
         }
     </script>
 }
