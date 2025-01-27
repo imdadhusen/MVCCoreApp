@@ -1,10 +1,11 @@
-﻿@model ErrorDTO
+﻿@using HisabPro.Constants.Resources;
+@model ErrorDTO
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = @SharedResource.LabelError;
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">@SharedResource.LabelError</h1>
+<h2 class="text-danger">@SharedResource.LabelErrorMessage</h2>
 
 @if (Model.ShowRequestId)
 {

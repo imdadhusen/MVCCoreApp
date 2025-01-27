@@ -1,9 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Access Denied";
+﻿@using HisabPro.Constants.Resources;
+@{
+    ViewData["Title"] = @SharedResource.LabelAccessDenied;
 }
 
-<h1 class="text-danger">Access Denied</h1>
-<p class="text-danger">You do not have permission to view this page.</p>
+<h1 class="text-danger">@SharedResource.LabelAccessDenied</h1>
+<p class="text-danger">@SharedResource.LabelAccessDeniedMessage</p>
 <p>
-    <a asp-area="" asp-controller="Home" asp-action="Index">Go back to the home page</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">@SharedResource.LabelGoToHome</a>
 </p>

@@ -21,7 +21,7 @@ namespace HisabPro.Constants.Resources
         public static string ValidationRequiredEmail { get; private set; }
         public static string ValidationRequiredPassword { get; private set; }
 
-        //Menu options
+        //Menu options in public layout
         public static string LabelAboutUs { get; private set; }
         public static string LabelContact { get; private set; }
         public static string LabelHome { get; private set; }
@@ -31,6 +31,21 @@ namespace HisabPro.Constants.Resources
         public static string LabelDashboard { get; private set; }
         public static string LabelProfile { get; private set; }
         public static string LabelLogout { get; private set; }
+        //Menu options in private layout
+        public static string LabelAdmin { get; private set; }
+        public static string LabelAccounts { get; private set; }
+        public static string LabelExpenses { get; private set; }
+        public static string LabelIncomes { get; private set; }
+        public static string LabelUsers { get; private set; }
+        public static string LabelImports { get; private set; }
+        public static string LabelReports { get; private set; }
+        public static string LabelMonthlyReports { get; private set; }
+        public static string LabelAnnualReports { get; private set; }
+        public static string LabelAnalytics { get; private set; }
+        public static string LabelTrendAnalysis { get; private set; }
+        public static string LabelActivityReports { get; private set; }
+        public static string LabelSettings { get; private set; }
+
 
         //Start: Category related settings
         public static string LabelDeleteCategory { get; private set; }
@@ -48,7 +63,7 @@ namespace HisabPro.Constants.Resources
         public static string LabelDashboardExpenseDistribution { get; private set; }
         public static string LabelDashboardIncomeDistribution { get; private set; }
         public static string LabelCharity { get; private set; }
-        
+
         //End: Dashboard related settings
 
         //Start: Import Incomes and Expense related settings
@@ -134,12 +149,32 @@ namespace HisabPro.Constants.Resources
         public static string LabelCreateNew { get; private set; }
         public static string LabelContactSupport { get; private set; }
         public static string LabelContactSupportMessage { get; private set; }
+        public static string LabelAccessDenied { get; private set; }
+        public static string LabelAccessDeniedMessage { get; private set; }
 
         public static string LabelHere { get; private set; }
         public static string LabelAutoCorrect { get; private set; }
+        public static string LabelGoToHome { get; private set; }
+        public static string LabelError { get; private set; }
+        public static string LabelErrorMessage { get; private set; }
+        public static string LabelUnauthorized { get; private set; }
+        public static string LabelUnauthorizedMessage { get; private set; }
+        
 
         public static string LabelNext { get; private set; }
         public static string LabelPrevious { get; private set; }
+        public static string LabelConfirmTitle { get; private set; }
+        public static string LabelConfirmMessage { get; private set; }
+        public static string LabelCancel { get; private set; }
+        public static string LabelConfirm { get; private set; }
+        public static string LabelBackToList { get; private set; }
+        public static string LabelClose { get; private set; }
+
+        public static string LabelFilter { get; private set; }
+        public static string LabelFilterSelected { get; private set; }
+        public static string LabelFilterCreateNew { get; private set; }
+        public static string LabelFilterApplyFilter { get; private set; }
+        public static string LabelFilterClearFilter { get; private set; }
 
         public static string LabelColumnDate { get; private set; }
         public static string LabelColumnTitle { get; private set; }
@@ -149,6 +184,9 @@ namespace HisabPro.Constants.Resources
         public static string LabelColumnPerson { get; private set; }
         public static string LabelGridShowing { get; private set; }
         public static string LabelGridShowingOutOf { get; private set; }
+        public static string LabelGridNoRecords { get; private set; }
+        public static string LabelGridPage { get; private set; }
+        public static string LabelGridPageOf { get; private set; }
         public static string LabelNoRecords { get; private set; }
         public static string LabelYes { get; private set; }
         public static string LabelNo { get; private set; }

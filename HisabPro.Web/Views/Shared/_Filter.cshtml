@@ -1,25 +1,26 @@
-﻿@model List<BaseFilterModel>
+﻿@using HisabPro.Constants.Resources;
+@model List<BaseFilterModel>
 
 <div class="grid-filter card mb-1">
     <div class="card-header d-flex justify-content-between align-items-center">
         <!-- Left-aligned Badge near Filters title -->
         <div class="d-flex align-items-center">
             <i class="bi bi-funnel me-2"></i>
-            <h5 class="mb-0 p-2">Filters</h5>
-            <span class="filterCount badge bg-primary me-2" style="display: none;">0 Selected</span>
+            <h5 class="mb-0 p-2">@SharedResource.LabelFilter</h5>
+            <span class="filterCount badge bg-primary me-2" style="display: none;">@String.Format(SharedResource.LabelFilterSelected, 0)</span>
         </div>
 
         <!-- Right-aligned Apply Filter button and toggle button -->
         <div class="d-flex align-items-center">
             <a asp-action="Save" class="btn btn-success">
-                <i class="bi bi-plus-lg me-1"></i> Create New
+                <i class="bi bi-plus-lg me-1"></i> @SharedResource.LabelFilterCreateNew
             </a>
             <span class="mx-2 border border-secondary" style="height: 24px;"></span>
             <button type="button" class="applyFilters btn btn-primary me-2">
-                <i class="bi bi-check-circle"></i> Apply Filter
+                <i class="bi bi-check-circle"></i> @SharedResource.LabelFilterApplyFilter
             </button>
             <button type="button" class="clearFilters btn btn-secondary me-2">
-                <i class="bi bi-x-circle"></i> Clear Filter
+                <i class="bi bi-x-circle"></i> @SharedResource.LabelFilterClearFilter
             </button>
             <button type="button" class="toggleFilters btn btn-sm btn-outline-secondary">
                 <i class="bi bi-chevron-down"></i>
@@ -40,11 +41,11 @@
                                 <div>
                                     <div class="form-check form-check-inline">
                                         <input type="radio" class="form-check-input" name="@filter.FieldName" data-type="bool" id="yesOption" value="Yes">
-                                        <label class="form-check-label" for="yesOption">Yes</label>
+                                        <label class="form-check-label" for="yesOption">@SharedResource.LabelYes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input type="radio" class="form-check-input" name="@filter.FieldName" data-type="bool" id="noOption" value="No">
-                                        <label class="form-check-label" for="noOption">No</label>
+                                        <label class="form-check-label" for="noOption">@SharedResource.LabelNo</label>
                                     </div>
                                 </div>
                             }

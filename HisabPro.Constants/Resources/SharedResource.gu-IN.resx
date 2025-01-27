@@ -129,8 +129,17 @@
   <data name="LabelAboutUs" xml:space="preserve">
     <value>અમારા વિશે</value>
   </data>
+  <data name="LabelAccessDenied" xml:space="preserve">
+    <value>પ્રવેશ નકારવામાં આવ્યો</value>
+  </data>
+  <data name="LabelAccessDeniedMessage" xml:space="preserve">
+    <value>તમને આ પાનું જોવા માટે પરવાનગી નથી.</value>
+  </data>
   <data name="LabelAccount" xml:space="preserve">
     <value>ખાતું</value>
+  </data>
+  <data name="LabelAccounts" xml:space="preserve">
+    <value>ખાતાઓ</value>
   </data>
   <data name="LabelActivationFailed" xml:space="preserve">
     <value>સક્રિયતા નિષ્ફળ ગઈ</value>
@@ -159,8 +168,23 @@
   <data name="LabelActivationTitle" xml:space="preserve">
     <value>વપરાશકર્તાની સક્રિયતા સફળ થઈ</value>
   </data>
+  <data name="LabelActivityReports" xml:space="preserve">
+    <value>પ્રવૃત્તિ અહેવાલ</value>
+  </data>
+  <data name="LabelAnalytics" xml:space="preserve">
+    <value>વિશ્લેષણ</value>
+  </data>
+  <data name="LabelAnnualReports" xml:space="preserve">
+    <value>વાર્ષિક અહેવાલ</value>
+  </data>
   <data name="LabelAutoCorrect" xml:space="preserve">
     <value>સ્વચાલિત ઠીક કરવું</value>
+  </data>
+  <data name="LabelBackToList" xml:space="preserve">
+    <value>પાછા યાદીમાં જાઓ</value>
+  </data>
+  <data name="LabelCancel" xml:space="preserve">
+    <value>રદ કરો</value>
   </data>
   <data name="LabelCategories" xml:space="preserve">
     <value>શ્રેણીઓ</value>
@@ -176,6 +200,9 @@
   </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>તમારું ઇમેઇલ તપાસો!</value>
+  </data>
+  <data name="LabelClose" xml:space="preserve">
+    <value>બંધ કરો</value>
   </data>
   <data name="LabelColumnAmount" xml:space="preserve">
     <value>રકમ</value>
@@ -195,8 +222,17 @@
   <data name="LabelColumnTitle" xml:space="preserve">
     <value>શિર્ષક</value>
   </data>
+  <data name="LabelConfirm" xml:space="preserve">
+    <value>નિશ્ચિત કરો</value>
+  </data>
+  <data name="LabelConfirmMessage" xml:space="preserve">
+    <value>શું તમે આ ક્રિયાને આગળ વધારવા માટે ખાતરીમાં છો?</value>
+  </data>
   <data name="LabelConfirmPassword" xml:space="preserve">
     <value>પાસવર્ડની પુષ્ટિ કરો</value>
+  </data>
+  <data name="LabelConfirmTitle" xml:space="preserve">
+    <value>ક્રિયા નિશ્ચિત કરો</value>
   </data>
   <data name="LabelContact" xml:space="preserve">
     <value>સંપર્ક</value>
@@ -259,8 +295,44 @@
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>અમે તમને ખાતું સક્રિય કરવા માટેની લિંક મોકલી છે. કૃપા કરીને તમારું ઈમેઇલ તપાસો, તમારું ખાતું સક્રિય કરો અને લોગિન કરવા પહેલા તમારું પાસવર્ડ સેટ કરો.</value>
   </data>
+  <data name="LabelError" xml:space="preserve">
+    <value>ભૂલ</value>
+  </data>
+  <data name="LabelErrorMessage" xml:space="preserve">
+    <value>તમારા વિનંતીની પ્રક્રિયા દરમિયાન ભૂલ આવી છે.</value>
+  </data>
   <data name="LabelExpense" xml:space="preserve">
     <value>ખર્ચ</value>
+  </data>
+  <data name="LabelExpenses" xml:space="preserve">
+    <value>ખર્ચ</value>
+  </data>
+  <data name="LabelFilter" xml:space="preserve">
+    <value>ફિલ્ટર્સ</value>
+  </data>
+  <data name="LabelFilterApplyFilter" xml:space="preserve">
+    <value>ફિલ્ટર લાગુ કરો</value>
+  </data>
+  <data name="LabelFilterClearFilter" xml:space="preserve">
+    <value>ફિલ્ટર સાફ કરો</value>
+  </data>
+  <data name="LabelFilterCreateNew" xml:space="preserve">
+    <value>નવું બનાવો</value>
+  </data>
+  <data name="LabelFilterSelected" xml:space="preserve">
+    <value>{0} પસંદ કરેલ ફિલ્ટર</value>
+  </data>
+  <data name="LabelGoToHome" xml:space="preserve">
+    <value>મુખ્ય પેજ પર પરત જાઓ</value>
+  </data>
+  <data name="LabelGridNoRecords" xml:space="preserve">
+    <value>પાનું 0 માંથી 0</value>
+  </data>
+  <data name="LabelGridPage" xml:space="preserve">
+    <value>પાનું</value>
+  </data>
+  <data name="LabelGridPageOf" xml:space="preserve">
+    <value>માંથી</value>
   </data>
   <data name="LabelGridShowing" xml:space="preserve">
     <value>દેખાડવામાં આવી રહ્યું છે</value>
@@ -320,6 +392,9 @@
   <data name="LabelImportIncomesWizard" xml:space="preserve">
     <value>આવકો આયાત વિઝાર્ડ</value>
   </data>
+  <data name="LabelImports" xml:space="preserve">
+    <value>આયાત</value>
+  </data>
   <data name="LabelImportWizardError" xml:space="preserve">
     <value>એક ભૂલ થઈ છે. કૃપા કરીને હાઇલાઇટ કરેલ ફીલ્ડ્સ ઠીક કરો.</value>
   </data>
@@ -335,6 +410,9 @@
   <data name="LabelIncome" xml:space="preserve">
     <value>આવક</value>
   </data>
+  <data name="LabelIncomes" xml:space="preserve">
+    <value>આવક</value>
+  </data>
   <data name="LabelLoading" xml:space="preserve">
     <value>લોડ થઈ રહ્યું છે, કૃપા કરીને રાહ જુઓ...</value>
   </data>
@@ -343,6 +421,9 @@
   </data>
   <data name="LabelLogout" xml:space="preserve">
     <value>લૉગઆઉટ</value>
+  </data>
+  <data name="LabelMonthlyReports" xml:space="preserve">
+    <value>માસિક અહેવાલ</value>
   </data>
   <data name="LabelNewPassword" xml:space="preserve">
     <value>નવો પાસવર્ડ</value>
@@ -371,6 +452,9 @@
   <data name="LabelRegisterUser" xml:space="preserve">
     <value>વપરાશકર્તા નોંધણી કરો</value>
   </data>
+  <data name="LabelReports" xml:space="preserve">
+    <value>અહેવાલ</value>
+  </data>
   <data name="LabelSave" xml:space="preserve">
     <value>સાચવો</value>
   </data>
@@ -389,6 +473,9 @@
   <data name="LabelSaveUser" xml:space="preserve">
     <value>યુઝરને સાચવો</value>
   </data>
+  <data name="LabelSettings" xml:space="preserve">
+    <value>સેટિંગ્સ</value>
+  </data>
   <data name="LabelSummaryCongratulation" xml:space="preserve">
     <value>અભિનંદન! બલ્ક ડેટા આયાત સફળતાપૂર્વક પૂર્ણ થઈ ગઈ છે!</value>
   </data>
@@ -404,11 +491,23 @@
   <data name="LabelSummaryTotalTime" xml:space="preserve">
     <value>કુલ સમય</value>
   </data>
+  <data name="LabelTrendAnalysis" xml:space="preserve">
+    <value>પ્રવૃત્તિ વિશ્લેષણ</value>
+  </data>
+  <data name="LabelUnauthorized" xml:space="preserve">
+    <value>અધિકૃત નથી</value>
+  </data>
+  <data name="LabelUnauthorizedMessage" xml:space="preserve">
+    <value>તમે આ પાનું જોવા માટે અધિકૃત નથી.</value>
+  </data>
   <data name="LabelUpdatePassword" xml:space="preserve">
     <value>પાસવર્ડ અપડેટ કરો</value>
   </data>
   <data name="LabelUser" xml:space="preserve">
     <value>વપરાશકર્તા</value>
+  </data>
+  <data name="LabelUsers" xml:space="preserve">
+    <value>વપરાશકર્તાઓ</value>
   </data>
   <data name="LabelYes" xml:space="preserve">
     <value>હા</value>

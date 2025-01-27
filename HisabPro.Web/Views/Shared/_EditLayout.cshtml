@@ -1,12 +1,7 @@
-﻿@{ 
+﻿@using HisabPro.Constants.Resources;
+@{ 
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
-@* <div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="h4 text-primary">@ViewData["SectionHeader"]</h1>
-        @RenderSection("BodyInfo", required: false)
-    </div>
-</div> *@
 
 <div class="card mb-1" style="position:relative">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -16,7 +11,7 @@
         </div>
         <div>
             <a asp-action="Index" class="btn btn-light btn-back border">
-                <i class="bi bi-arrow-left me-2"></i> Back to List
+                <i class="bi bi-arrow-left me-2"></i> @SharedResource.LabelBackToList
             </a>
         </div>
     </div>
@@ -28,7 +23,7 @@
         </div>
     </div>
     <div id="form-view" class="loading" style="display:none">
-        Loading, please wait...
+        @SharedResource.LabelLoading
     </div>
 </div>
 

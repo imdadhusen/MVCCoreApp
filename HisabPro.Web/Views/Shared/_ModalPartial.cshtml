@@ -1,9 +1,10 @@
-﻿<div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel" aria-hidden="true">
+﻿@using HisabPro.Constants.Resources;
+<div class="modal fade" id="commonModal" tabindex="-1" role="dialog" aria-labelledby="commonModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="commonModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="@SharedResource.LabelClose">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -11,8 +12,8 @@
                 <!-- Modal content will be dynamically inserted here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="modalSaveButton" data-feature="">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@SharedResource.LabelClose</button>
+                <button type="button" class="btn btn-primary" id="modalSaveButton" data-feature="">@SharedResource.LabelSave</button>
             </div>
         </div>
     </div>

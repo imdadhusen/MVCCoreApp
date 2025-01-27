@@ -1,11 +1,11 @@
-﻿@model ErrorDTO
-
+﻿@using HisabPro.Constants.Resources;
+@model ErrorDTO
 @{
-    ViewData["Title"] = "Unauthorized";
+    ViewData["Title"] = SharedResource.LabelUnauthorized;
 }
 
-<h1 class="text-danger">Unauthorized</h1>
-<p class="text-danger">You are not authorized to view this page.</p>
+<h1 class="text-danger">@SharedResource.LabelUnauthorized</h1>
+<p class="text-danger">@SharedResource.LabelUnauthorizedMessage</p>
 <p>
-    <a asp-area="" asp-controller="Home" asp-action="Index">Go back to the home page</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">@SharedResource.LabelGoToHome</a>
 </p>

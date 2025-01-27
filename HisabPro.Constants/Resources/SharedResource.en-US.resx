@@ -129,8 +129,17 @@
   <data name="LabelAboutUs" xml:space="preserve">
     <value>About Us</value>
   </data>
+  <data name="LabelAccessDenied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="LabelAccessDeniedMessage" xml:space="preserve">
+    <value>You do not have permission to view this page.</value>
+  </data>
   <data name="LabelAccount" xml:space="preserve">
     <value>Account</value>
+  </data>
+  <data name="LabelAccounts" xml:space="preserve">
+    <value>Accounts</value>
   </data>
   <data name="LabelActivationFailed" xml:space="preserve">
     <value>Activation Failed</value>
@@ -159,8 +168,23 @@
   <data name="LabelActivationTitle" xml:space="preserve">
     <value>User Activation Successful</value>
   </data>
+  <data name="LabelActivityReports" xml:space="preserve">
+    <value>Activity Reports</value>
+  </data>
+  <data name="LabelAnalytics" xml:space="preserve">
+    <value>Analytics</value>
+  </data>
+  <data name="LabelAnnualReports" xml:space="preserve">
+    <value>Annual Reports</value>
+  </data>
   <data name="LabelAutoCorrect" xml:space="preserve">
     <value>Auto Correct</value>
+  </data>
+  <data name="LabelBackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="LabelCancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="LabelCategories" xml:space="preserve">
     <value>Categories</value>
@@ -176,6 +200,9 @@
   </data>
   <data name="LabelCheckEmail" xml:space="preserve">
     <value>Check Your Email!</value>
+  </data>
+  <data name="LabelClose" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="LabelColumnAmount" xml:space="preserve">
     <value>Amount</value>
@@ -195,8 +222,17 @@
   <data name="LabelColumnTitle" xml:space="preserve">
     <value>Title</value>
   </data>
+  <data name="LabelConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="LabelConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to proceed with this action?</value>
+  </data>
   <data name="LabelConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
+  </data>
+  <data name="LabelConfirmTitle" xml:space="preserve">
+    <value>Confirm Action</value>
   </data>
   <data name="LabelContact" xml:space="preserve">
     <value>Contact</value>
@@ -258,8 +294,44 @@
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>We have sent you an account activation link. Please check your email to activate your account and set your password before logging in.</value>
   </data>
+  <data name="LabelError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="LabelErrorMessage" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
   <data name="LabelExpense" xml:space="preserve">
     <value>Expense</value>
+  </data>
+  <data name="LabelExpenses" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="LabelFilter" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="LabelFilterApplyFilter" xml:space="preserve">
+    <value>Apply Filter</value>
+  </data>
+  <data name="LabelFilterClearFilter" xml:space="preserve">
+    <value>Clear Filter</value>
+  </data>
+  <data name="LabelFilterCreateNew" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="LabelFilterSelected" xml:space="preserve">
+    <value>{0} Selected</value>
+  </data>
+  <data name="LabelGoToHome" xml:space="preserve">
+    <value>Go back to the home page</value>
+  </data>
+  <data name="LabelGridNoRecords" xml:space="preserve">
+    <value>Page 0 of 0</value>
+  </data>
+  <data name="LabelGridPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="LabelGridPageOf" xml:space="preserve">
+    <value>of</value>
   </data>
   <data name="LabelGridShowing" xml:space="preserve">
     <value>Showing</value>
@@ -319,6 +391,9 @@ You can get more details</value>
   <data name="LabelImportIncomesWizard" xml:space="preserve">
     <value>Import Incomes Wizard</value>
   </data>
+  <data name="LabelImports" xml:space="preserve">
+    <value>Imports</value>
+  </data>
   <data name="LabelImportWizardError" xml:space="preserve">
     <value>An error occurred. Please fix the highlighted fields.</value>
   </data>
@@ -334,6 +409,9 @@ You can get more details</value>
   <data name="LabelIncome" xml:space="preserve">
     <value>Income</value>
   </data>
+  <data name="LabelIncomes" xml:space="preserve">
+    <value>Incomes</value>
+  </data>
   <data name="LabelLoading" xml:space="preserve">
     <value>Loading, please wait...</value>
   </data>
@@ -342,6 +420,9 @@ You can get more details</value>
   </data>
   <data name="LabelLogout" xml:space="preserve">
     <value>Logout</value>
+  </data>
+  <data name="LabelMonthlyReports" xml:space="preserve">
+    <value>Monthly Reports</value>
   </data>
   <data name="LabelNewPassword" xml:space="preserve">
     <value>New Password</value>
@@ -370,6 +451,9 @@ You can get more details</value>
   <data name="LabelRegisterUser" xml:space="preserve">
     <value>Register User</value>
   </data>
+  <data name="LabelReports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
   <data name="LabelSave" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -388,6 +472,9 @@ You can get more details</value>
   <data name="LabelSaveUser" xml:space="preserve">
     <value>Save User</value>
   </data>
+  <data name="LabelSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="LabelSummaryCongratulation" xml:space="preserve">
     <value>Congratulation! Bulk data import completed successfully!</value>
   </data>
@@ -403,11 +490,23 @@ You can get more details</value>
   <data name="LabelSummaryTotalTime" xml:space="preserve">
     <value>Total Time</value>
   </data>
+  <data name="LabelTrendAnalysis" xml:space="preserve">
+    <value>Trend Analysis</value>
+  </data>
+  <data name="LabelUnauthorized" xml:space="preserve">
+    <value>Unauthorized</value>
+  </data>
+  <data name="LabelUnauthorizedMessage" xml:space="preserve">
+    <value>You are not authorized to view this page.</value>
+  </data>
   <data name="LabelUpdatePassword" xml:space="preserve">
     <value>Update Password</value>
   </data>
   <data name="LabelUser" xml:space="preserve">
     <value>User</value>
+  </data>
+  <data name="LabelUsers" xml:space="preserve">
+    <value>Users</value>
   </data>
   <data name="LabelYes" xml:space="preserve">
     <value>Yes</value>
