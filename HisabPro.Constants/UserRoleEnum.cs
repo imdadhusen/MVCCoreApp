@@ -1,12 +1,14 @@
-﻿namespace HisabPro.Constants
+﻿using HisabPro.Constants.Resources;
+
+namespace HisabPro.Constants
 {
     public enum UserRoleEnum
     {
-        [EnumText(AuthorizePolicy.NameRoleSuperAdmin)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelRoleSuperAdmin))]
         SuperAdmin = 1,
-        [EnumText(AuthorizePolicy.NameRoleAdmin)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelRoleAdmin))]
         Admin = 2,
-        [EnumText(AuthorizePolicy.NameRoleUser)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelRoleUser))]
         User = 3
     }
 }

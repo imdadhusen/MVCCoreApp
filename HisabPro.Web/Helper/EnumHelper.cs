@@ -22,7 +22,7 @@ namespace HisabPro.Web.Helper
         {
             var field = value.GetType().GetField(value.ToString());
             var attribute = field?.GetCustomAttribute<EnumTextAttribute>();
-            return attribute?.Text;
+            return attribute?.GetLocalizedValue(); //attribute?.Text;
         }
     }
 }

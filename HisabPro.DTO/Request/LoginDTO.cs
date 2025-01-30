@@ -7,15 +7,15 @@ namespace HisabPro.DTO.Request
     {
         [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationRequiredEmail")]
         [EmailAddress(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationInvalidEmail")]
-        [Display(Name = "FieldEmail", ResourceType = typeof(SharedResource))]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldEmail))]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationRequiredPassword")]
         [DataType(DataType.Password)]
-        [Display(Name = "FieldPassword", ResourceType = typeof(SharedResource))]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldPassword))]
         public string Password { get; set; }
 
-        [Display(Name = "FieldRememberMe", ResourceType = typeof(SharedResource))]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldRememberMe))]
         public bool RememberMe { get; set; }
     }
 }

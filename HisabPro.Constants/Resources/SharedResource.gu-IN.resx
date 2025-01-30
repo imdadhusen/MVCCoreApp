@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FieldAccount" xml:space="preserve">
+    <value>ખાતું</value>
+  </data>
+  <data name="FieldBulkImport" xml:space="preserve">
+    <value>બલ્ક ઇમ્પોર્ટ</value>
+  </data>
+  <data name="FieldCategory" xml:space="preserve">
+    <value>શ્રેણી</value>
+  </data>
+  <data name="FieldDate" xml:space="preserve">
+    <value>તારીખ</value>
+  </data>
   <data name="FieldEmail" xml:space="preserve">
     <value>ઈમેઇલ સરનામું</value>
+  </data>
+  <data name="FieldFullName" xml:space="preserve">
+    <value>સંપૂર્ણ નામ</value>
+  </data>
+  <data name="FieldIsActive" xml:space="preserve">
+    <value>સક્રિય છે કે નહીં</value>
+  </data>
+  <data name="FieldIsStandard" xml:space="preserve">
+    <value>સ્ટાન્ડર્ડ છે કે નહીં</value>
+  </data>
+  <data name="FieldParentCategory" xml:space="preserve">
+    <value>મુખ્ય શ્રેણી</value>
   </data>
   <data name="FieldPassword" xml:space="preserve">
     <value>પાસવર્ડ</value>
   </data>
   <data name="FieldRememberMe" xml:space="preserve">
     <value>મને યાદ રાખો?</value>
+  </data>
+  <data name="FieldSubCategory" xml:space="preserve">
+    <value>ઉપશ્રેણી</value>
+  </data>
+  <data name="FieldUserRole" xml:space="preserve">
+    <value>વપરાશકર્તાની ભૂમિકા</value>
   </data>
   <data name="LabelAboutUs" xml:space="preserve">
     <value>અમારા વિશે</value>
@@ -176,6 +206,81 @@
   </data>
   <data name="LabelAnnualReports" xml:space="preserve">
     <value>વાર્ષિક અહેવાલ</value>
+  </data>
+  <data name="LabelApiAccountLocked" xml:space="preserve">
+    <value>તમારું એકાઉન્ટ લોક થઈ ગયું છે. કૃપા કરીને થોડીવાર પછી ફરી પ્રયત્ન કરો.</value>
+  </data>
+  <data name="LabelApiAccountLockedWithUnlockTime" xml:space="preserve">
+    <value>તમારું એકાઉન્ટ હાલમાં લોક છે. તે આપમેળે {0} મિનિટ પછી અનલોક થશે. કૃપા કરીને થોડીવાર પછી ફરી પ્રયત્ન કરો.</value>
+  </data>
+  <data name="LabelApiDataImportSuccess" xml:space="preserve">
+    <value>ડેટા સફળતાપૂર્વક આયાત થયો</value>
+  </data>
+  <data name="LabelApiDataRetrived" xml:space="preserve">
+    <value>ડેટા સફળતાપૂર્વક પુનઃપ્રાપ્ત થયો</value>
+  </data>
+  <data name="LabelApiDataRetrivedFailed" xml:space="preserve">
+    <value>ડેટા પુનઃપ્રાપ્ત થવામાં નિષ્ફળતા</value>
+  </data>
+  <data name="LabelApiDataWithSameName" xml:space="preserve">
+    <value>સમાન નામ સાથેનો ડેટા પહેલેથી હાજર છે</value>
+  </data>
+  <data name="LabelApiDelete" xml:space="preserve">
+    <value>ડેટા સફળતાપૂર્વક દૂર થયો</value>
+  </data>
+  <data name="LabelApiImportFileAllowedExtensions" xml:space="preserve">
+    <value>માત્ર .xls અને .xlsx ફાઈલોની મંજૂરી છે</value>
+  </data>
+  <data name="LabelApiImportFileRequired" xml:space="preserve">
+    <value>અપલોડ માટે કૃપા કરીને ફાઈલ પસંદ કરો</value>
+  </data>
+  <data name="LabelApiImportSuccess" xml:space="preserve">
+    <value>ફાઈલ સફળતાપૂર્વક અપલોડ થઈ</value>
+  </data>
+  <data name="LabelApiInternalError" xml:space="preserve">
+    <value>આંતરિક સર્વર ભૂલ</value>
+  </data>
+  <data name="LabelApiInvalidAttempt" xml:space="preserve">
+    <value>અમાન્ય લોગિન પ્રયાસ. તમારું એકાઉન્ટ લોક થવા અગાઉ {0} પ્રયત્નો બાકી છે</value>
+  </data>
+  <data name="LabelApiLoginSuccess" xml:space="preserve">
+    <value>લોગિન સફળ! ફરી આવકાર!</value>
+  </data>
+  <data name="LabelApiNotFound" xml:space="preserve">
+    <value>ડેટા મળ્યો નથી</value>
+  </data>
+  <data name="LabelApiPasswordShouldNotMatchCurrent" xml:space="preserve">
+    <value>નવું પાસવર્ડ વર્તમાન પાસવર્ડ સમાન હોઈ શકતું નથી</value>
+  </data>
+  <data name="LabelApiPasswordUpdated" xml:space="preserve">
+    <value>પાસવર્ડ સફળતાપૂર્વક બદલાયો</value>
+  </data>
+  <data name="LabelApiReferenceDeleteError" xml:space="preserve">
+    <value>સંદર્ભ ડેટાને કાઢી શકાતો નથી કારણ કે તે અન્ય રેકોર્ડ સાથે જોડાયેલો છે</value>
+  </data>
+  <data name="LabelApiSameNameInStandardCategory" xml:space="preserve">
+    <value>માનક શ્રેણીમાં પહેલેથી જ સમાન નામ હાજર છે.</value>
+  </data>
+  <data name="LabelApiSave" xml:space="preserve">
+    <value>ડેટા સફળતાપૂર્વક સચવાયો</value>
+  </data>
+  <data name="LabelApiUserActivate" xml:space="preserve">
+    <value>વપરાશકર્તા સફળતાપૂર્વક સક્રિય થયો</value>
+  </data>
+  <data name="LabelApiUserActivateFailed" xml:space="preserve">
+    <value>વપરાશકર્તા સક્રિયતા નિષ્ફળ થઈ</value>
+  </data>
+  <data name="LabelApiUserDeactivate" xml:space="preserve">
+    <value>વપરાશકર્તા સફળતાપૂર્વક નિષ્ક્રિય થયો</value>
+  </data>
+  <data name="LabelApiUserDeactivateFailed" xml:space="preserve">
+    <value>વપરાશકર્તા નિષ્ક્રિયતા નિષ્ફળ થઈ</value>
+  </data>
+  <data name="LabelApiUserNotFound" xml:space="preserve">
+    <value>વપરાશકર્તા મળ્યો નથી</value>
+  </data>
+  <data name="LabelApiValidationFailed" xml:space="preserve">
+    <value>માન્યતા નિષ્ફળ થઈ</value>
   </data>
   <data name="LabelAutoCorrect" xml:space="preserve">
     <value>સ્વચાલિત ઠીક કરવું</value>
@@ -246,6 +351,9 @@
   <data name="LabelCreateNew" xml:space="preserve">
     <value>નવું બનાવો</value>
   </data>
+  <data name="LabelCurrentPassword" xml:space="preserve">
+    <value>વર્તમાન પાસવર્ડ</value>
+  </data>
   <data name="LabelDashboard" xml:space="preserve">
     <value>ડેશબોર્ડ</value>
   </data>
@@ -295,6 +403,15 @@
   <data name="LabelEmailActivation" xml:space="preserve">
     <value>અમે તમને ખાતું સક્રિય કરવા માટેની લિંક મોકલી છે. કૃપા કરીને તમારું ઈમેઇલ તપાસો, તમારું ખાતું સક્રિય કરો અને લોગિન કરવા પહેલા તમારું પાસવર્ડ સેટ કરો.</value>
   </data>
+  <data name="LabelEmailActivationTitle" xml:space="preserve">
+    <value>તમારું એકાઉન્ટ સક્રિય કરો</value>
+  </data>
+  <data name="LabelEmailNotFound" xml:space="preserve">
+    <value>તમે દાખલ કરેલો ઈમેલ કોઈ એકાઉન્ટ સાથે સંકળાયેલો નથી. કૃપા કરીને ઈમેલ તપાસો અને ફરીથી પ્રયત્ન કરો, અથવા નવા એકાઉન્ટ માટે નોંધણી કરો.</value>
+  </data>
+  <data name="LabelEmailTemplateNotFound" xml:space="preserve">
+    <value>ટેમ્પલેટ {0} {1} માં મળ્યું નથી</value>
+  </data>
   <data name="LabelError" xml:space="preserve">
     <value>ભૂલ</value>
   </data>
@@ -321,6 +438,15 @@
   </data>
   <data name="LabelFilterSelected" xml:space="preserve">
     <value>{0} પસંદ કરેલ ફિલ્ટર</value>
+  </data>
+  <data name="LabelGenderFemale" xml:space="preserve">
+    <value>સ્ત્રી</value>
+  </data>
+  <data name="LabelGenderMale" xml:space="preserve">
+    <value>પુરુષ</value>
+  </data>
+  <data name="LabelGenderOther" xml:space="preserve">
+    <value>અન્ય</value>
   </data>
   <data name="LabelGoToHome" xml:space="preserve">
     <value>મુખ્ય પેજ પર પરત જાઓ</value>
@@ -455,6 +581,15 @@
   <data name="LabelReports" xml:space="preserve">
     <value>અહેવાલ</value>
   </data>
+  <data name="LabelRoleAdmin" xml:space="preserve">
+    <value>એડમિન</value>
+  </data>
+  <data name="LabelRoleSuperAdmin" xml:space="preserve">
+    <value>સુપર એડમિન</value>
+  </data>
+  <data name="LabelRoleUser" xml:space="preserve">
+    <value>યુઝર</value>
+  </data>
   <data name="LabelSave" xml:space="preserve">
     <value>સાચવો</value>
   </data>
@@ -515,13 +650,55 @@
   <data name="MessageWelcome" xml:space="preserve">
     <value>HisabPro પર આપનું સ્વાગત છે!</value>
   </data>
+  <data name="ValidationAmount" xml:space="preserve">
+    <value>રકમ માત્ર સંખ્યા હોવી જોઈએ.</value>
+  </data>
+  <data name="ValidationCategory" xml:space="preserve">
+    <value>શ્રેણી 3 થી 50 અક્ષરોની વચ્ચે હોવી જોઈએ.</value>
+  </data>
+  <data name="ValidationDate" xml:space="preserve">
+    <value>કૃપા કરીને માન્ય તારીખ દાખલ કરો.</value>
+  </data>
+  <data name="ValidationEmail" xml:space="preserve">
+    <value>ઈમેલ સરનામું 10 થી 50 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
+  </data>
+  <data name="ValidationFullName" xml:space="preserve">
+    <value>સંપૂર્ણ નામ 40 અક્ષરો કરતા વધુ ન હોઈ શકે.</value>
+  </data>
   <data name="ValidationInvalidEmail" xml:space="preserve">
     <value>કૃપા કરીને માન્ય ઈમેઇલ દાખલ કરો.</value>
+  </data>
+  <data name="ValidationMobile" xml:space="preserve">
+    <value>મોબાઇલ નંબર ચોક્કસ 10 અંકનો હોવો જોઈએ.</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>ખાતાનું નામ 5 થી 15 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
+  </data>
+  <data name="ValidationNote" xml:space="preserve">
+    <value>નોંધ 250 અક્ષરો કરતા વધુ ન હોઈ શકે.</value>
+  </data>
+  <data name="ValidationPasswordConfirm" xml:space="preserve">
+    <value>નવો પાસવર્ડ અને ખાતરીનો પાસવર્ડ મેળ ખાતા નથી.</value>
+  </data>
+  <data name="ValidationPasswordHash" xml:space="preserve">
+    <value>પાસવર્ડ હેશ 88 થી 100 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
+  </data>
+  <data name="ValidationPasswordNew" xml:space="preserve">
+    <value>નવો પાસવર્ડ ઓછામાં ઓછો 8 અક્ષરોનો હોવો જોઈએ.</value>
+  </data>
+  <data name="ValidationPasswordSalt" xml:space="preserve">
+    <value>પાસવર્ડ સોલ્ટ 172 થી 200 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
   </data>
   <data name="ValidationRequiredEmail" xml:space="preserve">
     <value>ઈમેઇલ આવશ્યક છે.</value>
   </data>
   <data name="ValidationRequiredPassword" xml:space="preserve">
     <value>પાસવર્ડ આવશ્યક છે.</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>શીર્ષક 3 થી 25 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
+  </data>
+  <data name="ValidationUser" xml:space="preserve">
+    <value>વપરાશકર્તાનું નામ 5 થી 20 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
   </data>
 </root>

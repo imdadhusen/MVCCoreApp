@@ -427,6 +427,9 @@ You can get more details</value>
   <data name="LabelNewPassword" xml:space="preserve">
     <value>New Password</value>
   </data>
+  <data name="LabelCurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
   <data name="LabelNext" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -522,5 +525,179 @@ You can get more details</value>
   </data>
   <data name="ValidationRequiredPassword" xml:space="preserve">
     <value>Password is required.</value>
+  </data>
+  <data name="LabelEmailActivationTitle" xml:space="preserve">
+    <value>Activate Your Account</value>
+  </data>
+  <data name="LabelEmailTemplateNotFound" xml:space="preserve">
+    <value>Template {0} not found in {1}</value>
+  </data>
+  <data name="LabelEmailNotFound" xml:space="preserve">
+    <value>The email address you entered is not associated with any account. Please check the email and try again, or register for a new account.</value>
+  </data>
+  <data name="LabelApiAccountLocked" xml:space="preserve">
+    <value>Your account is locked. Please try again later.</value>
+  </data>
+  <data name="LabelApiInvalidAttempt" xml:space="preserve">
+    <value>Invalid login attempt. You have {0} attempts remaining before your account is locked</value>
+  </data>
+  <data name="LabelApiAccountLockedWithUnlockTime" xml:space="preserve">
+    <value>Your account is currently locked. It will be automatically unlocked after {0} minutes. Please try again later.</value>
+  </data>
+  <data name="LabelApiLoginSuccess" xml:space="preserve">
+    <value>Login successful! Welcome back!</value>
+  </data>
+  <data name="LabelApiValidationFailed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="LabelApiSave" xml:space="preserve">
+    <value>Data saved successfully</value>
+  </data>
+  <data name="LabelApiUserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="LabelApiPasswordShouldNotMatchCurrent" xml:space="preserve">
+    <value>New password cannot be the same as the current password</value>
+  </data>
+  <data name="LabelApiPasswordUpdated" xml:space="preserve">
+    <value>Password changed successfully</value>
+  </data>
+  <data name="LabelApiUserActivate" xml:space="preserve">
+    <value>User activated successfully</value>
+  </data>
+  <data name="LabelApiUserActivateFailed" xml:space="preserve">
+    <value>User activation failed</value>
+  </data>
+  <data name="LabelApiUserDeactivate" xml:space="preserve">
+    <value>User deactivated successfully</value>
+  </data>
+  <data name="LabelApiUserDeactivateFailed" xml:space="preserve">
+    <value>User deactivation failed</value>
+  </data>
+  <data name="LabelApiInternalError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="LabelApiDelete" xml:space="preserve">
+    <value>Data deleted successfully</value>
+  </data>
+  <data name="LabelApiReferenceDeleteError" xml:space="preserve">
+    <value>Reference data cannot be deleted as it is linked to other records</value>
+  </data>
+  <data name="LabelApiNotFound" xml:space="preserve">
+    <value>Data not found</value>
+  </data>
+  <data name="LabelApiDataWithSameName" xml:space="preserve">
+    <value>Data with same name already exists</value>
+  </data>
+  <data name="LabelApiSameNameInStandardCategory" xml:space="preserve">
+    <value>A duplicate name already exists within the standard category.</value>
+  </data>
+  <data name="LabelApiDataRetrived" xml:space="preserve">
+    <value>Data retrived successfully</value>
+  </data>
+  <data name="LabelApiDataRetrivedFailed" xml:space="preserve">
+    <value>Data retrived failed</value>
+  </data>
+  <data name="LabelApiDataImportSuccess" xml:space="preserve">
+    <value>Data imported successfully</value>
+  </data>
+  <data name="LabelApiImportFileAllowedExtensions" xml:space="preserve">
+    <value>Only .xls and .xlsx files are allowed</value>
+  </data>
+  <data name="LabelApiImportSuccess" xml:space="preserve">
+    <value>File uploaded successfully</value>
+  </data>
+  <data name="LabelApiImportFileRequired" xml:space="preserve">
+    <value>Please select a file to upload</value>
+  </data>
+  <data name="LabelGenderMale" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="LabelGenderFemale" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="LabelGenderOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="LabelRoleAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="LabelRoleSuperAdmin" xml:space="preserve">
+    <value>Super Admin</value>
+  </data>
+  <data name="LabelRoleUser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>Accout name must be between 5 and 15 characters.</value>
+  </data>
+  <data name="ValidationAmount" xml:space="preserve">
+    <value>Amount must be a number value.</value>
+  </data>
+  <data name="ValidationCategory" xml:space="preserve">
+    <value>Category must be between 3 and 50 characters.</value>
+  </data>
+  <data name="ValidationDate" xml:space="preserve">
+    <value>Please enter a valid date.</value>
+  </data>
+  <data name="ValidationEmail" xml:space="preserve">
+    <value>Email address must be between 10 and 50 characters.</value>
+  </data>
+  <data name="ValidationFullName" xml:space="preserve">
+    <value>Full name cannot exceed 40 characters.</value>
+  </data>
+  <data name="ValidationMobile" xml:space="preserve">
+    <value>Mobile number must be exactly 10 digits.</value>
+  </data>
+  <data name="ValidationNote" xml:space="preserve">
+    <value>Note cannot exceed 250 characters.</value>
+  </data>
+  <data name="ValidationPasswordConfirm" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+  </data>
+  <data name="ValidationPasswordHash" xml:space="preserve">
+    <value>Password hash must be between 88 and 100 characters.</value>
+  </data>
+  <data name="ValidationPasswordNew" xml:space="preserve">
+    <value>The new password must be at least 8 characters long.</value>
+  </data>
+  <data name="ValidationPasswordSalt" xml:space="preserve">
+    <value>Password salt must be between 172 and 200 characters.</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>Title must be between 3 and 25 characters.</value>
+  </data>
+  <data name="ValidationUser" xml:space="preserve">
+    <value>User name must be between 5 and 20 characters.</value>
+  </data>
+  <data name="FieldAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="FieldBulkImport" xml:space="preserve">
+    <value>Bulk Import</value>
+  </data>
+  <data name="FieldCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="FieldDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FieldFullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="FieldIsActive" xml:space="preserve">
+    <value>Is Active</value>
+  </data>
+  <data name="FieldIsStandard" xml:space="preserve">
+    <value>Is Standard</value>
+  </data>
+  <data name="FieldParentCategory" xml:space="preserve">
+    <value>Parent Category</value>
+  </data>
+  <data name="FieldSubCategory" xml:space="preserve">
+    <value>Sub Category</value>
+  </data>
+  <data name="FieldUserRole" xml:space="preserve">
+    <value>User Role</value>
   </data>
 </root>

@@ -1,4 +1,6 @@
-﻿namespace HisabPro.Constants
+﻿using HisabPro.Constants.Resources;
+
+namespace HisabPro.Constants
 {
     public static partial class AppConst
     {
@@ -6,35 +8,35 @@
         {
             public static class LoginMsg
             {
-                public const string EMailNotFound = "The email address you entered is not associated with any account. Please check the email and try again, or register for a new account.";
-                public const string AccountLocked = "Your account is locked. Please try again later.";
-                public const string InvalidAttempt = "Invalid login attempt. You have {0} attempts remaining before your account is locked";
-                public const string AccountLockedWithUnlockTime = "Your account is currently locked. It will be automatically unlocked after {0} minutes. Please try again later.";
-                public const string Success = "Login successful! Welcome back!";
+                public static string EMailNotFound = SharedResource.LabelEmailNotFound;
+                public static string AccountLocked = SharedResource.LabelApiAccountLocked;
+                public static string InvalidAttempt = SharedResource.LabelApiInvalidAttempt;
+                public static string AccountLockedWithUnlockTime = SharedResource.LabelApiAccountLockedWithUnlockTime;
+                public static string Success = SharedResource.LabelApiLoginSuccess;
             }
 
-            public const string ValidationFailed = "Validation failed";
-            public const string Save = "Data saved successfully";
-            public const string UserNotFound = "User not found";
-            public const string PasswordShouldNotMatchCurrent = "New password cannot be the same as the current password";
-            public const string PasswordUpdated = "Password changed successfully";
-            public const string UserActivate = "User activated successfully";
-            public const string UserActivateFailed = "User activation failed";
-            public const string UserDeactivate = "User deactivated successfully";
-            public const string UserDeactivateFailed = "User deactivation failed";
-            public const string InternalError = "Internal server error";
-            public const string Delete = "Data deleted successfully";
-            public const string ReferenceDeleteError = "Reference data cannot be deleted as it is linked to other records";
-            public const string NotFound = "Data not found";
-            public const string DataWithSameName = "Data with same name already exists";
-            public const string SameNameInStandardCategory = "A duplicate name already exists within the standard category.";
-            public const string DataRetrived = "Data retrived successfully";
-            public const string DataRetrivedFailed = "Data retrived failed";
-            public const string DataImportSuccess = "Data imported successfully";
+            public static string ValidationFailed = SharedResource.LabelApiValidationFailed;
+            public static string Save = SharedResource.LabelApiSave;
+            public static string UserNotFound = SharedResource.LabelApiUserNotFound;
+            public static string PasswordShouldNotMatchCurrent = SharedResource.LabelApiPasswordShouldNotMatchCurrent;
+            public static string PasswordUpdated = SharedResource.LabelApiPasswordUpdated;
+            public static string UserActivate = SharedResource.LabelApiUserActivate;
+            public static string UserActivateFailed = SharedResource.LabelApiUserActivateFailed;
+            public static string UserDeactivate = SharedResource.LabelApiUserDeactivate;
+            public static string UserDeactivateFailed = SharedResource.LabelApiUserDeactivateFailed;
+            public static string InternalError = SharedResource.LabelApiInternalError;
+            public static string Delete = SharedResource.LabelApiDelete;
+            public static string ReferenceDeleteError = SharedResource.LabelApiReferenceDeleteError;
+            public static string NotFound = SharedResource.LabelApiNotFound;
+            public static string DataWithSameName = SharedResource.LabelApiDataWithSameName;
+            public static string SameNameInStandardCategory = SharedResource.LabelApiSameNameInStandardCategory;
+            public static string DataRetrived = SharedResource.LabelApiDataRetrived;
+            public static string DataRetrivedFailed = SharedResource.LabelApiDataRetrivedFailed;
+            public static string DataImportSuccess = SharedResource.LabelApiDataImportSuccess;
 
-            public const string ImportFileAllowedExtensions = "Only .xls and .xlsx files are allowed";
-            public const string ImportSuccess = "File uploaded successfully";
-            public const string ImportFileRequired = "Please select a file to upload";
+            public static string ImportFileAllowedExtensions = SharedResource.LabelApiImportFileAllowedExtensions;
+            public static string ImportSuccess = SharedResource.LabelApiImportSuccess;
+            public static string ImportFileRequired = SharedResource.LabelApiImportFileRequired;
         }
     }
 }

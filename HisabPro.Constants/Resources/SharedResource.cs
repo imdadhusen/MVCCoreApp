@@ -1,8 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Resources;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HisabPro.Constants.Resources
 {
@@ -17,9 +15,35 @@ namespace HisabPro.Constants.Resources
         public static string FieldPassword { get; private set; }
         public static string FieldRememberMe { get; private set; }
 
+        public static string FieldFullName { get; private set; }
+        public static string FieldIsActive { get; private set; }
+        public static string FieldParentCategory { get; private set; }
+        public static string FieldIsStandard { get; private set; }
+        public static string FieldDate { get; private set; }
+        public static string FieldAccount { get; private set; }
+        public static string FieldCategory { get; private set; }
+        public static string FieldSubCategory { get; private set; }
+        public static string FieldBulkImport { get; private set; }
+        public static string FieldUserRole { get; private set; }
+
         public static string ValidationInvalidEmail { get; private set; }
         public static string ValidationRequiredEmail { get; private set; }
         public static string ValidationRequiredPassword { get; private set; }
+
+        public static string ValidationMobile { get; private set; }
+        public static string ValidationEmail { get; private set; }
+        public static string ValidationDate { get; private set; }
+        public static string ValidationAmount { get; private set; }
+        public static string ValidationTitle { get; private set; }
+        public static string ValidationNote { get; private set; }
+        public static string ValidationCategory { get; private set; }
+        public static string ValidationName { get; private set; }
+        public static string ValidationFullName { get; private set; }
+        public static string ValidationUser { get; private set; }
+        public static string ValidationPasswordSalt { get; private set; }
+        public static string ValidationPasswordHash { get; private set; }
+        public static string ValidationPasswordNew { get; private set; }
+        public static string ValidationPasswordConfirm { get; private set; }
 
         //Menu options in public layout
         public static string LabelAboutUs { get; private set; }
@@ -113,6 +137,54 @@ namespace HisabPro.Constants.Resources
         public static string LabelSaveIncome { get; private set; }
         //End: Income related settings
 
+        //Start: Email
+        public static string LabelEmailActivationTitle { get; private set; }
+        public static string LabelEmailTemplateNotFound { get; private set; }
+        public static string LabelEmailNotFound { get; private set; }
+        //End: Email
+
+        //Start: Api messages
+        public static string LabelApiAccountLocked { get; private set; }
+        public static string LabelApiInvalidAttempt { get; private set; }
+        public static string LabelApiAccountLockedWithUnlockTime { get; private set; }
+        public static string LabelApiLoginSuccess { get; private set; }
+
+        public static string LabelApiValidationFailed { get; private set; }
+        public static string LabelApiSave { get; private set; }
+        public static string LabelApiUserNotFound { get; private set; }
+        public static string LabelApiPasswordShouldNotMatchCurrent { get; private set; }
+        public static string LabelApiPasswordUpdated { get; private set; }
+        public static string LabelApiUserActivate { get; private set; }
+        public static string LabelApiUserActivateFailed { get; private set; }
+        public static string LabelApiUserDeactivate { get; private set; }
+        public static string LabelApiUserDeactivateFailed { get; private set; }
+        public static string LabelApiInternalError { get; private set; }
+        public static string LabelApiDelete { get; private set; }
+        public static string LabelApiReferenceDeleteError { get; private set; }
+        public static string LabelApiNotFound { get; private set; }
+        public static string LabelApiDataWithSameName { get; private set; }
+        public static string LabelApiSameNameInStandardCategory { get; private set; }
+        public static string LabelApiDataRetrived { get; private set; }
+        public static string LabelApiDataRetrivedFailed { get; private set; }
+        public static string LabelApiDataImportSuccess { get; private set; }
+
+        public static string LabelApiImportFileAllowedExtensions { get; private set; }
+        public static string LabelApiImportSuccess { get; private set; }
+        public static string LabelApiImportFileRequired { get; private set; }
+        //End: Api messages
+
+        //Start: screen or UI element
+        public static string LabelGenderMale { get; private set; }
+        public static string LabelGenderFemale { get; private set; }
+        public static string LabelGenderOther { get; private set; }
+
+        public static string LabelRoleSuperAdmin { get; private set; }
+        public static string LabelRoleAdmin { get; private set; }
+        public static string LabelRoleUser { get; private set; }
+
+        
+        //End: screen or UI element 
+
         //Start: Users related settings
         //Login
         public static string LabelHello { get; private set; }
@@ -126,6 +198,7 @@ namespace HisabPro.Constants.Resources
         public static string LabelUpdatePassword { get; private set; }
         public static string LabelNewPassword { get; private set; }
         public static string LabelConfirmPassword { get; private set; }
+        public static string LabelCurrentPassword { get; private set; }
         //Update password
         public static string LabelPasswordResetRequired { get; private set; }
         //Save user
@@ -159,7 +232,7 @@ namespace HisabPro.Constants.Resources
         public static string LabelErrorMessage { get; private set; }
         public static string LabelUnauthorized { get; private set; }
         public static string LabelUnauthorizedMessage { get; private set; }
-        
+
 
         public static string LabelNext { get; private set; }
         public static string LabelPrevious { get; private set; }

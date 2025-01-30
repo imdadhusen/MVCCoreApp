@@ -1,4 +1,5 @@
 ﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Request
@@ -10,14 +11,14 @@ namespace HisabPro.DTO.Request
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "New Password")]
-        [StringLength(100, ErrorMessage = FieldsSizeConst.User.NewPasswordMessage, MinimumLength = FieldsSizeConst.User.NewPasswordMin)]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelNewPassword))]
+        [StringLength(100, MinimumLength = FieldsSizeConst.User.NewPasswordMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordNew))]
         public string NewPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("NewPassword", ErrorMessage = FieldsSizeConst.User.ConfirmPasswordMessage)]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelConfirmPassword))]
+        [Compare("NewPassword", ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordConfirm))]
         public string ConfirmPassword { get; set; }
     }
 
@@ -25,7 +26,7 @@ namespace HisabPro.DTO.Request
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current Password")]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelCurrentPassword))]
         [Compare("NewPassword")]
         public string CurrentPassword { get; set; }
     }

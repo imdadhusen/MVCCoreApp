@@ -26,9 +26,18 @@ namespace HisabPro.Services.Implements
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Name),
                 new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, userRole.GetText())
+                new(ClaimTypes.Role, getRoleName(userRole))
             };
             return claims;
+        }
+
+        private string getRoleName(UserRoleEnum userRole)
+        {
+            if (userRole == UserRoleEnum.SuperAdmin)
+                return AuthorizePolicy.NameRoleSuperAdmin;
+            if (userRole == UserRoleEnum.Admin)
+                return AuthorizePolicy.NameRoleAdmin;
+            return AuthorizePolicy.NameRoleUser;
         }
 
         public async Task<string?> SignInUser(LoginRes user)

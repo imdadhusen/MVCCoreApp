@@ -1,12 +1,14 @@
-﻿namespace HisabPro.Constants
+﻿using HisabPro.Constants.Resources;
+
+namespace HisabPro.Constants
 {
     public enum UserGenederEnum
     {
-        [EnumText(EnumLabel.Gender.Male)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderMale))]
         Male = 1,
-        [EnumText(EnumLabel.Gender.Female)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderFemale))]
         Female = 2,
-        [EnumText(EnumLabel.Gender.Other)]
+        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderOther))]
         Other = 3,
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
@@ -24,7 +25,7 @@ namespace HisabPro.Common
             string emailTitle = "";
             if (emailType == EnumEmailTypes.ActivateAccount)
             {
-                emailTitle = "Activate Your Account";
+                emailTitle = SharedResource.LabelEmailActivationTitle;
                 emailBody = await ReplacePlaceholders("ActivateAccount.html", placeholders, emailTitle);
             }
 
@@ -78,7 +79,7 @@ namespace HisabPro.Common
             string templatePath = Path.Combine(_templatesPath, templateFileName);
 
             if (!File.Exists(templatePath))
-                throw new FileNotFoundException($"Template {templateFileName} not found in {_templatesPath}");
+                throw new FileNotFoundException(string.Format(SharedResource.LabelEmailTemplateNotFound, templateFileName, _templatesPath));
 
             string templateContent = await File.ReadAllTextAsync(templatePath);
 
