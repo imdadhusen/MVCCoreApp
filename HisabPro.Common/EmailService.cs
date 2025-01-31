@@ -26,6 +26,12 @@ namespace HisabPro.Common
             if (emailType == EnumEmailTypes.ActivateAccount)
             {
                 emailTitle = SharedResource.LabelEmailActivationTitle;
+                // Convert placeholders object to Dictionary for easy modification
+                var placeholderDict = placeholders.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetValue(placeholders));
+                // Add additional key values to placeholders
+                placeholderDict["EmailActivateAccountMessage"] = SharedResource.EmailActivateAccountMessage;
+                placeholderDict["EmailActivateAccountTitle"] = SharedResource.EmailActivateAccountTitle;
+
                 emailBody = await ReplacePlaceholders("ActivateAccount.html", placeholders, emailTitle);
             }
 
@@ -71,10 +77,14 @@ namespace HisabPro.Common
 
             layoutContent = layoutContent.Replace("{{CompanyLogo}}", string.Join("/", _appSettings.ApiUrl, "icons/Logo.png"));
             layoutContent = layoutContent.Replace("{{Header}}", emailTitle);
+            layoutContent = layoutContent.Replace("{{EmailIfQuestion}}", SharedResource.EmailIfQuestion);
+            layoutContent = layoutContent.Replace("{{EmailAllRightsReserved}}", SharedResource.EmailAllRightsReserved);
             layoutContent = layoutContent.Replace("{{SupportEmail}}", _appSettings.SupportEmail);
             layoutContent = layoutContent.Replace("{{Year}}", DateTime.Now.ToString("yyyy"));
             layoutContent = layoutContent.Replace("{{PrivacyLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.PrivacyLinkAction));
             layoutContent = layoutContent.Replace("{{TermsLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.TermsAndConditionLinkAction));
+            layoutContent = layoutContent.Replace("{{EmailPrivacyPolicy}}", SharedResource.EmailPrivacyPolicy);
+            layoutContent = layoutContent.Replace("{{EmailTermsOfService}}", SharedResource.EmailTermsOfService);
 
             string templatePath = Path.Combine(_templatesPath, templateFileName);
 

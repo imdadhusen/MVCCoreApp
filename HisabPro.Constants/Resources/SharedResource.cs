@@ -182,7 +182,7 @@ namespace HisabPro.Constants.Resources
         public static string LabelRoleAdmin { get; private set; }
         public static string LabelRoleUser { get; private set; }
 
-        
+
         //End: screen or UI element 
 
         //Start: Users related settings
@@ -248,6 +248,34 @@ namespace HisabPro.Constants.Resources
         public static string LabelFilterCreateNew { get; private set; }
         public static string LabelFilterApplyFilter { get; private set; }
         public static string LabelFilterClearFilter { get; private set; }
+
+        public static string LabelFilterCreatedDateRange { get; private set; }
+        public static string LabelFilterStandard { get; private set; }
+        public static string LabelFilterDateRange { get; private set; }
+        public static string LabelFilterBulkImported { get; private set; }
+        public static string LabelFilterRole { get; private set; }
+        public static string LabelFilterGender { get; private set; }
+
+        public static string LabelFieldName { get; private set; }
+        public static string LabelFieldMobile { get; private set; }
+        public static string LabelFieldType { get; private set; }
+        public static string LabelFieldTitle { get; private set; }
+        public static string LabelFieldAmount { get; private set; }
+        public static string LabelFieldAccount { get; private set; }
+        public static string LabelFieldNote { get; private set; }
+        public static string LabelFieldEmail { get; private set; }
+
+        public static string LabelColumnActive { get; private set; }
+        public static string LabelColumnCreatedBy { get; private set; }
+        public static string LabelColumnCreatedOn { get; private set; }
+        public static string LabelColumnImport { get; private set; }
+
+        public static string EmailIfQuestion { get; private set; }
+        public static string EmailAllRightsReserved { get; private set; }
+        public static string EmailPrivacyPolicy { get; private set; }
+        public static string EmailTermsOfService { get; private set; }
+        public static string EmailActivateAccountMessage { get; private set; }
+        public static string EmailActivateAccountTitle { get; private set; }
 
         public static string LabelColumnDate { get; private set; }
         public static string LabelColumnTitle { get; private set; }

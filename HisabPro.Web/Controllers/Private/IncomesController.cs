@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -31,27 +32,29 @@ namespace HisabPro.Web.Controllers.Private
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
-                    FieldName = "Title"
+                    FieldName = "Title",
+                    FieldTitle= SharedResource.LabelFieldTitle,
                 },
                 new FilterModel<int> {
                     FieldName = "AccountId",
-                    FieldTitle="Account",
+                    FieldTitle= SharedResource.FieldAccount,
                     Items =  _mapper.Map<List<IdNameAndRefId>>(accounts),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "IncomeOn",
-                    FieldTitle="Date Range"
+                    FieldTitle= SharedResource.LabelFilterDateRange
                 },
                 new FilterModel<string> {
-                    FieldName = "Note"
+                    FieldName = "Note",
+                    FieldTitle= SharedResource.LabelFieldNote,
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle="Is Active"
+                    FieldTitle= SharedResource.FieldIsActive
                 },
                 new FilterModel<bool> {
                     FieldName = "IsBulkImported",
-                    FieldTitle="Bulk Imported"
+                    FieldTitle= SharedResource.LabelFilterBulkImported
                 }
             };
 
@@ -103,14 +106,14 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Title", Width = "170px"  },
-                    new Column() { Name = "IncomeOn", Title = "Date", Type = ColType.Date, Width = "100px" },
-                    new Column() { Name = "Amount", Align = Align.Right, Width="95px" },
-                    new Column() { Name = "Category", Title = "Category", Width = "140px" },
-                    new Column() { Name = "SubCategory", Title = "Sub Category", Width = "150px" },
-                    new Column() { Name = "Account", Width = "150px" },
-                    new Column() { Name = "IsBulkImported", Title="Import", Width = "90px", Type = ColType.Checkbox },
-                    new Column() { Name = "Note", IsSortable = false},
+                    new Column() { Name = "Title", Title = SharedResource.LabelFieldTitle, Width = "170px"  },
+                    new Column() { Name = "IncomeOn", Title = SharedResource.FieldDate , Type = ColType.Date, Width = "100px" },
+                    new Column() { Name = "Amount", Title = SharedResource.LabelFieldAmount, Align = Align.Right, Width="95px" },
+                    new Column() { Name = "Category", Title = SharedResource.FieldCategory, Width = "140px" },
+                    new Column() { Name = "SubCategory", Title = SharedResource.FieldSubCategory, Width = "150px" },
+                    new Column() { Name = "Account", Title = SharedResource.FieldAccount, Width = "150px" },
+                    new Column() { Name = "IsBulkImported", Title= SharedResource.LabelColumnImport, Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "Note", Title = SharedResource.LabelFieldNote, IsSortable = false},
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using ColType = HisabPro.Web.ViewModel.Type;
 
 namespace HisabPro.Web.Controllers.Private
@@ -39,33 +41,34 @@ namespace HisabPro.Web.Controllers.Private
             {
                 new FilterModel<int> {
                     FieldName = "CategoryId",
-                    ChildFieldName="SubCategoryId",
-                    FieldTitle="Category",
-                    Items =  _mapper.Map<List<IdNameAndRefId>>(parentCategories),
+                    ChildFieldName = "SubCategoryId",
+                    FieldTitle = SharedResource.LabelColumnCategory,
+                    Items = _mapper.Map<List<IdNameAndRefId>>(parentCategories),
                     ChildItems = _mapper.Map<List<IdNameAndRefId>>(childCategories)
                 },
                 new FilterModel<int> {
                     FieldName = "SubCategoryId",
-                    FieldTitle="Sub Category"
+                    FieldTitle = SharedResource.FieldSubCategory
                 },
                 new FilterModel<string> {
                     FieldName = "Title",
-                    FieldTitle="Title"
+                    FieldTitle= SharedResource.LabelColumnTitle
                 },
                 new FilterModel<string> {
-                    FieldName = "Note"
+                    FieldName = "Note",
+                    FieldTitle = SharedResource.LabelFieldType
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle="Date Range"
+                    FieldTitle=SharedResource.LabelFilterDateRange
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle="Is Active"
+                    FieldTitle = SharedResource.FieldIsActive
                 },
                 new FilterModel<bool> {
                     FieldName = "IsBulkImported",
-                    FieldTitle="Bulk Imported"
+                    FieldTitle= SharedResource.LabelFilterBulkImported
                 }
             };
 
@@ -124,14 +127,14 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Title", Width = "150px" },
-                    new Column() { Name = "ExpenseOn", Title = "Date", Type = ColType.Date, Width = "100px" },
-                    new Column() { Name = "Amount", Align = Align.Right, Width = "95px" },
-                    new Column() { Name = "Category", Title = "Category", Width = "140px" },
-                    new Column() { Name = "SubCategory", Title = "Sub Category", Width = "150px" },
-                    new Column() { Name = "Account", Width = "100px" },
-                    new Column() { Name = "IsBulkImported", Title="Import", Width = "90px", Type = ColType.Checkbox },
-                    new Column() { Name = "Note", IsSortable = false },
+                    new Column() { Name = "Title", Title = SharedResource.LabelFieldTitle, Width = "150px" },
+                    new Column() { Name = "ExpenseOn", Title = SharedResource.FieldDate, Type = ColType.Date, Width = "100px" },
+                    new Column() { Name = "Amount", Title = SharedResource.LabelFieldAmount, Align = Align.Right, Width = "95px" },
+                    new Column() { Name = "Category", Title = SharedResource.FieldCategory, Width = "140px" },
+                    new Column() { Name = "SubCategory", Title = SharedResource.FieldSubCategory, Width = "150px" },
+                    new Column() { Name = "Account", Title = SharedResource.LabelFieldAccount, Width = "100px" },
+                    new Column() { Name = "IsBulkImported", Title= SharedResource.LabelColumnImport, Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "Note", Title = SharedResource.LabelFieldNote, IsSortable = false },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };

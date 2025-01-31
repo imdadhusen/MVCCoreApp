@@ -700,4 +700,76 @@ You can get more details</value>
   <data name="FieldUserRole" xml:space="preserve">
     <value>User Role</value>
   </data>
+  <data name="EmailActivateAccountMessage" xml:space="preserve">
+    <value>Please click the link below to activate your account</value>
+  </data>
+  <data name="EmailActivateAccountTitle" xml:space="preserve">
+    <value>Activate Account</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>All rights reserved</value>
+  </data>
+  <data name="EmailIfQuestion" xml:space="preserve">
+    <value>If you have any questions, feel free to contact our support team at</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="EmailTermsOfService" xml:space="preserve">
+    <value>Terms of service</value>
+  </data>
+  <data name="LabelColumnActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="LabelColumnCreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="LabelColumnCreatedOn" xml:space="preserve">
+    <value>Created On</value>
+  </data>
+  <data name="LabelColumnImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="LabelFieldAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="LabelFieldAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="LabelFieldEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LabelFieldMobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="LabelFieldName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="LabelFieldNote" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="LabelFieldTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="LabelFieldType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="LabelFilterBulkImported" xml:space="preserve">
+    <value>Bulk Imported</value>
+  </data>
+  <data name="LabelFilterCreatedDateRange" xml:space="preserve">
+    <value>Created Date Range</value>
+  </data>
+  <data name="LabelFilterDateRange" xml:space="preserve">
+    <value>Date Range</value>
+  </data>
+  <data name="LabelFilterGender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="LabelFilterRole" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="LabelFilterStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
 </root>

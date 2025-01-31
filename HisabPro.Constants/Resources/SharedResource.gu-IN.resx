@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailActivateAccountMessage" xml:space="preserve">
+    <value>તમારું ખાતું સક્રિય કરવા માટે કૃપા કરીને નીચે આપેલ લિંક પર ક્લિક કરો</value>
+  </data>
+  <data name="EmailActivateAccountTitle" xml:space="preserve">
+    <value>ખાતું સક્રિય કરો</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>સર્વાધિકાર સુરક્ષિત</value>
+  </data>
+  <data name="EmailIfQuestion" xml:space="preserve">
+    <value>જો તમને કોઈ પ્રશ્નો હોય, તો કૃપા કરીને અમારી સપોર્ટ ટીમનો સંપર્ક કરો:</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>ગોપનીયતા નીતિ</value>
+  </data>
+  <data name="EmailTermsOfService" xml:space="preserve">
+    <value>સેવા શરતો</value>
+  </data>
   <data name="FieldAccount" xml:space="preserve">
     <value>ખાતું</value>
   </data>
@@ -309,14 +327,26 @@
   <data name="LabelClose" xml:space="preserve">
     <value>બંધ કરો</value>
   </data>
+  <data name="LabelColumnActive" xml:space="preserve">
+    <value>સક્રિય</value>
+  </data>
   <data name="LabelColumnAmount" xml:space="preserve">
     <value>રકમ</value>
   </data>
   <data name="LabelColumnCategory" xml:space="preserve">
     <value>શ્રેણી</value>
   </data>
+  <data name="LabelColumnCreatedBy" xml:space="preserve">
+    <value>દ્વારા બનાવવામાં આવ્યું</value>
+  </data>
+  <data name="LabelColumnCreatedOn" xml:space="preserve">
+    <value>બનાવેલી તારીખ</value>
+  </data>
   <data name="LabelColumnDate" xml:space="preserve">
     <value>તારીખ</value>
+  </data>
+  <data name="LabelColumnImport" xml:space="preserve">
+    <value>આયાત</value>
   </data>
   <data name="LabelColumnPerson" xml:space="preserve">
     <value>વ્યક્તિ</value>
@@ -424,20 +454,62 @@
   <data name="LabelExpenses" xml:space="preserve">
     <value>ખર્ચ</value>
   </data>
+  <data name="LabelFieldAccount" xml:space="preserve">
+    <value>ખાતું</value>
+  </data>
+  <data name="LabelFieldAmount" xml:space="preserve">
+    <value>રકમ</value>
+  </data>
+  <data name="LabelFieldEmail" xml:space="preserve">
+    <value>ઈમેલ</value>
+  </data>
+  <data name="LabelFieldMobile" xml:space="preserve">
+    <value>મોબાઇલ</value>
+  </data>
+  <data name="LabelFieldName" xml:space="preserve">
+    <value>નામ</value>
+  </data>
+  <data name="LabelFieldNote" xml:space="preserve">
+    <value>નોંધ</value>
+  </data>
+  <data name="LabelFieldTitle" xml:space="preserve">
+    <value>શીર્ષક</value>
+  </data>
+  <data name="LabelFieldType" xml:space="preserve">
+    <value>પ્રકાર</value>
+  </data>
   <data name="LabelFilter" xml:space="preserve">
     <value>ફિલ્ટર્સ</value>
   </data>
   <data name="LabelFilterApplyFilter" xml:space="preserve">
     <value>ફિલ્ટર લાગુ કરો</value>
   </data>
+  <data name="LabelFilterBulkImported" xml:space="preserve">
+    <value>મોટા પ્રમાણમાં આયાત</value>
+  </data>
   <data name="LabelFilterClearFilter" xml:space="preserve">
     <value>ફિલ્ટર સાફ કરો</value>
+  </data>
+  <data name="LabelFilterCreatedDateRange" xml:space="preserve">
+    <value>બનાવેલ તારીખ શ્રેણી</value>
   </data>
   <data name="LabelFilterCreateNew" xml:space="preserve">
     <value>નવું બનાવો</value>
   </data>
+  <data name="LabelFilterDateRange" xml:space="preserve">
+    <value>તારીખ શ્રેણી</value>
+  </data>
+  <data name="LabelFilterGender" xml:space="preserve">
+    <value>લિંગ</value>
+  </data>
+  <data name="LabelFilterRole" xml:space="preserve">
+    <value>ભૂમિકા</value>
+  </data>
   <data name="LabelFilterSelected" xml:space="preserve">
     <value>{0} પસંદ કરેલ ફિલ્ટર</value>
+  </data>
+  <data name="LabelFilterStandard" xml:space="preserve">
+    <value>માનક</value>
   </data>
   <data name="LabelGenderFemale" xml:space="preserve">
     <value>સ્ત્રી</value>

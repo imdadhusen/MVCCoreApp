@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -25,19 +26,21 @@ namespace HisabPro.Web.Controllers.Private
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
-                    FieldName = "Name"
+                    FieldName = "Name",
+                    FieldTitle = SharedResource.LabelFieldName
                 },
                 new FilterModel<int> {
                     FieldName = "Type",
+                    FieldTitle = SharedResource.LabelFieldType,
                     Items = _mapper.Map<List<IdNameAndRefId>>(types),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle="Created Date Range"
+                    FieldTitle= SharedResource.LabelFilterCreatedDateRange
                 },
                 new FilterModel<bool> {
                     FieldName = "IsStandard",
-                    FieldTitle="Standard"
+                    FieldTitle= SharedResource.LabelFilterStandard
                 }
             };
             var req = new LoadDataRequest() { Filters = filters };
@@ -113,11 +116,11 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<CategoryRes>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                new Column() { Name = "Name"  },
-                new Column() { Name = "Type", Width="140px" },
-                new Column() { Name = "IsStandard", Title = "Standard", Width="120px", Type = ColType.Checkbox },
-                new Column() { Name = "IsActive", Title = "Active", Width="120px", Type = ColType.Checkbox },
-                new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
+                new Column() { Name = "Name", Title = SharedResource.LabelFieldName  },
+                new Column() { Name = "Type", Title = SharedResource.LabelFieldType, Width="140px" },
+                new Column() { Name = "IsStandard", Title = SharedResource.LabelFilterStandard, Width="120px", Type = ColType.Checkbox },
+                new Column() { Name = "IsActive", Title = SharedResource.LabelColumnActive, Width="120px", Type = ColType.Checkbox },
+                new Column() { Name = "CreatedOn", Title = SharedResource.LabelColumnCreatedOn, Type = ColType.Date, Width = "130px" },
                 new Column() { Name = "Edit", Type = ColType.Edit},
                 new Column() { Name = "Delete", Type = ColType.Delete}
             };

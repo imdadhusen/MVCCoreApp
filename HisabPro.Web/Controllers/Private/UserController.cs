@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hisab.CryptoService;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -96,27 +97,29 @@ namespace HisabPro.Web.Controllers.Private
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
-                    FieldName = "Name"
+                    FieldName = "Name",
+                    FieldTitle= SharedResource.LabelFieldName,
                 },
                  new FilterModel<string> {
-                    FieldName = "Email"
+                    FieldName = "Email",
+                    FieldTitle= SharedResource.LabelFieldEmail,
                 },
                 new FilterModel<int> {
                     FieldName = "UserRole",
-                    FieldTitle="Role",
+                    FieldTitle= SharedResource.LabelFilterRole,
                     Items = _mapper.Map<List<IdNameAndRefId>>(roles),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle="Created Date Range"
+                    FieldTitle= SharedResource.LabelFilterCreatedDateRange
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle="Is Active"
+                    FieldTitle= SharedResource.FieldIsActive
                 },
                 new FilterModel<int> {
                     FieldName = "Gender",
-                    FieldTitle="Gender",
+                    FieldTitle= SharedResource.LabelFilterGender,
                     Items = _mapper.Map<List<IdNameAndRefId>>(genders),
                 }
             };
@@ -302,13 +305,13 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Name", Width = "140px"  },
-                    new Column() { Name = "Email", IsSortable = false},
-                    new Column() { Name = "Mobile", Width="120px" },
-                    new Column() { Name = "IsActive", Title = "Active", Width="90px", Type = ColType.Checkbox },
-                    new Column() { Name = "GenderName", Title="Gender", Width="90px" },
-                    new Column() { Name = "UserRoleName", Title = "Role", Width= "120px" },
-                    new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
+                    new Column() { Name = "Name", Title = SharedResource.LabelFieldName, Width = "140px"  },
+                    new Column() { Name = "Email", Title = SharedResource.LabelFieldEmail, IsSortable = false},
+                    new Column() { Name = "Mobile", Title = SharedResource.LabelFieldMobile, Width="120px" },
+                    new Column() { Name = "IsActive", Title = SharedResource.LabelColumnActive, Width="90px", Type = ColType.Checkbox },
+                    new Column() { Name = "GenderName", Title = SharedResource.LabelFilterGender, Width="90px" },
+                    new Column() { Name = "UserRoleName", Title = SharedResource.LabelFilterRole, Width= "120px" },
+                    new Column() { Name = "CreatedOn", Title = SharedResource.LabelColumnCreatedOn, Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };
