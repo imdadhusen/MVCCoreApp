@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -31,7 +32,7 @@ namespace HisabPro.Services.Implements
         {
             var expense = await _expenseRepo.GetAllWithChildrenAsync("Account", "Category", "SubCategory"); //"Creator", "Modifier"
             var map = _mapper.Map<List<ExpenseRes>>(expense);
-            return new ResponseDTO<List<ExpenseRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
+            return new ResponseDTO<List<ExpenseRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
         }
 
         public async Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request)
@@ -48,7 +49,7 @@ namespace HisabPro.Services.Implements
         {
             var map = _mapper.Map<List<Expense>>(expenses);
             var result = await _expenseRepo.AddRangeAsync(map);
-            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataImportSuccess, new DataImportRes { TotalRecords = result });
+            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataImportSuccess, new DataImportRes { TotalRecords = result });
         }
 
         public async Task<ResponseDTO<ExpenseRes>> SaveAsync(SaveExpenseReq req)
@@ -56,13 +57,13 @@ namespace HisabPro.Services.Implements
             var map = _mapper.Map<Expense>(req);
             var result = await _expenseRepo.SaveAsync(map);
             var response = _mapper.Map<ExpenseRes>(result);
-            return new ResponseDTO<ExpenseRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, response);
+            return new ResponseDTO<ExpenseRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, response);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
         {
             var result = await _expenseRepo.DeleteAsync(id);
-            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
         }
     }
 }

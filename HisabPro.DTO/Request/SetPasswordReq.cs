@@ -6,16 +6,16 @@ namespace HisabPro.DTO.Request
 {
     public class SetPasswordReq
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
         public int UserId { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelNewPassword))]
         [StringLength(100, MinimumLength = FieldsSizeConst.User.NewPasswordMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordNew))]
         public string NewPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelConfirmPassword))]
         [Compare("NewPassword", ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordConfirm))]
@@ -24,7 +24,7 @@ namespace HisabPro.DTO.Request
 
     public class ResetPasswordReq : SetPasswordReq
     {
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
         [DataType(DataType.Password)]
         [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelCurrentPassword))]
         [Compare("NewPassword")]

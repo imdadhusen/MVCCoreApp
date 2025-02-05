@@ -1,12 +1,17 @@
 ﻿using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using System.Xml.Linq;
 
 namespace HisabPro.Constants.Resources
 {
     public class SharedResource
     {
-        private static readonly ResourceManager _resourceManager = new ResourceManager("HisabPro.Constants.Resources.SharedResource", Assembly.GetExecutingAssembly());
+        //private static readonly ResourceManager _resourceManager = 
+        //    new ResourceManager("HisabPro.Constants.Resources.SharedResource", Assembly.GetExecutingAssembly());
+        private static readonly ResourceManager _resourceManager =
+            new ResourceManager("HisabPro.Constants.Resources.SharedResource",
+                        typeof(SharedResource).Assembly);
         private static readonly CultureInfo _culture = CultureInfo.CurrentUICulture;
 
         public static string MessageWelcome { get; private set; }
@@ -14,6 +19,13 @@ namespace HisabPro.Constants.Resources
         public static string FieldEmail { get; private set; }
         public static string FieldPassword { get; private set; }
         public static string FieldRememberMe { get; private set; }
+        public static string FieldName { get; private set; }
+        public static string FieldMobile { get; private set; }
+        public static string FieldGender { get; private set; }
+        public static string FieldType { get; private set; }
+        public static string FieldTitle { get; private set; }
+        public static string FieldAmount { get; private set; }
+        public static string FieldNote { get; private set; }
 
         public static string FieldFullName { get; private set; }
         public static string FieldIsActive { get; private set; }
@@ -29,6 +41,7 @@ namespace HisabPro.Constants.Resources
         public static string ValidationInvalidEmail { get; private set; }
         public static string ValidationRequiredEmail { get; private set; }
         public static string ValidationRequiredPassword { get; private set; }
+        public static string ValidationRequired { get; private set; }
 
         public static string ValidationMobile { get; private set; }
         public static string ValidationEmail { get; private set; }
@@ -293,19 +306,48 @@ namespace HisabPro.Constants.Resources
         public static string LabelNo { get; private set; }
         public static string LabelEdit { get; private set; }
         public static string LabelDelete { get; private set; }
+        public static string LabelDeleteConfirm { get; private set; } //
+        public static string LabelDeleteTitle { get; private set; } //
+        public static string WizardUploadNoFile { get; private set; } //
+        public static string WizardUploadError { get; private set; } //
+        public static string WizardExtractError { get; private set; } //
+        public static string WizardAutoCorrectDateTitle { get; private set; } //
+        public static string WizardAutoCorrectDateMessage { get; private set; } //
+        public static string WizardAutoCorrectDateSuccess { get; private set; } //
+        public static string WizardAutoCorrectTitleTitle { get; private set; } //
+        public static string WizardAutoCorrectTitleMessage { get; private set; } //
+        public static string WizardAutoCorrectTitleSuccess { get; private set; } //
+
+        public static string[] Months
+        {
+            get
+            {
+                if (_culture.Name == "gu-IN")
+                    return ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "ઓગસ્ટ", "ઑક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"];
+                return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            }
+        }
+
 
         static SharedResource()
         {
             var properties = typeof(SharedResource).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.SetProperty);
-
-            foreach (var property in properties)
+            string key = "";
+            try
             {
-                if (property.PropertyType == typeof(string))
+                foreach (var property in properties)
                 {
-                    var key = property.Name;
-                    var value = _resourceManager.GetString(key, _culture) ?? string.Empty;
-                    property.SetValue(null, value);
+                    if (property.PropertyType == typeof(string))
+                    {
+                        key = property.Name;
+                        var value = _resourceManager.GetString(key, _culture) ?? string.Empty;
+                        property.SetValue(null, value);
+                    }
                 }
+            }
+            catch
+            {
+                throw new KeyNotFoundException($"Resource key '{key}' not found in culture '{_culture.Name}'.");
             }
         }
     }

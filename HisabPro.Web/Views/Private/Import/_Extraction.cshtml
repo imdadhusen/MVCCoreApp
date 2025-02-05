@@ -177,10 +177,10 @@
         filterChildCategories($(this).data('row'));
     });
     $(autoCorrectDate).click(function () {
-        showConfirm(Wizard.AutoCorrect.Date.Title, Wizard.AutoCorrect.Date.Message, autoCorrectDateYes, null);
+        showConfirm(appResources.wizardAutoCorrectDateTitle, appResources.wizardAutoCorrectDateMessage, autoCorrectDateYes, null);
     });
     $(autoCorrectTitle).click(function () {
-        showConfirm(Wizard.AutoCorrect.Title.Title, Wizard.AutoCorrect.Title.Message, autoCorrectTitleYes, null);
+        showConfirm(appResources.wizardAutoCorrectTitleTitle, appResources.wizardAutoCorrectTitleMessage, autoCorrectTitleYes, null);
     });
 
     function filterChildCategories(row) {
@@ -215,7 +215,7 @@
                 previousDate = currentDate;
             }
         });
-        showNotification(Wizard.AutoCorrect.Date.Success);
+        showNotification(appResources.wizardAutoCorrectDateSuccess);
     }
     function autoCorrectTitleYes() {
         hideConfirm();
@@ -225,7 +225,7 @@
             let fieldVal = field.val();
             field.val(fieldVal.substring(0, 25));
         });
-        showNotification(Wizard.AutoCorrect.Title.Success);
+        showNotification(appResources.wizardAutoCorrectTitleSuccess);
     }
     // Adjust table height for fullscreen mode
     function adjustTableHeight() {

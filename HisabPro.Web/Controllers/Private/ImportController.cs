@@ -1,5 +1,6 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -60,7 +61,7 @@ namespace HisabPro.Web.Controllers.Private
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (extension != ".xls" && extension != ".xlsx")
                 {
-                    response.Message = AppConst.ApiMessage.ImportFileAllowedExtensions;
+                    response.Message = SharedResource.LabelApiImportFileAllowedExtensions;
                 }
 
                 // Extract original file name and extension
@@ -88,12 +89,12 @@ namespace HisabPro.Web.Controllers.Private
                 }
 
                 response.StatusCode = HttpStatusCode.OK;
-                response.Message = AppConst.ApiMessage.ImportSuccess;
+                response.Message = SharedResource.LabelApiImportSuccess;
                 response.Response = new { FileName = newFileName };
             }
             else
             {
-                response.Message = AppConst.ApiMessage.ImportFileRequired;
+                response.Message = SharedResource.LabelApiImportFileRequired;
             }
 
             return StatusCode((int)response.StatusCode, response);

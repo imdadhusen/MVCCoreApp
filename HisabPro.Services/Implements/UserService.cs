@@ -2,6 +2,7 @@
 using Hisab.Tools.PasswordService;
 using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -44,7 +45,7 @@ namespace HisabPro.Services.Implements
         {
             var users = await _userRepo.GetAllWithChildrenAsync("Creator", "Modifier");
             var map = _mapper.Map<List<UserRes>>(users);
-            return new ResponseDTO<List<UserRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
+            return new ResponseDTO<List<UserRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
         }
         public async Task<PageDataRes<UserRes>> PageData(LoadDataRequest request)
         {
@@ -73,7 +74,7 @@ namespace HisabPro.Services.Implements
                 string link = activationLink.Replace("000", map.Token);
                 await _emailService.SendEmailAsync(EnumEmailTypes.ActivateAccount, req.Email, new { ActivationLink = link }); //new { FirstName = firstName, LastName = lastName }
             }
-            return new ResponseDTO<UserRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
+            return new ResponseDTO<UserRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, result);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -81,11 +82,11 @@ namespace HisabPro.Services.Implements
             var result = await _userRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiNotFound, result);
             }
         }
 
@@ -96,7 +97,7 @@ namespace HisabPro.Services.Implements
                 .FirstOrDefaultAsync();
             if (user == null || user.TokenExpiry < DateTime.UtcNow)
             {
-                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.UserActivateFailed, null);
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiUserActivateFailed, null);
             }
             else
             {
@@ -105,7 +106,7 @@ namespace HisabPro.Services.Implements
                 user.TokenExpiry = null;
                 var savedUser = await _userRepo.SaveAsync(user);
                 var map = _mapper.Map<UserRes>(savedUser);
-                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.UserActivate, map);
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiUserActivate, map);
             }
         }
 
@@ -113,13 +114,13 @@ namespace HisabPro.Services.Implements
         {
             if (request.UserId == null)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiUserNotFound, false);
             }
             var user = await _userRepo.GetByIdAsync(request.UserId);
 
             if (user == null)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.UserNotFound, false);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiUserNotFound, false);
             }
             //var map = new LoginRes()
             //{
@@ -139,7 +140,7 @@ namespace HisabPro.Services.Implements
                 bool isUnique = Argon2PasswordHelper.IsNewPasswordUnique(request.NewPassword, user.PasswordHash, user.PasswordSalt);
                 if (!isUnique)
                 {
-                    return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.PasswordShouldNotMatchCurrent, false);
+                    return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiPasswordShouldNotMatchCurrent, false);
                 }
                 else
                 {
@@ -152,7 +153,7 @@ namespace HisabPro.Services.Implements
                     await _userRepo.SaveAsync(user, true);
                 }
             }
-            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.PasswordUpdated, true);
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiPasswordUpdated, true);
         }
     }
 }

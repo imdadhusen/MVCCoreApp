@@ -138,6 +138,9 @@
   <data name="FieldAccount" xml:space="preserve">
     <value>ખાતું</value>
   </data>
+  <data name="FieldAmount" xml:space="preserve">
+    <value>રકમ</value>
+  </data>
   <data name="FieldBulkImport" xml:space="preserve">
     <value>બલ્ક ઇમ્પોર્ટ</value>
   </data>
@@ -148,16 +151,28 @@
     <value>તારીખ</value>
   </data>
   <data name="FieldEmail" xml:space="preserve">
-    <value>ઈમેઇલ સરનામું</value>
+    <value>ઈમેઇલ</value>
   </data>
   <data name="FieldFullName" xml:space="preserve">
     <value>સંપૂર્ણ નામ</value>
+  </data>
+  <data name="FieldGender" xml:space="preserve">
+    <value>જાતિ</value>
   </data>
   <data name="FieldIsActive" xml:space="preserve">
     <value>સક્રિય છે કે નહીં</value>
   </data>
   <data name="FieldIsStandard" xml:space="preserve">
     <value>સ્ટાન્ડર્ડ છે કે નહીં</value>
+  </data>
+  <data name="FieldMobile" xml:space="preserve">
+    <value>મોબાઇલ</value>
+  </data>
+  <data name="FieldName" xml:space="preserve">
+    <value>નામ</value>
+  </data>
+  <data name="FieldNote" xml:space="preserve">
+    <value>નોંધ</value>
   </data>
   <data name="FieldParentCategory" xml:space="preserve">
     <value>મુખ્ય શ્રેણી</value>
@@ -170,6 +185,12 @@
   </data>
   <data name="FieldSubCategory" xml:space="preserve">
     <value>ઉપશ્રેણી</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>શીર્ષક</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>પ્રકાર</value>
   </data>
   <data name="FieldUserRole" xml:space="preserve">
     <value>વપરાશકર્તાની ભૂમિકા</value>
@@ -218,6 +239,9 @@
   </data>
   <data name="LabelActivityReports" xml:space="preserve">
     <value>પ્રવૃત્તિ અહેવાલ</value>
+  </data>
+  <data name="LabelAdmin" xml:space="preserve">
+    <value>એડમિન</value>
   </data>
   <data name="LabelAnalytics" xml:space="preserve">
     <value>વિશ્લેષણ</value>
@@ -418,11 +442,17 @@
   <data name="LabelDeleteCategory" xml:space="preserve">
     <value>શ્રેણી દૂર કરો</value>
   </data>
+  <data name="LabelDeleteConfirm" xml:space="preserve">
+    <value>શું તમે ખરેખર કાઢી નાખવા માંગો છો?</value>
+  </data>
   <data name="LabelDeleteExpense" xml:space="preserve">
     <value>ખર્ચ દૂર કરો</value>
   </data>
   <data name="LabelDeleteIncome" xml:space="preserve">
     <value>આવક દૂર કરો</value>
+  </data>
+  <data name="LabelDeleteTitle" xml:space="preserve">
+    <value>રેકોર્ડ કાઢી નાખો</value>
   </data>
   <data name="LabelDeleteUser" xml:space="preserve">
     <value>વપરાશકર્તાને કાઢી નાખો</value>
@@ -761,6 +791,9 @@
   <data name="ValidationPasswordSalt" xml:space="preserve">
     <value>પાસવર્ડ સોલ્ટ 172 થી 200 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
   </data>
+  <data name="ValidationRequired" xml:space="preserve">
+    <value>{0} ફીલ્ડ જરૂરી છે.</value>
+  </data>
   <data name="ValidationRequiredEmail" xml:space="preserve">
     <value>ઈમેઇલ આવશ્યક છે.</value>
   </data>
@@ -772,5 +805,32 @@
   </data>
   <data name="ValidationUser" xml:space="preserve">
     <value>વપરાશકર્તાનું નામ 5 થી 20 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>
+  </data>
+  <data name="WizardAutoCorrectDateMessage" xml:space="preserve">
+    <value>તારીખો પહેલાંની પંક્તિની તારીખનો ઉપયોગ કરીને આપમેળે સુધારાશે.&lt;br/&gt;કૃપા કરીને ફેરફારોની સમીક્ષા કરો અને જરૂર હોય તો અપડેટ કરો.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;શું તમે ખરેખર ખાલી તારીખોને અગાઉની પંક્તિની તારીખથી આપમેળે સુધારવા માંગો છો?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectDateSuccess" xml:space="preserve">
+    <value>ખાલી તારીખ(ખો) આપમેળે સુધારાઈ ગઈ છે</value>
+  </data>
+  <data name="WizardAutoCorrectDateTitle" xml:space="preserve">
+    <value>આપમેળે તારીખ(ખો) સુધારો</value>
+  </data>
+  <data name="WizardAutoCorrectTitleMessage" xml:space="preserve">
+    <value>શીર્ષક આપમેળે (વધુમાં વધુ 25 અક્ષર) કાપી નાખવામાં આવશે અને મૂળ શીર્ષક નોંધ ક્ષેત્રમાં (વધુમાં વધુ 250 અક્ષર) સંગ્રહિત કરવામાં આવશે.&lt;br/&gt;કૃપા કરીને ફેરફારોની સમીક્ષા કરો અને જરૂરી હોય તો અપડેટ કરો.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;શું તમે ખરેખર શીર્ષકને આપમેળે 25 અક્ષર સુધી સુધારવા માંગો છો?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectTitleSuccess" xml:space="preserve">
+    <value>વિશાળ શીર્ષક આપમેળે સુધારવામાં આવ્યું છે</value>
+  </data>
+  <data name="WizardAutoCorrectTitleTitle" xml:space="preserve">
+    <value>આપમેળે શીર્ષક સુધારો</value>
+  </data>
+  <data name="WizardExtractError" xml:space="preserve">
+    <value>ફાઇલ ડેટા કાઢતી વખતે ભૂલ આવી</value>
+  </data>
+  <data name="WizardUploadError" xml:space="preserve">
+    <value>ફાઇલ અપલોડ દરમિયાન ભૂલ આવી</value>
+  </data>
+  <data name="WizardUploadNoFile" xml:space="preserve">
+    <value>આગળ વધતા પહેલા અપલોડ કરવા માટે કૃપા કરીને ફાઇલ પસંદ કરો</value>
   </data>
 </root>

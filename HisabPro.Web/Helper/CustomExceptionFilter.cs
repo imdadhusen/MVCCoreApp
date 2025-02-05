@@ -1,5 +1,5 @@
 ﻿using HisabPro.Common;
-using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -31,10 +31,10 @@ namespace HisabPro.Web.Helper
             }
             else
             {
-                string errorMessage = AppConst.ApiMessage.InternalError;
+                string errorMessage = SharedResource.LabelApiInternalError;
                 if (exception.InnerException != null && exception.InnerException.Message.ToUpper().Contains("DELETE"))
                 {
-                    errorMessage = AppConst.ApiMessage.ReferenceDeleteError;
+                    errorMessage = SharedResource.LabelApiReferenceDeleteError;
                 }
 
                 // Create a generic response

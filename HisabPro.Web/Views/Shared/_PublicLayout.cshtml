@@ -5,6 +5,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HisabPro</title>
+    <script>
+        var appResources = {
+            months: @Html.Raw(Json.Serialize(SharedResource.Months)),
+            delete: '@Html.Raw(Json.Serialize(SharedResource.LabelDelete))',
+            deleteConfirm: '@Html.Raw(Json.Serialize(SharedResource.LabelDeleteConfirm))',
+            deleteTitle: '@Html.Raw(Json.Serialize(SharedResource.LabelDeleteTitle))',
+            gridShowing: '@Html.Raw(Json.Serialize(SharedResource.LabelGridShowing))',
+            gridOutOf: '@Html.Raw(Json.Serialize(SharedResource.LabelGridShowingOutOf))',
+            noRecords: '@Html.Raw(Json.Serialize(SharedResource.LabelNoRecords))',
+            apiFailed: '@Html.Raw(Json.Serialize(SharedResource.LabelApiInternalError))',
+            wizardUploadNoFile: '@Html.Raw(Json.Serialize(SharedResource.WizardUploadNoFile))',
+            wizardUploadError: '@Html.Raw(Json.Serialize(SharedResource.WizardUploadError))',
+            wizardExtractError: '@Html.Raw(Json.Serialize(SharedResource.WizardExtractError))',
+            wizardAutoCorrectDateTitle: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectDateTitle))',
+            wizardAutoCorrectDateMessage: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectDateMessage))',
+            wizardAutoCorrectDateSuccess: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectDateSuccess))',
+            wizardAutoCorrectTitleTitle: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectTitleTitle))',
+            wizardAutoCorrectTitleMessage: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectTitleMessage))',
+            wizardAutoCorrectTitleSuccess: '@Html.Raw(Json.Serialize(SharedResource.WizardAutoCorrectTitleSuccess))',
+        }
+    </script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -19,14 +40,12 @@
     <script src="~/lib/bootstrap.min.js"></script>
     <script src="~/js/common.js"></script>
     <script src="~/js/gridview.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/notification.js"></script>
     <script src="~/js/modal-handlers.js"></script>
     <script src="~/js/confirm-handlers.js"></script>
     <script src="~/js/highlightRow.js"></script>
     <link rel="stylesheet" href="~/css/wizard.css" asp-append-version="true" />
     <script src="~/js/wizard.js" asp-append-version="true"></script>
-    <script src="~/js/messages.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/css/bootstrap-select.min.css">
     <script src="~/lib/bootstrap-select.min.js"></script>
 </head>
@@ -40,18 +59,21 @@
                 <div id="publicMenu">
                     <div class="d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "text-dark" : "")" asp-controller="Home" asp-action="Index">@SharedResource.LabelHome</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "About" ? "text-dark" : "")" asp-controller="Home" asp-action="About">@SharedResource.LabelAboutUs</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Contact" ? "text-dark" : "")" asp-controller="Home" asp-action="Contact">@SharedResource.LabelContact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">@SharedResource.LabelPrivacy</a>
-                            </li>
+                            @{
+                                var currentRoute = ViewContext.RouteData.Values["action"]?.ToString();
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Index" ? "text-dark" : "")" asp-controller="Home" asp-action="Index">@SharedResource.LabelHome</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "About" ? "text-dark" : "")" asp-controller="Home" asp-action="About">@SharedResource.LabelAboutUs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Contact" ? "text-dark" : "")" asp-controller="Home" asp-action="Contact">@SharedResource.LabelContact</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">@SharedResource.LabelPrivacy</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>

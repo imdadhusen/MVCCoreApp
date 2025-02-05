@@ -772,4 +772,64 @@ You can get more details</value>
   <data name="LabelFilterStandard" xml:space="preserve">
     <value>Standard</value>
   </data>
+  <data name="LabelAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="LabelDeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
+  </data>
+  <data name="LabelDeleteTitle" xml:space="preserve">
+    <value>Delete Record</value>
+  </data>
+  <data name="WizardAutoCorrectDateMessage" xml:space="preserve">
+    <value>Dates will be automatically corrected using the date from the previous row.&lt;br/&gt;Please review the changes and update if necessary.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Are you sure you want to auto-correct the empty dates with the previous row's date?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectDateSuccess" xml:space="preserve">
+    <value>Empty date(s) has been auto corrected</value>
+  </data>
+  <data name="WizardAutoCorrectDateTitle" xml:space="preserve">
+    <value>Auto Correct Date(s)</value>
+  </data>
+  <data name="WizardAutoCorrectTitleMessage" xml:space="preserve">
+    <value>Title will be automatically truncated (upto 25 chars) and keep original title inside the Note field (upto 250 chars).&lt;br/&gt;Please review the changes and update if necessary.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Are you sure you want to auto-correct the title to take only 25 chars?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectTitleSuccess" xml:space="preserve">
+    <value>Large title has been auto corrected</value>
+  </data>
+  <data name="WizardAutoCorrectTitleTitle" xml:space="preserve">
+    <value>Auto Correct Title</value>
+  </data>
+  <data name="WizardExtractError" xml:space="preserve">
+    <value>An error occurred while extracting the file data</value>
+  </data>
+  <data name="WizardUploadError" xml:space="preserve">
+    <value>An error occurred during file upload</value>
+  </data>
+  <data name="WizardUploadNoFile" xml:space="preserve">
+    <value>Please select a file to upload before proceeding to the next step</value>
+  </data>
+  <data name="ValidationRequired" xml:space="preserve">
+    <value>{0} field is required.</value>
+  </data>
+  <data name="FieldAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="FieldGender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="FieldMobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="FieldName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FieldNote" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

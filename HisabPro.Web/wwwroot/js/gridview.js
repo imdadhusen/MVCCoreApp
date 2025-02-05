@@ -6,7 +6,7 @@
             actionLoad: 'Load',
             actionSave: 'Save',
             actionDelete: 'Delete',
-            titleDelete: 'Delete Record',
+            titleDelete: appResources.deleteTitle,
             allData: false,
             filter: {
                 enable: true,
@@ -164,7 +164,7 @@
                 }
                 else {
                     totalRecords = $table.find("table.table tbody tr").length;
-                    lblRecords.text(`Showing 1 - ${totalRecords} out of ${totalRecords}`);
+                    lblRecords.text(`${appResources.gridShowing} 1 - ${totalRecords} ${appResources.gridOutOf} ${totalRecords}`);
                 }
 
                 if (!settings.pagination.enable) {
@@ -239,10 +239,10 @@
                 if (totalRecords >= 1) {
                     startRecords = (currentPage - 1) * settings.pagination.pageSize + 1;
                     endRecords = Math.min(currentPage * settings.pagination.pageSize, totalRecords);
-                    lblRecords.text(`Showing ${startRecords} - ${endRecords} out of ${totalRecords}`);
+                    lblRecords.text(`${appResources.gridShowing} ${startRecords} - ${endRecords} ${appResources.gridOutOf} ${totalRecords}`);
                 }
                 else {
-                    lblRecords.text('No records found');
+                    lblRecords.text(appResources.noRecords);
                 }
             }
 

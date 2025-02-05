@@ -22,7 +22,7 @@
     function loadUI(action) {
         $(wizardContent).load(`/Import/${action}`, function (response, status, xhr) {
             if (status === "error") {
-                showError(Wizard.Extraction.Error);
+                showError(appResources.wizardExtractError);
             } else {
                 updateStepUI(currentStep);
             }
@@ -79,7 +79,7 @@
 
         // Check if a file is selected
         if (!file) {
-            showError(Wizard.FileUpload.NoFile)
+            showError(appResources.wizardUploadNoFile)
             currentStep = 1;
         }
         else {
@@ -101,7 +101,7 @@
     }
     function saveFileError(error) {
         toggleLoading();
-        var errorMessage = error.responseJSON ? error.responseJSON.message : Wizard.FileUpload.Error;
+        var errorMessage = error.responseJSON ? error.responseJSON.message : appResources.wizardUploadError;
         showError(errorMessage);
     }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -43,7 +44,7 @@ namespace HisabPro.Services.Implements
         {
             var categories = await _categoryRepo.GetAllAsync();
             var map = _mapper.Map<List<CategoryRes>>(categories);
-            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
+            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
         }
         public async Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request)
         {
@@ -65,18 +66,18 @@ namespace HisabPro.Services.Implements
             {
                 if (duplicates[0].IsStandard)
                 {
-                    throw new CustomValidationException(AppConst.ApiMessage.SameNameInStandardCategory);
+                    throw new CustomValidationException(SharedResource.LabelApiSameNameInStandardCategory);
                 }
                 else
                 {
-                    throw new CustomValidationException(AppConst.ApiMessage.DataWithSameName);
+                    throw new CustomValidationException(SharedResource.LabelApiDataWithSameName);
                 }
             }
 
             var category = _mapper.Map<Category>(req);
             var result = await _categoryRepo.SaveAsync(category);
             var map = _mapper.Map<CategoryRes>(result);
-            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, map);
+            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, map);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -84,11 +85,11 @@ namespace HisabPro.Services.Implements
             var result = await _categoryRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiNotFound, result);
             }
         }
 

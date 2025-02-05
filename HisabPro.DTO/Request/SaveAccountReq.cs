@@ -7,15 +7,21 @@ namespace HisabPro.DTO.Request
     public class SaveAccountReq
     {
         public int? Id { get; set; }
-        [Required]
+        
+        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
         [StringLength(FieldsSizeConst.Account.NameMax, MinimumLength = FieldsSizeConst.Account.NameMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationName))]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldName))]
         public string Name { get; set; }
+        
         [StringLength(FieldsSizeConst.Account.FullNameMax, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationFullName))]
         [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldFullName))]
         public string FullName { get; set; }
+        
         [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
         [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
+        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldMobile))]
         public string? Mobile { get; set; }
+        
         [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldIsActive))]
         public bool IsActive { get; set; }
     }
