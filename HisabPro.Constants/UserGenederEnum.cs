@@ -4,11 +4,11 @@ namespace HisabPro.Constants
 {
     public enum UserGenederEnum
     {
-        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderMale))]
+        [EnumText(ResourceKey.LabelGenderMale)]
         Male = 1,
-        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderFemale))]
+        [EnumText(ResourceKey.LabelGenderFemale)]
         Female = 2,
-        [EnumText(typeof(SharedResource), nameof(SharedResource.LabelGenderOther))]
+        [EnumText(ResourceKey.LabelGenderOther)]
         Other = 3,
     }
 }

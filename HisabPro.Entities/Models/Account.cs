@@ -10,13 +10,16 @@ namespace HisabPro.Entities.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [StringLength(FieldsSizeConst.Account.NameMax, MinimumLength = FieldsSizeConst.Account.NameMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationName))]
+
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [StringLength(FieldsSizeConst.Account.NameMax, MinimumLength = FieldsSizeConst.Account.NameMin, ErrorMessage = ResourceKey.ValidationName)]
         public string Name { get; set; }
-        [StringLength(FieldsSizeConst.Account.FullNameMax, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationFullName))]
+
+        [StringLength(FieldsSizeConst.Account.FullNameMax, ErrorMessage = ResourceKey.ValidationFullName)]
         public string FullName { get; set; }
-        [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
-        [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
+
+        [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessage = ResourceKey.ValidationMobile)]
+        [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = ResourceKey.ValidationMobile)]
         public string? Mobile { get; set; }
 
         public ICollection<Income> Incomes { get; set; }

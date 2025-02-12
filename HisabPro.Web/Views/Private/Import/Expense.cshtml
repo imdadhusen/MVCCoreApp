@@ -1,14 +1,15 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 @{
     Layout = "~/Views/Private/Import/_WizardLayout.cshtml";
-    ViewData["Title"] = SharedResource.LabelImportExpense;
-    ViewData["SectionHeader"] = SharedResource.LabelImportExpenseWizard;
-    ViewData["CardTitle"] = SharedResource.LabelExpense;
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelImportExpense);
+    ViewData["SectionHeader"] = _localizer.Get(ResourceKey.LabelImportExpenseWizard);
+    ViewData["CardTitle"] = _localizer.Get(ResourceKey.LabelExpense);
 }
 
 @section BodyInfo {
     <p class="text-muted mb-0">
         <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
-        @SharedResource.LabelImportExpenseMessage <a asp-controller="Import" asp-action="Expense">@SharedResource.LabelHere</a>.
+        @_localizer.Get(ResourceKey.LabelImportExpenseMessage) <a asp-controller="Import" asp-action="Expense">@_localizer.Get(ResourceKey.LabelHere)</a>.
     </p>
 }

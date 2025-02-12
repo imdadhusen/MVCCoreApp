@@ -7,39 +7,39 @@ namespace HisabPro.DTO.Request
     public class SaveExpenseReq
     {
         public int? Id { get; set; }
-        
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [StringLength(FieldsSizeCommonConst.TitleMax, MinimumLength = FieldsSizeCommonConst.TitleMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationTitle))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldTitle))]
+
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [StringLength(FieldsSizeCommonConst.TitleMax, MinimumLength = FieldsSizeCommonConst.TitleMin, ErrorMessage = ResourceKey.ValidationTitle)]
+        [Display(Name = ResourceKey.FieldTitle)]
         public string Title { get; set; }
-        
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [DataType(DataType.Date, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationDate))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldDate))]
+
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [DataType(DataType.Date, ErrorMessage = ResourceKey.ValidationDate)]
+        [Display(Name = ResourceKey.FieldDate)]
         public DateTime ExpenseOn { get; set; }
-        
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [Range(0, int.MaxValue, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationAmount))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldAmount))]
+
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [Range(0, int.MaxValue, ErrorMessage = ResourceKey.ValidationAmount)]
+        [Display(Name = ResourceKey.FieldAmount)]
         public double Amount { get; set; }
-        
-        [StringLength(FieldsSizeCommonConst.NoteMax, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationNote))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldNote))]
+
+        [StringLength(FieldsSizeCommonConst.NoteMax, ErrorMessage = ResourceKey.ValidationNote)]
+        [Display(Name = ResourceKey.FieldNote)]
         public string? Note { get; set; }
-        
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldIsActive))]
+
+        [Display(Name = ResourceKey.FieldIsActive)]
         public bool IsActive { get; set; } = true;
 
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldAccount))]
+        [Display(Name = ResourceKey.FieldAccount)]
         public int? AccountId { get; set; }
-        
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldCategory))]
+
+        [Display(Name = ResourceKey.FieldCategory)]
         public int? CategoryId { get; set; }
-        
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldSubCategory))]
+
+        [Display(Name = ResourceKey.FieldSubCategory)]
         public int? SubCategoryId { get; set; }
-        
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldBulkImport))]
+
+        [Display(Name = ResourceKey.FieldBulkImport)]
         public bool IsBulkImported { get; set; } = false;
     }
 }

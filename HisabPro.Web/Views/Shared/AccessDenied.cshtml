@@ -1,10 +1,11 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 @{
-    ViewData["Title"] = @SharedResource.LabelAccessDenied;
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelAccessDenied);
 }
 
-<h1 class="text-danger">@SharedResource.LabelAccessDenied</h1>
-<p class="text-danger">@SharedResource.LabelAccessDeniedMessage</p>
+<h1 class="text-danger">@_localizer.Get(ResourceKey.LabelAccessDenied)</h1>
+<p class="text-danger">@_localizer.Get(ResourceKey.LabelAccessDeniedMessage)</p>
 <p>
-    <a asp-area="" asp-controller="Home" asp-action="Index">@SharedResource.LabelGoToHome</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">@_localizer.Get(ResourceKey.LabelGoToHome)</a>
 </p>

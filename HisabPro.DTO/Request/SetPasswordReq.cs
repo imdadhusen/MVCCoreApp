@@ -6,27 +6,27 @@ namespace HisabPro.DTO.Request
 {
     public class SetPasswordReq
     {
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         public int UserId { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelNewPassword))]
-        [StringLength(100, MinimumLength = FieldsSizeConst.User.NewPasswordMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordNew))]
+        [Display(Name = ResourceKey.FieldNewPassword)]
+        [StringLength(100, MinimumLength = FieldsSizeConst.User.NewPasswordMin, ErrorMessage = ResourceKey.ValidationPasswordNew)]
         public string NewPassword { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelConfirmPassword))]
-        [Compare("NewPassword", ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationPasswordConfirm))]
+        [Display(Name = ResourceKey.FieldConfirmPassword)]
+        [Compare("NewPassword", ErrorMessage = ResourceKey.ValidationPasswordConfirm)]
         public string ConfirmPassword { get; set; }
     }
 
     public class ResetPasswordReq : SetPasswordReq
     {
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.LabelCurrentPassword))]
+        [Display(Name = ResourceKey.FieldCurrentPassword)]
         [Compare("NewPassword")]
         public string CurrentPassword { get; set; }
     }

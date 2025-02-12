@@ -7,22 +7,22 @@ namespace HisabPro.DTO.Request
     public class SaveAccountReq
     {
         public int? Id { get; set; }
-        
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [StringLength(FieldsSizeConst.Account.NameMax, MinimumLength = FieldsSizeConst.Account.NameMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationName))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldName))]
+
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [StringLength(FieldsSizeConst.Account.NameMax, MinimumLength = FieldsSizeConst.Account.NameMin, ErrorMessage = ResourceKey.ValidationName)]
+        [Display(Name = ResourceKey.FieldName)]
         public string Name { get; set; }
-        
-        [StringLength(FieldsSizeConst.Account.FullNameMax, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationFullName))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldFullName))]
+
+        [StringLength(FieldsSizeConst.Account.FullNameMax, ErrorMessage = ResourceKey.ValidationFullName)]
+        [Display(Name = ResourceKey.FieldFullName)]
         public string FullName { get; set; }
-        
-        [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
-        [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationMobile))]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldMobile))]
+
+        [StringLength(FieldsSizeCommonConst.Mobile.Len, MinimumLength = FieldsSizeCommonConst.Mobile.Len,  ErrorMessage = ResourceKey.ValidationMobile)]
+        [RegularExpression(FieldsSizeCommonConst.Mobile.RegEx, ErrorMessage = ResourceKey.ValidationMobile)]
+        [Display(Name = ResourceKey.FieldMobile)]
         public string? Mobile { get; set; }
-        
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldIsActive))]
+
+        [Display(Name = ResourceKey.FieldIsActive)]
         public bool IsActive { get; set; }
     }
 }

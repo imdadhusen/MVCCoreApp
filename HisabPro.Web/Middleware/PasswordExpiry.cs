@@ -21,23 +21,30 @@ namespace HisabPro.Web.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.User?.Identity?.IsAuthenticated == true)
+            try
             {
-                using var scope = _serviceProvider.CreateScope();
-                var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-
-                var id = _authService.GetCurrentUserId();
-                var user = await _userService.GetByIdAsync(id);
-
-                if (user != null)
+                if (context.User?.Identity?.IsAuthenticated == true)
                 {
-                    var daysSinceLastChange = user.PasswordChangedOn.HasValue ? (DateTime.UtcNow - user.PasswordChangedOn.Value).TotalDays : 0;
-                    if (daysSinceLastChange > _appSettings.User.MustChangePasswordInDays || user.MustChangePassword)
+                    using var scope = _serviceProvider.CreateScope();
+                    var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+
+                    var id = _authService.GetCurrentUserId();
+                    var user = await _userService.GetByIdAsync(id);
+
+                    if (user != null)
                     {
-                        context.Response.Redirect("/User/ForcePasswordChange");
-                        return;
+                        var daysSinceLastChange = user.PasswordChangedOn.HasValue ? (DateTime.UtcNow - user.PasswordChangedOn.Value).TotalDays : 0;
+                        if (daysSinceLastChange > _appSettings.User.MustChangePasswordInDays || user.MustChangePassword)
+                        {
+                            context.Response.Redirect("/User/ForcePasswordChange");
+                            return;
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+
             }
             await _next(context);
         }

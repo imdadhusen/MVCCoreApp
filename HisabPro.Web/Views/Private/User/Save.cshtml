@@ -1,11 +1,12 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 @model HisabPro.DTO.Request.SaveUserReq
 
 @{
     Layout = "~/Views/Shared/_EditLayout.cshtml";
-    ViewData["Title"] = SharedResource.LabelSaveUser;
-    ViewData["SectionHeader"] = SharedResource.LabelSaveUser;
-    ViewData["CardTitle"] = SharedResource.LabelSaveUser;
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelSaveUser);
+    ViewData["SectionHeader"] = _localizer.Get(ResourceKey.LabelSaveUser);
+    ViewData["CardTitle"] = _localizer.Get(ResourceKey.LabelSaveUser);
 }
 
 @section BodyContent {
@@ -59,10 +60,10 @@
 
         <div class="form-group m-t-10">
             <button class="btn btn-primary action-btn">
-                <i class="fas fa-save"></i> @SharedResource.LabelSave
+                <i class="fas fa-save"></i> @_localizer.Get(ResourceKey.LabelSave)
             </button>
             <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
-                <i class="fas fa-plus"></i> @SharedResource.LabelCreateNew
+                <i class="fas fa-plus"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
             </button>
         </div>
     </form>

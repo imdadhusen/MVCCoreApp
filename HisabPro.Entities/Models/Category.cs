@@ -10,12 +10,16 @@ namespace HisabPro.Entities.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationRequired))]
-        [StringLength(FieldsSizeCommonConst.CategoryMax, MinimumLength = FieldsSizeCommonConst.CategoryMin, ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = nameof(SharedResource.ValidationCategory))]
+        
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [StringLength(FieldsSizeCommonConst.CategoryMax, MinimumLength = FieldsSizeCommonConst.CategoryMin, ErrorMessage = ResourceKey.ValidationCategory)]
         public string Name { get; set; }
+        
         public int? ParentId { get; set; }
+        
         [ForeignKey("ParentId")]
         public virtual Category Parent { get; set; }
+        
         public int Type { get; set; } = 1; // Example values: "2:Income", "1:Expense"
         public bool IsStandard { get; set; } = false; // True for system-created, False for user-created
         public virtual ICollection<Category> SubCategories { get; set; }

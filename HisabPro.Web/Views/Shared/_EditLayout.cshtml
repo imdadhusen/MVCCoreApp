@@ -1,4 +1,5 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 @{ 
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
@@ -11,7 +12,7 @@
         </div>
         <div>
             <a asp-action="Index" class="btn btn-light btn-back border">
-                <i class="bi bi-arrow-left me-2"></i> @SharedResource.LabelBackToList
+                <i class="bi bi-arrow-left me-2"></i> @_localizer.Get(ResourceKey.LabelBackToList)
             </a>
         </div>
     </div>
@@ -23,7 +24,7 @@
         </div>
     </div>
     <div id="form-view" class="loading" style="display:none">
-        @SharedResource.LabelLoading
+        @_localizer.Get(ResourceKey.LabelLoading)
     </div>
 </div>
 

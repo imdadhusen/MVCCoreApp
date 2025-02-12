@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HisabPro.Constants;
 using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
@@ -19,11 +20,14 @@ namespace HisabPro.Web.Controllers.Private
         private readonly IIncomeService _incomeService;
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-        public IncomesController(IIncomeService incomeService, IAccountService accountService, IMapper mapper)
+        private readonly ISharedViewLocalizer _localizer;
+
+        public IncomesController(IIncomeService incomeService, IAccountService accountService, IMapper mapper, ISharedViewLocalizer localizer)
         {
             _incomeService = incomeService;
             _accountService = accountService;
             _mapper = mapper;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -33,28 +37,28 @@ namespace HisabPro.Web.Controllers.Private
             {
                 new FilterModel<string> {
                     FieldName = "Title",
-                    FieldTitle= SharedResource.LabelFieldTitle,
+                    FieldTitle= _localizer.Get(ResourceKey.FieldTitle),
                 },
                 new FilterModel<int> {
                     FieldName = "AccountId",
-                    FieldTitle= SharedResource.FieldAccount,
+                    FieldTitle= _localizer.Get(ResourceKey.FieldAccount),
                     Items =  _mapper.Map<List<IdNameAndRefId>>(accounts),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "IncomeOn",
-                    FieldTitle= SharedResource.LabelFilterDateRange
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterDateRange)
                 },
                 new FilterModel<string> {
                     FieldName = "Note",
-                    FieldTitle= SharedResource.LabelFieldNote,
+                    FieldTitle= _localizer.Get(ResourceKey.FieldNote),
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle= SharedResource.FieldIsActive
+                    FieldTitle= _localizer.Get(ResourceKey.FieldIsActive)
                 },
                 new FilterModel<bool> {
                     FieldName = "IsBulkImported",
-                    FieldTitle= SharedResource.LabelFilterBulkImported
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterBulkImported)
                 }
             };
 
@@ -106,14 +110,14 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Title", Title = SharedResource.LabelFieldTitle, Width = "170px"  },
-                    new Column() { Name = "IncomeOn", Title = SharedResource.FieldDate , Type = ColType.Date, Width = "100px" },
-                    new Column() { Name = "Amount", Title = SharedResource.LabelFieldAmount, Align = Align.Right, Width="95px" },
-                    new Column() { Name = "Category", Title = SharedResource.FieldCategory, Width = "140px" },
-                    new Column() { Name = "SubCategory", Title = SharedResource.FieldSubCategory, Width = "150px" },
-                    new Column() { Name = "Account", Title = SharedResource.FieldAccount, Width = "150px" },
-                    new Column() { Name = "IsBulkImported", Title= SharedResource.LabelColumnImport, Width = "90px", Type = ColType.Checkbox },
-                    new Column() { Name = "Note", Title = SharedResource.LabelFieldNote, IsSortable = false},
+                    new Column() { Name = "Title", Title = _localizer.Get(ResourceKey.FieldTitle), Width = "170px"  },
+                    new Column() { Name = "IncomeOn", Title = _localizer.Get(ResourceKey.FieldDate), Type = ColType.Date, Width = "100px" },
+                    new Column() { Name = "Amount", Title = _localizer.Get(ResourceKey.FieldAmount), Align = Align.Right, Width="95px" },
+                    new Column() { Name = "Category", Title = _localizer.Get(ResourceKey.FieldCategory), Width = "140px" },
+                    new Column() { Name = "SubCategory", Title = _localizer.Get(ResourceKey.FieldSubCategory), Width = "150px" },
+                    new Column() { Name = "Account", Title = _localizer.Get(ResourceKey.FieldAccount), Width = "150px" },
+                    new Column() { Name = "IsBulkImported", Title= _localizer.Get(ResourceKey.LabelColumnImport), Width = "90px", Type = ColType.Checkbox },
+                    new Column() { Name = "Note", Title = _localizer.Get(ResourceKey.FieldNote), IsSortable = false},
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };

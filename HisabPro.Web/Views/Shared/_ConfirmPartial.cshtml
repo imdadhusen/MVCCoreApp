@@ -1,17 +1,18 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">@SharedResource.LabelConfirmTitle</h5>
+                <h5 class="modal-title" id="confirmModalLabel">@_localizer.Get(ResourceKey.LabelConfirmTitle)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div id="confirmModalText" class="modal-body">
-                @SharedResource.LabelConfirmMessage
+                @_localizer.Get(ResourceKey.LabelConfirmMessage)
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedResource.LabelCancel</button>
-                <button type="button" class="btn btn-primary" id="confirmButton">@SharedResource.LabelConfirm</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@_localizer.Get(ResourceKey.LabelCancel)</button>
+                <button type="button" class="btn btn-primary" id="confirmButton">@_localizer.Get(ResourceKey.LabelConfirm)</button>
             </div>
         </div>
     </div>

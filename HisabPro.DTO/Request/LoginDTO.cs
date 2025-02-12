@@ -1,21 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using HisabPro.Constants;
 using HisabPro.Constants.Resources;
 
 namespace HisabPro.DTO.Request
 {
     public class LoginDTO
     {
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationRequiredEmail")]
-        [EmailAddress(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationInvalidEmail")]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldEmail))]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
+        [EmailAddress(ErrorMessage = ResourceKey.ValidationInvalidEmail)]
+        [Display(Name = ResourceKey.FieldEmail)]
         public required string Email { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(SharedResource), ErrorMessageResourceName = "ValidationRequiredPassword")]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldPassword))]
+        [Display(Name = ResourceKey.FieldPassword)]
         public required string Password { get; set; }
 
-        [Display(ResourceType = typeof(SharedResource), Name = nameof(SharedResource.FieldRememberMe))]
+        [Display(Name = ResourceKey.FieldRememberMe)]
         public bool RememberMe { get; set; }
     }
 }

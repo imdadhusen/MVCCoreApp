@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using HisabPro.Constants;
+using HisabPro.DTO;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
-using HisabPro.Web.Helper;
 
 namespace HisabPro.Web.MapperProfile
 {
@@ -15,14 +15,15 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<SaveUserReq, User>().ReverseMap();  // This will map User <-> SaveUser
             CreateMap<User, UserRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
-                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserRoleEnum)src.UserRole)))
-                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumHelper.GetEnumText((UserGenederEnum)src.Gender)));
+                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom<LocalizedEnumResolver<User, UserRoleEnum>>())
+                .ForMember(dest => dest.GenderName, opt => opt.MapFrom<LocalizedEnumResolver<User, UserGenederEnum>>()); //(src => EnumHelper.GetLocalizedEnumText((UserGenederEnum)src.Gender, _localizer)));
 
             CreateMap<SaveCategoryReq, Category>().ReverseMap();
             CreateMap<Category, CategoryRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.Name : null))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumHelper.GetEnumText((EnumCategoryType)src.Type)))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom<LocalizedEnumResolver<Category, EnumCategoryType>>())
+                //--.ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumHelper.GetLocalizedEnumText((EnumCategoryType)src.Type, _localizer)))
                 .ForMember(dest => dest.SubCategories, opt => opt.MapFrom(src => src.SubCategories));
 
             CreateMap<SaveAccountReq, Account>().ReverseMap();  // This will map Account <-> SaveAccount
@@ -54,12 +55,13 @@ namespace HisabPro.Web.MapperProfile
                 .ForMember(dest => dest.FailedLoginAttempts, opt => opt.MapFrom(src => src.FailedLoginAttempts))
                 .ForMember(dest => dest.LockoutEnd, opt => opt.MapFrom(src => src.LockoutEnd));
 
-        CreateMap<IdNameRes, IdNameAndRefId>();
+            CreateMap<IdNameRes, IdNameAndRefId>();
             CreateMap<SubCategoryRes, IdNameAndRefId>()
                 .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.CategoryId));
 
             CreateMap<Category, IdNameAndRefId>()
                  .ForMember(dest => dest.RefId, opt => opt.MapFrom(src => src.ParentId));
+
         }
     }
 }

@@ -15,32 +15,33 @@ using ColType = HisabPro.Web.ViewModel.Type;
 namespace HisabPro.Web.Controllers.Private
 {
     [Authorize]
-    public class CategoryController(ICategoryService categoryService, IMapper mapper) : Controller
+    public class CategoryController(ICategoryService categoryService, IMapper mapper, ISharedViewLocalizer localizer) : Controller
     {
         private readonly ICategoryService _categoryService = categoryService;
         private readonly IMapper _mapper = mapper;
+        private readonly ISharedViewLocalizer _localizer = localizer;
 
         public async Task<IActionResult> Index()
         {
-            var types = EnumHelper.ToIdNameList<EnumCategoryType>();
+            var types = EnumHelper.ToIdNameList<EnumCategoryType>(_localizer);
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
                     FieldName = "Name",
-                    FieldTitle = SharedResource.LabelFieldName
+                    FieldTitle = _localizer.Get(ResourceKey.FieldName)
                 },
                 new FilterModel<int> {
                     FieldName = "Type",
-                    FieldTitle = SharedResource.LabelFieldType,
+                    FieldTitle = _localizer.Get(ResourceKey.FieldType),
                     Items = _mapper.Map<List<IdNameAndRefId>>(types),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle= SharedResource.LabelFilterCreatedDateRange
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterCreatedDateRange)
                 },
                 new FilterModel<bool> {
                     FieldName = "IsStandard",
-                    FieldTitle= SharedResource.LabelFilterStandard
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterStandard)
                 }
             };
             var req = new LoadDataRequest() { Filters = filters };
@@ -86,7 +87,7 @@ namespace HisabPro.Web.Controllers.Private
             //Allow parent category to select type 
             if (model.Id == null && model.ParentId == null)
             {
-                var types = EnumHelper.ToIdNameList<EnumCategoryType>();
+                var types = EnumHelper.ToIdNameList<EnumCategoryType>(_localizer);
                 ViewData["Types"] = types;
             }
             return View(model);
@@ -116,11 +117,11 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<CategoryRes>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                new Column() { Name = "Name", Title = SharedResource.LabelFieldName  },
-                new Column() { Name = "Type", Title = SharedResource.LabelFieldType, Width="140px" },
-                new Column() { Name = "IsStandard", Title = SharedResource.LabelFilterStandard, Width="120px", Type = ColType.Checkbox },
-                new Column() { Name = "IsActive", Title = SharedResource.LabelColumnActive, Width="120px", Type = ColType.Checkbox },
-                new Column() { Name = "CreatedOn", Title = SharedResource.LabelColumnCreatedOn, Type = ColType.Date, Width = "130px" },
+                new Column() { Name = "Name", Title = _localizer.Get(ResourceKey.FieldName) },
+                new Column() { Name = "Type", Title = _localizer.Get(ResourceKey.FieldType), Width="140px" },
+                new Column() { Name = "IsStandard", Title = _localizer.Get(ResourceKey.LabelFilterStandard), Width="120px", Type = ColType.Checkbox },
+                new Column() { Name = "IsActive", Title = _localizer.Get(ResourceKey.LabelColumnActive), Width="120px", Type = ColType.Checkbox },
+                new Column() { Name = "CreatedOn", Title = _localizer.Get(ResourceKey.LabelColumnCreatedOn), Type = ColType.Date, Width = "130px" },
                 new Column() { Name = "Edit", Type = ColType.Edit},
                 new Column() { Name = "Delete", Type = ColType.Delete}
             };

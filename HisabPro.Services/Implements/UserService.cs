@@ -24,14 +24,16 @@ namespace HisabPro.Services.Implements
         private readonly IMapper _mapper;
         private readonly EmailService _emailService;
         private readonly AppSettings _appSettings;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings)
+        public UserService(UpdateRepository<User, UserRes> updateRepo, IMapper mapper, IRepository<User> userRepo, EmailService emailService, IOptions<AppSettings> appSettings, ISharedViewLocalizer localizer)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _userRepo = userRepo;
             _emailService = emailService;
             _appSettings = appSettings.Value;
+            _localizer = localizer;
         }
 
         public async Task<SaveUserReq> GetByIdAsync(int id)
@@ -45,7 +47,7 @@ namespace HisabPro.Services.Implements
         {
             var users = await _userRepo.GetAllWithChildrenAsync("Creator", "Modifier");
             var map = _mapper.Map<List<UserRes>>(users);
-            return new ResponseDTO<List<UserRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
+            return new ResponseDTO<List<UserRes>>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), map);
         }
         public async Task<PageDataRes<UserRes>> PageData(LoadDataRequest request)
         {
@@ -74,7 +76,7 @@ namespace HisabPro.Services.Implements
                 string link = activationLink.Replace("000", map.Token);
                 await _emailService.SendEmailAsync(EnumEmailTypes.ActivateAccount, req.Email, new { ActivationLink = link }); //new { FirstName = firstName, LastName = lastName }
             }
-            return new ResponseDTO<UserRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, result);
+            return new ResponseDTO<UserRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiSave), result);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -82,11 +84,11 @@ namespace HisabPro.Services.Implements
             var result = await _userRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiNotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiNotFound), result);
             }
         }
 
@@ -97,7 +99,7 @@ namespace HisabPro.Services.Implements
                 .FirstOrDefaultAsync();
             if (user == null || user.TokenExpiry < DateTime.UtcNow)
             {
-                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiUserActivateFailed, null);
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelActivationFailedTitle), null);
             }
             else
             {
@@ -106,7 +108,7 @@ namespace HisabPro.Services.Implements
                 user.TokenExpiry = null;
                 var savedUser = await _userRepo.SaveAsync(user);
                 var map = _mapper.Map<UserRes>(savedUser);
-                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiUserActivate, map);
+                return new ResponseDTO<UserRes?>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiUserActivate), map);
             }
         }
 
@@ -114,13 +116,13 @@ namespace HisabPro.Services.Implements
         {
             if (request.UserId == null)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiUserNotFound, false);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiUserNotFound), false);
             }
             var user = await _userRepo.GetByIdAsync(request.UserId);
 
             if (user == null)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiUserNotFound, false);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiUserNotFound), false);
             }
             //var map = new LoginRes()
             //{
@@ -140,7 +142,7 @@ namespace HisabPro.Services.Implements
                 bool isUnique = Argon2PasswordHelper.IsNewPasswordUnique(request.NewPassword, user.PasswordHash, user.PasswordSalt);
                 if (!isUnique)
                 {
-                    return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiPasswordShouldNotMatchCurrent, false);
+                    return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiPasswordShouldNotMatchCurrent), false);
                 }
                 else
                 {
@@ -153,7 +155,7 @@ namespace HisabPro.Services.Implements
                     await _userRepo.SaveAsync(user, true);
                 }
             }
-            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiPasswordUpdated, true);
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiPasswordUpdated), true);
         }
     }
 }

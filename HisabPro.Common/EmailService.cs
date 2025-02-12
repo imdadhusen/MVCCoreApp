@@ -11,12 +11,14 @@ namespace HisabPro.Common
         private readonly IConfiguration _configuration;
         private readonly string _templatesPath;
         private readonly AppSettings _appSettings;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public EmailService(IConfiguration configuration, AppSettings appSettings)
+        public EmailService(IConfiguration configuration, AppSettings appSettings, ISharedViewLocalizer localizer)
         {
             _configuration = configuration;
             _templatesPath = Path.Combine(Directory.GetCurrentDirectory(), AppConst.Configs.EmailTemplatesFolder);
             _appSettings = appSettings;
+            _localizer = localizer;
         }
 
         public async Task SendEmailAsync(EnumEmailTypes emailType, string toEmail, object placeholders)
@@ -25,12 +27,12 @@ namespace HisabPro.Common
             string emailTitle = "";
             if (emailType == EnumEmailTypes.ActivateAccount)
             {
-                emailTitle = SharedResource.LabelEmailActivationTitle;
+                emailTitle = _localizer.Get(ResourceKey.LabelEmailActivationTitle);
                 // Convert placeholders object to Dictionary for easy modification
                 var placeholderDict = placeholders.GetType().GetProperties().ToDictionary(p => p.Name, p => p.GetValue(placeholders));
                 // Add additional key values to placeholders
-                placeholderDict["EmailActivateAccountMessage"] = SharedResource.EmailActivateAccountMessage;
-                placeholderDict["EmailActivateAccountTitle"] = SharedResource.EmailActivateAccountTitle;
+                placeholderDict["EmailActivateAccountMessage"] = _localizer.Get(ResourceKey.EmailActivateAccountMessage);
+                placeholderDict["EmailActivateAccountTitle"] = _localizer.Get(ResourceKey.EmailActivateAccountTitle);
 
                 emailBody = await ReplacePlaceholders("ActivateAccount.html", placeholders, emailTitle);
             }
@@ -77,19 +79,19 @@ namespace HisabPro.Common
 
             layoutContent = layoutContent.Replace("{{CompanyLogo}}", string.Join("/", _appSettings.ApiUrl, "icons/Logo.png"));
             layoutContent = layoutContent.Replace("{{Header}}", emailTitle);
-            layoutContent = layoutContent.Replace("{{EmailIfQuestion}}", SharedResource.EmailIfQuestion);
-            layoutContent = layoutContent.Replace("{{EmailAllRightsReserved}}", SharedResource.EmailAllRightsReserved);
+            layoutContent = layoutContent.Replace("{{EmailIfQuestion}}", _localizer.Get(ResourceKey.EmailIfQuestion));
+            layoutContent = layoutContent.Replace("{{EmailAllRightsReserved}}", _localizer.Get(ResourceKey.EmailAllRightsReserved));
             layoutContent = layoutContent.Replace("{{SupportEmail}}", _appSettings.SupportEmail);
             layoutContent = layoutContent.Replace("{{Year}}", DateTime.Now.ToString("yyyy"));
             layoutContent = layoutContent.Replace("{{PrivacyLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.PrivacyLinkAction));
             layoutContent = layoutContent.Replace("{{TermsLink}}", string.Join("", _appSettings.ApiUrl, _appSettings.TermsAndConditionLinkAction));
-            layoutContent = layoutContent.Replace("{{EmailPrivacyPolicy}}", SharedResource.EmailPrivacyPolicy);
-            layoutContent = layoutContent.Replace("{{EmailTermsOfService}}", SharedResource.EmailTermsOfService);
+            layoutContent = layoutContent.Replace("{{EmailPrivacyPolicy}}", _localizer.Get(ResourceKey.EmailPrivacyPolicy));
+            layoutContent = layoutContent.Replace("{{EmailTermsOfService}}", _localizer.Get(ResourceKey.EmailTermsOfService));
 
             string templatePath = Path.Combine(_templatesPath, templateFileName);
 
             if (!File.Exists(templatePath))
-                throw new FileNotFoundException(string.Format(SharedResource.LabelEmailTemplateNotFound, templateFileName, _templatesPath));
+                throw new FileNotFoundException(string.Format(_localizer.Get(ResourceKey.LabelEmailTemplateNotFound), templateFileName, _templatesPath));
 
             string templateContent = await File.ReadAllTextAsync(templatePath);
 

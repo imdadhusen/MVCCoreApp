@@ -1,12 +1,13 @@
 ﻿<!-- Step 1 -->
+@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
 <div class="wizard-step" data-step="1">
-    <h4 class="mb-3">@SharedResource.LabelImportFileTitle</h4>
+    <h4 class="mb-3">@_localizer.Get(ResourceKey.LabelImportFileTitle)</h4>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="dataFile">@SharedResource.LabelImportFile</label>
+            <label for="dataFile">@_localizer.Get(ResourceKey.LabelImportFile)</label>
             <input type="file" class="form-control-file" id="dataFile" name="file" accept=".xls,.xlsx"  required>
         </div>
-        <button type="button" class="btn btn-primary next">@SharedResource.LabelNext</button>
+        <button type="button" class="btn btn-primary next">@_localizer.Get(ResourceKey.LabelNext)</button>
     </form>
 </div>

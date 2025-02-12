@@ -1,11 +1,12 @@
-﻿@using HisabPro.Constants.Resources;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
 @model ErrorDTO
 @{
-    ViewData["Title"] = SharedResource.LabelUnauthorized;
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelUnauthorized);
 }
 
-<h1 class="text-danger">@SharedResource.LabelUnauthorized</h1>
-<p class="text-danger">@SharedResource.LabelUnauthorizedMessage</p>
+<h1 class="text-danger">@_localizer.Get(ResourceKey.LabelUnauthorized)</h1>
+<p class="text-danger">@_localizer.Get(ResourceKey.LabelUnauthorizedMessage)</p>
 <p>
-    <a asp-area="" asp-controller="Home" asp-action="Index">@SharedResource.LabelGoToHome</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">@_localizer.Get(ResourceKey.LabelGoToHome)</a>
 </p>

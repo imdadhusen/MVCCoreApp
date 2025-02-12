@@ -13,19 +13,21 @@ namespace HisabPro.Repository
         private readonly IRepository<T> _repository;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public UpdateRepository(IRepository<T> repository, IMapper mapper, IUserContext userContext)
+        public UpdateRepository(IRepository<T> repository, IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer)
         {
             _repository = repository;
             _mapper = mapper;
             _userContext = userContext;
+            _localizer = localizer;
         }
         public async Task<TDto> SaveAsync(T entity, string name, int? id = null, bool useFallback = false)
         {
             // Check if Name already exists
             if (await _repository.ExistsAsync(name, id))
             {
-                throw new CustomValidationException(SharedResource.LabelApiDataWithSameName);
+                throw new CustomValidationException(_localizer.Get(ResourceKey.LabelApiDataWithSameName));
                 //throw new ValidationException(AppConst.ApiMessage.DataWithSameName);
             }
             else if (id.HasValue)

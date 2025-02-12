@@ -15,11 +15,13 @@ namespace HisabPro.Services.Implements
     {
         private readonly IRepository<Income> _incomeRepo;
         private readonly IMapper _mapper;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public IncomeService(IMapper mapper, IRepository<Income> incomeRepo)
+        public IncomeService(IMapper mapper, IRepository<Income> incomeRepo, ISharedViewLocalizer localizer)
         {
             _mapper = mapper;
             _incomeRepo = incomeRepo;
+            _localizer = localizer;
         }
 
         public async Task<SaveIncomeReq> GetByIdAsync(int id)
@@ -33,7 +35,7 @@ namespace HisabPro.Services.Implements
         {
             var accounts = await _incomeRepo.GetAllWithChildrenAsync("Account", "Category", "SubCategory"); //"Creator", "Modifier"
             var map = _mapper.Map<List<IncomeRes>>(accounts);
-            return new ResponseDTO<List<IncomeRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
+            return new ResponseDTO<List<IncomeRes>>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), map);
         }
         public async Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request)
         {
@@ -47,20 +49,20 @@ namespace HisabPro.Services.Implements
         {
             var map = _mapper.Map<List<Income>>(incomes);
             var result = await _incomeRepo.AddRangeAsync(map);
-            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataImportSuccess, new DataImportRes { TotalRecords = result });
+            return new ResponseDTO<DataImportRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataImportSuccess), new DataImportRes { TotalRecords = result });
         }
         public async Task<ResponseDTO<IncomeRes>> SaveAsync(SaveIncomeReq req)
         {
             var map = _mapper.Map<Income>(req);
             var result = await _incomeRepo.SaveAsync(map);
             var response = _mapper.Map<IncomeRes>(result);
-            return new ResponseDTO<IncomeRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, response);
+            return new ResponseDTO<IncomeRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiSave), response);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
         {
             var result = await _incomeRepo.DeleteAsync(id);
-            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
+            return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
         }
     }
 }

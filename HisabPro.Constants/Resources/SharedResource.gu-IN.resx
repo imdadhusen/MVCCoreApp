@@ -204,9 +204,6 @@
   <data name="LabelAccessDeniedMessage" xml:space="preserve">
     <value>તમને આ પાનું જોવા માટે પરવાનગી નથી.</value>
   </data>
-  <data name="LabelAccount" xml:space="preserve">
-    <value>ખાતું</value>
-  </data>
   <data name="LabelAccounts" xml:space="preserve">
     <value>ખાતાઓ</value>
   </data>
@@ -239,9 +236,6 @@
   </data>
   <data name="LabelActivityReports" xml:space="preserve">
     <value>પ્રવૃત્તિ અહેવાલ</value>
-  </data>
-  <data name="LabelAdmin" xml:space="preserve">
-    <value>એડમિન</value>
   </data>
   <data name="LabelAnalytics" xml:space="preserve">
     <value>વિશ્લેષણ</value>
@@ -309,9 +303,6 @@
   <data name="LabelApiUserActivate" xml:space="preserve">
     <value>વપરાશકર્તા સફળતાપૂર્વક સક્રિય થયો</value>
   </data>
-  <data name="LabelApiUserActivateFailed" xml:space="preserve">
-    <value>વપરાશકર્તા સક્રિયતા નિષ્ફળ થઈ</value>
-  </data>
   <data name="LabelApiUserDeactivate" xml:space="preserve">
     <value>વપરાશકર્તા સફળતાપૂર્વક નિષ્ક્રિય થયો</value>
   </data>
@@ -354,20 +345,11 @@
   <data name="LabelColumnActive" xml:space="preserve">
     <value>સક્રિય</value>
   </data>
-  <data name="LabelColumnAmount" xml:space="preserve">
-    <value>રકમ</value>
-  </data>
-  <data name="LabelColumnCategory" xml:space="preserve">
-    <value>શ્રેણી</value>
-  </data>
   <data name="LabelColumnCreatedBy" xml:space="preserve">
     <value>દ્વારા બનાવવામાં આવ્યું</value>
   </data>
   <data name="LabelColumnCreatedOn" xml:space="preserve">
     <value>બનાવેલી તારીખ</value>
-  </data>
-  <data name="LabelColumnDate" xml:space="preserve">
-    <value>તારીખ</value>
   </data>
   <data name="LabelColumnImport" xml:space="preserve">
     <value>આયાત</value>
@@ -375,19 +357,13 @@
   <data name="LabelColumnPerson" xml:space="preserve">
     <value>વ્યક્તિ</value>
   </data>
-  <data name="LabelColumnSubCategory" xml:space="preserve">
-    <value>ઉપશ્રેણી</value>
-  </data>
-  <data name="LabelColumnTitle" xml:space="preserve">
-    <value>શિર્ષક</value>
-  </data>
   <data name="LabelConfirm" xml:space="preserve">
     <value>નિશ્ચિત કરો</value>
   </data>
   <data name="LabelConfirmMessage" xml:space="preserve">
     <value>શું તમે આ ક્રિયાને આગળ વધારવા માટે ખાતરીમાં છો?</value>
   </data>
-  <data name="LabelConfirmPassword" xml:space="preserve">
+  <data name="FieldConfirmPassword" xml:space="preserve">
     <value>પાસવર્ડની પુષ્ટિ કરો</value>
   </data>
   <data name="LabelConfirmTitle" xml:space="preserve">
@@ -405,7 +381,7 @@
   <data name="LabelCreateNew" xml:space="preserve">
     <value>નવું બનાવો</value>
   </data>
-  <data name="LabelCurrentPassword" xml:space="preserve">
+  <data name="FieldCurrentPassword" xml:space="preserve">
     <value>વર્તમાન પાસવર્ડ</value>
   </data>
   <data name="LabelDashboard" xml:space="preserve">
@@ -484,29 +460,8 @@
   <data name="LabelExpenses" xml:space="preserve">
     <value>ખર્ચ</value>
   </data>
-  <data name="LabelFieldAccount" xml:space="preserve">
-    <value>ખાતું</value>
-  </data>
-  <data name="LabelFieldAmount" xml:space="preserve">
-    <value>રકમ</value>
-  </data>
   <data name="LabelFieldEmail" xml:space="preserve">
     <value>ઈમેલ</value>
-  </data>
-  <data name="LabelFieldMobile" xml:space="preserve">
-    <value>મોબાઇલ</value>
-  </data>
-  <data name="LabelFieldName" xml:space="preserve">
-    <value>નામ</value>
-  </data>
-  <data name="LabelFieldNote" xml:space="preserve">
-    <value>નોંધ</value>
-  </data>
-  <data name="LabelFieldTitle" xml:space="preserve">
-    <value>શીર્ષક</value>
-  </data>
-  <data name="LabelFieldType" xml:space="preserve">
-    <value>પ્રકાર</value>
   </data>
   <data name="LabelFilter" xml:space="preserve">
     <value>ફિલ્ટર્સ</value>
@@ -523,14 +478,8 @@
   <data name="LabelFilterCreatedDateRange" xml:space="preserve">
     <value>બનાવેલ તારીખ શ્રેણી</value>
   </data>
-  <data name="LabelFilterCreateNew" xml:space="preserve">
-    <value>નવું બનાવો</value>
-  </data>
   <data name="LabelFilterDateRange" xml:space="preserve">
     <value>તારીખ શ્રેણી</value>
-  </data>
-  <data name="LabelFilterGender" xml:space="preserve">
-    <value>લિંગ</value>
   </data>
   <data name="LabelFilterRole" xml:space="preserve">
     <value>ભૂમિકા</value>
@@ -641,6 +590,9 @@
   <data name="LabelIncomes" xml:space="preserve">
     <value>આવક</value>
   </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>ભાષા</value>
+  </data>
   <data name="LabelLoading" xml:space="preserve">
     <value>લોડ થઈ રહ્યું છે, કૃપા કરીને રાહ જુઓ...</value>
   </data>
@@ -653,7 +605,7 @@
   <data name="LabelMonthlyReports" xml:space="preserve">
     <value>માસિક અહેવાલ</value>
   </data>
-  <data name="LabelNewPassword" xml:space="preserve">
+  <data name="FieldNewPassword" xml:space="preserve">
     <value>નવો પાસવર્ડ</value>
   </data>
   <data name="LabelNext" xml:space="preserve">
@@ -740,9 +692,6 @@
   <data name="LabelUpdatePassword" xml:space="preserve">
     <value>પાસવર્ડ અપડેટ કરો</value>
   </data>
-  <data name="LabelUser" xml:space="preserve">
-    <value>વપરાશકર્તા</value>
-  </data>
   <data name="LabelUsers" xml:space="preserve">
     <value>વપરાશકર્તાઓ</value>
   </data>
@@ -793,12 +742,6 @@
   </data>
   <data name="ValidationRequired" xml:space="preserve">
     <value>{0} ફીલ્ડ જરૂરી છે.</value>
-  </data>
-  <data name="ValidationRequiredEmail" xml:space="preserve">
-    <value>ઈમેઇલ આવશ્યક છે.</value>
-  </data>
-  <data name="ValidationRequiredPassword" xml:space="preserve">
-    <value>પાસવર્ડ આવશ્યક છે.</value>
   </data>
   <data name="ValidationTitle" xml:space="preserve">
     <value>શીર્ષક 3 થી 25 અક્ષરોની વચ્ચે હોવું જોઈએ.</value>

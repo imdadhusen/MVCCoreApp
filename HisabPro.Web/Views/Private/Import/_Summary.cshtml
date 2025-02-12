@@ -1,12 +1,13 @@
 ﻿<!-- Step 3 -->
+@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @model HisabPro.Web.ViewModel.SummaryModel
 @using HisabPro.Constants.Resources;
 <div class="wizard-step" data-step="1">
-    <h4 class="mb-3">@SharedResource.LabelSummaryImported</h4>
+    <h4 class="mb-3">@_localizer.Get(ResourceKey.LabelSummaryImported)</h4>
     <div class="form-group center">
-        <div class="title">@SharedResource.LabelSummaryCongratulation</div>
-        <div class="total-records">@SharedResource.LabelSummaryTotalRecords: @Model.Records</div>
-        <div class="total-time">@SharedResource.LabelSummaryTotalTime: @Model.Seconds seconds</div><br /><br />
-        Note:<div class="note">@SharedResource.LabelSummaryNote <a id="dataList">@SharedResource.LabelHere</a></div>
+        <div class="title">@_localizer.Get(ResourceKey.LabelSummaryCongratulation)</div>
+        <div class="total-records">@_localizer.Get(ResourceKey.LabelSummaryTotalRecords): @Model.Records</div>
+        <div class="total-time">@_localizer.Get(ResourceKey.LabelSummaryTotalTime): @Model.Seconds seconds</div><br /><br />
+        Note:<div class="note">@_localizer.Get(ResourceKey.LabelSummaryNote) <a id="dataList">@_localizer.Get(ResourceKey.LabelHere)</a></div>
     </div>
 </div>

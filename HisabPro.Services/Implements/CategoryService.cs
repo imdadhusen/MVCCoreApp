@@ -19,12 +19,14 @@ namespace HisabPro.Services.Implements
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext)
+        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer)
         {
             _categoryRepo = categoryRepo;
             _mapper = mapper;
             _userContext = userContext;
+            _localizer = localizer;
         }
 
         public async Task<SaveCategoryReq> GetByIdAsync(int id)
@@ -44,7 +46,7 @@ namespace HisabPro.Services.Implements
         {
             var categories = await _categoryRepo.GetAllAsync();
             var map = _mapper.Map<List<CategoryRes>>(categories);
-            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDataRetrived, map);
+            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), map);
         }
         public async Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request)
         {
@@ -66,18 +68,18 @@ namespace HisabPro.Services.Implements
             {
                 if (duplicates[0].IsStandard)
                 {
-                    throw new CustomValidationException(SharedResource.LabelApiSameNameInStandardCategory);
+                    throw new CustomValidationException(_localizer.Get(ResourceKey.LabelApiSameNameInStandardCategory));
                 }
                 else
                 {
-                    throw new CustomValidationException(SharedResource.LabelApiDataWithSameName);
+                    throw new CustomValidationException(_localizer.Get(ResourceKey.LabelApiDataWithSameName));
                 }
             }
 
             var category = _mapper.Map<Category>(req);
             var result = await _categoryRepo.SaveAsync(category);
             var map = _mapper.Map<CategoryRes>(result);
-            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiSave, map);
+            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiSave), map);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -85,11 +87,11 @@ namespace HisabPro.Services.Implements
             var result = await _categoryRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, SharedResource.LabelApiDelete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, SharedResource.LabelApiNotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiNotFound), result);
             }
         }
 

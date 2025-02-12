@@ -18,23 +18,30 @@ namespace HisabPro.Web.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-            if (context.User.Identity != null)
+            try
             {
-                if (!context.User.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AppConst.Cookies.RememberMe, out var encryptedUserId))
+                using var scope = _serviceProvider.CreateScope();
+                var _userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+                if (context.User.Identity != null)
                 {
-                    var userId = EncryptionHelper.Decrypt(encryptedUserId);
-                    if (int.TryParse(userId, out var id))
+                    if (!context.User.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AppConst.Cookies.RememberMe, out var encryptedUserId))
                     {
-                        var user = await _userService.GetByIdAsync(id);
-                        if (user != null)
+                        var userId = EncryptionHelper.Decrypt(encryptedUserId);
+                        if (int.TryParse(userId, out var id))
                         {
-                            var map = _mapper.Map<LoginRes>(user);
-                            await _authService.SignInUser(map);
+                            var user = await _userService.GetByIdAsync(id);
+                            if (user != null)
+                            {
+                                var map = _mapper.Map<LoginRes>(user);
+                                await _authService.SignInUser(map);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
             await _next(context);
         }
