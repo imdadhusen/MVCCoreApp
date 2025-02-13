@@ -1,6 +1,5 @@
 ﻿using HisabPro.Constants;
 using HisabPro.DTO.Response;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -19,13 +18,6 @@ namespace HisabPro.Web.Helper
                 })
                 .ToList();
         }
-
-        //public static string GetEnumText(this Enum value)
-        //{
-        //    //var field = value.GetType().GetField(value.ToString());
-        //    //var attribute = field?.GetCustomAttribute<EnumTextAttribute>();
-        //    //return attribute?.get .GetLocalizedValue(); //attribute?.Text;
-        //}
 
         public static string GetLocalizedEnumText<T>(this T value, ISharedViewLocalizer _localizer) where T : Enum
         {

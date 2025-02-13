@@ -15,15 +15,14 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<SaveUserReq, User>().ReverseMap();  // This will map User <-> SaveUser
             CreateMap<User, UserRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
-                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom<LocalizedEnumResolver<User, UserRoleEnum>>())
-                .ForMember(dest => dest.GenderName, opt => opt.MapFrom<LocalizedEnumResolver<User, UserGenederEnum>>()); //(src => EnumHelper.GetLocalizedEnumText((UserGenederEnum)src.Gender, _localizer)));
+                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumGenederLocalization.Get(src.Gender)))
+                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumUserRoleLocalization.Get(src.UserRole)));
 
             CreateMap<SaveCategoryReq, Category>().ReverseMap();
             CreateMap<Category, CategoryRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.Name : null))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom<LocalizedEnumResolver<Category, EnumCategoryType>>())
-                //--.ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumHelper.GetLocalizedEnumText((EnumCategoryType)src.Type, _localizer)))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumCategoryTypeLocalization.Get(src.Type)))
                 .ForMember(dest => dest.SubCategories, opt => opt.MapFrom(src => src.SubCategories));
 
             CreateMap<SaveAccountReq, Account>().ReverseMap();  // This will map Account <-> SaveAccount

@@ -15,11 +15,20 @@ using ColType = HisabPro.Web.ViewModel.Type;
 namespace HisabPro.Web.Controllers.Private
 {
     [Authorize]
-    public class CategoryController(ICategoryService categoryService, IMapper mapper, ISharedViewLocalizer localizer) : Controller
+    public class CategoryController : Controller
     {
-        private readonly ICategoryService _categoryService = categoryService;
-        private readonly IMapper _mapper = mapper;
-        private readonly ISharedViewLocalizer _localizer = localizer;
+        private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
+        private readonly ISharedViewLocalizer _localizer;
+
+        public CategoryController(ICategoryService categoryService, IMapper mapper, ISharedViewLocalizer localizer)
+        {
+            _categoryService = categoryService;
+            _mapper = mapper;
+            _localizer = localizer;
+            //TODO: AutoMapper is not done through DI hence manually setting props.
+            setLocalizationForEnum();
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -126,6 +135,12 @@ namespace HisabPro.Web.Controllers.Private
                 new Column() { Name = "Delete", Type = ColType.Delete}
             };
             return await GridviewHelper.LoadGridDataStrongType(req, firstTimeLoad, _categoryService.PageData, columns);
+        }
+
+        private void setLocalizationForEnum()
+        {
+            EnumCategoryTypeLocalization.Expense = _localizer.Get(ResourceKey.LabelExpense);
+            EnumCategoryTypeLocalization.Income = _localizer.Get(ResourceKey.LabelIncome);
         }
     }
 }

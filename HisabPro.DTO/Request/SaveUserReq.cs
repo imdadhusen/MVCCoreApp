@@ -28,11 +28,11 @@ namespace HisabPro.DTO.Request
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
         [Display(Name = ResourceKey.FieldUserRole)]
-        public int UserRole { get; set; } = (int)UserRoleEnum.User;
+        public int UserRole { get; set; } = (int)EnumUserRole.User;
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
         [Display(Name = ResourceKey.FieldGender)]
-        public int Gender { get; set; } = (int)UserGenederEnum.Male;
+        public int Gender { get; set; } = (int)EnumGeneder.Male;
 
         public DateTime? PasswordChangedOn { get; set; }
 

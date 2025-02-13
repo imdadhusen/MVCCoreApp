@@ -9,9 +9,9 @@ namespace HisabPro.DTO.Response
         public string Name { get; set; }
         public string Mobile { get; set; }
         public string Email { get; set; }
-        public int UserRole { get; set; } = (int)UserRoleEnum.User;
+        public int UserRole { get; set; } = (int)EnumUserRole.User;
         public string UserRoleName { get; set; }
-        public int Gender { get; set; } = (int)UserGenederEnum.Male;
+        public int Gender { get; set; } = (int)EnumGeneder.Male;
         public string GenderName { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

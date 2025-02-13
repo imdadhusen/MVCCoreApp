@@ -26,10 +26,10 @@ namespace HisabPro.Entities.Models
         public string Mobile { get; set; }
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
-        public int UserRole { get; set; } = (int)UserRoleEnum.User;
+        public int UserRole { get; set; } = (int)EnumUserRole.User;
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
-        public int Gender { get; set; } = (int)UserGenederEnum.Male;
+        public int Gender { get; set; } = (int)EnumGeneder.Male;
 
         [StringLength(FieldsSizeConst.User.PasswordHashMax, MinimumLength = FieldsSizeConst.User.PasswordHashMin, ErrorMessage = ResourceKey.ValidationPasswordHash)]
         public string? PasswordHash { get; set; }

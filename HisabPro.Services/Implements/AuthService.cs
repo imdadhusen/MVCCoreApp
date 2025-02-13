@@ -19,7 +19,7 @@ namespace HisabPro.Services.Implements
 
         public List<Claim> GetClaims(LoginRes user)
         {
-            UserRoleEnum userRole = (UserRoleEnum)user.UserRole;
+            EnumUserRole userRole = (EnumUserRole)user.UserRole;
             // Create claims
             var claims = new List<Claim>
             {
@@ -31,11 +31,11 @@ namespace HisabPro.Services.Implements
             return claims;
         }
 
-        private string getRoleName(UserRoleEnum userRole)
+        private string getRoleName(EnumUserRole userRole)
         {
-            if (userRole == UserRoleEnum.SuperAdmin)
+            if (userRole == EnumUserRole.SuperAdmin)
                 return AuthorizePolicy.NameRoleSuperAdmin;
-            if (userRole == UserRoleEnum.Admin)
+            if (userRole == EnumUserRole.Admin)
                 return AuthorizePolicy.NameRoleAdmin;
             return AuthorizePolicy.NameRoleUser;
         }

@@ -53,7 +53,16 @@ namespace HisabPro.Services.Implements
             var data = _categoryRepo.GetAllDataWithSelfRefAsync(p => p.ParentId == null, "SubCategories");
             data = data.ApplyDynamicFilters(request.Filters);
             data = PageDataHelper.ApplySort(data, request.PageData);
-            var mappedData = _mapper.Map<List<CategoryRes>>(data);
+
+            List<CategoryRes> mappedData = new List<CategoryRes>();
+            try
+            {
+                mappedData = _mapper.Map<List<CategoryRes>>(data);
+            }
+            catch (Exception ex)
+            {
+
+            }
             return new PageDataRes<CategoryRes> { Data = mappedData };
         }
         public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req)

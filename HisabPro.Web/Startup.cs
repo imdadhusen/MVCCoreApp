@@ -64,7 +64,8 @@ namespace HisabPro
                 });
             // Configure localization options
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddAutoMapper(typeof(MappingProfile));
+            //services.AddTransient(typeof(LocalizedEnumResolver<,>));
+            //services.AddAutoMapper(typeof(MappingProfile));
             // Register custom localizer
             services.AddSingleton<ISharedViewLocalizer, SharedViewLocalizer>();
 

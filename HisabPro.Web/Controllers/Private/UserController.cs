@@ -36,6 +36,9 @@ namespace HisabPro.Web.Controllers.Private
             _mapper = mapper;
             _userContext = userContext;
             _localizer = localizer;
+
+            //TODO: AutoMapper is not done through DI hence manually setting props.
+            setLocalizationForEnum();
         }
 
         [AllowAnonymous]
@@ -94,8 +97,8 @@ namespace HisabPro.Web.Controllers.Private
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>(_localizer);
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>(_localizer);
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
@@ -140,11 +143,11 @@ namespace HisabPro.Web.Controllers.Private
         [Authorize]
         public async Task<IActionResult> Save(int? id)
         {
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>(_localizer);
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
             roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
 
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>(_localizer);
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
 
@@ -275,11 +278,11 @@ namespace HisabPro.Web.Controllers.Private
         public IActionResult Register()
         {
             // User can register with User role only and Admin/Super admin can assign appropriate role 
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>(_localizer).Where(r => r.Id == ((int)UserRoleEnum.User).ToString()).ToList();
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer).Where(r => r.Id == ((int)EnumUserRole.User).ToString()).ToList();
             roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
 
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>(_localizer);
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
 
@@ -292,7 +295,7 @@ namespace HisabPro.Web.Controllers.Private
         public async Task<IActionResult> Register([Bind("Name,Email,UserRole,Gender,Mobile")] SaveUserReq req)
         {
             // If user trying to set other role by injectting script then this will overwrite
-            req.UserRole = (int)UserRoleEnum.User;
+            req.UserRole = (int)EnumUserRole.User;
 
             var activationLink = Url.Action("ActivateUser", "User", new { Email = req.Email, Token = "000" }, Request.Scheme);
             var response = await _userService.SaveAsync(req, activationLink, true);
@@ -325,6 +328,17 @@ namespace HisabPro.Web.Controllers.Private
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             // Clear the "Remember Me" cookie
             Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+        }
+
+        private void setLocalizationForEnum()
+        {
+            EnumUserRoleLocalization.SuperAdmin = _localizer.Get(ResourceKey.LabelRoleSuperAdmin);
+            EnumUserRoleLocalization.Admin = _localizer.Get(ResourceKey.LabelRoleAdmin);
+            EnumUserRoleLocalization.User = _localizer.Get(ResourceKey.LabelRoleUser);
+
+            EnumGenederLocalization.Male = _localizer.Get(ResourceKey.LabelGenderMale);
+            EnumGenederLocalization.Female = _localizer.Get(ResourceKey.LabelGenderFemale);
+            EnumGenederLocalization.Other = _localizer.Get(ResourceKey.LabelGenderOther);
         }
     }
 }
