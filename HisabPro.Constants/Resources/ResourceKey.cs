@@ -4,8 +4,6 @@ namespace HisabPro.Constants.Resources
 {
     public class ResourceKey
     {
-        private static readonly CultureInfo _culture = CultureInfo.CurrentUICulture;
-
         public const string MessageWelcome = "MessageWelcome";
 
         public const string FieldEmail = "FieldEmail";
@@ -284,7 +282,7 @@ namespace HisabPro.Constants.Resources
         {
             get
             {
-                if (_culture.Name == "gu-IN")
+                if (CultureInfo.CurrentUICulture.Name == "gu-IN")
                     return ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "ઓગસ્ટ", "ઑક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"];
                 return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             }
