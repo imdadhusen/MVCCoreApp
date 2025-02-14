@@ -12,20 +12,4 @@ namespace HisabPro.Constants
         [EnumText(ResourceKey.LabelRoleUser)]
         User = 3
     }
-
-    public class EnumUserRoleLocalization
-    {
-        public static string SuperAdmin { get; set; }
-        public static string Admin { get; set; }
-        public static string User { get; set; }
-
-        public static string Get(int roleValue)
-        {
-            if (roleValue == 1)
-                return SuperAdmin;
-            if (roleValue == 2)
-                return Admin;
-            return User;
-        }
-    }
 }

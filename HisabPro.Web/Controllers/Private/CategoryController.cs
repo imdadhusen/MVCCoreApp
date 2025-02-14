@@ -26,8 +26,8 @@ namespace HisabPro.Web.Controllers.Private
             _categoryService = categoryService;
             _mapper = mapper;
             _localizer = localizer;
-            //TODO: AutoMapper is not done through DI hence manually setting props.
-            setLocalizationForEnum();
+            // Configure generic helper for Enum
+            EnumLocalizationHelper.Configure(_localizer);
         }
 
         public async Task<IActionResult> Index()
@@ -135,12 +135,6 @@ namespace HisabPro.Web.Controllers.Private
                 new Column() { Name = "Delete", Type = ColType.Delete}
             };
             return await GridviewHelper.LoadGridDataStrongType(req, firstTimeLoad, _categoryService.PageData, columns);
-        }
-
-        private void setLocalizationForEnum()
-        {
-            EnumCategoryTypeLocalization.Expense = _localizer.Get(ResourceKey.LabelExpense);
-            EnumCategoryTypeLocalization.Income = _localizer.Get(ResourceKey.LabelIncome);
         }
     }
 }

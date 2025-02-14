@@ -37,8 +37,8 @@ namespace HisabPro.Web.Controllers.Private
             _userContext = userContext;
             _localizer = localizer;
 
-            //TODO: AutoMapper is not done through DI hence manually setting props.
-            setLocalizationForEnum();
+            // Configure generic helper for Enum
+            EnumLocalizationHelper.Configure(_localizer);
         }
 
         [AllowAnonymous]
@@ -328,17 +328,6 @@ namespace HisabPro.Web.Controllers.Private
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             // Clear the "Remember Me" cookie
             Response.Cookies.Delete(AppConst.Cookies.RememberMe);
-        }
-
-        private void setLocalizationForEnum()
-        {
-            EnumUserRoleLocalization.SuperAdmin = _localizer.Get(ResourceKey.LabelRoleSuperAdmin);
-            EnumUserRoleLocalization.Admin = _localizer.Get(ResourceKey.LabelRoleAdmin);
-            EnumUserRoleLocalization.User = _localizer.Get(ResourceKey.LabelRoleUser);
-
-            EnumGenederLocalization.Male = _localizer.Get(ResourceKey.LabelGenderMale);
-            EnumGenederLocalization.Female = _localizer.Get(ResourceKey.LabelGenderFemale);
-            EnumGenederLocalization.Other = _localizer.Get(ResourceKey.LabelGenderOther);
         }
     }
 }

@@ -9,17 +9,4 @@ namespace HisabPro.Constants
         [EnumText(ResourceKey.LabelIncome)]
         Income = 2
     }
-
-    public class EnumCategoryTypeLocalization
-    {
-        public static string Expense { get; set; }
-        public static string Income { get; set; }
-
-        public static string Get(int roleValue)
-        {
-            if (roleValue == 1)
-                return Expense;
-            return Income;
-        }
-    }
 }

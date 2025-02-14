@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HisabPro.Constants;
-using HisabPro.DTO;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -15,14 +14,14 @@ namespace HisabPro.Web.MapperProfile
             CreateMap<SaveUserReq, User>().ReverseMap();  // This will map User <-> SaveUser
             CreateMap<User, UserRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
-                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumGenederLocalization.Get(src.Gender)))
-                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumUserRoleLocalization.Get(src.UserRole)));
+                .ForMember(dest => dest.GenderName, opt => opt.MapFrom(src => EnumLocalizationHelper.Get((EnumGeneder)src.Gender)))
+                .ForMember(dest => dest.UserRoleName, opt => opt.MapFrom(src => EnumLocalizationHelper.Get((EnumUserRole)src.UserRole)));
 
             CreateMap<SaveCategoryReq, Category>().ReverseMap();
             CreateMap<Category, CategoryRes>()
                 .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Creator.Name))
                 .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.Parent != null ? src.Parent.Name : null))
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumCategoryTypeLocalization.Get(src.Type)))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => EnumLocalizationHelper.Get((EnumCategoryType)src.Type)))
                 .ForMember(dest => dest.SubCategories, opt => opt.MapFrom(src => src.SubCategories));
 
             CreateMap<SaveAccountReq, Account>().ReverseMap();  // This will map Account <-> SaveAccount
