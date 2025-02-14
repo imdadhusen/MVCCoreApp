@@ -1,7 +1,9 @@
-﻿@model HisabPro.Web.ViewModel.LoginModel
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.LoginModel
 @{
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelLogin);
 }
 <div class="container">
     <div class="row">
@@ -11,7 +13,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <i class="bi bi-key me-2 fs-3"></i>
-                        <h5 class="mb-0 p-2">Login</h5>
+                        <h5 class="mb-0 p-2">@_localizer.Get(ResourceKey.LabelLogin)</h5>
                     </div>
                 </div>
                 <div class="grid-filter-body card-body">
@@ -40,15 +42,19 @@
                                 </div>
 
                                 <div class="d-flex justify-content-center gap-2">
-                                    <button type="button" class="btn btn-primary w-50" onclick="login()">Login</button>
-                                    <button type="button" class="btn btn-secondary w-50" onclick="register()">Register</button>
+                                    <button type="button" class="btn btn-primary w-50" onclick="login()">
+                                        @_localizer.Get(ResourceKey.LabelLogin)
+                                    </button>
+                                    <button type="button" class="btn btn-secondary w-50" onclick="register()">
+                                        @_localizer.Get(ResourceKey.LabelRegisterUser)
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div id="form-view" class="loading" style="display:none">
-                    Loading, please wait...
+                    @_localizer.Get(ResourceKey.LabelLoading)
                 </div>
             </div>
         </div>

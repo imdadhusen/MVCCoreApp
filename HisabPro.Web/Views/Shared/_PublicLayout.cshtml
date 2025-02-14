@@ -1,9 +1,32 @@
-﻿<!DOCTYPE html>
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HisabPro</title>
+    <script>
+        var appResources = {
+            months: @Html.Raw(Json.Serialize(ResourceKey.Months)),
+            delete: '@Html.Raw(_localizer.Get(ResourceKey.LabelDelete))',
+            deleteConfirm: '@Html.Raw(_localizer.Get(ResourceKey.LabelDeleteConfirm))',
+            deleteTitle: '@Html.Raw(_localizer.Get(ResourceKey.LabelDeleteTitle))',
+            gridShowing: '@Html.Raw(_localizer.Get(ResourceKey.LabelGridShowing))',
+            gridOutOf: '@Html.Raw(_localizer.Get(ResourceKey.LabelGridShowingOutOf))',
+            noRecords: '@Html.Raw(_localizer.Get(ResourceKey.LabelNoRecords))',
+            apiFailed: '@Html.Raw(_localizer.Get(ResourceKey.LabelApiInternalError))',
+            wizardUploadNoFile: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadNoFile))',
+            wizardUploadError: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadError))',
+            wizardExtractError: '@Html.Raw(_localizer.Get(ResourceKey.WizardExtractError))',
+            wizardAutoCorrectDateTitle: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateTitle))',
+            wizardAutoCorrectDateMessage: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateMessage))',
+            wizardAutoCorrectDateSuccess: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateSuccess))',
+            wizardAutoCorrectTitleTitle: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleTitle))',
+            wizardAutoCorrectTitleMessage: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleMessage))',
+            wizardAutoCorrectTitleSuccess: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleSuccess))',
+        }
+    </script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -18,14 +41,12 @@
     <script src="~/lib/bootstrap.min.js"></script>
     <script src="~/js/common.js"></script>
     <script src="~/js/gridview.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/notification.js"></script>
     <script src="~/js/modal-handlers.js"></script>
     <script src="~/js/confirm-handlers.js"></script>
     <script src="~/js/highlightRow.js"></script>
     <link rel="stylesheet" href="~/css/wizard.css" asp-append-version="true" />
     <script src="~/js/wizard.js" asp-append-version="true"></script>
-    <script src="~/js/messages.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/css/bootstrap-select.min.css">
     <script src="~/lib/bootstrap-select.min.js"></script>
 </head>
@@ -39,18 +60,30 @@
                 <div id="publicMenu">
                     <div class="d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "text-dark" : "")" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "About" ? "text-dark" : "")" asp-controller="Home" asp-action="About">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Contact" ? "text-dark" : "")" asp-controller="Home" asp-action="Contact">Contact</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
+                            @{
+                                var currentRoute = ViewContext.RouteData.Values["action"]?.ToString();
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Index" ? "text-dark" : "")" asp-controller="Home" asp-action="Index">@_localizer.Get(ResourceKey.LabelHome)</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "About" ? "text-dark" : "")" asp-controller="Home" asp-action="About">@_localizer.Get(ResourceKey.LabelAboutUs)</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Contact" ? "text-dark" : "")" asp-controller="Home" asp-action="Contact">@_localizer.Get(ResourceKey.LabelContact)</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentRoute == "Privacy" ? "text-dark" : "")" asp-area="" asp-controller="Home" asp-action="Privacy">@_localizer.Get(ResourceKey.LabelPrivacy)</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        🌐 @_localizer.Get(ResourceKey.LabelLanguage)
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+                                        <a class="dropdown-item lang-option" href="#" data-culture="en-US">English</a>
+                                        <a class="dropdown-item lang-option" href="#" data-culture="gu-IN">ગુજરાતી</a>
+                                    </div>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
@@ -63,22 +96,22 @@
                             string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Hello, @User.Identity.Name!
+                                    @_localizer.Get(ResourceKey.LabelHello), @User.Identity.Name!
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">
-                                        <i class="bi bi-window-split"></i> Dashboard
+                                        <i class="bi bi-window-split"></i> @_localizer.Get(ResourceKey.LabelDashboard)
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-controller="User" asp-action="Save" asp-route-id="@userId">
-                                        <i class="bi bi-person-fill"></i> Profile
+                                        <i class="bi bi-person-fill"></i> @_localizer.Get(ResourceKey.LabelProfile)
                                     </a>
                                     <a class="dropdown-item" asp-controller="User" asp-action="UpdatePassword">
-                                        <i class="bi bi-key"></i> Change Password
+                                        <i class="bi bi-key"></i> @_localizer.Get(ResourceKey.LabelChangePassword)
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-controller="User" asp-action="Logout">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        <i class="bi bi-box-arrow-right"></i> @_localizer.Get(ResourceKey.LabelLogout)
                                     </a>
                                 </div>
                             </li>
@@ -86,10 +119,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-controller="User" asp-action="Login">@_localizer.Get(ResourceKey.LabelLogin)</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="User" asp-action="Register">Register User</a>
+                                <a class="nav-link" asp-controller="User" asp-action="Register">@_localizer.Get(ResourceKey.LabelRegisterUser)</a>
                             </li>
                         }
                     </ul>
@@ -154,6 +187,20 @@
     <script>
         $(document).ready(function () {
             $("#year").text(new Date().getFullYear());
+
+            $(".lang-option").click(function (e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                var selectedCulture = $(this).data("culture");
+
+                $.post("/Home/SetLanguage", { culture: selectedCulture, returnUrl: window.location.pathname })
+                    .done(function () {
+                        location.reload(); // Reload the page to apply the new language
+                    })
+                    .fail(function () {
+                        alert("Error changing language. Please try again.");
+                    });
+            });
         })
     </script>
 </body>

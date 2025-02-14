@@ -1,11 +1,12 @@
-﻿@model ErrorDTO
-
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model ErrorDTO
 @{
-    ViewData["Title"] = "Unauthorized";
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelUnauthorized);
 }
 
-<h1 class="text-danger">Unauthorized</h1>
-<p class="text-danger">You are not authorized to view this page.</p>
+<h1 class="text-danger">@_localizer.Get(ResourceKey.LabelUnauthorized)</h1>
+<p class="text-danger">@_localizer.Get(ResourceKey.LabelUnauthorizedMessage)</p>
 <p>
-    <a asp-area="" asp-controller="Home" asp-action="Index">Go back to the home page</a>
+    <a asp-area="" asp-controller="Home" asp-action="Index">@_localizer.Get(ResourceKey.LabelGoToHome)</a>
 </p>

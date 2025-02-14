@@ -1,17 +1,15 @@
-﻿@using HisabPro.DTO.Response;
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.DTO.Response;
 @using System.Collections.Generic;
+@using HisabPro.Constants.Resources;
 @model HisabPro.DTO.Request.SaveCategoryReq
 
 @{
     Layout = "~/Views/Shared/_EditLayout.cshtml";
-    ViewData["Title"] = "Save Category";
-    ViewData["SectionHeader"] = "Save Category";
-    ViewData["CardTitle"] = "Save Category";
+    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelSaveCategory);
+    ViewData["SectionHeader"] = @_localizer.Get(ResourceKey.LabelSaveCategory);
+    ViewData["CardTitle"] = @_localizer.Get(ResourceKey.LabelSaveCategory);
 }
-
-@* @section BodyInfo {
-    <p class="text-muted mb-0"></p>
-} *@
 
 @section BodyContent {
     <form id="saveForm" asp-action="Save">
@@ -65,10 +63,10 @@
         </div>
         <div class="form-group m-t-10">
             <button class="btn btn-primary action-btn">
-                <i class="fas fa-save"></i> Save
+                <i class="fas fa-save"></i> @_localizer.Get(ResourceKey.LabelSave)
             </button>
             <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
-                <i class="fas fa-plus"></i> Create New
+                <i class="fas fa-plus"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
             </button>
         </div>
     </form>

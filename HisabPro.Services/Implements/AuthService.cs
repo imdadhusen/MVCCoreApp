@@ -19,16 +19,25 @@ namespace HisabPro.Services.Implements
 
         public List<Claim> GetClaims(LoginRes user)
         {
-            UserRoleEnum userRole = (UserRoleEnum)user.UserRole;
+            EnumUserRole userRole = (EnumUserRole)user.UserRole;
             // Create claims
             var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Name),
                 new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Role, userRole.GetText())
+                new(ClaimTypes.Role, getRoleName(userRole))
             };
             return claims;
+        }
+
+        private string getRoleName(EnumUserRole userRole)
+        {
+            if (userRole == EnumUserRole.SuperAdmin)
+                return AuthorizePolicy.NameRoleSuperAdmin;
+            if (userRole == EnumUserRole.Admin)
+                return AuthorizePolicy.NameRoleAdmin;
+            return AuthorizePolicy.NameRoleUser;
         }
 
         public async Task<string?> SignInUser(LoginRes user)

@@ -1,5 +1,6 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,10 +11,12 @@ namespace HisabPro.Web.Helper
     public class CustomExceptionFilter : IExceptionFilter
     {
         private readonly ILogger<CustomExceptionFilter> _logger;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger)
+        public CustomExceptionFilter(ILogger<CustomExceptionFilter> logger, ISharedViewLocalizer localizer)
         {
             _logger = logger;
+            _localizer = localizer;
         }
 
         public void OnException(ExceptionContext context)
@@ -31,10 +34,10 @@ namespace HisabPro.Web.Helper
             }
             else
             {
-                string errorMessage = AppConst.ApiMessage.InternalError;
+                string errorMessage = _localizer.Get(ResourceKey.LabelApiInternalError);
                 if (exception.InnerException != null && exception.InnerException.Message.ToUpper().Contains("DELETE"))
                 {
-                    errorMessage = AppConst.ApiMessage.ReferenceDeleteError;
+                    errorMessage = _localizer.Get(ResourceKey.LabelApiReferenceDeleteError);
                 }
 
                 // Create a generic response

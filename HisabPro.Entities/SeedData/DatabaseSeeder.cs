@@ -17,8 +17,8 @@ namespace HisabPro.Entities.SeedData
                 CreatedBy = 1,
                 PasswordHash = "1vMi372tmTXw2LgItnQRh9bvTS88Am8ob0wfInqrdBXIV+1sIdcsw4j+48P2rUP2Kyt+UazOik1Yoflvdx+EwQ==",
                 PasswordSalt = "xw6EbrRY1TTO1ef1Hclk4zFtWbfcHnTZgaw/K9+n05wYIKlaywZyRmn9VC0vGzklp1JaSQjtKoI0Wmf6FgUR4xbou/QJvqJlvzlYCLdrYbfXUyoLwdFJ90eNESfIHu8OfxGpzeKi8ceSEG6hieoEMnCp/wFnOogdGpz93pR1msU=",
-                UserRole = (int)UserRoleEnum.Admin,
-                Gender = (int)UserGenederEnum.Male,
+                UserRole = (int)EnumUserRole.Admin,
+                Gender = (int)EnumGeneder.Male,
                 Mobile = "9909544184"
             });
 

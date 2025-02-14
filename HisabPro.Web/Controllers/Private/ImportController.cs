@@ -1,5 +1,6 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -23,13 +24,15 @@ namespace HisabPro.Web.Controllers.Private
         private readonly ICategoryService _categoryService;
         private readonly IExpenseService _expenseService;
         private readonly IIncomeService _incomeService;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public ImportController(IAccountService accountService, ICategoryService categoryService, IExpenseService expenseService, IIncomeService incomeService)
+        public ImportController(IAccountService accountService, ICategoryService categoryService, IExpenseService expenseService, IIncomeService incomeService, ISharedViewLocalizer localizer)
         {
             _accountService = accountService;
             _categoryService = categoryService;
             _expenseService = expenseService;
             _incomeService = incomeService;
+            _localizer = localizer;
         }
 
         public async Task<ActionResult> Expense()
@@ -60,7 +63,7 @@ namespace HisabPro.Web.Controllers.Private
                 var extension = Path.GetExtension(file.FileName).ToLower();
                 if (extension != ".xls" && extension != ".xlsx")
                 {
-                    response.Message = AppConst.ApiMessage.ImportFileAllowedExtensions;
+                    response.Message = _localizer.Get(ResourceKey.LabelApiImportFileAllowedExtensions);
                 }
 
                 // Extract original file name and extension
@@ -88,12 +91,12 @@ namespace HisabPro.Web.Controllers.Private
                 }
 
                 response.StatusCode = HttpStatusCode.OK;
-                response.Message = AppConst.ApiMessage.ImportSuccess;
+                response.Message = _localizer.Get(ResourceKey.LabelApiImportSuccess);
                 response.Response = new { FileName = newFileName };
             }
             else
             {
-                response.Message = AppConst.ApiMessage.ImportFileRequired;
+                response.Message = _localizer.Get(ResourceKey.LabelApiImportFileRequired);
             }
 
             return StatusCode((int)response.StatusCode, response);

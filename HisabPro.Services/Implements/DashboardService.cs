@@ -1,5 +1,6 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
@@ -15,14 +16,17 @@ namespace HisabPro.Services.Implements
     {
         private readonly IRepository<Income> _incomeRepo;
         private readonly IRepository<Expense> _expenseRepo;
+        private readonly ISharedViewLocalizer _localizer;
         EnumFinanceYear financeYear;
-        public DashboardService(IRepository<Income> incomeRepo, IRepository<Expense> expenseRepo)
+
+        public DashboardService(IRepository<Income> incomeRepo, IRepository<Expense> expenseRepo, ISharedViewLocalizer localizer)
         {
             _incomeRepo = incomeRepo;
             _expenseRepo = expenseRepo;
 
             //TODO: This should be get it from user's setting instead hardcoded
             financeYear = EnumFinanceYear.Islamic;
+            _localizer = localizer;
         }
 
         public async Task<ResponseDTO<IncomeVsExpenseRes>> IncomeVsExpense(int accountId, int year)
@@ -57,7 +61,7 @@ namespace HisabPro.Services.Implements
             // Ensure all months exist in both lists
             DashboardHelper.EnsureAllMonthsExist(response, res => res.Income, res => res.Expense);
 
-            return new ResponseDTO<IncomeVsExpenseRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, response);
+            return new ResponseDTO<IncomeVsExpenseRes>(HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), response);
         }
 
         public async Task<ResponseDTO<IncomeVsCharityRes>> IncomeVsCharity(int accountId, int year)
@@ -94,7 +98,7 @@ namespace HisabPro.Services.Implements
             // Ensure all months exist in both lists
             DashboardHelper.EnsureAllMonthsExist(response, res => res.Income, res => res.Charity);
 
-            return new ResponseDTO<IncomeVsCharityRes>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, response);
+            return new ResponseDTO<IncomeVsCharityRes>(HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), response);
         }
 
         public async Task<ResponseDTO<List<WealthBreakdownRes>>> IncomeDistribution(int accountId, int year)
@@ -110,7 +114,7 @@ namespace HisabPro.Services.Implements
                     Amount = g.Sum(e => e.Amount)
                 })
                 .ToListAsync();
-            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, incomes);
+            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), incomes);
         }
 
         public async Task<ResponseDTO<List<WealthBreakdownRes>>> ExpenseDistribution(int accountId, int year)
@@ -127,7 +131,7 @@ namespace HisabPro.Services.Implements
                 })
                 .ToListAsync();
 
-            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, expenses);
+            return new ResponseDTO<List<WealthBreakdownRes>>(HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), expenses);
         }
     }
 }

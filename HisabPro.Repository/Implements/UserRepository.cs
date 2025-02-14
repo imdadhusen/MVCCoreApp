@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
 using Hisab.Tools.PasswordService;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Response;
 using HisabPro.Entities.Models;
 using HisabPro.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static HisabPro.Constants.AppConst;
 
 namespace HisabPro.Repository.Implements
 {
-    public class UserRepository(ApplicationDbContext context, IMapper mapper, AppSettings appSettings) : IUserRepository
+    public class UserRepository(ApplicationDbContext context, IMapper mapper, AppSettings appSettings, ISharedViewLocalizer localizer) : IUserRepository
     {
         public readonly ApplicationDbContext _context = context;
         private readonly IMapper _mapper = mapper;
         private readonly AppSettings _appSettings = appSettings;
+        private readonly ISharedViewLocalizer _localizer = localizer;
 
         public async Task<User?> GetUser(Expression<Func<User, bool>> predicate)
         {
@@ -39,11 +40,11 @@ namespace HisabPro.Repository.Implements
             var user = await GetUser(u => u.Email == email);
             if (user == null)
             {
-                response.Message = ApiMessage.LoginMsg.EMailNotFound;
+                response.Message = _localizer.Get(ResourceKey.LabelEmailNotFound);
             }
             else if (user.IsLockedOut)
             {
-                response.Message = ApiMessage.LoginMsg.AccountLocked;
+                response.Message = _localizer.Get(ResourceKey.LabelApiAccountLocked);
             }
             else
             {
@@ -56,17 +57,17 @@ namespace HisabPro.Repository.Implements
                     if (user.FailedLoginAttempts >= _appSettings.User.MaxLoginAttempts)
                     {
                         // Lock the account after 3 failed attempts
-                        response.Message = ApiMessage.LoginMsg.AccountLocked;
+                        response.Message = _localizer.Get(ResourceKey.LabelApiAccountLocked);
                         user.LockoutEnd = DateTime.UtcNow.AddMinutes(_appSettings.User.AccountLockedForMins); // Lock for 15 minutes
                     }
                     var attemptRemain = _appSettings.User.MaxLoginAttempts - user.FailedLoginAttempts;
                     if (attemptRemain > 0)
                     {
-                        response.Message = string.Format(ApiMessage.LoginMsg.InvalidAttempt, attemptRemain);
+                        response.Message = string.Format(_localizer.Get(ResourceKey.LabelApiInvalidAttempt), attemptRemain);
                     }
                     else
                     {
-                        response.Message = string.Format(ApiMessage.LoginMsg.AccountLockedWithUnlockTime, _appSettings.User.AccountLockedForMins);
+                        response.Message = string.Format(_localizer.Get(ResourceKey.LabelApiAccountLockedWithUnlockTime), _appSettings.User.AccountLockedForMins);
                     }
 
                     _context.Users.Update(user);
@@ -80,7 +81,7 @@ namespace HisabPro.Repository.Implements
                     await _context.SaveChangesWithAuditAsync(useFallback: true);
 
                     response.StatusCode = System.Net.HttpStatusCode.OK;
-                    response.Message = ApiMessage.LoginMsg.Success;
+                    response.Message = _localizer.Get(ResourceKey.LabelApiLoginSuccess);
                     response.Response = _mapper.Map<User, LoginRes>(user);
                 }
             }

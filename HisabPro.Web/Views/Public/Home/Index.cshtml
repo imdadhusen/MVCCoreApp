@@ -1,10 +1,12 @@
-﻿@{
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@{
     ViewData["Title"] = "Quick Glance";
 }
 
 <h1>@ViewData["Title"]</h1>
 <div class="text-center">
-    <h1 class="display-4">Welcome to Hisab Pro!</h1>
+    <h1 class="display-4">@_localizer.Get(ResourceKey.MessageWelcome)</h1>
     <p class="lead">This is a easy and quick way to find your spent and incomes for the various sources. You can also generate inteligent report to know where you spent more and how much?</p>
     <hr class="my-4">
     <p>This will help you to manage your financial welth and take rigth decision on right time.</p>

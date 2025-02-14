@@ -1,12 +1,18 @@
+using HisabPro.Constants;
 using HisabPro.DTO.Model;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace HisabPro.Web.Controllers.Public
 {
-    public class HomeController(ILogger<HomeController> logger) : Controller
+    public class HomeController : Controller
     {
         private readonly string sharedController = "/Views/Shared/{0}.cshtml";
+
+        public HomeController()
+        {
+        }
 
         public IActionResult Index()
         {
@@ -56,6 +62,28 @@ namespace HisabPro.Web.Controllers.Public
         public IActionResult AccessDenied()
         {
             return View(string.Format(sharedController, "AccessDenied"));
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
+                Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions
+                    {
+                        Expires = DateTimeOffset.UtcNow.AddYears(1),
+                        HttpOnly = false,
+                        Secure = false,
+                        IsEssential = true
+                    }
+                );
+            }
+            //return LocalRedirect(returnUrl);
+            return Json(new { success = true });
         }
     }
 }

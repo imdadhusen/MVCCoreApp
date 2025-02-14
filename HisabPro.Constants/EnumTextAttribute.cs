@@ -3,11 +3,11 @@
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class EnumTextAttribute : Attribute
     {
-        public string Text { get; }
+        public string ResourceKey { get; }
 
-        public EnumTextAttribute(string text)
+        public EnumTextAttribute(string resourceKey)
         {
-            Text = text;
+            ResourceKey = resourceKey;
         }
     }
 }

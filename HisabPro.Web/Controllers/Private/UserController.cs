@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hisab.CryptoService;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -25,14 +26,19 @@ namespace HisabPro.Web.Controllers.Private
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, IMapper mapper, IUserContext userContext)
+        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer)
         {
             _userRpository = userRpository;
             _authService = authService;
             _userService = userService;
             _mapper = mapper;
             _userContext = userContext;
+            _localizer = localizer;
+
+            // Configure generic helper for Enum
+            EnumLocalizationHelper.Configure(_localizer);
         }
 
         [AllowAnonymous]
@@ -91,32 +97,34 @@ namespace HisabPro.Web.Controllers.Private
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
-                    FieldName = "Name"
+                    FieldName = "Name",
+                    FieldTitle= _localizer.Get(ResourceKey.FieldName),
                 },
                  new FilterModel<string> {
-                    FieldName = "Email"
+                    FieldName = "Email",
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFieldEmail),
                 },
                 new FilterModel<int> {
                     FieldName = "UserRole",
-                    FieldTitle="Role",
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterRole),
                     Items = _mapper.Map<List<IdNameAndRefId>>(roles),
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle="Created Date Range"
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterCreatedDateRange)
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle="Is Active"
+                    FieldTitle= _localizer.Get(ResourceKey.FieldIsActive)
                 },
                 new FilterModel<int> {
                     FieldName = "Gender",
-                    FieldTitle="Gender",
+                    FieldTitle= _localizer.Get(ResourceKey.FieldGender),
                     Items = _mapper.Map<List<IdNameAndRefId>>(genders),
                 }
             };
@@ -135,11 +143,11 @@ namespace HisabPro.Web.Controllers.Private
         [Authorize]
         public async Task<IActionResult> Save(int? id)
         {
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>();
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
             roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
 
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
 
@@ -270,11 +278,11 @@ namespace HisabPro.Web.Controllers.Private
         public IActionResult Register()
         {
             // User can register with User role only and Admin/Super admin can assign appropriate role 
-            var roles = EnumHelper.ToIdNameList<UserRoleEnum>().Where(r => r.Id == ((int)UserRoleEnum.User).ToString()).ToList();
+            var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer).Where(r => r.Id == ((int)EnumUserRole.User).ToString()).ToList();
             roles.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserRole"] = new SelectList(roles, "Id", "Name");
 
-            var genders = EnumHelper.ToIdNameList<UserGenederEnum>();
+            var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
             genders.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
             ViewData["UserGender"] = new SelectList(genders, "Id", "Name");
 
@@ -287,7 +295,7 @@ namespace HisabPro.Web.Controllers.Private
         public async Task<IActionResult> Register([Bind("Name,Email,UserRole,Gender,Mobile")] SaveUserReq req)
         {
             // If user trying to set other role by injectting script then this will overwrite
-            req.UserRole = (int)UserRoleEnum.User;
+            req.UserRole = (int)EnumUserRole.User;
 
             var activationLink = Url.Action("ActivateUser", "User", new { Email = req.Email, Token = "000" }, Request.Scheme);
             var response = await _userService.SaveAsync(req, activationLink, true);
@@ -302,13 +310,13 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Name", Width = "140px"  },
-                    new Column() { Name = "Email", IsSortable = false},
-                    new Column() { Name = "Mobile", Width="120px" },
-                    new Column() { Name = "IsActive", Title = "Active", Width="90px", Type = ColType.Checkbox },
-                    new Column() { Name = "GenderName", Title="Gender", Width="90px" },
-                    new Column() { Name = "UserRoleName", Title = "Role", Width= "120px" },
-                    new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
+                    new Column() { Name = "Name", Title = _localizer.Get(ResourceKey.FieldName), Width = "140px"  },
+                    new Column() { Name = "Email", Title = _localizer.Get(ResourceKey.LabelFieldEmail), IsSortable = false},
+                    new Column() { Name = "Mobile", Title = _localizer.Get(ResourceKey.FieldMobile), Width="120px" },
+                    new Column() { Name = "IsActive", Title = _localizer.Get(ResourceKey.LabelColumnActive), Width="90px", Type = ColType.Checkbox },
+                    new Column() { Name = "GenderName", Title = _localizer.Get(ResourceKey.FieldGender), Width="90px" },
+                    new Column() { Name = "UserRoleName", Title = _localizer.Get(ResourceKey.LabelFilterRole), Width= "120px" },
+                    new Column() { Name = "CreatedOn", Title = _localizer.Get(ResourceKey.LabelColumnCreatedOn), Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };

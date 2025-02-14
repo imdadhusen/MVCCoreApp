@@ -7,7 +7,7 @@ namespace HisabPro.Web.ViewModel
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public LoginDTO Input { get; set; }
+        public required LoginDTO Input { get; set; }
 
         public string? ReturnUrl { get; set; }
 

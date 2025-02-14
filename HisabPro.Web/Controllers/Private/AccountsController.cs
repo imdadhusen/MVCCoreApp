@@ -1,4 +1,6 @@
-﻿using HisabPro.DTO.Model;
+﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
+using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
@@ -13,10 +15,12 @@ namespace HisabPro.Web.Controllers.Private
     public class AccountsController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IAccountService accountService, ISharedViewLocalizer localizer)
         {
             _accountService = accountService;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
@@ -24,18 +28,20 @@ namespace HisabPro.Web.Controllers.Private
             var filters = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
-                    FieldName = "Name"
+                    FieldName = "Name",
+                    FieldTitle = _localizer.Get(ResourceKey.FieldName)
                 },
                  new FilterModel<string> {
-                    FieldName = "Mobile"
+                    FieldName = "Mobile",
+                    FieldTitle = _localizer.Get(ResourceKey.FieldMobile)
                 },
                 new FilterModel<DateTime> {
                     FieldName = "CreatedOn",
-                    FieldTitle="Created Date Range"
+                    FieldTitle= _localizer.Get(ResourceKey.LabelFilterCreatedDateRange)
                 },
                 new FilterModel<bool> {
                     FieldName = "IsActive",
-                    FieldTitle="Is Active"
+                    FieldTitle= _localizer.Get(ResourceKey.FieldIsActive)
                 }
             };
             var req = new LoadDataRequest() { Filters = filters };
@@ -82,12 +88,12 @@ namespace HisabPro.Web.Controllers.Private
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
             var columns = new List<Column> {
-                    new Column() { Name = "Name", Width = "140px"  },
-                    new Column() { Name = "FullName", Title = "Full Name"},
-                    new Column() { Name = "Mobile", Width="120px" },
-                    new Column() { Name = "IsActive", Title = "Active", Width="90px", Type = ColType.Checkbox },
-                    new Column() { Name = "CreatedBy", Title = "Created By", Width= "170px" },
-                    new Column() { Name = "CreatedOn", Title ="Created On", Type = ColType.Date, Width = "130px" },
+                    new Column() { Name = "Name", Width = "140px", Title=_localizer.Get(ResourceKey.FieldName) },
+                    new Column() { Name = "FullName", Title = _localizer.Get(ResourceKey.FieldFullName)},
+                    new Column() { Name = "Mobile", Title=_localizer.Get(ResourceKey.FieldMobile), Width="120px" },
+                    new Column() { Name = "IsActive", Title = _localizer.Get(ResourceKey.LabelColumnActive), Width="90px", Type = ColType.Checkbox },
+                    new Column() { Name = "CreatedBy", Title = _localizer.Get(ResourceKey.LabelColumnCreatedBy), Width= "170px" },
+                    new Column() { Name = "CreatedOn", Title = _localizer.Get(ResourceKey.LabelColumnCreatedOn), Type = ColType.Date, Width = "130px" },
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };

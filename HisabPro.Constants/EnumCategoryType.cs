@@ -1,10 +1,12 @@
-﻿namespace HisabPro.Constants
+﻿using HisabPro.Constants.Resources;
+
+namespace HisabPro.Constants
 {
     public enum EnumCategoryType
     {
-        [EnumText(EnumLabel.Category.Expense)]
+        [EnumText(ResourceKey.LabelExpense)]
         Expense = 1,
-        [EnumText(EnumLabel.Category.Income)]
+        [EnumText(ResourceKey.LabelIncome)]
         Income = 2
     }
 }

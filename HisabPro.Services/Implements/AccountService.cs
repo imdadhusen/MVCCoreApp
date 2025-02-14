@@ -8,6 +8,7 @@ using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Interfaces;
 using HisabPro.Constants;
 using HisabPro.Services.Helper;
+using HisabPro.Constants.Resources;
 
 namespace HisabPro.Services.Implements
 {
@@ -16,12 +17,14 @@ namespace HisabPro.Services.Implements
         private readonly UpdateRepository<Account, AccountRes> _updateRepo;
         private readonly IRepository<Account> _accountRepo;
         private readonly IMapper _mapper;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public AccountService(UpdateRepository<Account, AccountRes> updateRepo, IMapper mapper, IRepository<Account> accountRepo)
+        public AccountService(UpdateRepository<Account, AccountRes> updateRepo, IMapper mapper, IRepository<Account> accountRepo, ISharedViewLocalizer localizer)
         {
             _updateRepo = updateRepo;
             _mapper = mapper;
             _accountRepo = accountRepo;
+            _localizer = localizer;
         }
 
         public async Task<SaveAccountReq> GetByIdAsync(int id)
@@ -35,7 +38,7 @@ namespace HisabPro.Services.Implements
         {
             var accounts = await _accountRepo.GetAllWithChildrenAsync("Creator", "Modifier");
             var map = _mapper.Map<List<AccountRes>>(accounts);
-            return new ResponseDTO<List<AccountRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
+            return new ResponseDTO<List<AccountRes>>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), map);
         }
         public async Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request)
         {
@@ -50,7 +53,7 @@ namespace HisabPro.Services.Implements
         {
             var map = _mapper.Map<Account>(req);
             var result = await _updateRepo.SaveAsync(map, req.Name, req.Id);
-            return new ResponseDTO<AccountRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, result);
+            return new ResponseDTO<AccountRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiSave), result);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -58,11 +61,11 @@ namespace HisabPro.Services.Implements
             var result = await _accountRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiNotFound), result);
             }
         }
 

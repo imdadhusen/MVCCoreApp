@@ -1,5 +1,6 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
-
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<object>
 @await Html.PartialAsync("../Shared/_Filter", Model.Filters)
 <div class="grid-wrapper">
     <table class="table table-hover sortable">
@@ -36,19 +37,19 @@
     <div class="grid-footer">
         <div class="grid-page-action">
             <button class="prev-page btn btn-primary flex-fill" @(Model.PageNumber <= 1 ? "disabled" : "")>
-                <i class="bi bi-arrow-left"></i> Previous
+                <i class="bi bi-arrow-left"></i> @_localizer.Get(ResourceKey.LabelPrevious)
             </button>
             @if (@Model.TotalRecords >= 1)
             {
                 var totalPages = ((Model.TotalRecords + Model.PageSize - 1) / Model.PageSize);
-                <span class="d-flex align-items-center mx-2">Page <input type="number" asp-for="@Model.PageNumber" class="current-page  form-control mx-2" min="1" max="@totalPages" /> of <span class="total-page">@totalPages</span></span>
+                <span class="d-flex align-items-center mx-2">@_localizer.Get(ResourceKey.LabelGridPage) <input type="number" asp-for="@Model.PageNumber" class="current-page  form-control mx-2" min="1" max="@totalPages" /> @_localizer.Get(ResourceKey.LabelGridPageOf) <span class="total-page">@totalPages</span></span>
             }
             else
             {
-                <span>Page 0 of 0</span>
+                <span>@_localizer.Get(ResourceKey.LabelGridNoRecords)</span>
             }
             <button class="next-page btn btn-primary flex-fill" @(Model.PageNumber * Model.PageSize >= Model.TotalRecords ? "disabled" : "")>
-                Next <i class="bi bi-arrow-right"></i>
+                @_localizer.Get(ResourceKey.LabelNext) <i class="bi bi-arrow-right"></i>
             </button>
         </div>
         <div class="grid-page-records text-end">
@@ -56,16 +57,16 @@
             {
                 var startRecord = (Model.PageNumber - 1) * Model.PageSize + 1;
                 var endRecord = Math.Min(startRecord + Model.PageSize - 1, Model.TotalRecords);
-                <span>Showing @startRecord - @endRecord out of @Model.TotalRecords</span>
+                <span>@_localizer.Get(ResourceKey.LabelGridShowing) @startRecord - @endRecord @_localizer.Get(ResourceKey.LabelGridShowingOutOf) @Model.TotalRecords</span>
             }
             else
             {
-                <span>No records found!</span>
+                <span>@_localizer.Get(ResourceKey.LabelNoRecords)</span>
             }
         </div>
     </div>
     <div class="grid-loading loading" style="display:none">
-        Loading, please wait...
+        @_localizer.Get(ResourceKey.LabelLoading)
     </div>
     @await Html.PartialAsync("~/Views/Shared/_ModalPartial.cshtml")
 </div>

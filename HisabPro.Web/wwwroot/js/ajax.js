@@ -49,7 +49,7 @@ function callApi(type, reqType, url, data, successCallback, successAdditionalDat
                     showNotification(xhr.responseJSON.message, 'danger');
                 }
                 else {
-                    showNotification(API.Faile, 'danger');
+                    showNotification(appResources.apiFailed, 'danger');
                 }
             }
         }

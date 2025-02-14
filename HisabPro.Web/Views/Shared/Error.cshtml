@@ -1,10 +1,12 @@
-﻿@model ErrorDTO
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model ErrorDTO
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelError);
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">@_localizer.Get(ResourceKey.LabelError)</h1>
+<h2 class="text-danger">@_localizer.Get(ResourceKey.LabelErrorMessage)</h2>
 
 @if (Model.ShowRequestId)
 {

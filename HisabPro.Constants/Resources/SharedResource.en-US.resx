@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FieldEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FieldPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="FieldRememberMe" xml:space="preserve">
+    <value>Remember me?</value>
+  </data>
+  <data name="LabelAboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="LabelAccessDenied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="LabelAccessDeniedMessage" xml:space="preserve">
+    <value>You do not have permission to view this page.</value>
+  </data>
+  <data name="LabelAccounts" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="LabelActivationFailed" xml:space="preserve">
+    <value>Activation Failed</value>
+  </data>
+  <data name="LabelActivationFailedMessage" xml:space="preserve">
+    <value>We're sorry, but your account activation could not be completed. This may have happened for one of the following reasons:</value>
+  </data>
+  <data name="LabelActivationFailedReason1" xml:space="preserve">
+    <value>The activation link has expired.</value>
+  </data>
+  <data name="LabelActivationFailedReason2" xml:space="preserve">
+    <value>The activation link has already been used.</value>
+  </data>
+  <data name="LabelActivationFailedReason3" xml:space="preserve">
+    <value>There was an issue processing your request.</value>
+  </data>
+  <data name="LabelActivationFailedTitle" xml:space="preserve">
+    <value>User Activation Failed</value>
+  </data>
+  <data name="LabelActivationHead" xml:space="preserve">
+    <value>Activation Successful</value>
+  </data>
+  <data name="LabelActivationMessage" xml:space="preserve">
+    <value>Congratulations! Your account has been successfully activated. To access your account, please set a password.</value>
+  </data>
+  <data name="LabelActivationTitle" xml:space="preserve">
+    <value>User Activation Successful</value>
+  </data>
+  <data name="LabelActivityReports" xml:space="preserve">
+    <value>Activity Reports</value>
+  </data>
+  <data name="LabelAnalytics" xml:space="preserve">
+    <value>Analytics</value>
+  </data>
+  <data name="LabelAnnualReports" xml:space="preserve">
+    <value>Annual Reports</value>
+  </data>
+  <data name="LabelAutoCorrect" xml:space="preserve">
+    <value>Auto Correct</value>
+  </data>
+  <data name="LabelBackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="LabelCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LabelCategories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="LabelCategoryTitle" xml:space="preserve">
+    <value>Create Subcategory for '{0}'</value>
+  </data>
+  <data name="LabelChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="LabelCharity" xml:space="preserve">
+    <value>Charity</value>
+  </data>
+  <data name="LabelCheckEmail" xml:space="preserve">
+    <value>Check Your Email!</value>
+  </data>
+  <data name="LabelClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="LabelColumnPerson" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="LabelConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="LabelConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to proceed with this action?</value>
+  </data>
+  <data name="FieldConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="LabelConfirmTitle" xml:space="preserve">
+    <value>Confirm Action</value>
+  </data>
+  <data name="LabelContact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="LabelContactSupport" xml:space="preserve">
+    <value>Contact Support</value>
+  </data>
+  <data name="LabelContactSupportMessage" xml:space="preserve">
+    <value>If you need assistance, please contact our support team</value>
+  </data>
+  <data name="LabelCreateNew" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="LabelDashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="LabelDashboardAccount" xml:space="preserve">
+    <value>Choose an account to view statistics of</value>
+  </data>
+  <data name="LabelDashboardDescription" xml:space="preserve">
+    <value>This dashboard provides an overview of financial activities like incomes, expenses, and investments.</value>
+  </data>
+  <data name="LabelDashboardExpenseDistribution" xml:space="preserve">
+    <value>Expense Distribution</value>
+  </data>
+  <data name="LabelDashboardForYear" xml:space="preserve">
+    <value>for the year</value>
+  </data>
+  <data name="LabelDashboardIncomeDistribution" xml:space="preserve">
+    <value>Income Distribution</value>
+  </data>
+  <data name="LabelDashboardIncomeNCharity" xml:space="preserve">
+    <value>Income &amp; Charity</value>
+  </data>
+  <data name="LabelDashboardIncomeVsExpense" xml:space="preserve">
+    <value>Income vs Expense</value>
+  </data>
+  <data name="LabelDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="LabelDeleteAccount" xml:space="preserve">
+    <value>Delete Account</value>
+  </data>
+  <data name="LabelDeleteCategory" xml:space="preserve">
+    <value>Delete Category</value>
+  </data>
+  <data name="LabelDeleteExpense" xml:space="preserve">
+    <value>Delete Expense</value>
+  </data>
+  <data name="LabelDeleteIncome" xml:space="preserve">
+    <value>Delete Income</value>
+  </data>
+  <data name="LabelDeleteUser" xml:space="preserve">
+    <value>Delete User</value>
+  </data>
+  <data name="LabelEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="LabelEmailActivation" xml:space="preserve">
+    <value>We have sent you an account activation link. Please check your email to activate your account and set your password before logging in.</value>
+  </data>
+  <data name="LabelError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="LabelErrorMessage" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="LabelExpense" xml:space="preserve">
+    <value>Expense</value>
+  </data>
+  <data name="LabelExpenses" xml:space="preserve">
+    <value>Expenses</value>
+  </data>
+  <data name="LabelFilter" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="LabelFilterApplyFilter" xml:space="preserve">
+    <value>Apply Filter</value>
+  </data>
+  <data name="LabelFilterClearFilter" xml:space="preserve">
+    <value>Clear Filter</value>
+  </data>
+  <data name="LabelFilterSelected" xml:space="preserve">
+    <value>{0} Selected</value>
+  </data>
+  <data name="LabelGoToHome" xml:space="preserve">
+    <value>Go back to the home page</value>
+  </data>
+  <data name="LabelGridNoRecords" xml:space="preserve">
+    <value>Page 0 of 0</value>
+  </data>
+  <data name="LabelGridPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="LabelGridPageOf" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="LabelGridShowing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="LabelGridShowingOutOf" xml:space="preserve">
+    <value>out of</value>
+  </data>
+  <data name="LabelHello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="LabelHere" xml:space="preserve">
+    <value>here</value>
+  </data>
+  <data name="LabelHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="LabelImportExpense" xml:space="preserve">
+    <value>Import Expense</value>
+  </data>
+  <data name="LabelImportExpenseMessage" xml:space="preserve">
+    <value>If you would like to add multiple expenses from the Excel file,
+you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
+You can get more details</value>
+  </data>
+  <data name="LabelImportExpenseWizard" xml:space="preserve">
+    <value>Import Expense Wizard</value>
+  </data>
+  <data name="LabelImportExtractColumnDateCorrect" xml:space="preserve">
+    <value>Click to auto correct empty date(s)</value>
+  </data>
+  <data name="LabelImportExtractColumnTitleCorrect" xml:space="preserve">
+    <value>Click to auto correct large title to small</value>
+  </data>
+  <data name="LabelImportExtractMaximizeTable" xml:space="preserve">
+    <value>Maximize Table</value>
+  </data>
+  <data name="LabelImportExtractResetTable" xml:space="preserve">
+    <value>Reset Table</value>
+  </data>
+  <data name="LabelImportExtractTitle" xml:space="preserve">
+    <value>Verify Extracted Data</value>
+  </data>
+  <data name="LabelImportFile" xml:space="preserve">
+    <value>Choose file</value>
+  </data>
+  <data name="LabelImportFileTitle" xml:space="preserve">
+    <value>Upload File</value>
+  </data>
+  <data name="LabelImportIncomes" xml:space="preserve">
+    <value>Import Incomes</value>
+  </data>
+  <data name="LabelImportIncomesMessage" xml:space="preserve">
+    <value>If you would like to add multiple expenses from the Excel file,
+you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
+You can get more details</value>
+  </data>
+  <data name="LabelImportIncomesWizard" xml:space="preserve">
+    <value>Import Incomes Wizard</value>
+  </data>
+  <data name="LabelImports" xml:space="preserve">
+    <value>Imports</value>
+  </data>
+  <data name="LabelImportWizardError" xml:space="preserve">
+    <value>An error occurred. Please fix the highlighted fields.</value>
+  </data>
+  <data name="LabelImportWizardStep1" xml:space="preserve">
+    <value>Import Data File</value>
+  </data>
+  <data name="LabelImportWizardStep2" xml:space="preserve">
+    <value>Extraction &amp; Validation</value>
+  </data>
+  <data name="LabelImportWizardStep3" xml:space="preserve">
+    <value>Import Summary</value>
+  </data>
+  <data name="LabelIncome" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="LabelIncomes" xml:space="preserve">
+    <value>Incomes</value>
+  </data>
+  <data name="LabelLoading" xml:space="preserve">
+    <value>Loading, please wait...</value>
+  </data>
+  <data name="LabelLogin" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LabelLogout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="LabelMonthlyReports" xml:space="preserve">
+    <value>Monthly Reports</value>
+  </data>
+  <data name="FieldNewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="FieldCurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="LabelNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="LabelNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="LabelNoRecords" xml:space="preserve">
+    <value>No records found!</value>
+  </data>
+  <data name="LabelPasswordResetRequired" xml:space="preserve">
+    <value>Your account requires a password reset for security reasons. Please reset your password to continue using your account.</value>
+  </data>
+  <data name="LabelPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="LabelPrivacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="LabelProfile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="LabelRegisterUser" xml:space="preserve">
+    <value>Register User</value>
+  </data>
+  <data name="LabelReports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="LabelSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="LabelSaveAccount" xml:space="preserve">
+    <value>Save Account</value>
+  </data>
+  <data name="LabelSaveCategory" xml:space="preserve">
+    <value>Save Category</value>
+  </data>
+  <data name="LabelSaveExpense" xml:space="preserve">
+    <value>Save Expense</value>
+  </data>
+  <data name="LabelSaveIncome" xml:space="preserve">
+    <value>Save Income</value>
+  </data>
+  <data name="LabelSaveUser" xml:space="preserve">
+    <value>Save User</value>
+  </data>
+  <data name="LabelSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="LabelSummaryCongratulation" xml:space="preserve">
+    <value>Congratulation! Bulk data import completed successfully!</value>
+  </data>
+  <data name="LabelSummaryImported" xml:space="preserve">
+    <value>Data Imported</value>
+  </data>
+  <data name="LabelSummaryNote" xml:space="preserve">
+    <value>If you would like to review or modify any specific data, please click</value>
+  </data>
+  <data name="LabelSummaryTotalRecords" xml:space="preserve">
+    <value>Total Records</value>
+  </data>
+  <data name="LabelSummaryTotalTime" xml:space="preserve">
+    <value>Total Time</value>
+  </data>
+  <data name="LabelTrendAnalysis" xml:space="preserve">
+    <value>Trend Analysis</value>
+  </data>
+  <data name="LabelUnauthorized" xml:space="preserve">
+    <value>Unauthorized</value>
+  </data>
+  <data name="LabelUnauthorizedMessage" xml:space="preserve">
+    <value>You are not authorized to view this page.</value>
+  </data>
+  <data name="LabelUpdatePassword" xml:space="preserve">
+    <value>Update Password</value>
+  </data>
+  <data name="LabelUsers" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="LabelYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="MessageWelcome" xml:space="preserve">
+    <value>Welcome to HisabPro!</value>
+  </data>
+  <data name="ValidationInvalidEmail" xml:space="preserve">
+    <value>Please enter a valid email.</value>
+  </data>
+  <data name="LabelEmailActivationTitle" xml:space="preserve">
+    <value>Activate Your Account</value>
+  </data>
+  <data name="LabelEmailTemplateNotFound" xml:space="preserve">
+    <value>Template {0} not found in {1}</value>
+  </data>
+  <data name="LabelEmailNotFound" xml:space="preserve">
+    <value>The email address you entered is not associated with any account. Please check the email and try again, or register for a new account.</value>
+  </data>
+  <data name="LabelApiAccountLocked" xml:space="preserve">
+    <value>Your account is locked. Please try again later.</value>
+  </data>
+  <data name="LabelApiInvalidAttempt" xml:space="preserve">
+    <value>Invalid login attempt. You have {0} attempts remaining before your account is locked</value>
+  </data>
+  <data name="LabelApiAccountLockedWithUnlockTime" xml:space="preserve">
+    <value>Your account is currently locked. It will be automatically unlocked after {0} minutes. Please try again later.</value>
+  </data>
+  <data name="LabelApiLoginSuccess" xml:space="preserve">
+    <value>Login successful! Welcome back!</value>
+  </data>
+  <data name="LabelApiValidationFailed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="LabelApiSave" xml:space="preserve">
+    <value>Data saved successfully</value>
+  </data>
+  <data name="LabelApiUserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="LabelApiPasswordShouldNotMatchCurrent" xml:space="preserve">
+    <value>New password cannot be the same as the current password</value>
+  </data>
+  <data name="LabelApiPasswordUpdated" xml:space="preserve">
+    <value>Password changed successfully</value>
+  </data>
+  <data name="LabelApiUserActivate" xml:space="preserve">
+    <value>User activated successfully</value>
+  </data>
+  <data name="LabelApiUserDeactivate" xml:space="preserve">
+    <value>User deactivated successfully</value>
+  </data>
+  <data name="LabelApiUserDeactivateFailed" xml:space="preserve">
+    <value>User deactivation failed</value>
+  </data>
+  <data name="LabelApiInternalError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="LabelApiDelete" xml:space="preserve">
+    <value>Data deleted successfully</value>
+  </data>
+  <data name="LabelApiReferenceDeleteError" xml:space="preserve">
+    <value>Reference data cannot be deleted as it is linked to other records</value>
+  </data>
+  <data name="LabelApiNotFound" xml:space="preserve">
+    <value>Data not found</value>
+  </data>
+  <data name="LabelApiDataWithSameName" xml:space="preserve">
+    <value>Data with same name already exists</value>
+  </data>
+  <data name="LabelApiSameNameInStandardCategory" xml:space="preserve">
+    <value>A duplicate name already exists within the standard category.</value>
+  </data>
+  <data name="LabelApiDataRetrived" xml:space="preserve">
+    <value>Data retrived successfully</value>
+  </data>
+  <data name="LabelApiDataRetrivedFailed" xml:space="preserve">
+    <value>Data retrived failed</value>
+  </data>
+  <data name="LabelApiDataImportSuccess" xml:space="preserve">
+    <value>Data imported successfully</value>
+  </data>
+  <data name="LabelApiImportFileAllowedExtensions" xml:space="preserve">
+    <value>Only .xls and .xlsx files are allowed</value>
+  </data>
+  <data name="LabelApiImportSuccess" xml:space="preserve">
+    <value>File uploaded successfully</value>
+  </data>
+  <data name="LabelApiImportFileRequired" xml:space="preserve">
+    <value>Please select a file to upload</value>
+  </data>
+  <data name="LabelGenderMale" xml:space="preserve">
+    <value>Male</value>
+  </data>
+  <data name="LabelGenderFemale" xml:space="preserve">
+    <value>Female</value>
+  </data>
+  <data name="LabelGenderOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="LabelRoleAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="LabelRoleSuperAdmin" xml:space="preserve">
+    <value>Super Admin</value>
+  </data>
+  <data name="LabelRoleUser" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="ValidationName" xml:space="preserve">
+    <value>Accout name must be between 5 and 15 characters.</value>
+  </data>
+  <data name="ValidationAmount" xml:space="preserve">
+    <value>Amount must be a number value.</value>
+  </data>
+  <data name="ValidationCategory" xml:space="preserve">
+    <value>Category must be between 3 and 50 characters.</value>
+  </data>
+  <data name="ValidationDate" xml:space="preserve">
+    <value>Please enter a valid date.</value>
+  </data>
+  <data name="ValidationEmail" xml:space="preserve">
+    <value>Email address must be between 10 and 50 characters.</value>
+  </data>
+  <data name="ValidationFullName" xml:space="preserve">
+    <value>Full name cannot exceed 40 characters.</value>
+  </data>
+  <data name="ValidationMobile" xml:space="preserve">
+    <value>Mobile number must be exactly 10 digits.</value>
+  </data>
+  <data name="ValidationNote" xml:space="preserve">
+    <value>Note cannot exceed 250 characters.</value>
+  </data>
+  <data name="ValidationPasswordConfirm" xml:space="preserve">
+    <value>The new password and confirmation password do not match.</value>
+  </data>
+  <data name="ValidationPasswordHash" xml:space="preserve">
+    <value>Password hash must be between 88 and 100 characters.</value>
+  </data>
+  <data name="ValidationPasswordNew" xml:space="preserve">
+    <value>The new password must be at least 8 characters long.</value>
+  </data>
+  <data name="ValidationPasswordSalt" xml:space="preserve">
+    <value>Password salt must be between 172 and 200 characters.</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>Title must be between 3 and 25 characters.</value>
+  </data>
+  <data name="ValidationUser" xml:space="preserve">
+    <value>User name must be between 5 and 20 characters.</value>
+  </data>
+  <data name="FieldAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="FieldBulkImport" xml:space="preserve">
+    <value>Bulk Import</value>
+  </data>
+  <data name="FieldCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="FieldDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FieldFullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="FieldIsActive" xml:space="preserve">
+    <value>Is Active</value>
+  </data>
+  <data name="FieldIsStandard" xml:space="preserve">
+    <value>Is Standard</value>
+  </data>
+  <data name="FieldParentCategory" xml:space="preserve">
+    <value>Parent Category</value>
+  </data>
+  <data name="FieldSubCategory" xml:space="preserve">
+    <value>Sub Category</value>
+  </data>
+  <data name="FieldUserRole" xml:space="preserve">
+    <value>User Role</value>
+  </data>
+  <data name="EmailActivateAccountMessage" xml:space="preserve">
+    <value>Please click the link below to activate your account</value>
+  </data>
+  <data name="EmailActivateAccountTitle" xml:space="preserve">
+    <value>Activate Account</value>
+  </data>
+  <data name="EmailAllRightsReserved" xml:space="preserve">
+    <value>All rights reserved</value>
+  </data>
+  <data name="EmailIfQuestion" xml:space="preserve">
+    <value>If you have any questions, feel free to contact our support team at</value>
+  </data>
+  <data name="EmailPrivacyPolicy" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="EmailTermsOfService" xml:space="preserve">
+    <value>Terms of service</value>
+  </data>
+  <data name="LabelColumnActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="LabelColumnCreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="LabelColumnCreatedOn" xml:space="preserve">
+    <value>Created On</value>
+  </data>
+  <data name="LabelColumnImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="LabelFieldEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LabelFilterBulkImported" xml:space="preserve">
+    <value>Bulk Imported</value>
+  </data>
+  <data name="LabelFilterCreatedDateRange" xml:space="preserve">
+    <value>Created Date Range</value>
+  </data>
+  <data name="LabelFilterDateRange" xml:space="preserve">
+    <value>Date Range</value>
+  </data>
+  <data name="LabelFilterRole" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="LabelFilterStandard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="LabelDeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
+  </data>
+  <data name="LabelDeleteTitle" xml:space="preserve">
+    <value>Delete Record</value>
+  </data>
+  <data name="WizardAutoCorrectDateMessage" xml:space="preserve">
+    <value>Dates will be automatically corrected using the date from the previous row.&lt;br/&gt;Please review the changes and update if necessary.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Are you sure you want to auto-correct the empty dates with the previous row's date?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectDateSuccess" xml:space="preserve">
+    <value>Empty date(s) has been auto corrected</value>
+  </data>
+  <data name="WizardAutoCorrectDateTitle" xml:space="preserve">
+    <value>Auto Correct Date(s)</value>
+  </data>
+  <data name="WizardAutoCorrectTitleMessage" xml:space="preserve">
+    <value>Title will be automatically truncated (upto 25 chars) and keep original title inside the Note field (upto 250 chars).&lt;br/&gt;Please review the changes and update if necessary.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;Are you sure you want to auto-correct the title to take only 25 chars?&lt;/b&gt;</value>
+  </data>
+  <data name="WizardAutoCorrectTitleSuccess" xml:space="preserve">
+    <value>Large title has been auto corrected</value>
+  </data>
+  <data name="WizardAutoCorrectTitleTitle" xml:space="preserve">
+    <value>Auto Correct Title</value>
+  </data>
+  <data name="WizardExtractError" xml:space="preserve">
+    <value>An error occurred while extracting the file data</value>
+  </data>
+  <data name="WizardUploadError" xml:space="preserve">
+    <value>An error occurred during file upload</value>
+  </data>
+  <data name="WizardUploadNoFile" xml:space="preserve">
+    <value>Please select a file to upload before proceeding to the next step</value>
+  </data>
+  <data name="ValidationRequired" xml:space="preserve">
+    <value>{0} field is required.</value>
+  </data>
+  <data name="FieldAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="FieldGender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="FieldMobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="FieldName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FieldNote" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="LabelLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+</root>

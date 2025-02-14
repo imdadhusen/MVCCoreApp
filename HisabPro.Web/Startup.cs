@@ -1,5 +1,6 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.Entities.IEntities;
 using HisabPro.Entities.Models;
 using HisabPro.Repository;
@@ -12,10 +13,13 @@ using HisabPro.Web.Helper;
 using HisabPro.Web.MapperProfile;
 using HisabPro.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using System.Globalization;
 using System.Net;
+using System.Reflection;
 
 namespace HisabPro
 {
@@ -33,7 +37,8 @@ namespace HisabPro
             // Bind the AppSettings section to the AppSettings class
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddSingleton<AppSettings>(sp => sp.GetRequiredService<IOptions<AppSettings>>().Value);
-
+            //For localization
+            //services.AddSingleton<SharedResourceService>();
 
             services.AddMvc();
             services.AddControllers(options =>
@@ -41,12 +46,31 @@ namespace HisabPro
                 options.Filters.Add<ValidateModelStateFilter>();
                 options.Filters.Add<CustomExceptionFilter>();
             });
-            services.AddControllersWithViews().AddRazorOptions(options =>
-            {
-                options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
-            });
+            services.AddControllersWithViews()
+                .AddViewLocalization() // Enable view localization
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    {
+                        var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+                        return factory.Create("SharedResource", assemblyName.Name);
+                    };
+                })
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationFormats.Add("/Views/Public/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/Views/Private/{1}/{0}.cshtml");
+                    options.ViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
+                });
+            // Configure localization options
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            //services.AddTransient(typeof(LocalizedEnumResolver<,>));
+            //services.AddAutoMapper(typeof(MappingProfile));
+            // Register custom localizer
+            services.AddSingleton<ISharedViewLocalizer, SharedViewLocalizer>();
+
+            //.Configure<ResourceManagerStringLocalizerOptions>(options => options.IgnoreCase = true);
+
             //services.AddControllers().AddNewtonsoftJson(options =>
             //{
             //    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
@@ -123,7 +147,6 @@ namespace HisabPro
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.  
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -134,12 +157,33 @@ namespace HisabPro
                 app.UseHsts();
             }
 
+            // Define the supported cultures
+            var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("gu-IN") };
+            // Configure the Request Localization options
+            var requestLocalizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+                // Explicitly specifying the type for RequestCultureProviders
+                RequestCultureProviders =
+                [
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider(),
+                    new AcceptLanguageHeaderRequestCultureProvider()
+                ]
+            };
+            app.UseRequestLocalization(requestLocalizationOptions);
+
+            //--app.UseMiddleware<CultureMiddleware>();
+
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
                 RequestPath = new PathString("/app-images")
             });
+
             app.UseRouting();
 
             app.UseAuthentication();

@@ -1,17 +1,13 @@
-﻿@model HisabPro.DTO.Request.SaveIncomeReq
-
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.DTO.Request.SaveIncomeReq
 @{
     Layout = "~/Views/Shared/_EditLayout.cshtml";
-    ViewData["Title"] = "Save Income";
-    ViewData["SectionHeader"] = "Save Income";
-    ViewData["CardTitle"] = "Save Income";
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelSaveIncome);
+    ViewData["SectionHeader"] = _localizer.Get(ResourceKey.LabelSaveIncome);
+    ViewData["CardTitle"] = _localizer.Get(ResourceKey.LabelSaveIncome);
 }
 
-@* @section BodyInfo {
-    <p class="text-muted mb-0">
-    </p>
-}
- *@
 @section BodyContent {
     <form id="saveForm" asp-action="Save">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -68,10 +64,10 @@
 
         <div class="form-group m-t-10">
             <button class="btn btn-primary action-btn">
-                <i class="fas fa-save"></i> Save
+                <i class="fas fa-save"></i> @_localizer.Get(ResourceKey.LabelSave)
             </button>
             <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
-                <i class="fas fa-plus"></i> Create New
+                <i class="fas fa-plus"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
             </button>
         </div>
     </form>

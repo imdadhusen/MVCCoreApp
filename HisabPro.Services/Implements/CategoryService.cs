@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HisabPro.Common;
 using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
@@ -18,12 +19,14 @@ namespace HisabPro.Services.Implements
         private readonly IRepository<Category> _categoryRepo;
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
+        private readonly ISharedViewLocalizer _localizer;
 
-        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext)
+        public CategoryService(IRepository<Category> categoryRepo, IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer)
         {
             _categoryRepo = categoryRepo;
             _mapper = mapper;
             _userContext = userContext;
+            _localizer = localizer;
         }
 
         public async Task<SaveCategoryReq> GetByIdAsync(int id)
@@ -43,14 +46,23 @@ namespace HisabPro.Services.Implements
         {
             var categories = await _categoryRepo.GetAllAsync();
             var map = _mapper.Map<List<CategoryRes>>(categories);
-            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.DataRetrived, map);
+            return new ResponseDTO<List<CategoryRes>>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDataRetrived), map);
         }
         public async Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request)
         {
             var data = _categoryRepo.GetAllDataWithSelfRefAsync(p => p.ParentId == null, "SubCategories");
             data = data.ApplyDynamicFilters(request.Filters);
             data = PageDataHelper.ApplySort(data, request.PageData);
-            var mappedData = _mapper.Map<List<CategoryRes>>(data);
+
+            List<CategoryRes> mappedData = new List<CategoryRes>();
+            try
+            {
+                mappedData = _mapper.Map<List<CategoryRes>>(data);
+            }
+            catch (Exception ex)
+            {
+
+            }
             return new PageDataRes<CategoryRes> { Data = mappedData };
         }
         public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req)
@@ -65,18 +77,18 @@ namespace HisabPro.Services.Implements
             {
                 if (duplicates[0].IsStandard)
                 {
-                    throw new CustomValidationException(AppConst.ApiMessage.SameNameInStandardCategory);
+                    throw new CustomValidationException(_localizer.Get(ResourceKey.LabelApiSameNameInStandardCategory));
                 }
                 else
                 {
-                    throw new CustomValidationException(AppConst.ApiMessage.DataWithSameName);
+                    throw new CustomValidationException(_localizer.Get(ResourceKey.LabelApiDataWithSameName));
                 }
             }
 
             var category = _mapper.Map<Category>(req);
             var result = await _categoryRepo.SaveAsync(category);
             var map = _mapper.Map<CategoryRes>(result);
-            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Save, map);
+            return new ResponseDTO<CategoryRes>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiSave), map);
         }
 
         public async Task<ResponseDTO<bool>> DeleteAsync(int id)
@@ -84,11 +96,11 @@ namespace HisabPro.Services.Implements
             var result = await _categoryRepo.DeleteAsync(id);
             if (result)
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, AppConst.ApiMessage.Delete, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
             }
             else
             {
-                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, AppConst.ApiMessage.NotFound, result);
+                return new ResponseDTO<bool>(System.Net.HttpStatusCode.BadRequest, _localizer.Get(ResourceKey.LabelApiNotFound), result);
             }
         }
 

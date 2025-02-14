@@ -1,7 +1,8 @@
-﻿@{
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@{
     Layout = "~/Views/Shared/_PublicLayout.cshtml";
 }
-
 
 <style type="text/css">
 
@@ -65,59 +66,59 @@
 </style>
 
 <!-- Sidebar -->
-<div class="d-flex vh-100">
+<div class="d-flex">
     <!-- Sidebar -->
     <div class="sidebar d-flex flex-column">
         <div class="sidebar-header">
             <h4 id="brandLogo" class="text-center"><img src="~/icons/Logo-Transaparent.png" alt="HisabPro Logo"> HisabPro</h4>
         </div>
         <div class="sidebar-menu flex-grow-1 overflow-auto">
-            <a href="Dashboard/Index" class="active"><i class="bi bi-house-fill"></i> Dashboard</a>
+            <a href="Dashboard/Index" class="active"><i class="bi bi-house-fill"></i> @_localizer.Get(ResourceKey.LabelDashboard)</a>
 
             <!-- Collapsible Menu for Admin -->
             <a class="d-flex justify-content-between align-items-center" data-menu="adminSubmenu" role="button">
-                <span><i class="bi bi-person-gear"></i> Admin</span>
+                <span><i class="bi bi-person-gear"></i> @_localizer.Get(ResourceKey.LabelRoleAdmin)</span>
                 <i class="bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="adminSubmenu">
-                <a asp-controller="Accounts" asp-action="Index" class="ms-3"><i class="bi bi-wallet2"></i> Accounts</a>
-                <a asp-controller="Category" asp-action="Index" class="ms-3"><i class="bi bi-tags"></i> Categories</a>
-                <a asp-controller="Expenses" asp-action="Index" class="ms-3"><i class="bi bi-cash-stack"></i> Expenses</a>
-                <a asp-controller="Incomes" asp-action="Index" class="ms-3"><i class="bi bi-graph-up-arrow"></i> Incomes</a>
-                <a asp-controller="User" asp-action="Index" class="ms-3"><i class="bi bi-people"></i> User</a>
+                <a asp-controller="Accounts" asp-action="Index" class="ms-3"><i class="bi bi-wallet2"></i> @_localizer.Get(ResourceKey.LabelAccounts)</a>
+                <a asp-controller="Category" asp-action="Index" class="ms-3"><i class="bi bi-tags"></i> @_localizer.Get(ResourceKey.LabelCategories)</a>
+                <a asp-controller="Expenses" asp-action="Index" class="ms-3"><i class="bi bi-cash-stack"></i> @_localizer.Get(ResourceKey.LabelExpenses)</a>
+                <a asp-controller="Incomes" asp-action="Index" class="ms-3"><i class="bi bi-graph-up-arrow"></i> @_localizer.Get(ResourceKey.LabelIncomes)</a>
+                <a asp-controller="User" asp-action="Index" class="ms-3"><i class="bi bi-people"></i> @_localizer.Get(ResourceKey.LabelUsers)</a>
             </div>
 
             <!-- Collapsible Menu for Import -->
             <a class="d-flex justify-content-between align-items-center" data-menu="importSubmenu" role="button">
-                <span><i class="bi bi-file-arrow-up"></i> Imports</span>
+                <span><i class="bi bi-file-arrow-up"></i> @_localizer.Get(ResourceKey.LabelImports)</span>
                 <i class="bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="importSubmenu">
-                <a asp-controller="Import" asp-action="Expense" class="ms-3"><i class="bi bi-cash-stack"></i> Expenses</a>
-                <a asp-controller="Import" asp-action="Income" class="ms-3"><i class="bi bi-cash-coin"></i> Incomes</a>
+                <a asp-controller="Import" asp-action="Expense" class="ms-3"><i class="bi bi-cash-stack"></i> @_localizer.Get(ResourceKey.LabelExpenses)</a>
+                <a asp-controller="Import" asp-action="Income" class="ms-3"><i class="bi bi-cash-coin"></i> @_localizer.Get(ResourceKey.LabelIncomes)</a>
             </div>
 
             <!-- Collapsible Menu for Reports -->
             <a class="d-flex justify-content-between align-items-center" data-menu="reportsSubmenu" role="button">
-                <span><i class="bi bi-file-earmark-bar-graph"></i> Reports</span>
+                <span><i class="bi bi-file-earmark-bar-graph"></i>@_localizer.Get(ResourceKey.LabelReports)</span>
                 <i class="bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="reportsSubmenu">
-                <a href="#" class="ms-3"><i class="bi bi-clipboard-data"></i> Monthly Reports</a>
-                <a href="#" class="ms-3"><i class="bi bi-pie-chart"></i> Annual Reports</a>
+                <a href="#" class="ms-3"><i class="bi bi-clipboard-data"></i>@_localizer.Get(ResourceKey.LabelMonthlyReports)</a>
+                <a href="#" class="ms-3"><i class="bi bi-pie-chart"></i>@_localizer.Get(ResourceKey.LabelAnnualReports)</a>
             </div>
 
             <!-- Collapsible Menu for Analytics -->
             <a class="d-flex justify-content-between align-items-center" data-menu="analyticsSubmenu" role="button">
-                <span><i class="bi bi-graph-up"></i> Analytics</span>
+                <span><i class="bi bi-graph-up"></i>@_localizer.Get(ResourceKey.LabelAnalytics)</span>
                 <i class="bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="analyticsSubmenu">
-                <a href="#" class="ms-3"><i class="bi bi-bar-chart"></i> Trend Analysis</a>
-                <a href="#" class="ms-3"><i class="bi bi-activity"></i> Activity Reports</a>
+                <a href="#" class="ms-3"><i class="bi bi-bar-chart"></i>@_localizer.Get(ResourceKey.LabelTrendAnalysis)</a>
+                <a href="#" class="ms-3"><i class="bi bi-activity"></i>@_localizer.Get(ResourceKey.LabelActivityReports)</a>
             </div>
 
-            <a href="#"><i class="bi bi-gear-fill"></i> Settings</a>
+            <a href="#"><i class="bi bi-gear-fill"></i>@_localizer.Get(ResourceKey.LabelSettings)</a>
         </div>
     </div>
 

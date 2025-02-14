@@ -1,6 +1,8 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<object>
 @{
-    ViewData["Title"] = "Accounts";
+    ViewData["Title"] = @_localizer.Get(ResourceKey.FieldAccount);
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
@@ -12,7 +14,7 @@
     <script>
         $('#tblAccount').gridview({
             controllerName: 'Accounts',
-            titleDelete: 'Delete Accout'
+            titleDelete: '@_localizer.Get(ResourceKey.LabelDeleteAccount)'
         });
     </script>
 }

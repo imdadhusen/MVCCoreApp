@@ -1,20 +1,12 @@
-﻿@model HisabPro.DTO.Request.SaveExpenseReq
-
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.DTO.Request.SaveExpenseReq
 @{
     Layout = "~/Views/Shared/_EditLayout.cshtml";
-    ViewData["Title"] = "Save Expense";
-    ViewData["SectionHeader"] = "Save Expense";
-    ViewData["CardTitle"] = "Save Expense";
+    ViewData["Title"] = _localizer.Get(ResourceKey.LabelSaveExpense);
+    ViewData["SectionHeader"] = _localizer.Get(ResourceKey.LabelSaveExpense);
+    ViewData["CardTitle"] = _localizer.Get(ResourceKey.LabelSaveExpense);
 }
-
-@* @section BodyInfo {
-    <p class="text-muted mb-0">
-        <i class="bi bi-exclamation-circle-fill text-warning me-2"></i>
-        If you would like to add multiple expenses from the Excel file,
-        you can use the Import feature, which will streamline your experience by categorizing each expense appropriately.
-        You can get more details <a asp-controller="Import" asp-action="Expense">here</a>.
-    </p>
-} *@
 
 @section BodyContent {
     <form id="saveForm" asp-action="Edit">
@@ -89,10 +81,10 @@
 
         <div class="form-group m-t-10">
             <button class="btn btn-primary action-btn">
-                <i class="fas fa-save"></i> Save
+                <i class="fas fa-save"></i> @_localizer.Get(ResourceKey.LabelSave)
             </button>
             <button type="button" id="btnCreateNew" class="btn btn-secondary action-btn">
-                <i class="fas fa-plus"></i> Create New
+                <i class="fas fa-plus"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
             </button>
         </div>
     </form>

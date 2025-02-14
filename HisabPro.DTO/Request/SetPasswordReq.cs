@@ -1,31 +1,32 @@
 ﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace HisabPro.DTO.Request
 {
     public class SetPasswordReq
     {
-        [Required]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         public int UserId { get; set; }
 
-        [Required]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(Name = "New Password")]
-        [StringLength(100, ErrorMessage = FieldsSizeConst.User.NewPasswordMessage, MinimumLength = FieldsSizeConst.User.NewPasswordMin)]
+        [Display(Name = ResourceKey.FieldNewPassword)]
+        [StringLength(100, MinimumLength = FieldsSizeConst.User.NewPasswordMin, ErrorMessage = ResourceKey.ValidationPasswordNew)]
         public string NewPassword { get; set; }
 
-        [Required]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("NewPassword", ErrorMessage = FieldsSizeConst.User.ConfirmPasswordMessage)]
+        [Display(Name = ResourceKey.FieldConfirmPassword)]
+        [Compare("NewPassword", ErrorMessage = ResourceKey.ValidationPasswordConfirm)]
         public string ConfirmPassword { get; set; }
     }
 
     public class ResetPasswordReq : SetPasswordReq
     {
-        [Required]
+        [LocalizedRequired(ResourceKey.ValidationRequired)]
         [DataType(DataType.Password)]
-        [Display(Name = "Current Password")]
+        [Display(Name = ResourceKey.FieldCurrentPassword)]
         [Compare("NewPassword")]
         public string CurrentPassword { get; set; }
     }

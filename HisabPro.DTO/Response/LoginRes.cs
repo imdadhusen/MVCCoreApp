@@ -9,7 +9,7 @@ namespace HisabPro.DTO.Response
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
-        public int UserRole { get; set; } = (int)UserRoleEnum.User;
+        public int UserRole { get; set; } = (int)EnumUserRole.User;
         public DateTime? PasswordChangedOn { get; set; }
         public bool MustChangePassword { get; set; }
 

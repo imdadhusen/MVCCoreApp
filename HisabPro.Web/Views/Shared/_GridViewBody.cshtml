@@ -1,4 +1,6 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<object>
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<object>
 <span id="spnTotalRec">@Model.TotalRecords</span>
 @if (@Model.TotalRecords >= 1)
 {
@@ -13,7 +15,7 @@
                 if (column.Type == HisabPro.Web.ViewModel.Type.Edit)
                 {
                     <td style="text-align:center">
-                        <button class="save-action btn btn-primary btn-sm" title="Edit" data-id="@dataId">
+                        <button class="save-action btn btn-primary btn-sm" title="@_localizer.Get(ResourceKey.LabelEdit)" data-id="@dataId">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
                     </td>
@@ -21,7 +23,7 @@
                 else if (column.Type == HisabPro.Web.ViewModel.Type.Delete)
                 {
                     <td style="text-align:center">
-                        <button class="delete-action btn btn-danger btn-sm" title="Delete" data-id="@dataId">
+                        <button class="delete-action btn btn-danger btn-sm" title="@_localizer.Get(ResourceKey.LabelDelete)" data-id="@dataId">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -41,11 +43,11 @@
                             <td style="text-align:center">
                                 @if(value is bool booleanValue && booleanValue)
                                 {
-                                    <i class="bi bi-check-circle text-success" title="Yes"></i>
+                                    <i class="bi bi-check-circle text-success" title="@_localizer.Get(ResourceKey.LabelYes)"></i>
                                 }
                                 else
                                 {
-                                    <i class="bi bi-x-circle text-danger" title="No"></i>
+                                    <i class="bi bi-x-circle text-danger" title="@_localizer.Get(ResourceKey.LabelNo)"></i>
                                 }
                             </td>
                         }
@@ -61,5 +63,5 @@
 }
 else
 {
-    <tr class="grid-no-records"><td colspan="@Model.Columns.Count()">No Records Found!</td></tr>
+    <tr class="grid-no-records"><td colspan="@Model.Columns.Count()">@_localizer.Get(ResourceKey.LabelNoRecords)</td></tr>
 }

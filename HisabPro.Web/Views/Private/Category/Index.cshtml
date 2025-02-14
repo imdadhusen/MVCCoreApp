@@ -1,6 +1,8 @@
-﻿@model HisabPro.Web.ViewModel.GridViewModel<HisabPro.DTO.Response.CategoryRes>
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@model HisabPro.Web.ViewModel.GridViewModel<HisabPro.DTO.Response.CategoryRes>
 @{
-    ViewData["Title"] = "Categories";
+    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelCategories);
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
@@ -47,24 +49,24 @@
             <div class="grid-page-records text-end">
                 @if (totalRecords >= 1)
                 {
-                    <span>Showing 1 - @totalRecords out of @totalRecords</span>
+                    <span>@_localizer.Get(ResourceKey.LabelGridShowing) 1 - @totalRecords @_localizer.Get(ResourceKey.LabelGridShowingOutOf) @totalRecords</span>
                 }
                 else
                 {
-                    <span>No records found!</span>
+                    <span>@_localizer.Get(ResourceKey.LabelNoRecords)</span>
                 }
             </div>
         </div>
     </div>
     <div class="grid-loading loading" style="display:none">
-        Loading, please wait...
+        @ResourceKey.LabelLoading
     </div>
 </div>
 @section Scripts {
     <script>
         $('#tblCategory').gridview({
             controllerName: 'Category',
-            titleDelete: 'Delete Category',
+            titleDelete: '@_localizer.Get(ResourceKey.LabelDeleteCategory)',
             allData: true
         });
     </script>
