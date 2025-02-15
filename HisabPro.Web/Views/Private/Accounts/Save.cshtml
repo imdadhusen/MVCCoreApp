@@ -77,6 +77,8 @@
         });
 
         function SaveSuccess(res) {
+            console.log(res.message);
+
             formLoading.hide();
             if (res.statusCode == 200) {
                 showNotification(res.message);

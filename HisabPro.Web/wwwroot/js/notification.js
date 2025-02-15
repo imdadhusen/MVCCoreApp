@@ -8,41 +8,67 @@
         info: For informational messages (blue).
         light: For light-colored alerts (grey background).
         dark: For dark-colored alerts.
-   @param {any} duration
+   @param {any} delay
    @param {any} autoHide */
-function showNotification(message, type = 'success', duration = 5000, autoHide = true) {
-    var alertElement = $(`
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        `);
-    // Append the alert to the container
-    $('#notificationContainer').append(alertElement);
+function showNotification(message, type = 'success', delay = 3000, autoHide = true) {
+    var toastId = "toast_" + new Date().getTime(); // Unique ID for each toast
 
-    // Set the timeout
-    if (autoHide == true) {
-        var timeoutId = setNotificationToHide(alertElement, duration);
-        // Pause the timer on mouse hover
-        alertElement.on('mouseenter', function () {
-            clearTimeout(timeoutId);
+    if (type == 'success')
+        message = `✅ ${message}`;
+    else if (type == 'danger')
+        message = `❌ ${message}`;
+    else if (type == 'warning')
+        message = `⚠️ ${message}`;
+    else
+        message = `ℹ️ ${message}`;
+
+    // Toast template
+    var toastHtml = `
+        <div id="${toastId}" class="toast align-items-center text-white bg-${type} border-0 fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">${message}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto close-toast" aria-label="Close"></button>
+            </div>
+        </div>`;
+
+    // Append toast to container
+    $("#toastContainer").append(toastHtml);
+
+    // Get the toast element
+    var $toastElement = $("#" + toastId);
+
+    // Show the toast (Bootstrap's method)
+    var toast = new bootstrap.Toast($toastElement[0], { autohide: autoHide, delay: delay });
+    toast.show();
+
+    if (autoHide) {
+        let hideTimeout = setTimeout(() => {
+            $toastElement.fadeOut(500, function () {
+                $(this).remove();
+            });
+        }, delay);
+
+        // Prevent hiding when hovered
+        $toastElement.on("mouseenter", function () {
+            clearTimeout(hideTimeout);
         });
-        // Resume the timer on mouse leave
-        alertElement.on('mouseleave', function () {
-            timeoutId = setNotificationToHide(alertElement, duration);
+
+        // Resume hiding when mouse leaves
+        $toastElement.on("mouseleave", function () {
+            hideTimeout = setTimeout(() => {
+                $toastElement.fadeOut(500, function () {
+                    $(this).remove();
+                });
+            }, 2000);
         });
     }
-}
 
-function setNotificationToHide(alertElement, duration) {
-    return setTimeout(function () {
-        alertElement.addClass('fade');
-        setTimeout(function () {
-            alertElement.alert('close');
-        }, 150);
-    }, duration);
+    // **Manually close on button click**
+    $toastElement.find(".close-toast").on("click", function () {
+        $toastElement.fadeOut(300, function () {
+            $(this).remove();
+        });
+    });
 }
 // Example usage:
 // showNotification('Your message here.', 'success', 5000, true);

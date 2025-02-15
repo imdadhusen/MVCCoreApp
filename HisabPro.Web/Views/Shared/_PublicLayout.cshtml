@@ -136,7 +136,9 @@
     @RenderBody()
     @await Html.PartialAsync("_ConfirmPartial")
     @* </main> *@
-    <div id="notificationContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+    </div>
     @*  </div> *@
 
     <!-- Footer -->
@@ -194,7 +196,6 @@
         $(document).ready(function () {
             // Get selected language from the cookie
             var selectedLang = getCookie(".AspNetCore.Culture"); // Default ASP.NET Core culture cookie
-            console.log('selectedLang:' + selectedLang)
             if (selectedLang) {
                 // Extract only the culture part (e.g., "c=en-US|uic=en-US" → "en-US")
                 selectedLang = selectedLang.split('|')[0].split('=')[1];
@@ -232,24 +233,6 @@
                     });
             });
         })
-
-
-
-        // // Handle language selection
-        // $(".lang-option").click(function () {
-        //     var culture = $(this).data("culture");
-
-        //     // Update the cookie with the new selection
-        //     document.cookie = ".AspNetCore.Culture=c=" + culture + "|uic=" + culture + "; path=/; expires=" + new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toUTCString();
-
-        //     // Update UI
-        //     selectedLang = culture;
-        //     updateLanguageSelection();
-
-        //     // Reload page to apply the new language
-        //     location.reload();
-        // });
-
     </script>
 </body>
 </html>

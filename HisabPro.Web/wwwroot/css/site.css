@@ -59,7 +59,9 @@ a {
     padding-right: 1rem;
 }
 
-
+#toastContainer {
+    z-index:10000 !important;
+}
 /* Validation Error */
 .form-control .error, label.error {
     color: red;
