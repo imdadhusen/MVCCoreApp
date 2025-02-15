@@ -48,6 +48,11 @@
                 background-color: #e9ecef;
                 color: #495057;
             }
+    /* Highlight active submenu */
+    .sidebar-menu a.active {
+        background: #c4e0d4;
+        font-weight: bold;
+    }
 
     .main-content {
         margin-left: 250px; /* for sidebar */
@@ -147,19 +152,70 @@
                 $('#' + submenu).toggle();
             });
 
-            function adjustSidebarHeight() {
-                const sideHeaderHeight = $('.sidebar-header').height();
-                const footerHeight = $('.footer').height();
-                const windowHeight = $(window).height();
-                const sidebarHeight = windowHeight - (sideHeaderHeight + footerHeight) + 10;
-                //console.log('sh:' + sideHeaderHeight + ', fh: ' + footerHeight + ', wh: ' + windowHeight + ', sh: ', sidebarHeight);
-
-                $('.sidebar').height(sidebarHeight);
-            }
-
             // Adjust on page load and window resize
             adjustSidebarHeight();
             $(window).resize(adjustSidebarHeight);
+
+            // Restore sidebar state from localStorage
+            restoreLeftMenuState();
+
+            // Handle click event for toggling menus
+            toggleLeftMenu();
+
+            // Highlight active link
+            highlightActiveMenu();
         });
+
+        function adjustSidebarHeight() {
+            const sideHeaderHeight = $('.sidebar-header').height();
+            const footerHeight = $('.footer').height();
+            const windowHeight = $(window).height();
+            const sidebarHeight = windowHeight - (sideHeaderHeight + footerHeight) + 10;
+            //console.log('sh:' + sideHeaderHeight + ', fh: ' + footerHeight + ', wh: ' + windowHeight + ', sh: ', sidebarHeight);
+
+            $('.sidebar').height(sidebarHeight);
+        }
+
+        function restoreLeftMenuState(){
+            $(".collapse").each(function () {
+                var menuId = $(this).attr("id");
+                var isExpanded = localStorage.getItem("sidebar_" + menuId);
+
+                if (isExpanded === "true") {
+                    $(this).addClass("show"); // Keep it open
+                    $("[data-menu='" + menuId + "']").find("i.bi-caret-down-fill").addClass("rotated");
+                }
+            });
+        }
+
+        function toggleLeftMenu(){
+            $("[data-menu]").click(function () {
+                var menuId = $(this).attr("data-menu");
+                var targetMenu = $("#" + menuId);
+
+                targetMenu.collapse("toggle");
+
+                // Store state in localStorage
+                var isExpanded = targetMenu.hasClass("show");
+                localStorage.setItem("sidebar_" + menuId, !isExpanded);
+
+                // Toggle caret rotation
+                $(this).find("i.bi-caret-down-fill").toggleClass("rotated");
+            });
+        }
+
+        function highlightActiveMenu(){
+            var currentUrl = window.location.pathname.toLowerCase();
+            $(".sidebar-menu a").each(function () {
+                $(this).removeClass("active");
+                var linkHref = $(this).attr("href");
+                if (linkHref && currentUrl === linkHref.toLowerCase()) {
+                    $(this).addClass("active");
+                    // // Expand parent submenu if inside one
+                    // $(this).closest(".collapse").addClass("show");
+                    // $(this).closest(".collapse").prev("[data-menu]").find("i.bi-caret-down-fill").addClass("rotated");
+                }
+            });
+        }
     </script>
 }
