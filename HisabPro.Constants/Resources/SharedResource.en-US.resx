@@ -775,4 +775,10 @@ You can get more details</value>
   <data name="LabelLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="ErrorInChangeLang" xml:space="preserve">
+    <value>Error while changing the language. Please try again later.</value>
+  </data>
+  <data name="ApiSuccess" xml:space="preserve">
+    <value>Call Successful</value>
+  </data>
 </root>

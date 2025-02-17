@@ -762,18 +762,24 @@
     <value>શીર્ષક આપમેળે (વધુમાં વધુ 25 અક્ષર) કાપી નાખવામાં આવશે અને મૂળ શીર્ષક નોંધ ક્ષેત્રમાં (વધુમાં વધુ 250 અક્ષર) સંગ્રહિત કરવામાં આવશે.&lt;br/&gt;કૃપા કરીને ફેરફારોની સમીક્ષા કરો અને જરૂરી હોય તો અપડેટ કરો.&lt;br/&gt;&lt;br/&gt;&lt;b&gt;શું તમે ખરેખર શીર્ષકને આપમેળે 25 અક્ષર સુધી સુધારવા માંગો છો?&lt;/b&gt;</value>
   </data>
   <data name="WizardAutoCorrectTitleSuccess" xml:space="preserve">
-    <value>વિશાળ શીર્ષક આપમેળે સુધારવામાં આવ્યું છે</value>
+    <value>વિશાળ શીર્ષક આપમેળે સુધારવામાં આવ્યું છે.</value>
   </data>
   <data name="WizardAutoCorrectTitleTitle" xml:space="preserve">
-    <value>આપમેળે શીર્ષક સુધારો</value>
+    <value>આપમેળે શીર્ષક સુધારો.</value>
   </data>
   <data name="WizardExtractError" xml:space="preserve">
-    <value>ફાઇલ ડેટા કાઢતી વખતે ભૂલ આવી</value>
+    <value>ફાઇલ ડેટા કાઢતી વખતે ભૂલ આવી.</value>
   </data>
   <data name="WizardUploadError" xml:space="preserve">
-    <value>ફાઇલ અપલોડ દરમિયાન ભૂલ આવી</value>
+    <value>ફાઇલ અપલોડ દરમિયાન ભૂલ આવી.</value>
   </data>
   <data name="WizardUploadNoFile" xml:space="preserve">
-    <value>આગળ વધતા પહેલા અપલોડ કરવા માટે કૃપા કરીને ફાઇલ પસંદ કરો</value>
+    <value>આગળ વધતા પહેલા અપલોડ કરવા માટે કૃપા કરીને ફાઇલ પસંદ કરો.</value>
+  </data>
+  <data name="ErrorInChangeLang" xml:space="preserve">
+    <value>ભાષા બદલતી વખતે ભૂલ થઈ. કૃપા કરીને પછીથી ફરી પ્રયાસ કરો.</value>
+  </data>
+  <data name="ApiSuccess" xml:space="preserve">
+    <value>કોલ સફળ રહ્યો.</value>
   </data>
 </root>

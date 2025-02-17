@@ -1,4 +1,7 @@
+using HisabPro.Constants;
+using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,9 +11,11 @@ namespace HisabPro.Web.Controllers.Public
     public class HomeController : Controller
     {
         private readonly string sharedController = "/Views/Shared/{0}.cshtml";
+        private readonly ISharedViewLocalizer _localizer;
 
-        public HomeController()
+        public HomeController(ISharedViewLocalizer localizer)
         {
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -64,25 +69,41 @@ namespace HisabPro.Web.Controllers.Public
         }
 
         [HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        public IActionResult SetLanguage([FromBody] SetLanguageReq req)
         {
-            if (!string.IsNullOrEmpty(culture))
+            ResponseDTO<bool> response = new ResponseDTO<bool>()
             {
-                Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
-                Response.Cookies.Append(
-                    CookieRequestCultureProvider.DefaultCookieName,
-                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                    new CookieOptions
-                    {
-                        Expires = DateTimeOffset.UtcNow.AddYears(1),
-                        HttpOnly = false,
-                        Secure = false,
-                        IsEssential = true
-                    }
-                );
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Message = _localizer.Get(ResourceKey.ApiSuccess),
+                Response = true
+            };
+            try
+            {
+
+                if (!string.IsNullOrEmpty(req.Culture))
+                {
+                    Response.Cookies.Delete(CookieRequestCultureProvider.DefaultCookieName);
+                    Response.Cookies.Append(
+                        CookieRequestCultureProvider.DefaultCookieName,
+                        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(req.Culture)),
+                        new CookieOptions
+                        {
+                            Expires = DateTimeOffset.UtcNow.AddYears(1),
+                            HttpOnly = false,
+                            Secure = false,
+                            IsEssential = true
+                        }
+                    );
+                }
             }
-            //return LocalRedirect(returnUrl);
-            return Json(new { success = true });
+            catch
+            {
+                response.StatusCode = System.Net.HttpStatusCode.InternalServerError;
+                response.Message = _localizer.Get(ResourceKey.ErrorInChangeLang);
+                response.Response = false;
+            }
+            //return LocalRedirect(req.ReturnUrl);
+            return StatusCode((int)response.StatusCode, response);
         }
     }
 }

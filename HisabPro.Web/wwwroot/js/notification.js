@@ -8,9 +8,10 @@
         info: For informational messages (blue).
         light: For light-colored alerts (grey background).
         dark: For dark-colored alerts.
+   @param {any} autoHide
    @param {any} delay
-   @param {any} autoHide */
-function showNotification(message, type = 'success', delay = 3000, autoHide = true) {
+   */
+function showNotification(message, type = 'success', autoHide = true, delay = 3000) {
     var toastId = "toast_" + new Date().getTime(); // Unique ID for each toast
 
     if (type == 'success')
@@ -70,5 +71,3 @@ function showNotification(message, type = 'success', delay = 3000, autoHide = tr
         });
     });
 }
-// Example usage:
-// showNotification('Your message here.', 'success', 5000, true);

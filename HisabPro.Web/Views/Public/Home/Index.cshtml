@@ -17,22 +17,4 @@
         <a class="btn btn-success btn-lg" asp-controller="User" asp-action="Login" role="button">Login Now</a>
     }
     It's Free and Easy to use!
-    <div class="container mt-5">
-        <button id="showNotification" class="btn btn-primary">Show Notification</button>
-    </div>
-
-    
 </div>
-
-<script>
-    var cnt = 0;
-    $(document).ready(function () {
-        $('#showNotification').on('click', function (e) {
-            var type = "error";
-            var message = '<p>This will help you to manage your financial welth and take rigth decision on right time.</p>        Would you like to know more aobut other exicted fetures ? Absolutly you can < a class= "btn btn-primary btn-lg" href = "#" role = "button" > Learn more < /a><br / > <br />        To start managing your budget today';
-            showNotification(message, "success", 1000, false)
-            cnt++;
-            //showNotification(message + cnt, 'success', 5000, false);
-        });
-    });
-</script>

@@ -156,6 +156,7 @@ namespace HisabPro.Constants.Resources
         public const string LabelApiUserDeactivate = "LabelApiUserDeactivate";
         public const string LabelApiUserDeactivateFailed = "LabelApiUserDeactivateFailed";
         public const string LabelApiInternalError = "LabelApiInternalError";
+        public const string ErrorInChangeLang = "ErrorInChangeLang";
         public const string LabelApiDelete = "LabelApiDelete";
         public const string LabelApiReferenceDeleteError = "LabelApiReferenceDeleteError";
         public const string LabelApiNotFound = "LabelApiNotFound";
@@ -164,6 +165,7 @@ namespace HisabPro.Constants.Resources
         public const string LabelApiDataRetrived = "LabelApiDataRetrived";
         public const string LabelApiDataRetrivedFailed = "LabelApiDataRetrivedFailed";
         public const string LabelApiDataImportSuccess = "LabelApiDataImportSuccess";
+        public const string ApiSuccess = "ApiSuccess";
 
         public const string LabelApiImportFileAllowedExtensions = "LabelApiImportFileAllowedExtensions";
         public const string LabelApiImportSuccess = "LabelApiImportSuccess";

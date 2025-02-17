@@ -14,7 +14,7 @@
 
     #brandLogo {
         cursor: pointer;
-        margin-bottom: unset;
+        margin: 0px 20px 0px 0px;
     }
 
         #brandLogo img {
@@ -78,12 +78,12 @@
             <h4 id="brandLogo" class="text-center"><img src="~/icons/Logo-Transaparent.png" alt="HisabPro Logo"> HisabPro</h4>
         </div>
         <div class="sidebar-menu flex-grow-1 overflow-auto">
-            <a href="Dashboard/Index" class="active"><i class="bi bi-house-fill"></i> @_localizer.Get(ResourceKey.LabelDashboard)</a>
+            <a asp-controller="Dashboard" asp-action="Index" class="active"><i class="bi bi-house-fill"></i> @_localizer.Get(ResourceKey.LabelDashboard)</a>
 
             <!-- Collapsible Menu for Admin -->
             <a class="d-flex justify-content-between align-items-center" data-menu="adminSubmenu" role="button">
                 <span><i class="bi bi-person-gear"></i> @_localizer.Get(ResourceKey.LabelRoleAdmin)</span>
-                <i class="bi bi-caret-down-fill"></i>
+                <i class="menu-arrow bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="adminSubmenu">
                 <a asp-controller="Accounts" asp-action="Index" class="ms-3"><i class="bi bi-wallet2"></i> @_localizer.Get(ResourceKey.LabelAccounts)</a>
@@ -96,7 +96,7 @@
             <!-- Collapsible Menu for Import -->
             <a class="d-flex justify-content-between align-items-center" data-menu="importSubmenu" role="button">
                 <span><i class="bi bi-file-arrow-up"></i> @_localizer.Get(ResourceKey.LabelImports)</span>
-                <i class="bi bi-caret-down-fill"></i>
+                <i class="menu-arrow bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="importSubmenu">
                 <a asp-controller="Import" asp-action="Expense" class="ms-3"><i class="bi bi-cash-stack"></i> @_localizer.Get(ResourceKey.LabelExpenses)</a>
@@ -105,25 +105,25 @@
 
             <!-- Collapsible Menu for Reports -->
             <a class="d-flex justify-content-between align-items-center" data-menu="reportsSubmenu" role="button">
-                <span><i class="bi bi-file-earmark-bar-graph"></i>@_localizer.Get(ResourceKey.LabelReports)</span>
-                <i class="bi bi-caret-down-fill"></i>
+                <span><i class="bi bi-file-earmark-bar-graph"></i> @_localizer.Get(ResourceKey.LabelReports)</span>
+                <i class="menu-arrow bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="reportsSubmenu">
-                <a href="#" class="ms-3"><i class="bi bi-clipboard-data"></i>@_localizer.Get(ResourceKey.LabelMonthlyReports)</a>
-                <a href="#" class="ms-3"><i class="bi bi-pie-chart"></i>@_localizer.Get(ResourceKey.LabelAnnualReports)</a>
+                <a href="#" class="ms-3"><i class="bi bi-clipboard-data"></i> @_localizer.Get(ResourceKey.LabelMonthlyReports)</a>
+                <a href="#" class="ms-3"><i class="bi bi-pie-chart"></i> @_localizer.Get(ResourceKey.LabelAnnualReports)</a>
             </div>
 
             <!-- Collapsible Menu for Analytics -->
             <a class="d-flex justify-content-between align-items-center" data-menu="analyticsSubmenu" role="button">
-                <span><i class="bi bi-graph-up"></i>@_localizer.Get(ResourceKey.LabelAnalytics)</span>
-                <i class="bi bi-caret-down-fill"></i>
+                <span><i class="bi bi-graph-up"></i> @_localizer.Get(ResourceKey.LabelAnalytics)</span>
+                <i class="menu-arrow bi bi-caret-down-fill"></i>
             </a>
             <div class="collapse" id="analyticsSubmenu">
-                <a href="#" class="ms-3"><i class="bi bi-bar-chart"></i>@_localizer.Get(ResourceKey.LabelTrendAnalysis)</a>
-                <a href="#" class="ms-3"><i class="bi bi-activity"></i>@_localizer.Get(ResourceKey.LabelActivityReports)</a>
+                <a href="#" class="ms-3"><i class="bi bi-bar-chart"></i> @_localizer.Get(ResourceKey.LabelTrendAnalysis)</a>
+                <a href="#" class="ms-3"><i class="bi bi-activity"></i> @_localizer.Get(ResourceKey.LabelActivityReports)</a>
             </div>
 
-            <a href="#"><i class="bi bi-gear-fill"></i>@_localizer.Get(ResourceKey.LabelSettings)</a>
+            <a href="#"><i class="bi bi-gear-fill"></i> @_localizer.Get(ResourceKey.LabelSettings)</a>
         </div>
     </div>
 
@@ -145,11 +145,6 @@
 
             $("#brandLogo").click(function () {
                 window.location.href = '/Home/Index';
-            });
-
-            $('[role="button"]').on('click', function () {
-                var submenu = $(this).data('menu');
-                $('#' + submenu).toggle();
             });
 
             // Adjust on page load and window resize
@@ -176,46 +171,53 @@
             $('.sidebar').height(sidebarHeight);
         }
 
-        function restoreLeftMenuState(){
+        function restoreLeftMenuState() {
             $(".collapse").each(function () {
                 var menuId = $(this).attr("id");
-                var isExpanded = localStorage.getItem("sidebar_" + menuId);
+                const isExpanded = JSON.parse(localStorage.getItem("sidebar_" + menuId));
+                var menuArrow = $("[data-menu='" + menuId + "']").find(".menu-arrow");
 
-                if (isExpanded === "true") {
+                if (isExpanded === true) {
                     $(this).addClass("show"); // Keep it open
-                    $("[data-menu='" + menuId + "']").find("i.bi-caret-down-fill").addClass("rotated");
                 }
+                setMenuArrowIcon(menuArrow, isExpanded);
             });
         }
 
-        function toggleLeftMenu(){
+        function toggleLeftMenu() {
             $("[data-menu]").click(function () {
                 var menuId = $(this).attr("data-menu");
                 var targetMenu = $("#" + menuId);
+                var menuArrow = $(this).find(".menu-arrow");
 
                 targetMenu.collapse("toggle");
 
                 // Store state in localStorage
-                var isExpanded = targetMenu.hasClass("show");
-                localStorage.setItem("sidebar_" + menuId, !isExpanded);
+                var isExpanded = menuArrow.hasClass("bi-caret-down-fill");
+                localStorage.setItem("sidebar_" + menuId, JSON.stringify(isExpanded));
 
-                // Toggle caret rotation
-                $(this).find("i.bi-caret-down-fill").toggleClass("rotated");
+                setMenuArrowIcon(menuArrow, isExpanded);
             });
         }
 
-        function highlightActiveMenu(){
+        function highlightActiveMenu() {
             var currentUrl = window.location.pathname.toLowerCase();
             $(".sidebar-menu a").each(function () {
                 $(this).removeClass("active");
                 var linkHref = $(this).attr("href");
                 if (linkHref && currentUrl === linkHref.toLowerCase()) {
                     $(this).addClass("active");
-                    // // Expand parent submenu if inside one
-                    // $(this).closest(".collapse").addClass("show");
-                    // $(this).closest(".collapse").prev("[data-menu]").find("i.bi-caret-down-fill").addClass("rotated");
                 }
             });
+        }
+
+        function setMenuArrowIcon(menuArrow, isExpanded) {
+            if (!isExpanded) {
+                menuArrow.removeClass("bi-caret-up-fill").addClass("bi-caret-down-fill");
+            }
+            else {
+                menuArrow.removeClass("bi-caret-down-fill").addClass("bi-caret-up-fill");
+            }
         }
     </script>
 }

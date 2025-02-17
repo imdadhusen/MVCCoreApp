@@ -188,11 +188,6 @@
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-        function getCookie(name) {
-            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-            return match ? decodeURIComponent(match[2]) : null;
-        }
-
         $(document).ready(function () {
             // Get selected language from the cookie
             var selectedLang = getCookie(".AspNetCore.Culture"); // Default ASP.NET Core culture cookie
@@ -220,19 +215,28 @@
             $("#year").text(new Date().getFullYear());
 
             $(".lang-option").click(function (e) {
-                e.preventDefault(); // Prevent default anchor behavior
-
+                e.preventDefault();
                 var selectedCulture = $(this).data("culture");
-
-                $.post("/Home/SetLanguage", { culture: selectedCulture, returnUrl: window.location.pathname })
-                    .done(function () {
-                        location.reload(); // Reload the page to apply the new language
-                    })
-                    .fail(function () {
-                        alert("Error changing language. Please try again.");
-                    });
+                var data = { culture: selectedCulture, returnUrl: window.location.pathname };
+                ajax.post("/Home/SetLanguage", data, changeLangSuccess);
             });
         })
+
+        function getCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? decodeURIComponent(match[2]) : null;
+        }
+
+        // Reload the page to apply the new language
+        function changeLangSuccess(res) {
+            console.log('S:', JSON.stringify(res));
+            if (res.statusCode == 200) {
+                location.reload();
+            }
+            else {
+                showNotification(res.message, 'danger', false);
+            }
+        }
     </script>
 </body>
 </html>

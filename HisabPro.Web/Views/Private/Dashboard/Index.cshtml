@@ -77,18 +77,27 @@
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
                     <div class="card-body" id="dvExpenseDistribution">
-                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> @_localizer.Get(ResourceKey.LabelDashboardExpenseDistribution)</h5>
-                        <canvas id="expensePieChart"></canvas>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-pie-chart-fill"></i> @_localizer.Get(ResourceKey.LabelDashboardExpenseDistribution)
+                        </h5>
+                        <div class="d-flex justify-content-center">
+                            <canvas id="expensePieChart" width="200"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
+
 
             <!-- New Pie Chart -->
             <div class="col-md-6">
                 <div class="card mb-4 border-warning">
                     <div class="card-body" id="dvIncomeDistribution">
-                        <h5 class="card-title text-warning"><i class="bi bi-pie-chart-fill"></i> @_localizer.Get(ResourceKey.LabelDashboardIncomeDistribution)</h5>
-                        <canvas id="incomePieChart"></canvas>
+                        <h5 class="card-title text-warning">
+                            <i class="bi bi-pie-chart-fill"></i> @_localizer.Get(ResourceKey.LabelDashboardIncomeDistribution)
+                        </h5>
+                        <div class="d-flex justify-content-center">
+                            <canvas id="incomePieChart" width="200"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -365,7 +374,7 @@
             ctx.font = '16px Arial';
             ctx.textAlign = 'center';
             ctx.fillStyle = 'gray';
-            ctx.fillText('@Html.Raw(_localizer.Get(ResourceKey.LabelNoRecords))', ctx.canvas.width , ctx.canvas.height/2 );
+            ctx.fillText('@Html.Raw(_localizer.Get(ResourceKey.LabelNoRecords))', ctx.canvas.width / 2, ctx.canvas.height / 2);
         }
     </script>
 }
