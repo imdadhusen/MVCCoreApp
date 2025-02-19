@@ -39,7 +39,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var parentCategories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Expense);
             var childCategories = await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Expense);
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<int> {
                     FieldName = "CategoryId",
@@ -73,8 +73,11 @@ namespace HisabPro.Web.Controllers.Private
                     FieldTitle= _localizer.Get(ResourceKey.LabelFilterBulkImported)
                 }
             };
-
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

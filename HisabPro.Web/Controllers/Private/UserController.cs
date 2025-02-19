@@ -99,7 +99,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
             var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
                     FieldName = "Name",
@@ -128,7 +128,11 @@ namespace HisabPro.Web.Controllers.Private
                     Items = _mapper.Map<List<IdNameAndRefId>>(genders),
                 }
             };
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

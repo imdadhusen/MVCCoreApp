@@ -53,7 +53,7 @@
             // Gird : Handle sorting
             $table.on('click', 'th.sort', function () {
                 //Don't do sort if record is single
-                if (totalRecords > 1 ) {
+                if (totalRecords > 1) {
                     showHideLoading(true);
 
                     var $header = $(this);
@@ -190,12 +190,22 @@
                 }
             }
             function loadGridview() {
-                var page = { PageNumber: currentPage, PageSize: settings.pagination.pageSize, SortBy: sortColumn, SortDirection: sortOrder }
-                var data = { PageData: page, Filters: filters };
+                var page = {
+                    PageNumber: currentPage,
+                    PageSize: settings.pagination.pageSize,
+                    SortBy: sortColumn,
+                    SortDirection: sortOrder
+                }
+                var data = {
+                    PageData: page,
+                    Filter: {
+                        Fields: filters
+                    }
+                };
                 var url = `${settings.controllerName}/${settings.actionLoad}`;
-                ajax.html(url, data, refreshGridviewData, data);
+                ajax.html(url, data, successLoadGridview, data, errorLoadGridview);
             }
-            function refreshGridviewData(res) {
+            function successLoadGridview(res) {
                 if (settings.allData) {
                     $table.find('tbody').html(res);
                 }
@@ -207,6 +217,10 @@
 
                     setPageTitle();
                 }
+                showHideLoading(false);
+            }
+            function errorLoadGridview(res) {
+                showNotification(appResources.apiFailed, 'danger');
                 showHideLoading(false);
             }
             function setPageTitle() {

@@ -1,6 +1,6 @@
 ﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
-@model List<BaseFilterModel>
+@model FilterViewModel
 
 <div class="grid-filter card mb-1">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -13,10 +13,13 @@
 
         <!-- Right-aligned Apply Filter button and toggle button -->
         <div class="d-flex align-items-center">
-            <a asp-action="Save" class="btn btn-success">
-                <i class="bi bi-plus-lg me-1"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
-            </a>
-            <span class="mx-2 border border-secondary" style="height: 24px;"></span>
+            @if(Model.HasCreateNew) {
+                <a asp-action="Save" class="btn btn-success">
+                    <i class="bi bi-plus-lg me-1"></i> @_localizer.Get(ResourceKey.LabelCreateNew)
+                </a>
+                <span class="mx-2 border border-secondary" style="height: 24px;"></span>
+            }
+               
             <button type="button" class="applyFilters btn btn-primary me-2">
                 <i class="bi bi-check-circle"></i> @_localizer.Get(ResourceKey.LabelFilterApplyFilter)
             </button>
@@ -31,65 +34,76 @@
     <div class="grid-filter-body card-body">
         <form class="filterForm card-body">
             <div class="row">
-                @foreach (var filter in Model)
+                @foreach (var field in Model.Fields)
                 {
                     <div class="col-md-4">
                         <div class="form-group mb-3">
-                            <label class="form-label">@filter.FieldTitle</label>
+                            <label class="form-label">@field.FieldTitle</label>
 
-                            @if (filter is FilterModel<bool> boolFilter)
+                            @if (field is FilterModel<bool> boolFilter)
                             {
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="@filter.FieldName" data-type="bool" id="yesOption" value="Yes">
+                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-type="bool" id="yesOption" value="Yes">
                                         <label class="form-check-label" for="yesOption">@_localizer.Get(ResourceKey.LabelYes)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="@filter.FieldName" data-type="bool" id="noOption" value="No">
+                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-type="bool" id="noOption" value="No">
                                         <label class="form-check-label" for="noOption">@_localizer.Get(ResourceKey.LabelNo)</label>
                                     </div>
                                 </div>
                             }
-                            else if (filter is FilterModel<int> intFilter && intFilter.Items != null)
+                            else if (field is FilterModel<int> intFilter && intFilter.Items != null)
                             {
                                 <div>
-                                    <select name="@filter.FieldName" data-child="@filter.ChildFieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
+                                    <select name="@field.FieldName" data-child="@field.ChildFieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
                                         @foreach (var item in intFilter.Items)
                                         {
                                             <option data-ref="@item.RefId" value="@item.Id">@item.Name</option>
                                         }
                                     </select>
-                                    @if (filter.ChildItems != null && filter.ChildItems.Count >= 1)
+                                    @if (field.ChildItems != null && field.ChildItems.Count >= 1)
                                     {
                                         <script>
-                                            var dynamicVarName = "@filter.ChildFieldName"; //SubCategoryId
+                                            var dynamicVarName = "@field.ChildFieldName"; //SubCategoryId
                                             //Create dynamic variable to filter children data
-                                            window[dynamicVarName] = @Html.Raw(Json.Serialize(@filter.ChildItems));
+                                            window[dynamicVarName] = @Html.Raw(Json.Serialize(@field.ChildItems));
                                         </script>
                                     }
                                 </div>
                             }
-                            else if (filter is FilterModel<int> intFilterSelect && intFilterSelect.Items == null)
+                            else if (field is FilterModel<int> intFilterSelect && intFilterSelect.Items == null)
                             {
                                 <div>
-                                    <select name="@filter.FieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
+                                    <select name="@field.FieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
                                     </select>
                                 </div>
                             }
-                            else if (filter is FilterModel<string> stringFilter)
-                            {
-                                <div>
-                                    <input type="text" name="@filter.FieldName" data-type="string" class="form-control" />
-                                </div>
-                            }
-                            else if (filter is FilterModel<DateTime> dateFilter)
+                            else if (field is FilterModel<double> doubleFilter)
                             {
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="date" name="@($"{filter.FieldName}_Start")" data-type="date" class="form-control" />
+                                        <input type="number" name="@($"{field.FieldName}_Start")" data-type="number" class="form-control" />
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="date" name="@($"{filter.FieldName}_End")" data-type="date" class="form-control" />
+                                        <input type="number" name="@($"{field.FieldName}_End")" data-type="number" class="form-control" />
+                                    </div>
+                                </div>
+                            }
+                            else if (field is FilterModel<string> stringFilter)
+                            {
+                                <div>
+                                    <input type="text" name="@field.FieldName" data-type="string" class="form-control" />
+                                </div>
+                            }
+                            else if (field is FilterModel<DateTime> dateFilter)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="date" name="@($"{field.FieldName}_Start")" data-type="date" class="form-control" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="date" name="@($"{field.FieldName}_End")" data-type="date" class="form-control" />
                                     </div>
                                 </div>
                             }

@@ -33,7 +33,7 @@ namespace HisabPro.Web.Controllers.Private
         public async Task<IActionResult> Index()
         {
             var types = EnumHelper.ToIdNameList<EnumCategoryType>(_localizer);
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
                     FieldName = "Name",
@@ -53,7 +53,11 @@ namespace HisabPro.Web.Controllers.Private
                     FieldTitle= _localizer.Get(ResourceKey.LabelFilterStandard)
                 }
             };
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

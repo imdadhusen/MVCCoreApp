@@ -5,7 +5,7 @@ namespace HisabPro.Services.Helper
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> ApplyDynamicFilters<T>(this IQueryable<T> query, List<BaseFilterModel> filters)
+        public static IQueryable<T> ApplyDynamicFilters<T>(this IQueryable<T> query, List<BaseFilterModel>? filters)
         {
             if (filters == null || filters.Count == 0)
                 return query;

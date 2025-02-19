@@ -1,7 +1,7 @@
 ﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
 @model HisabPro.Web.ViewModel.GridViewModel<object>
-@await Html.PartialAsync("../Shared/_Filter", Model.Filters)
+@await Html.PartialAsync("../Shared/_Filter", Model.Filter)
 <div class="grid-wrapper">
     <table class="table table-hover sortable">
         <thead>
