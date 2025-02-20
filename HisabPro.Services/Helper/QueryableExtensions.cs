@@ -35,6 +35,21 @@ namespace HisabPro.Services.Helper
                             query = query.Where(x => EF.Property<int>(x, intFilter.FieldName) == intFilter.StartValue);
                         }
                         break;
+                    case FilterModel<double> doubleFilter:
+                        if (doubleFilter.RangeValue != null && doubleFilter.RangeValue.Any())
+                        {
+                            query = query.Where(x => doubleFilter.RangeValue.Contains(EF.Property<double>(x, doubleFilter.FieldName)));
+                        }
+                        else if (doubleFilter.StartValue != default && doubleFilter.EndValue != default)
+                        {
+                            query = query.Where(x => EF.Property<double>(x, doubleFilter.FieldName) >= doubleFilter.StartValue &&
+                            EF.Property<double>(x, doubleFilter.FieldName) <= doubleFilter.EndValue);
+                        }
+                        else if (doubleFilter.StartValue != default)
+                        {
+                            query = query.Where(x => EF.Property<double>(x, doubleFilter.FieldName) == doubleFilter.StartValue);
+                        }
+                        break;
                     case FilterModel<DateTime> dateTimeFilter:
                         if (dateTimeFilter.StartValue != default && dateTimeFilter.EndValue != default)
                         {

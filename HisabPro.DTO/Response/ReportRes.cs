@@ -12,7 +12,9 @@ namespace HisabPro.DTO.Response
         public string? SubCategory { get; set; }
         public double Amount { get; set; }
         public string Account { get; set; }
-        public string Type { get; set; } //Type: 1:Income or 2:Expense
+        public string Type { get; set; } // 1:Expense or 2:Income, used for display in grid
+        public int TypeId { get; set; } // 1 or 2, used for filter
+
         public string? Note { get; set; }
     }
 }

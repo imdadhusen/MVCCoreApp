@@ -35,6 +35,7 @@ namespace HisabPro.Services.Implements
                     Amount = i.Amount,
                     Account = i.Account.Name,
                     Type = EnumLocalizationHelper.Get(EnumCategoryType.Income),
+                    TypeId = (int)EnumCategoryType.Income,
                     Note = i.Note
                 });
 
@@ -49,6 +50,7 @@ namespace HisabPro.Services.Implements
                     Amount = e.Amount,
                     Account = e.Account.Name,
                     Type = EnumLocalizationHelper.Get(EnumCategoryType.Expense),
+                    TypeId = (int)EnumCategoryType.Expense,
                     Note = e.Note
                 });
 

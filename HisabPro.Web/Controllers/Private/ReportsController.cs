@@ -48,7 +48,7 @@ namespace HisabPro.Web.Controllers.Private
                     FieldTitle = _localizer.Get(ResourceKey.FieldTitle)
                 },
                 new FilterModel<int> {
-                    FieldName = "Type",
+                    FieldName = "TypeId",
                     FieldTitle = _localizer.Get(ResourceKey.FieldType),
                     Items = _mapper.Map<List<IdNameAndRefId>>(types),
                 },

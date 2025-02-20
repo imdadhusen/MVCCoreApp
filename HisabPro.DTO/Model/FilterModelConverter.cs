@@ -29,21 +29,35 @@ namespace HisabPro.DTO.Model
                 }
                 else if (jsonObject.TryGetProperty("StartValue", out var startValue))
                 {
-                    if (startValue.ValueKind == JsonValueKind.Number)
+                    //if (startValue.ValueKind == JsonValueKind.Number)
+                    //{
+                    //    return JsonSerializer.Deserialize<FilterModel<int>>(jsonObject.GetRawText(), options);
+                    //}
+                    //if (startValue.ValueKind == JsonValueKind.String && DateTime.TryParse(startValue.GetString(), out _))
+                    //{
+                    //    return JsonSerializer.Deserialize<FilterModel<DateTime>>(jsonObject.GetRawText(), options);
+                    //}
+                    //if (startValue.ValueKind == JsonValueKind.True || startValue.ValueKind == JsonValueKind.False)
+                    //{
+                    //    return JsonSerializer.Deserialize<FilterModel<bool>>(jsonObject.GetRawText(), options);
+                    //}
+                    //if (startValue.ValueKind == JsonValueKind.String)
+                    //{
+                    //    return JsonSerializer.Deserialize<FilterModel<string>>(jsonObject.GetRawText(), options);
+                    //}
+                    if (jsonObject.TryGetProperty("Type", out var dataType))
                     {
-                        return JsonSerializer.Deserialize<FilterModel<int>>(jsonObject.GetRawText(), options);
-                    }
-                    if (startValue.ValueKind == JsonValueKind.String && DateTime.TryParse(startValue.GetString(), out _))
-                    {
-                        return JsonSerializer.Deserialize<FilterModel<DateTime>>(jsonObject.GetRawText(), options);
-                    }
-                    if (startValue.ValueKind == JsonValueKind.True || startValue.ValueKind == JsonValueKind.False)
-                    {
-                        return JsonSerializer.Deserialize<FilterModel<bool>>(jsonObject.GetRawText(), options);
-                    }
-                    if (startValue.ValueKind == JsonValueKind.String)
-                    {
-                        return JsonSerializer.Deserialize<FilterModel<string>>(jsonObject.GetRawText(), options);
+                        string type = dataType.ToString();
+                        if (type == FilterDataType.Bool)
+                            return JsonSerializer.Deserialize<FilterModel<bool>>(jsonObject.GetRawText(), options);
+                        if (type == FilterDataType.Int)
+                            return JsonSerializer.Deserialize<FilterModel<int>>(jsonObject.GetRawText(), options);
+                        if (type == FilterDataType.String)
+                            return JsonSerializer.Deserialize<FilterModel<string>>(jsonObject.GetRawText(), options);
+                        if (type == FilterDataType.Date)
+                            return JsonSerializer.Deserialize<FilterModel<DateTime>>(jsonObject.GetRawText(), options);
+                        if (type == FilterDataType.Double)
+                            return JsonSerializer.Deserialize<FilterModel<double>>(jsonObject.GetRawText(), options);
                     }
                 }
             }
