@@ -3,6 +3,7 @@
         bool: `bool`,
         int: `int`,
         string: `string`,
-        date: `DateTime`
+        date: `DateTime`,
+        double: `double`
     }
 }

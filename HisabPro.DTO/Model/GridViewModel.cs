@@ -1,6 +1,4 @@
-﻿using HisabPro.DTO.Model;
-
-namespace HisabPro.Web.ViewModel
+﻿namespace HisabPro.DTO.Model
 {
     public class GridViewModel<T>
     {
@@ -11,7 +9,8 @@ namespace HisabPro.Web.ViewModel
         public int PageSize { get; set; }
         public string? SortBy { get; set; }
         public string? SortDirection { get; set; }
-        public List<BaseFilterModel>? Filters { get; set; }  
+        //public List<BaseFilterModel>? Filters { get; set; }  
+        public FilterViewModel? Filter { get; set; }
     }
 
     public class Column
@@ -22,7 +21,8 @@ namespace HisabPro.Web.ViewModel
         public Align Align { get; set; } = Align.Left;
 
         private string _width;
-        public string Width {
+        public string Width
+        {
             get => string.IsNullOrEmpty(_width) ? GetDefaultWidth(Type) : _width;
             set => _width = value;
         }

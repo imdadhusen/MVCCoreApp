@@ -5,7 +5,7 @@ namespace HisabPro.Services.Helper
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> ApplyDynamicFilters<T>(this IQueryable<T> query, List<BaseFilterModel> filters)
+        public static IQueryable<T> ApplyDynamicFilters<T>(this IQueryable<T> query, List<BaseFilterModel>? filters)
         {
             if (filters == null || filters.Count == 0)
                 return query;
@@ -33,6 +33,21 @@ namespace HisabPro.Services.Helper
                         else if (intFilter.StartValue != default)
                         {
                             query = query.Where(x => EF.Property<int>(x, intFilter.FieldName) == intFilter.StartValue);
+                        }
+                        break;
+                    case FilterModel<double> doubleFilter:
+                        if (doubleFilter.RangeValue != null && doubleFilter.RangeValue.Any())
+                        {
+                            query = query.Where(x => doubleFilter.RangeValue.Contains(EF.Property<double>(x, doubleFilter.FieldName)));
+                        }
+                        else if (doubleFilter.StartValue != default && doubleFilter.EndValue != default)
+                        {
+                            query = query.Where(x => EF.Property<double>(x, doubleFilter.FieldName) >= doubleFilter.StartValue &&
+                            EF.Property<double>(x, doubleFilter.FieldName) <= doubleFilter.EndValue);
+                        }
+                        else if (doubleFilter.StartValue != default)
+                        {
+                            query = query.Where(x => EF.Property<double>(x, doubleFilter.FieldName) == doubleFilter.StartValue);
                         }
                         break;
                     case FilterModel<DateTime> dateTimeFilter:

@@ -1,6 +1,6 @@
 ﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
-@model HisabPro.Web.ViewModel.GridViewModel<object>
+@model HisabPro.DTO.Model.GridViewModel<object>
 <span id="spnTotalRec">@Model.TotalRecords</span>
 @if (@Model.TotalRecords >= 1)
 {
@@ -9,10 +9,10 @@
         <tr>
             @foreach (var column in Model.Columns)
             {
-                var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.Web.ViewModel.Align.Center ? "center" : column.Align == HisabPro.Web.ViewModel.Align.Right ? "right" : "left");
+                var colAlign = string.Format("text-align:{0};", column.Align == HisabPro.DTO.Model.Align.Center ? "center" : column.Align == HisabPro.DTO.Model.Align.Right ? "right" : "left");
                 var dataId = item.GetType().GetProperty("Id")?.GetValue(item, null);
                 var cssName = string.IsNullOrEmpty(column.CssName) ? "" : string.Format("class='{0}'", column.CssName);
-                if (column.Type == HisabPro.Web.ViewModel.Type.Edit)
+                if (column.Type == HisabPro.DTO.Model.Type.Edit)
                 {
                     <td style="text-align:center">
                         <button class="save-action btn btn-primary btn-sm" title="@_localizer.Get(ResourceKey.LabelEdit)" data-id="@dataId">
@@ -20,7 +20,7 @@
                         </button>
                     </td>
                 }
-                else if (column.Type == HisabPro.Web.ViewModel.Type.Delete)
+                else if (column.Type == HisabPro.DTO.Model.Type.Delete)
                 {
                     <td style="text-align:center">
                         <button class="delete-action btn btn-danger btn-sm" title="@_localizer.Get(ResourceKey.LabelDelete)" data-id="@dataId">
@@ -32,13 +32,13 @@
                 {
                     var value = item.GetType().GetProperty(column.Name)?.GetValue(item, null);
 
-                    if (column.Type == HisabPro.Web.ViewModel.Type.Date && DateTime.TryParse(value?.ToString() ?? string.Empty, out var parsedDate))
+                    if (column.Type == HisabPro.DTO.Model.Type.Date && DateTime.TryParse(value?.ToString() ?? string.Empty, out var parsedDate))
                     {
                         <td style="@colAlign" @cssName>@parsedDate.ToString("dd-MM-yyyy")</td>
                     }
                     else
                     {
-                        if (column.Type == HisabPro.Web.ViewModel.Type.Checkbox)
+                        if (column.Type == HisabPro.DTO.Model.Type.Checkbox)
                         {
                             <td style="text-align:center">
                                 @if(value is bool booleanValue && booleanValue)

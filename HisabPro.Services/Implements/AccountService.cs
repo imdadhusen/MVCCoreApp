@@ -43,7 +43,7 @@ namespace HisabPro.Services.Implements
         public async Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request)
         {
             var data = _accountRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
-            data = data.ApplyDynamicFilters(request.Filters);
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
             data = PageDataHelper.ApplySort(data, request.PageData);
             var pagedData = await PageDataHelper.ApplyPage<Account, AccountRes>(data, request.PageData, _mapper);
             return pagedData;

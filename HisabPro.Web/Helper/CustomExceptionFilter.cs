@@ -21,14 +21,21 @@ namespace HisabPro.Web.Helper
 
         public void OnException(ExceptionContext context)
         {
-            // Log the exception (optional)
             var exception = context.Exception;
-            if (exception is CustomValidationException ex)
+            if (exception is CustomValidationException or FeatureNotAvailableException)
             {
-                _logger.LogError("CustomValidationException: {Message}", ex.Message);
-                context.Result = new JsonResult(new ResponseDTO<bool>(HttpStatusCode.BadRequest, ex.Message, false))
+                var statusCode = exception switch
                 {
-                    StatusCode = ex.StatusCode
+                    CustomValidationException e => e.StatusCode,
+                    FeatureNotAvailableException e => e.StatusCode,
+                    _ => (int)HttpStatusCode.InternalServerError
+                };
+
+                _logger.LogError("{ExceptionType}: {Message}", exception.GetType().Name, exception.Message);
+
+                context.Result = new JsonResult(new ResponseDTO<bool>((HttpStatusCode)statusCode, exception.Message, false))
+                {
+                    StatusCode = statusCode
                 };
                 context.ExceptionHandled = true;
             }

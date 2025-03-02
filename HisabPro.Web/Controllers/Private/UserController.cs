@@ -9,13 +9,12 @@ using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ColType = HisabPro.Web.ViewModel.Type;
+using ColType = HisabPro.DTO.Model.Type;
 
 namespace HisabPro.Web.Controllers.Private
 {
@@ -99,7 +98,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var roles = EnumHelper.ToIdNameList<EnumUserRole>(_localizer);
             var genders = EnumHelper.ToIdNameList<EnumGeneder>(_localizer);
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
                     FieldName = "Name",
@@ -128,7 +127,11 @@ namespace HisabPro.Web.Controllers.Private
                     Items = _mapper.Map<List<IdNameAndRefId>>(genders),
                 }
             };
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

@@ -1,4 +1,4 @@
-﻿namespace HisabPro.Web.ViewModel
+﻿namespace HisabPro.DTO.Model
 {
     public class SummaryModel
     {

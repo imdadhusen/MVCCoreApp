@@ -40,7 +40,7 @@ namespace HisabPro.Services.Implements
         public async Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request)
         {
             var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
-            data = data.ApplyDynamicFilters(request.Filters);
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
 
             data = PageDataHelper.ApplySort(data, request.PageData);
             var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseRes>(data, request.PageData, _mapper);

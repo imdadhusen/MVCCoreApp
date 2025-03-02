@@ -93,6 +93,11 @@ namespace HisabPro
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IExportDataService, ExportDataService>();
+            services.AddKeyedScoped<IExportService, ExportToPDFService>("PDF");
+            //services.AddKeyedScoped<IExportService, ExportToExcel>("Excel");
+            //services.AddKeyedScoped<IExportService, ExportToHTML>("HTML");
 
             services.AddScoped<FilterService>();
             services.ConfigureAutoMappers();//services.AddAutoMapper(typeof(MappingProfile));

@@ -1,6 +1,7 @@
-﻿using HisabPro.DTO.Request;
+﻿using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Web.ViewModel;
+using HisabPro.DTO.Model;
 
 namespace HisabPro.Web.Helper
 {
@@ -24,8 +25,12 @@ namespace HisabPro.Web.Helper
 
             if (firstTimeLoad)
             {
-                model.Filters = req.Filters;
-                req.Filters = null;
+                model.Filter = new FilterViewModel()
+                {
+                    Fields = req.Filter.Fields,
+                    HasCreateNew = req.Filter.HasCreateNew
+                };
+                req.Filter.Fields = null;
             }
 
             var pageData = await fetchPageData(req);
@@ -46,8 +51,12 @@ namespace HisabPro.Web.Helper
 
             if (firstTimeLoad)
             {
-                model.Filters = req.Filters;
-                req.Filters = null;
+                model.Filter = new FilterViewModel()
+                {
+                    Fields = req.Filter.Fields,
+                    HasCreateNew = req.Filter.HasCreateNew
+                };
+                req.Filter.Fields = null;
             }
 
             var pageData = await fetchPageData(req);

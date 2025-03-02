@@ -53,7 +53,7 @@
             // Gird : Handle sorting
             $table.on('click', 'th.sort', function () {
                 //Don't do sort if record is single
-                if (totalRecords > 1 ) {
+                if (totalRecords > 1) {
                     showHideLoading(true);
 
                     var $header = $(this);
@@ -141,6 +141,20 @@
             $table.on('click', '.toggleFilters', function () {
                 toggleFilter();
             });
+            $table.on('click', 'a.export', function () {
+                var selectedExport = $(this).data("export");
+                var data = {
+                    Loading: $table.find(".grid-loading"),
+                    ExportType: selectedExport,
+                    Filter: {
+                        Fields: filters
+                    }
+                };
+
+                var urlExport = `${settings.controllerName}/Export`;
+                showHideLoading(true);
+                ajax.download(urlExport, data);
+            });
 
             // Grid : Helper functions
             function initializeGrid() {
@@ -190,12 +204,22 @@
                 }
             }
             function loadGridview() {
-                var page = { PageNumber: currentPage, PageSize: settings.pagination.pageSize, SortBy: sortColumn, SortDirection: sortOrder }
-                var data = { PageData: page, Filters: filters };
+                var page = {
+                    PageNumber: currentPage,
+                    PageSize: settings.pagination.pageSize,
+                    SortBy: sortColumn,
+                    SortDirection: sortOrder
+                }
+                var data = {
+                    PageData: page,
+                    Filter: {
+                        Fields: filters
+                    }
+                };
                 var url = `${settings.controllerName}/${settings.actionLoad}`;
-                ajax.html(url, data, refreshGridviewData, data);
+                ajax.html(url, data, successLoadGridview, data, errorLoadGridview);
             }
-            function refreshGridviewData(res) {
+            function successLoadGridview(res) {
                 if (settings.allData) {
                     $table.find('tbody').html(res);
                 }
@@ -207,6 +231,10 @@
 
                     setPageTitle();
                 }
+                showHideLoading(false);
+            }
+            function errorLoadGridview(res) {
+                showNotification(appResources.apiFailed, 'danger');
                 showHideLoading(false);
             }
             function setPageTitle() {
@@ -254,41 +282,59 @@
                     const fieldName = $(this).attr('name'); // Get the input name attribute
                     const value = $.trim($(this).val()); // Get the input value
                     if (value != "") {
-                        if (fieldType === "bool") {
+                        if (fieldType === filter.dataType.bool) {
                             if (this.type == "radio") {
                                 let existingFilter = filters.find(f => f.FieldName === fieldName);
                                 if (!existingFilter) {
                                     // Get the selected radio button for the current field
                                     const selectedRadio = $(`input[name="${fieldName}"]:checked`);
                                     if (selectedRadio.length) {
-                                        filters.push({ FieldName: fieldName, StartValue: selectedRadio.val() === "Yes", type: filter.dataType.bool });
+                                        filters.push({ FieldName: fieldName, StartValue: selectedRadio.val() === "Yes", Type: filter.dataType.bool });
                                     }
                                 }
                             }
                             else {
-                                filters.push({ FieldName: fieldName, StartValue: $(this).is(':checked'), type: filter.dataType.bool });
+                                filters.push({ FieldName: fieldName, StartValue: $(this).is(':checked'), Type: filter.dataType.bool });
                             }
                         }
-                        else if (fieldType === "int" && this.tagName === "SELECT") {
+                        else if (fieldType === filter.dataType.int && this.tagName === "SELECT") {
+                            //Number with Multiple values (by dropdown)
                             var intValues = value.split(",").map(Number);
                             if (intValues && intValues.length >= 2) {
                                 // Multiple values selected then use range
-                                filters.push({ FieldName: fieldName, RangeValue: intValues, type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, RangeValue: intValues, Type: filter.dataType.int });
                             }
                             else {
                                 // Single value
-                                filters.push({ FieldName: fieldName, StartValue: intValues[0], type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, StartValue: intValues[0], Type: filter.dataType.int });
                             }
                         }
-                        else if (fieldType === "string") {
-                            filters.push({ FieldName: fieldName, StartValue: value, type: filter.dataType.string });
-                        }
-                        else if (fieldType === "date" && (fieldName.endsWith("_Start") || fieldName.endsWith("_End"))) {
+                        else if (fieldType === filter.dataType.double && fieldName.endsWith("_Start") || fieldName.endsWith("_End")) {
+                            //NUmber with Range (by start and end)
                             const baseFieldName = fieldName.split('_')[0]; // Extract base name
                             let existingFilter = filters.find(f => f.FieldName === baseFieldName);
 
                             if (!existingFilter) {
-                                existingFilter = { FieldName: baseFieldName, type: filter.dataType.date };
+                                existingFilter = { FieldName: baseFieldName, Type: filter.dataType.double };
+                                filters.push(existingFilter);
+                            }
+
+                            if (fieldName.endsWith("_Start")) {
+                                existingFilter.StartValue = value;
+                            }
+                            else if (fieldName.endsWith("_End")) {
+                                existingFilter.EndValue = value;
+                            }
+                        }
+                        else if (fieldType === filter.dataType.string) {
+                            filters.push({ FieldName: fieldName, StartValue: value, Type: filter.dataType.string });
+                        }
+                        else if (fieldType === filter.dataType.date && (fieldName.endsWith("_Start") || fieldName.endsWith("_End"))) {
+                            const baseFieldName = fieldName.split('_')[0]; // Extract base name
+                            let existingFilter = filters.find(f => f.FieldName === baseFieldName);
+
+                            if (!existingFilter) {
+                                existingFilter = { FieldName: baseFieldName, Type: filter.dataType.date };
                                 filters.push(existingFilter);
                             }
 

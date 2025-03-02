@@ -400,8 +400,8 @@ You can get more details</value>
   <data name="LabelLogout" xml:space="preserve">
     <value>Logout</value>
   </data>
-  <data name="LabelMonthlyReports" xml:space="preserve">
-    <value>Monthly Reports</value>
+  <data name="LabelReportIncomeExpense" xml:space="preserve">
+    <value>Income and Expense</value>
   </data>
   <data name="FieldNewPassword" xml:space="preserve">
     <value>New Password</value>
@@ -740,13 +740,13 @@ You can get more details</value>
     <value>Auto Correct Title</value>
   </data>
   <data name="WizardExtractError" xml:space="preserve">
-    <value>An error occurred while extracting the file data</value>
+    <value>An error occurred while extracting the file data.</value>
   </data>
   <data name="WizardUploadError" xml:space="preserve">
-    <value>An error occurred during file upload</value>
+    <value>An error occurred during file upload.</value>
   </data>
   <data name="WizardUploadNoFile" xml:space="preserve">
-    <value>Please select a file to upload before proceeding to the next step</value>
+    <value>Please select a file to upload before proceeding to the next step.</value>
   </data>
   <data name="ValidationRequired" xml:space="preserve">
     <value>{0} field is required.</value>
@@ -780,5 +780,26 @@ You can get more details</value>
   </data>
   <data name="ApiSuccess" xml:space="preserve">
     <value>Call Successful</value>
+  </data>
+  <data name="LabelExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LabelExportCSV" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="LabelExportExcel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
+  <data name="LabelExportHTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="LabelExportPDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="ApiNoRecordsForExport" xml:space="preserve">
+    <value>No data available for export.</value>
+  </data>
+  <data name="ApiFeatureNotAvailable" xml:space="preserve">
+    <value>This feature is not available! Please contact our support team.</value>
   </data>
 </root>

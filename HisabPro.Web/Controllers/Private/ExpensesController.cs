@@ -7,13 +7,11 @@ using HisabPro.DTO.Response;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using ColType = HisabPro.Web.ViewModel.Type;
+using ColType = HisabPro.DTO.Model.Type;
 
 namespace HisabPro.Web.Controllers.Private
 {
@@ -39,7 +37,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var parentCategories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Expense);
             var childCategories = await _categoryService.GetSubCategoriesAsync(EnumCategoryType.Expense);
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<int> {
                     FieldName = "CategoryId",
@@ -73,8 +71,11 @@ namespace HisabPro.Web.Controllers.Private
                     FieldTitle= _localizer.Get(ResourceKey.LabelFilterBulkImported)
                 }
             };
-
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

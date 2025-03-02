@@ -4,10 +4,9 @@ using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ColType = HisabPro.Web.ViewModel.Type;
+using ColType = HisabPro.DTO.Model.Type;
 
 namespace HisabPro.Web.Controllers.Private
 {
@@ -25,7 +24,7 @@ namespace HisabPro.Web.Controllers.Private
 
         public async Task<IActionResult> Index()
         {
-            var filters = new List<BaseFilterModel>
+            var fields = new List<BaseFilterModel>
             {
                 new FilterModel<string> {
                     FieldName = "Name",
@@ -44,7 +43,11 @@ namespace HisabPro.Web.Controllers.Private
                     FieldTitle= _localizer.Get(ResourceKey.FieldIsActive)
                 }
             };
-            var req = new LoadDataRequest() { Filters = filters };
+            var filter = new FilterViewModel
+            {
+                Fields = fields,
+            };
+            var req = new LoadDataRequest() { Filter = filter };
             var model = await LoadGridData(req, true);
             return View(model);
         }

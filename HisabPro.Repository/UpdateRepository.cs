@@ -2,7 +2,6 @@
 using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.Constants.Resources;
-using HisabPro.DTO.Request;
 using HisabPro.Entities.IEntities;
 using HisabPro.Repository.Interfaces;
 
