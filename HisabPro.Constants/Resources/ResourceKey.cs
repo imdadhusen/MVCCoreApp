@@ -59,6 +59,13 @@ namespace HisabPro.Constants.Resources
         public const string LabelLogout = "LabelLogout";
         public const string LabelLanguage = "LabelLanguage";
 
+        //Export
+        public const string LabelExport = "LabelExport";
+        public const string LabelExportPDF = "LabelExportPDF";
+        public const string LabelExportExcel = "LabelExportExcel";
+        public const string LabelExportHTML = "LabelExportHTML";
+        public const string LabelExportCSV = "LabelExportCSV";
+
         //Menu options in private layout
         public const string LabelAccounts = "LabelAccounts";
         public const string LabelExpenses = "LabelExpenses";
@@ -66,7 +73,9 @@ namespace HisabPro.Constants.Resources
         public const string LabelUsers = "LabelUsers";
         public const string LabelImports = "LabelImports";
         public const string LabelReports = "LabelReports";
-        public const string LabelMonthlyReports = "LabelMonthlyReports";
+
+        public const string LabelReportIncomeExpense = "LabelReportIncomeExpense";
+
         public const string LabelAnnualReports = "LabelAnnualReports";
         public const string LabelAnalytics = "LabelAnalytics";
         public const string LabelTrendAnalysis = "LabelTrendAnalysis";
@@ -166,6 +175,9 @@ namespace HisabPro.Constants.Resources
         public const string LabelApiDataRetrivedFailed = "LabelApiDataRetrivedFailed";
         public const string LabelApiDataImportSuccess = "LabelApiDataImportSuccess";
         public const string ApiSuccess = "ApiSuccess";
+        public const string ApiNoRecordsForExport = "ApiNoRecordsForExport";
+        public const string ApiFeatureNotAvailable = "ApiFeatureNotAvailable";
+        
 
         public const string LabelApiImportFileAllowedExtensions = "LabelApiImportFileAllowedExtensions";
         public const string LabelApiImportSuccess = "LabelApiImportSuccess";
@@ -263,6 +275,8 @@ namespace HisabPro.Constants.Resources
         public const string LabelGridPage = "LabelGridPage";
         public const string LabelGridPageOf = "LabelGridPageOf";
         public const string LabelNoRecords = "LabelNoRecords";
+       
+
         public const string LabelYes = "LabelYes";
         public const string LabelNo = "LabelNo";
         public const string LabelEdit = "LabelEdit";

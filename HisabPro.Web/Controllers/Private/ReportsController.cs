@@ -5,10 +5,9 @@ using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ColType = HisabPro.Web.ViewModel.Type;
+using ColType = HisabPro.DTO.Model.Type;
 
 namespace HisabPro.Web.Controllers.Private
 {
@@ -20,14 +19,16 @@ namespace HisabPro.Web.Controllers.Private
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly IReportService _reportService;
+        private readonly IExportDataService _exportDataService;
 
-        public ReportsController(ISharedViewLocalizer localizer, ICategoryService categoryService, IAccountService accountService, IMapper mapper, IReportService reportService)
+        public ReportsController(ISharedViewLocalizer localizer, ICategoryService categoryService, IAccountService accountService, IMapper mapper, IReportService reportService, IExportDataService exportDataService)
         {
             _localizer = localizer;
             _categoryService = categoryService;
             _accountService = accountService;
             _mapper = mapper;
             _reportService = reportService;
+            _exportDataService = exportDataService;
         }
 
         public async Task<IActionResult> Index()
@@ -88,6 +89,14 @@ namespace HisabPro.Web.Controllers.Private
             return PartialView("~/Views/Shared/_GridViewBody.cshtml", model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Export([FromBody] ExportReq req)
+        {
+            var allPageData = await ExportDataHelper.GetData(req, _reportService.ExportData);
+            var data = allPageData.Data;
+            return _exportDataService.Export(data, "Income & Expense Report", req.ExportType, getGridColumns());
+        }
+
         /// <summary>
         /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
@@ -95,17 +104,21 @@ namespace HisabPro.Web.Controllers.Private
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var columns = new List<Column> {
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _reportService.PageData, getGridColumns());
+        }
+
+        private List<Column> getGridColumns()
+        {
+            return new List<Column> {
                 new Column() { Name = "TransactionOn", Title = _localizer.Get(ResourceKey.FieldDate), Type = ColType.Date, Width = "100px" }, //Income or Expense transaction date
-                new Column() { Name = "Title", Title = _localizer.Get(ResourceKey.FieldTitle), Width = "170px"  },
+                new Column() { Name = "Title", Title = _localizer.Get(ResourceKey.FieldTitle), Width = "230px"  },
                 new Column() { Name = "Category", Title = _localizer.Get(ResourceKey.FieldCategory), Width = "140px" },
                 new Column() { Name = "SubCategory", Title = _localizer.Get(ResourceKey.FieldSubCategory), Width = "150px" },
                 new Column() { Name = "Amount", Title = _localizer.Get(ResourceKey.FieldAmount), Align = Align.Right, Width="95px" },
-                new Column() { Name = "Account", Title = _localizer.Get(ResourceKey.FieldAccount), Width = "150px" },
-                new Column() { Name = "Type", Title = _localizer.Get(ResourceKey.FieldType), Width = "150px" }, //Type: Income or Expense
+                new Column() { Name = "Account", Title = _localizer.Get(ResourceKey.FieldAccount), Width = "120px" },
+                new Column() { Name = "Type", Title = _localizer.Get(ResourceKey.FieldType), Width = "100px" }, //Type: Income or Expense
                 new Column() { Name = "Note", Title = _localizer.Get(ResourceKey.FieldNote), IsSortable = false}
             };
-            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _reportService.PageData, columns);
         }
     }
 }

@@ -24,6 +24,22 @@ namespace HisabPro.Services.Implements
 
         public async Task<PageDataRes<ReportRes>> PageData(LoadDataRequest request)
         {
+            var dataQuery = applyFilterAndSort(request);
+            // Apply Paging
+            var pagedData = await PageDataHelper.ApplyPage<ReportRes, ReportRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
+            return pagedData;
+        }
+
+        public async Task<PageDataRes<ReportRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<ReportRes, ReportRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
+            return pagedData;
+        }
+
+        private IQueryable<ReportRes> applyFilterAndSort(LoadDataRequest request)
+        {
             // Fetch Income Data
             var incomes = _incomeRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory")
                 .Select(i => new ReportRes
@@ -63,10 +79,7 @@ namespace HisabPro.Services.Implements
             // Apply Sorting
             combinedData = PageDataHelper.ApplySort(combinedData, request.PageData);
 
-            // Apply Paging
-            var pagedData = await PageDataHelper.ApplyPage<ReportRes, ReportRes>(combinedData.AsQueryable(), request.PageData, _mapper);
-
-            return pagedData;
+            return combinedData;
         }
     }
 }

@@ -7,13 +7,11 @@ using HisabPro.DTO.Response;
 using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
-using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using ColType = HisabPro.Web.ViewModel.Type;
+using ColType = HisabPro.DTO.Model.Type;
 
 namespace HisabPro.Web.Controllers.Private
 {

@@ -141,6 +141,20 @@
             $table.on('click', '.toggleFilters', function () {
                 toggleFilter();
             });
+            $table.on('click', 'a.export', function () {
+                var selectedExport = $(this).data("export");
+                var data = {
+                    Loading: $table.find(".grid-loading"),
+                    ExportType: selectedExport,
+                    Filter: {
+                        Fields: filters
+                    }
+                };
+
+                var urlExport = `${settings.controllerName}/Export`;
+                showHideLoading(true);
+                ajax.download(urlExport, data);
+            });
 
             // Grid : Helper functions
             function initializeGrid() {

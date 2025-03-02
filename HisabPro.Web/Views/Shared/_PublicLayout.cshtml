@@ -16,6 +16,8 @@
             gridOutOf: '@Html.Raw(_localizer.Get(ResourceKey.LabelGridShowingOutOf))',
             noRecords: '@Html.Raw(_localizer.Get(ResourceKey.LabelNoRecords))',
             apiFailed: '@Html.Raw(_localizer.Get(ResourceKey.LabelApiInternalError))',
+            apiNoRecordsForExport: '@Html.Raw(_localizer.Get(ResourceKey.ApiNoRecordsForExport))',
+            apiFeatureNotAvailable: '@Html.Raw(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))',
             wizardUploadNoFile: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadNoFile))',
             wizardUploadError: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadError))',
             wizardExtractError: '@Html.Raw(_localizer.Get(ResourceKey.WizardExtractError))',
@@ -229,7 +231,6 @@
 
         // Reload the page to apply the new language
         function changeLangSuccess(res) {
-            console.log('S:', JSON.stringify(res));
             if (res.statusCode == 200) {
                 location.reload();
             }

@@ -7,7 +7,7 @@ namespace HisabPro.DTO.Model
     {
         public FilterModelConverter() { }
 
-        public override BaseFilterModel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override BaseFilterModel? Read(ref Utf8JsonReader reader, System.Type typeToConvert, JsonSerializerOptions options)
         {
             var jsonDocument = JsonDocument.ParseValue(ref reader);
             var jsonObject = jsonDocument.RootElement;

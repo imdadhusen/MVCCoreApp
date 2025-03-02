@@ -6,5 +6,7 @@ namespace HisabPro.Services.Interfaces
     public interface IReportService
     {
         Task<PageDataRes<ReportRes>> PageData(LoadDataRequest request);
+
+        Task<PageDataRes<ReportRes>> ExportData(ExportReq request);
     }
 }

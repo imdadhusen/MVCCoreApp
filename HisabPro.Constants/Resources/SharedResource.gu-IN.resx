@@ -602,8 +602,8 @@
   <data name="LabelLogout" xml:space="preserve">
     <value>લૉગઆઉટ</value>
   </data>
-  <data name="LabelMonthlyReports" xml:space="preserve">
-    <value>માસિક અહેવાલ</value>
+  <data name="LabelReportIncomeExpense" xml:space="preserve">
+    <value>આવક અને ખર્ચ</value>
   </data>
   <data name="FieldNewPassword" xml:space="preserve">
     <value>નવો પાસવર્ડ</value>
@@ -781,5 +781,26 @@
   </data>
   <data name="ApiSuccess" xml:space="preserve">
     <value>કોલ સફળ રહ્યો.</value>
+  </data>
+  <data name="LabelExport" xml:space="preserve">
+    <value>નિકાસ</value>
+  </data>
+  <data name="LabelExportCSV" xml:space="preserve">
+    <value>CSV</value>
+  </data>
+  <data name="LabelExportExcel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
+  <data name="LabelExportHTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="LabelExportPDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="ApiNoRecordsForExport" xml:space="preserve">
+    <value>નિકાસ માટે કોઈ ડેટા ઉપલબ્ધ નથી.</value>
+  </data>
+  <data name="ApiFeatureNotAvailable" xml:space="preserve">
+    <value>આ સુવિધા ઉપલબ્ધ નથી! કૃપા કરીને અમારી સપોર્ટ ટીમનો સંપર્ક કરો.</value>
   </data>
 </root>

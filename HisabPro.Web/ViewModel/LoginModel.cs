@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HisabPro.Web.ViewModel
+namespace HisabPro.DTO.Model
 {
     public class LoginModel : PageModel
     {

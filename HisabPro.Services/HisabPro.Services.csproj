@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.1" />
+    <PackageReference Include="QuestPDF" Version="2025.1.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HisabPro.Common\HisabPro.Common.csproj" />
     <ProjectReference Include="..\HisabPro.Constants\HisabPro.Constants.csproj" />
     <ProjectReference Include="..\HisabPro.DTO\HisabPro.DTO.csproj" />
     <ProjectReference Include="..\HisabPro.Entities\HisabPro.Entities.csproj" />

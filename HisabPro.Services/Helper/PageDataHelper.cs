@@ -31,5 +31,12 @@ namespace HisabPro.Services.Helper
             var mappedData = mapper.Map<List<T>>(data);
             return new PageDataRes<T> { Data = mappedData, TotalData = total };
         }
+
+        public static async Task<PageDataRes<T>> ApplyAllPage<S, T>(IQueryable<S> query, PageDataReq req, IMapper mapper)
+        {
+            var data = await query.ToListAsync();
+            var mappedData = mapper.Map<List<T>>(data);
+            return new PageDataRes<T> { Data = mappedData };
+        }
     }
 }

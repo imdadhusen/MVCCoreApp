@@ -1,7 +1,7 @@
 ﻿using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
-using HisabPro.Web.ViewModel;
+using HisabPro.DTO.Model;
 
 namespace HisabPro.Web.Helper
 {
