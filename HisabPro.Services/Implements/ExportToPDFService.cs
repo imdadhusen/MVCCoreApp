@@ -1,6 +1,7 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.Constants.Resources;
+using HisabPro.DTO.Model;
 using HisabPro.Services.Helper;
 using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using HisabPro.DTO.Model;
 
 namespace HisabPro.Services.Implements
 {
@@ -124,7 +122,7 @@ namespace HisabPro.Services.Implements
                                     var text = boolValue ? "✅" : "❌";
                                     cell.AlignCenter().AlignMiddle().Text(text).FontColor(Colors.Red.Medium);
                                 }
-                                if (rawValue is DateTime dateValue)  // Safe cast to DateTime
+                                else if (rawValue is DateTime dateValue)  // Safe cast to DateTime
                                 {
                                     cell.Text(dateValue.ToString(dateFormatData));
                                 }

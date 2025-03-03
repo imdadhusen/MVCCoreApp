@@ -26,8 +26,10 @@ namespace HisabPro.Web.Controllers.Private
         private readonly IMapper _mapper;
         private readonly IUserContext _userContext;
         private readonly ISharedViewLocalizer _localizer;
+        private readonly IExportDataService _exportDataService;
 
-        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer)
+        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, 
+            IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _userRpository = userRpository;
             _authService = authService;
@@ -35,6 +37,7 @@ namespace HisabPro.Web.Controllers.Private
             _mapper = mapper;
             _userContext = userContext;
             _localizer = localizer;
+            _exportDataService = exportDataService;
 
             // Configure generic helper for Enum
             EnumLocalizationHelper.Configure(_localizer);
@@ -305,6 +308,14 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Export([FromBody] ExportReq req)
+        {
+            var allPageData = await ExportDataHelper.GetData(req, _userService.ExportData);
+            var data = allPageData.Data;
+            return _exportDataService.Export(data, "User Report", req.ExportType, getGridColumns());
+        }
+
         /// <summary>
         /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
@@ -312,7 +323,19 @@ namespace HisabPro.Web.Controllers.Private
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var columns = new List<Column> {
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _userService.PageData, getGridColumns());
+        }
+
+        private async Task logoutUser()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            // Clear the "Remember Me" cookie
+            Response.Cookies.Delete(AppConst.Cookies.RememberMe);
+        }
+
+        private List<Column> getGridColumns()
+        {
+            return new List<Column> {
                     new Column() { Name = "Name", Title = _localizer.Get(ResourceKey.FieldName), Width = "140px"  },
                     new Column() { Name = "Email", Title = _localizer.Get(ResourceKey.LabelFieldEmail), IsSortable = false},
                     new Column() { Name = "Mobile", Title = _localizer.Get(ResourceKey.FieldMobile), Width="120px" },
@@ -323,14 +346,6 @@ namespace HisabPro.Web.Controllers.Private
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };
-            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _userService.PageData, columns);
-        }
-
-        private async Task logoutUser()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            // Clear the "Remember Me" cookie
-            Response.Cookies.Delete(AppConst.Cookies.RememberMe);
         }
     }
 }

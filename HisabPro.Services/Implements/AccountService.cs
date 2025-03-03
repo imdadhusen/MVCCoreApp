@@ -42,13 +42,17 @@ namespace HisabPro.Services.Implements
         }
         public async Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request)
         {
-            var data = _accountRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
-            data = data.ApplyDynamicFilters(request.Filter.Fields);
-            data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Account, AccountRes>(data, request.PageData, _mapper);
+            var dataQuery = applyFilterAndSort(request);
+            var pagedData = await PageDataHelper.ApplyPage<Account, AccountRes>(dataQuery, request.PageData, _mapper);
             return pagedData;
         }
-
+        public async Task<PageDataRes<AccountRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<Account, AccountRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
+            return pagedData;
+        }
         public async Task<ResponseDTO<AccountRes>> SaveAsync(SaveAccountReq req)
         {
             var map = _mapper.Map<Account>(req);
@@ -72,6 +76,14 @@ namespace HisabPro.Services.Implements
         public async Task<List<IdNameRes>> GetAccountsAsync()
         {
             return await _accountRepo.GetAllAsync(a => new IdNameRes { Id = a.Id.ToString(), Name = a.Name });
+        }
+
+        private IQueryable<Account> applyFilterAndSort(LoadDataRequest request)
+        {
+            var data = _accountRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            return data;
         }
     }
 }

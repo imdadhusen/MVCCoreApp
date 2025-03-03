@@ -1,6 +1,10 @@
 ﻿-------------
 - T A S K S -
 -------------
+Export
+----------
+	- Sub Category should iclude in the report. Right now only parent is display
+
 Migration
 -----------
 D	- Don't create default insertion script (with only timestamp change) everytime creating a migration. It should include only change except default insertion.

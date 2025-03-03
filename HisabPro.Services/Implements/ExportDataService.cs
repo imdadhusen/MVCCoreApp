@@ -32,7 +32,8 @@ namespace HisabPro.Services.Implements
                 _ => throw new FeatureNotAvailableException(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))
             };
 
-            return exportService.Export(data, reportTitle, columns);
+            var showOnlyDataColumns = columns.Where(c => !(c.Type == DTO.Model.Type.Edit || c.Type == DTO.Model.Type.Delete)).ToList();
+            return exportService.Export(data, reportTitle, showOnlyDataColumns);
         }
     }
 }

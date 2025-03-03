@@ -48,7 +48,8 @@ function callApi(type, reqType, url, data, successCallback, successAdditionalDat
         type: type,
         url: url,
         success: function (response, status, xhr) {
-            setLoadingIndicator(data.Loading);
+            if (data && data.Loading)
+                setLoadingIndicator(data.Loading);
 
             if (reqType == RequestType.DOWNLOAD) {
                 // Check if response is actually a PDF
@@ -82,7 +83,8 @@ function callApi(type, reqType, url, data, successCallback, successAdditionalDat
             }
         },
         error: function (xhr, status, error) {
-            setLoadingIndicator(data.Loading);
+            if (data && data.Loading)
+                setLoadingIndicator(data.Loading);
 
             if (errorCallback) {
                 errorCallback(xhr, status, error);

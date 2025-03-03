@@ -19,12 +19,14 @@ namespace HisabPro.Web.Controllers.Private
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
         private readonly ISharedViewLocalizer _localizer;
+        private readonly IExportDataService _exportDataService;
 
-        public CategoryController(ICategoryService categoryService, IMapper mapper, ISharedViewLocalizer localizer)
+        public CategoryController(ICategoryService categoryService, IMapper mapper, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _categoryService = categoryService;
             _mapper = mapper;
             _localizer = localizer;
+            _exportDataService = exportDataService;
             // Configure generic helper for Enum
             EnumLocalizationHelper.Configure(_localizer);
         }
@@ -121,6 +123,14 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response); ;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Export([FromBody] ExportReq req)
+        {
+            var allPageData = await ExportDataHelper.GetData(req, _categoryService.ExportData);
+            var data = allPageData.Data;
+            return _exportDataService.Export(data, "Category & Subcategory Report", req.ExportType, getGridColumns());
+        }
+
         /// <summary>
         /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
@@ -128,7 +138,12 @@ namespace HisabPro.Web.Controllers.Private
         /// <returns></returns>
         private async Task<GridViewModel<CategoryRes>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var columns = new List<Column> {
+            return await GridviewHelper.LoadGridDataStrongType(req, firstTimeLoad, _categoryService.PageData, getGridColumns());
+        }
+
+        private List<Column> getGridColumns()
+        {
+            return new List<Column> {
                 new Column() { Name = "Name", Title = _localizer.Get(ResourceKey.FieldName) },
                 new Column() { Name = "Type", Title = _localizer.Get(ResourceKey.FieldType), Width="140px" },
                 new Column() { Name = "IsStandard", Title = _localizer.Get(ResourceKey.LabelFilterStandard), Width="120px", Type = ColType.Checkbox },
@@ -137,7 +152,6 @@ namespace HisabPro.Web.Controllers.Private
                 new Column() { Name = "Edit", Type = ColType.Edit},
                 new Column() { Name = "Delete", Type = ColType.Delete}
             };
-            return await GridviewHelper.LoadGridDataStrongType(req, firstTimeLoad, _categoryService.PageData, columns);
         }
     }
 }

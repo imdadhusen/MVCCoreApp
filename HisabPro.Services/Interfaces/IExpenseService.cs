@@ -13,5 +13,6 @@ namespace HisabPro.Services.Implements
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
         Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request);
+        Task<PageDataRes<ExpenseRes>> ExportData(ExportReq request);
     }
 }

@@ -9,6 +9,7 @@ namespace HisabPro.Services.Interfaces
         Task<SaveAccountReq> GetByIdAsync(int id);
         Task<ResponseDTO<List<AccountRes>>> GetAll();
         Task<PageDataRes<AccountRes>> PageData(LoadDataRequest request);
+        Task<PageDataRes<AccountRes>> ExportData(ExportReq request);
         Task<ResponseDTO<AccountRes>> SaveAsync(SaveAccountReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);
 
