@@ -96,7 +96,17 @@ namespace HisabPro.Services.Implements
                         {
                             foreach (var col in columns)
                             {
-                                header.Cell().DefaultHeaderCellStyle().Text(col.Title).SemiBold();
+                                var cell = header.Cell().DefaultHeaderCellStyle();
+                                switch (col.Align)
+                                {
+                                    case Align.Center:
+                                        cell.AlignCenter();
+                                        break;
+                                    case Align.Right:
+                                        cell.AlignRight();
+                                        break;
+                                }
+                                cell.Text(col.Title).SemiBold();
                             }
                         });
 
@@ -155,25 +165,34 @@ namespace HisabPro.Services.Implements
                 var propertyInfo = properties.FirstOrDefault(p => p.Name == column.Name);
                 var rawValue = propertyInfo?.GetValue(parentRow);
 
-                table.Cell().Background(backgroundColor).DefaultBodyCellStyle().Element(cell =>
+                // Apply background to full cell, Apply default styles (including left alignment)
+                var cell = table.Cell().Background(backgroundColor).DefaultBodyCellStyle();
+                switch (column.Align)
                 {
-                    if (column.Name == "Name") // Indent child rows
-                    {
-                        cell.Text(text => text.Span(new string(' ', level * 4) + (rawValue?.ToString() ?? "")));
-                    }
-                    else if (column.Name == "IsActive" && rawValue is bool boolValue)
-                    {
-                        cell.Text(text => text.Span(boolValue ? "✅" : "❌"));//.FontColor(Colors.Red.Medium);
-                    }
-                    else if (rawValue is DateTime dateValue)
-                    {
-                        cell.Text(text => text.Span(dateValue.ToString(dateFormatData)));
-                    }
-                    else
-                    {
-                        cell.Text(text => text.Span(rawValue?.ToString() ?? ""));
-                    }
-                });
+                    case Align.Center:
+                        cell.AlignCenter();
+                        break;
+                    case Align.Right:
+                        cell.AlignRight();
+                        break;
+                }
+
+                if (column.Name == "Name") // Indent child rows
+                {
+                    cell.Text(text => text.Span(new string(' ', level * 4) + (rawValue?.ToString() ?? "")));
+                }
+                else if (column.Name == "IsActive" && rawValue is bool boolValue)
+                {
+                    cell.Text(text => text.Span(boolValue ? "✅" : "❌"));//.FontColor(Colors.Red.Medium);
+                }
+                else if (rawValue is DateTime dateValue)
+                {
+                    cell.Text(text => text.Span(dateValue.ToString(dateFormatData)));
+                }
+                else
+                {
+                    cell.Text(text => text.Span(rawValue?.ToString() ?? ""));
+                }
             }
 
             // Recursively render child rows if present
