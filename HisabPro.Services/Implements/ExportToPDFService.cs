@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Reflection;
 
 namespace HisabPro.Services.Implements
 {
@@ -38,14 +39,7 @@ namespace HisabPro.Services.Implements
                 throw new CustomValidationException(_localizer.Get(ResourceKey.ApiNoRecordsForExport));
 
             // Get properties with Display Names
-            var properties = typeof(T).GetProperties()
-                .Where(p => p.CanRead)
-                .Select(p => new
-                {
-                    Property = p,
-                    //DisplayName = p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name
-                })
-                .ToList();
+            var properties = typeof(T).GetProperties().Where(p => p.CanRead).Select(p => new { Property = p }).ToList();
 
             var document = Document.Create(container =>
             {
@@ -102,35 +96,14 @@ namespace HisabPro.Services.Implements
                         {
                             foreach (var col in columns)
                             {
-                                var cell = header.Cell().DefaultHeaderCellStyle();
-                                cell.Text(col.Title).SemiBold();
+                                header.Cell().DefaultHeaderCellStyle().Text(col.Title).SemiBold();
                             }
                         });
 
                         // Table Rows with Data
                         foreach (var item in data)
                         {
-                            foreach (var column in columns)  //foreach (var prop in properties)
-                            {
-                                var propertyInfo = properties.FirstOrDefault(p => p.Property.Name == column.Name)?.Property;
-                                var rawValue = propertyInfo?.GetValue(item);
-
-                                var cell = table.Cell().DefaultBodyCellStyle();
-                                // Check if it's the "Active" column (Assuming "IsActive" property)
-                                if (column.Name == "IsActive" && rawValue is bool boolValue)
-                                {
-                                    var text = boolValue ? "✅" : "❌";
-                                    cell.AlignCenter().AlignMiddle().Text(text).FontColor(Colors.Red.Medium);
-                                }
-                                else if (rawValue is DateTime dateValue)  // Safe cast to DateTime
-                                {
-                                    cell.Text(dateValue.ToString(dateFormatData));
-                                }
-                                else
-                                {
-                                    cell.Text(rawValue);
-                                }
-                            }
+                            AddRowWithChildren(table, properties.Select(p => p.Property).ToList(), item, columns, 0);
                         }
                     });
 
@@ -168,6 +141,49 @@ namespace HisabPro.Services.Implements
             return new FileContentResult(pdfBytes, pdfContentType);
         }
 
+        // Helper method for hierarchical data (Parent-Child Rows)
+        void AddRowWithChildren(TableDescriptor table, List<PropertyInfo> properties, object parentRow, List<Column> columns, int level)
+        {
+            var childProperty = parentRow.GetType().GetProperty("SubCategories");
+            var childRows = childProperty?.GetValue(parentRow) as IEnumerable<object>;
+            bool hasChildren = childRows?.Any() == true; // Check if row has children
 
+            var backgroundColor = hasChildren ? Colors.Grey.Lighten3 : Colors.White; // Highlight only true parent rows
+
+            foreach (var column in columns)
+            {
+                var propertyInfo = properties.FirstOrDefault(p => p.Name == column.Name);
+                var rawValue = propertyInfo?.GetValue(parentRow);
+
+                table.Cell().Background(backgroundColor).DefaultBodyCellStyle().Element(cell =>
+                {
+                    if (column.Name == "Name") // Indent child rows
+                    {
+                        cell.Text(text => text.Span(new string(' ', level * 4) + (rawValue?.ToString() ?? "")));
+                    }
+                    else if (column.Name == "IsActive" && rawValue is bool boolValue)
+                    {
+                        cell.Text(text => text.Span(boolValue ? "✅" : "❌"));//.FontColor(Colors.Red.Medium);
+                    }
+                    else if (rawValue is DateTime dateValue)
+                    {
+                        cell.Text(text => text.Span(dateValue.ToString(dateFormatData)));
+                    }
+                    else
+                    {
+                        cell.Text(text => text.Span(rawValue?.ToString() ?? ""));
+                    }
+                });
+            }
+
+            // Recursively render child rows if present
+            if (hasChildren)
+            {
+                foreach (var childRow in childRows)
+                {
+                    AddRowWithChildren(table, properties, childRow, columns, level + 1);
+                }
+            }
+        }
     }
 }

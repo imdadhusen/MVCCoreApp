@@ -13,7 +13,7 @@ namespace HisabPro.Services.Helper
 
         public static IContainer DefaultBodyCellStyle(this IContainer container)
         {
-            return container.Border(1).BorderColor(Colors.Grey.Lighten2).Padding(5);
+            return container.Border(0.5f).BorderColor(Colors.Grey.Lighten2).Padding(5).AlignLeft();
         }
     }
 }
