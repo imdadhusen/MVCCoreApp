@@ -313,7 +313,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var allPageData = await ExportDataHelper.GetData(req, _userService.ExportData);
             var data = allPageData.Data;
-            return _exportDataService.Export(data, "User Report", req.ExportType, getGridColumns());
+            return _exportDataService.Export(data, "User Report", req, getGridColumns());
         }
 
         /// <summary>

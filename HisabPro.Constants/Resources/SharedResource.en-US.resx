@@ -802,4 +802,13 @@ You can get more details</value>
   <data name="ApiFeatureNotAvailable" xml:space="preserve">
     <value>This feature is not available! Please contact our support team.</value>
   </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Report Date</value>
+  </data>
+  <data name="ReportAppliedFilter" xml:space="preserve">
+    <value>Filter: {0}</value>
+  </data>
+  <data name="ReportAppliedSort" xml:space="preserve">
+    <value>Sort: {0} | {1}</value>
+  </data>
 </root>

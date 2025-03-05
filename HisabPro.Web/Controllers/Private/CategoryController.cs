@@ -128,7 +128,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var allPageData = await ExportDataHelper.GetData(req, _categoryService.ExportData);
             var data = allPageData.Data;
-            return _exportDataService.Export(data, "Category & Subcategory Report", req.ExportType, getGridColumns());
+            return _exportDataService.Export(data, "Category & Subcategory Report", req, getGridColumns());
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace HisabPro.Services.Helper
     {
         public static IContainer DefaultHeaderCellStyle(this IContainer container)
         {
-            return container.Background(Colors.Grey.Lighten1).Border(1).BorderColor(Colors.Grey.Lighten2).Padding(5).AlignLeft();
+            return container.Background(Colors.Grey.Lighten1).Border(0.5f).BorderColor(Colors.Grey.Lighten2).Padding(5).AlignLeft();
         }
 
         public static IContainer DefaultBodyCellStyle(this IContainer container)

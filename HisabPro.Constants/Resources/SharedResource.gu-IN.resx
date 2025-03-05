@@ -803,4 +803,13 @@
   <data name="ApiFeatureNotAvailable" xml:space="preserve">
     <value>આ સુવિધા ઉપલબ્ધ નથી! કૃપા કરીને અમારી સપોર્ટ ટીમનો સંપર્ક કરો.</value>
   </data>
+  <data name="ReportAppliedFilter" xml:space="preserve">
+    <value>ફિલ્ટર: {0}</value>
+  </data>
+  <data name="ReportAppliedSort" xml:space="preserve">
+    <value>ગોઠવણી: {0} | {1}</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>અહેવાલ તારીખ</value>
+  </data>
 </root>

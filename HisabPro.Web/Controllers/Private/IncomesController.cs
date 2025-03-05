@@ -114,7 +114,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var allPageData = await ExportDataHelper.GetData(req, _incomeService.ExportData);
             var data = allPageData.Data;
-            return _exportDataService.Export(data, "Income Report", req.ExportType, getGridColumns());
+            return _exportDataService.Export(data, "Income Report", req, getGridColumns());
         }
 
         /// <summary>

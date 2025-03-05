@@ -31,7 +31,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, List<Column> columns)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -60,23 +60,18 @@ namespace HisabPro.Services.Implements
                         //});
                         header.RelativeItem().Column(col =>
                         {
-                            col.Item().Text("Report Date").SemiBold();
+                            col.Item().Text(_localizer.Get(ResourceKey.ReportDate)).SemiBold();
                             col.Item().Text(DateTime.Now.ToString(dateFormatHeader)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
                         });
 
                         // Center: Report Title
                         header.RelativeItem().AlignCenter().Text(reportTitle).FontSize(14).SemiBold().FontColor(Colors.Blue.Darken3);
 
-                        // Right: For Period Start and End Date
-                        //header.RelativeItem().AlignRight().Text(text =>
-                        //{
-                        //    text.Span("Reporting Period: ").SemiBold();
-                        //    text.Span(string.Format("{0:dd-MM-yyyy} - {1:dd-MM-yyyy}", DateTime.UtcNow, DateTime.UtcNow)).FontColor(Colors.Grey.Darken2);
-                        //});
+                        // Right: For Applied Sort and Fiter
                         header.RelativeItem().AlignRight().Column(col =>
                         {
-                            col.Item().Text("Reporting Period").SemiBold();
-                            col.Item().Text(string.Format("{0:dd-MM-yyyy} - {1:dd-MM-yyyy}", DateTime.UtcNow, DateTime.UtcNow)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
+                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType));
+                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount));
                         });
                     });
 
@@ -204,5 +199,7 @@ namespace HisabPro.Services.Implements
                 }
             }
         }
+
+
     }
 }

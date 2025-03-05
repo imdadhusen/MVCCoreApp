@@ -5,6 +5,7 @@ using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using HisabPro.DTO.Model;
+using HisabPro.DTO.Request;
 
 namespace HisabPro.Services.Implements
 {
@@ -22,9 +23,9 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T>? data, string reportTitle, EnumExportType exportType, List<Column> columns)
+        public FileContentResult Export<T>(List<T>? data, string reportTitle, ExportReq reqExport, List<Column> columns)
         {
-            IExportService exportService = exportType switch
+            IExportService exportService = reqExport.ExportType switch
             {
                 EnumExportType.PDF => _pdfExportService,
                 //EnumExportType.Excel => _excelExportService,
@@ -33,7 +34,10 @@ namespace HisabPro.Services.Implements
             };
 
             var showOnlyDataColumns = columns.Where(c => !(c.Type == DTO.Model.Type.Edit || c.Type == DTO.Model.Type.Delete)).ToList();
-            return exportService.Export(data, reportTitle, showOnlyDataColumns);
+            string sortBy = reqExport.PageData?.SortBy ?? "NA";
+            string sortOrder = reqExport.PageData?.SortDirection ?? "NA";
+            int filterCount = reqExport.Filter?.Fields?.Count() ?? 0;
+            return exportService.Export(data, reportTitle, showOnlyDataColumns, sortBy, sortOrder, filterCount);
         }
     }
 }

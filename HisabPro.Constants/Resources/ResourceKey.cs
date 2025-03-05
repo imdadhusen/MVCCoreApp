@@ -81,6 +81,11 @@ namespace HisabPro.Constants.Resources
         public const string LabelTrendAnalysis = "LabelTrendAnalysis";
         public const string LabelActivityReports = "LabelActivityReports";
         public const string LabelSettings = "LabelSettings";
+        public const string ReportDate = "ReportDate";
+        public const string ReportAppliedSort = "ReportAppliedSort";
+        public const string ReportAppliedFilter = "ReportAppliedFilter";
+
+
 
         //Start: Category related settings
         public const string LabelDeleteCategory = "LabelDeleteCategory";
