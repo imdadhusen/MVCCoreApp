@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
+using ColType = HisabPro.DTO.Model;
 
 namespace HisabPro.Services.Implements
 {
@@ -21,9 +22,11 @@ namespace HisabPro.Services.Implements
         {
             _pdfExportService = pdfExportService;
             _localizer = localizer;
+            // Configure generic helper for Enum
+            EnumLocalizationHelper.Configure(_localizer);
         }
 
-        public FileContentResult Export<T>(List<T>? data, string reportTitle, ExportReq reqExport, List<Column> columns)
+        public FileContentResult Export<T>(List<T>? data, EnumReportTitle reportTitle, ExportReq reqExport, List<Column> columns)
         {
             IExportService exportService = reqExport.ExportType switch
             {
@@ -33,11 +36,32 @@ namespace HisabPro.Services.Implements
                 _ => throw new FeatureNotAvailableException(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))
             };
 
-            var showOnlyDataColumns = columns.Where(c => !(c.Type == DTO.Model.Type.Edit || c.Type == DTO.Model.Type.Delete)).ToList();
-            string sortBy = reqExport.PageData?.SortBy ?? "NA";
-            string sortOrder = reqExport.PageData?.SortDirection ?? "NA";
+            var showOnlyDataColumns = columns.Where(c => !(c.Type == ColType.Type.Edit || c.Type == ColType.Type.Delete)).ToList();
+            string sortBy = getLocalizedColumnTitle(columns, reqExport.PageData?.SortBy);
+            string sortOrder = getLocalizedSort(reqExport.PageData?.SortDirection);
             int filterCount = reqExport.Filter?.Fields?.Count() ?? 0;
-            return exportService.Export(data, reportTitle, showOnlyDataColumns, sortBy, sortOrder, filterCount);
+            string title = EnumLocalizationHelper.Get(reportTitle);
+            return exportService.Export(data, title, reportTitle.ToString(), showOnlyDataColumns, sortBy, sortOrder, filterCount);
+        }
+
+        private string getLocalizedColumnTitle(List<Column> columns, string? columnName)
+        {
+            if (!string.IsNullOrEmpty(columnName))
+            {
+                var col = columns.Where(c => c.Name == columnName).FirstOrDefault();
+                if (col != null)
+                    return col.Title;
+            }
+            return _localizer.Get(ResourceKey.ReportNA);
+        }
+
+        private string getLocalizedSort(string? columnSort)
+        {
+            if (!string.IsNullOrEmpty(columnSort))
+            {
+                return (columnSort.ToUpper() == "ASC") ? _localizer.Get(ResourceKey.ReportSortAsc) : _localizer.Get(ResourceKey.ReportSortDes);
+            }
+            return _localizer.Get(ResourceKey.ReportNA);
         }
     }
 }

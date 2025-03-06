@@ -25,7 +25,7 @@ namespace HisabPro.Web.Controllers.Private
         private readonly ISharedViewLocalizer _localizer;
         private readonly IExportDataService _exportDataService;
 
-        public ExpensesController(IExpenseService expenseService, IAccountService accountService, ICategoryService categoryService, 
+        public ExpensesController(IExpenseService expenseService, IAccountService accountService, ICategoryService categoryService,
             IMapper mapper, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _expenseService = expenseService;
@@ -130,7 +130,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var allPageData = await ExportDataHelper.GetData(req, _expenseService.ExportData);
             var data = allPageData.Data;
-            return _exportDataService.Export(data, "Expense Report", req, getGridColumns());
+            return _exportDataService.Export(data, EnumReportTitle.Expense, req, getGridColumns());
         }
 
         /// <summary>

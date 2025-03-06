@@ -28,7 +28,7 @@ namespace HisabPro.Web.Controllers.Private
         private readonly ISharedViewLocalizer _localizer;
         private readonly IExportDataService _exportDataService;
 
-        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService, 
+        public UserController(IUserRepository userRpository, IAuthService authService, IUserService userService,
             IMapper mapper, IUserContext userContext, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _userRpository = userRpository;
@@ -313,7 +313,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var allPageData = await ExportDataHelper.GetData(req, _userService.ExportData);
             var data = allPageData.Data;
-            return _exportDataService.Export(data, "User Report", req, getGridColumns());
+            return _exportDataService.Export(data, EnumReportTitle.User, req, getGridColumns());
         }
 
         /// <summary>

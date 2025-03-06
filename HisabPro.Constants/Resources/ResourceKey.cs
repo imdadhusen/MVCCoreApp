@@ -84,6 +84,16 @@ namespace HisabPro.Constants.Resources
         public const string ReportDate = "ReportDate";
         public const string ReportAppliedSort = "ReportAppliedSort";
         public const string ReportAppliedFilter = "ReportAppliedFilter";
+        public const string ReportNA = "ReportNA";
+        public const string ReportSortAsc = "ReportSortAsc";
+        public const string ReportSortDes = "ReportSortDes";
+
+        public const string ReportAccountsDetail = "ReportAccountsDetail";
+        public const string ReportCategoryAndSubcategory = "ReportCategoryAndSubcategory";
+        public const string ReportExpense = "ReportExpense";
+        public const string ReportIncome = "ReportIncome";
+        public const string ReportIncomeAndExpense = "ReportIncomeAndExpense";
+        public const string ReportUser = "ReportUser";
 
 
 
@@ -182,7 +192,7 @@ namespace HisabPro.Constants.Resources
         public const string ApiSuccess = "ApiSuccess";
         public const string ApiNoRecordsForExport = "ApiNoRecordsForExport";
         public const string ApiFeatureNotAvailable = "ApiFeatureNotAvailable";
-        
+
 
         public const string LabelApiImportFileAllowedExtensions = "LabelApiImportFileAllowedExtensions";
         public const string LabelApiImportSuccess = "LabelApiImportSuccess";
@@ -260,12 +270,12 @@ namespace HisabPro.Constants.Resources
         public const string LabelFilterBulkImported = "LabelFilterBulkImported";
         public const string LabelFilterRole = "LabelFilterRole";
         public const string LabelFieldEmail = "LabelFieldEmail";
-       
+
         public const string LabelColumnActive = "LabelColumnActive";
         public const string LabelColumnCreatedBy = "LabelColumnCreatedBy";
         public const string LabelColumnCreatedOn = "LabelColumnCreatedOn";
         public const string LabelColumnImport = "LabelColumnImport";
-       
+
         public const string EmailIfQuestion = "EmailIfQuestion";
         public const string EmailAllRightsReserved = "EmailAllRightsReserved";
         public const string EmailPrivacyPolicy = "EmailPrivacyPolicy";
@@ -280,7 +290,7 @@ namespace HisabPro.Constants.Resources
         public const string LabelGridPage = "LabelGridPage";
         public const string LabelGridPageOf = "LabelGridPageOf";
         public const string LabelNoRecords = "LabelNoRecords";
-       
+
 
         public const string LabelYes = "LabelYes";
         public const string LabelNo = "LabelNo";

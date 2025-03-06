@@ -31,7 +31,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -137,7 +137,7 @@ namespace HisabPro.Services.Implements
             });
 
             var pdfBytes = document.GeneratePdf();
-            string fileName = StringHelper.ConvertReportTitleToFileName(reportTitle, "pdf");
+            string fileName = string.Format("{0}.pdf", reportFileName); //StringHelper.ConvertReportTitleToFileName(reportTitle, "pdf");
             // Set response headers
             var response = _httpContextAccessor.HttpContext.Response;
             response.Headers["X-Filename"] = fileName;
