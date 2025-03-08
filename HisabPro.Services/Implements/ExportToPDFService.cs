@@ -17,13 +17,6 @@ namespace HisabPro.Services.Implements
     {
         private readonly ISharedViewLocalizer _localizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private const string tickMarkPath = "wwwroot/icons/Tick-Mark.png";  // ✅ Image for Active Users
-        private const string logoPath = "wwwroot/icons/Logo.png";  // Company Logo
-        private const string logoText = "HisabPro";
-        private const string supportContact = "📞 +91 9909544184";
-        private const string pdfContentType = "application/pdf";
-        private const string dateFormatHeader = "dd-MM-yyyy HH:mm";
-        private const string dateFormatData = "dd-MM-yyyy";
 
         public ExportToPDFService(IHttpContextAccessor httpContextAccessor, ISharedViewLocalizer localizer)
         {
@@ -61,7 +54,7 @@ namespace HisabPro.Services.Implements
                         header.RelativeItem().Column(col =>
                         {
                             col.Item().Text(_localizer.Get(ResourceKey.ReportDate)).SemiBold();
-                            col.Item().Text(DateTime.Now.ToString(dateFormatHeader)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
+                            col.Item().Text(DateTime.Now.ToString(ExportReportValues.DateFormatHeader)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
                         });
 
                         // Center: Report Title
@@ -118,8 +111,8 @@ namespace HisabPro.Services.Implements
                         //Left side
                         footer.RelativeItem().Row(content =>
                         {
-                            content.AutoItem().Height(20).Image(logoPath); // Logo with auto width
-                            content.AutoItem().AlignMiddle().Text(logoText).SemiBold(); // Text with auto width
+                            content.AutoItem().Height(20).Image(ExportReportValues.LogoPath); // Logo with auto width
+                            content.AutoItem().AlignMiddle().Text(ExportReportValues.LogoText).SemiBold(); // Text with auto width
                         });
                         //Center
                         footer.RelativeItem().AlignCenter().Text(text =>
@@ -131,7 +124,7 @@ namespace HisabPro.Services.Implements
                             text.TotalPages();
                         });
                         //Right side
-                        footer.RelativeItem().AlignRight().Text(supportContact);
+                        footer.RelativeItem().AlignRight().Text(ExportReportValues.SupportContact);
                     });
                 });
             });
@@ -143,7 +136,7 @@ namespace HisabPro.Services.Implements
             response.Headers["X-Filename"] = fileName;
             response.Headers["Content-Disposition"] = "attachment; filename=" + fileName;
 
-            return new FileContentResult(pdfBytes, pdfContentType);
+            return new FileContentResult(pdfBytes, ExportReportValues.PdfContentType);
         }
 
         // Helper method for hierarchical data (Parent-Child Rows)
@@ -178,11 +171,11 @@ namespace HisabPro.Services.Implements
                 }
                 else if (column.Name == "IsActive" && rawValue is bool boolValue)
                 {
-                    cell.Text(text => text.Span(boolValue ? "✅" : "❌"));//.FontColor(Colors.Red.Medium);
+                    cell.Text(text => text.Span(boolValue ? ExportReportValues.TickMarkText : ExportReportValues.CrossMarkText));//.FontColor(Colors.Red.Medium);
                 }
                 else if (rawValue is DateTime dateValue)
                 {
-                    cell.Text(text => text.Span(dateValue.ToString(dateFormatData)));
+                    cell.Text(text => text.Span(dateValue.ToString(ExportReportValues.DateFormatData)));
                 }
                 else
                 {
@@ -199,7 +192,5 @@ namespace HisabPro.Services.Implements
                 }
             }
         }
-
-
     }
 }
