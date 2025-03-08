@@ -10,6 +10,7 @@ namespace HisabPro.Services.Interfaces
         Task<SaveCategoryReq> GetByIdAsync(int id);
         Task<ResponseDTO<List<CategoryRes>>> GetAll();
         Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request);
+        Task<PageDataRes<CategoryRes>> ExportData(ExportReq request);
         Task<List<IdNameAndRefId>> GetAllParentCategoryByType(int type);
 
         Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req);

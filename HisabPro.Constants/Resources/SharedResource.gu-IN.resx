@@ -803,4 +803,40 @@
   <data name="ApiFeatureNotAvailable" xml:space="preserve">
     <value>આ સુવિધા ઉપલબ્ધ નથી! કૃપા કરીને અમારી સપોર્ટ ટીમનો સંપર્ક કરો.</value>
   </data>
+  <data name="ReportAppliedFilter" xml:space="preserve">
+    <value>ફિલ્ટર: {0}</value>
+  </data>
+  <data name="ReportAppliedSort" xml:space="preserve">
+    <value>ગોઠવણી: {0} | {1}</value>
+  </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>અહેવાલ તારીખ</value>
+  </data>
+  <data name="ReportAccountsDetail" xml:space="preserve">
+    <value>ખાતાની વિગતોનો અહેવાલ</value>
+  </data>
+  <data name="ReportCategoryAndSubcategory" xml:space="preserve">
+    <value>શ્રેણી અને ઉપશ્રેણીનો અહેવાલ</value>
+  </data>
+  <data name="ReportExpense" xml:space="preserve">
+    <value>ખર્ચનો અહેવાલ</value>
+  </data>
+  <data name="ReportIncome" xml:space="preserve">
+    <value>આવકનો અહેવાલ</value>
+  </data>
+  <data name="ReportIncomeAndExpense" xml:space="preserve">
+    <value>આવક અને ખર્ચનો અહેવાલ</value>
+  </data>
+  <data name="ReportNA" xml:space="preserve">
+    <value>લાગુ નથી</value>
+  </data>
+  <data name="ReportSortAsc" xml:space="preserve">
+    <value>ચડતો</value>
+  </data>
+  <data name="ReportSortDes" xml:space="preserve">
+    <value>ઉતરતો</value>
+  </data>
+  <data name="ReportUser" xml:space="preserve">
+    <value>વપરાશકર્તાનો અહેવાલ</value>
+  </data>
 </root>

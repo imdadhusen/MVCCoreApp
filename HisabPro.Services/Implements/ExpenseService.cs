@@ -39,11 +39,15 @@ namespace HisabPro.Services.Implements
 
         public async Task<PageDataRes<ExpenseRes>> PageData(LoadDataRequest request)
         {
-            var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
-            data = data.ApplyDynamicFilters(request.Filter.Fields);
-
-            data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseRes>(data, request.PageData, _mapper);
+            var dataQuery = applyFilterAndSort(request);
+            var pagedData = await PageDataHelper.ApplyPage<Expense, ExpenseRes>(dataQuery, request.PageData, _mapper);
+            return pagedData;
+        }
+        public async Task<PageDataRes<ExpenseRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<Expense, ExpenseRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
             return pagedData;
         }
 
@@ -66,6 +70,15 @@ namespace HisabPro.Services.Implements
         {
             var result = await _expenseRepo.DeleteAsync(id);
             return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
+        }
+
+        private IQueryable<Expense> applyFilterAndSort(LoadDataRequest request)
+        {
+            var data = _expenseRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
+
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            return data;
         }
     }
 }

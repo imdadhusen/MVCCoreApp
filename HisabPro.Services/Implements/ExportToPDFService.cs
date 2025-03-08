@@ -1,6 +1,7 @@
 ﻿using HisabPro.Common;
 using HisabPro.Constants;
 using HisabPro.Constants.Resources;
+using HisabPro.DTO.Model;
 using HisabPro.Services.Helper;
 using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using HisabPro.DTO.Model;
 
 namespace HisabPro.Services.Implements
 {
@@ -18,13 +17,6 @@ namespace HisabPro.Services.Implements
     {
         private readonly ISharedViewLocalizer _localizer;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private const string tickMarkPath = "wwwroot/icons/Tick-Mark.png";  // ✅ Image for Active Users
-        private const string logoPath = "wwwroot/icons/Logo.png";  // Company Logo
-        private const string logoText = "HisabPro";
-        private const string supportContact = "📞 +91 9909544184";
-        private const string pdfContentType = "application/pdf";
-        private const string dateFormatHeader = "dd-MM-yyyy HH:mm";
-        private const string dateFormatData = "dd-MM-yyyy";
 
         public ExportToPDFService(IHttpContextAccessor httpContextAccessor, ISharedViewLocalizer localizer)
         {
@@ -32,7 +24,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, List<Column> columns)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -40,14 +32,7 @@ namespace HisabPro.Services.Implements
                 throw new CustomValidationException(_localizer.Get(ResourceKey.ApiNoRecordsForExport));
 
             // Get properties with Display Names
-            var properties = typeof(T).GetProperties()
-                .Where(p => p.CanRead)
-                .Select(p => new
-                {
-                    Property = p,
-                    //DisplayName = p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name
-                })
-                .ToList();
+            var properties = typeof(T).GetProperties().Where(p => p.CanRead).Select(p => new { Property = p }).ToList();
 
             var document = Document.Create(container =>
             {
@@ -68,23 +53,18 @@ namespace HisabPro.Services.Implements
                         //});
                         header.RelativeItem().Column(col =>
                         {
-                            col.Item().Text("Report Date").SemiBold();
-                            col.Item().Text(DateTime.Now.ToString(dateFormatHeader)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
+                            col.Item().Text(_localizer.Get(ResourceKey.ReportDate)).SemiBold();
+                            col.Item().Text(DateTime.Now.ToString(ExportReportValues.DateFormatHeader)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
                         });
 
                         // Center: Report Title
                         header.RelativeItem().AlignCenter().Text(reportTitle).FontSize(14).SemiBold().FontColor(Colors.Blue.Darken3);
 
-                        // Right: For Period Start and End Date
-                        //header.RelativeItem().AlignRight().Text(text =>
-                        //{
-                        //    text.Span("Reporting Period: ").SemiBold();
-                        //    text.Span(string.Format("{0:dd-MM-yyyy} - {1:dd-MM-yyyy}", DateTime.UtcNow, DateTime.UtcNow)).FontColor(Colors.Grey.Darken2);
-                        //});
+                        // Right: For Applied Sort and Fiter
                         header.RelativeItem().AlignRight().Column(col =>
                         {
-                            col.Item().Text("Reporting Period").SemiBold();
-                            col.Item().Text(string.Format("{0:dd-MM-yyyy} - {1:dd-MM-yyyy}", DateTime.UtcNow, DateTime.UtcNow)).FontColor(Colors.Grey.Darken2); // Value below (lighter)
+                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType));
+                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount));
                         });
                     });
 
@@ -105,6 +85,15 @@ namespace HisabPro.Services.Implements
                             foreach (var col in columns)
                             {
                                 var cell = header.Cell().DefaultHeaderCellStyle();
+                                switch (col.Align)
+                                {
+                                    case Align.Center:
+                                        cell.AlignCenter();
+                                        break;
+                                    case Align.Right:
+                                        cell.AlignRight();
+                                        break;
+                                }
                                 cell.Text(col.Title).SemiBold();
                             }
                         });
@@ -112,27 +101,7 @@ namespace HisabPro.Services.Implements
                         // Table Rows with Data
                         foreach (var item in data)
                         {
-                            foreach (var column in columns)  //foreach (var prop in properties)
-                            {
-                                var propertyInfo = properties.FirstOrDefault(p => p.Property.Name == column.Name)?.Property;
-                                var rawValue = propertyInfo?.GetValue(item);
-
-                                var cell = table.Cell().DefaultBodyCellStyle();
-                                // Check if it's the "Active" column (Assuming "IsActive" property)
-                                if (column.Name == "IsActive" && rawValue is bool boolValue)
-                                {
-                                    var text = boolValue ? "✅" : "❌";
-                                    cell.AlignCenter().AlignMiddle().Text(text).FontColor(Colors.Red.Medium);
-                                }
-                                if (rawValue is DateTime dateValue)  // Safe cast to DateTime
-                                {
-                                    cell.Text(dateValue.ToString(dateFormatData));
-                                }
-                                else
-                                {
-                                    cell.Text(rawValue);
-                                }
-                            }
+                            AddRowWithChildren(table, properties.Select(p => p.Property).ToList(), item, columns, 0);
                         }
                     });
 
@@ -142,8 +111,8 @@ namespace HisabPro.Services.Implements
                         //Left side
                         footer.RelativeItem().Row(content =>
                         {
-                            content.AutoItem().Height(20).Image(logoPath); // Logo with auto width
-                            content.AutoItem().AlignMiddle().Text(logoText).SemiBold(); // Text with auto width
+                            content.AutoItem().Height(20).Image(ExportReportValues.LogoPath); // Logo with auto width
+                            content.AutoItem().AlignMiddle().Text(ExportReportValues.LogoText).SemiBold(); // Text with auto width
                         });
                         //Center
                         footer.RelativeItem().AlignCenter().Text(text =>
@@ -155,21 +124,73 @@ namespace HisabPro.Services.Implements
                             text.TotalPages();
                         });
                         //Right side
-                        footer.RelativeItem().AlignRight().Text(supportContact);
+                        footer.RelativeItem().AlignRight().Text(ExportReportValues.SupportContact);
                     });
                 });
             });
 
             var pdfBytes = document.GeneratePdf();
-            string fileName = StringHelper.ConvertReportTitleToFileName(reportTitle, "pdf");
+            string fileName = string.Format("{0}.pdf", reportFileName); //StringHelper.ConvertReportTitleToFileName(reportTitle, "pdf");
             // Set response headers
             var response = _httpContextAccessor.HttpContext.Response;
             response.Headers["X-Filename"] = fileName;
             response.Headers["Content-Disposition"] = "attachment; filename=" + fileName;
 
-            return new FileContentResult(pdfBytes, pdfContentType);
+            return new FileContentResult(pdfBytes, ExportReportValues.PdfContentType);
         }
 
+        // Helper method for hierarchical data (Parent-Child Rows)
+        void AddRowWithChildren(TableDescriptor table, List<PropertyInfo> properties, object parentRow, List<Column> columns, int level)
+        {
+            var childProperty = parentRow.GetType().GetProperty("SubCategories");
+            var childRows = childProperty?.GetValue(parentRow) as IEnumerable<object>;
+            bool hasChildren = childRows?.Any() == true; // Check if row has children
 
+            var backgroundColor = hasChildren ? Colors.Grey.Lighten3 : Colors.White; // Highlight only true parent rows
+
+            foreach (var column in columns)
+            {
+                var propertyInfo = properties.FirstOrDefault(p => p.Name == column.Name);
+                var rawValue = propertyInfo?.GetValue(parentRow);
+
+                // Apply background to full cell, Apply default styles (including left alignment)
+                var cell = table.Cell().Background(backgroundColor).DefaultBodyCellStyle();
+                switch (column.Align)
+                {
+                    case Align.Center:
+                        cell.AlignCenter();
+                        break;
+                    case Align.Right:
+                        cell.AlignRight();
+                        break;
+                }
+
+                if (column.Name == "Name") // Indent child rows
+                {
+                    cell.Text(text => text.Span(new string(' ', level * 4) + (rawValue?.ToString() ?? "")));
+                }
+                else if (column.Name == "IsActive" && rawValue is bool boolValue)
+                {
+                    cell.Text(text => text.Span(boolValue ? ExportReportValues.TickMarkText : ExportReportValues.CrossMarkText));//.FontColor(Colors.Red.Medium);
+                }
+                else if (rawValue is DateTime dateValue)
+                {
+                    cell.Text(text => text.Span(dateValue.ToString(ExportReportValues.DateFormatData)));
+                }
+                else
+                {
+                    cell.Text(text => text.Span(rawValue?.ToString() ?? ""));
+                }
+            }
+
+            // Recursively render child rows if present
+            if (hasChildren)
+            {
+                foreach (var childRow in childRows)
+                {
+                    AddRowWithChildren(table, properties, childRow, columns, level + 1);
+                }
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.DTO.Request;
 using HisabPro.DTO.Response;
+using HisabPro.Services.Implements;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.Helper;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +21,16 @@ namespace HisabPro.Web.Controllers.Private
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly ISharedViewLocalizer _localizer;
+        private readonly IExportDataService _exportDataService;
 
-        public IncomesController(IIncomeService incomeService, IAccountService accountService, IMapper mapper, ISharedViewLocalizer localizer)
+        public IncomesController(IIncomeService incomeService, IAccountService accountService,
+            IMapper mapper, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _incomeService = incomeService;
             _accountService = accountService;
             _mapper = mapper;
             _localizer = localizer;
+            _exportDataService = exportDataService;
         }
 
         public async Task<IActionResult> Index()
@@ -105,6 +109,14 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response); ;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Export([FromBody] ExportReq req)
+        {
+            var allPageData = await ExportDataHelper.GetData(req, _incomeService.ExportData);
+            var data = allPageData.Data;
+            return _exportDataService.Export(data, EnumReportTitle.Income, req, getGridColumns());
+        }
+
         /// <summary>
         /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
@@ -112,7 +124,12 @@ namespace HisabPro.Web.Controllers.Private
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var columns = new List<Column> {
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _incomeService.PageData, getGridColumns());
+        }
+
+        private List<Column> getGridColumns()
+        {
+            return new List<Column> {
                     new Column() { Name = "Title", Title = _localizer.Get(ResourceKey.FieldTitle), Width = "170px"  },
                     new Column() { Name = "IncomeOn", Title = _localizer.Get(ResourceKey.FieldDate), Type = ColType.Date, Width = "100px" },
                     new Column() { Name = "Amount", Title = _localizer.Get(ResourceKey.FieldAmount), Align = Align.Right, Width="95px" },
@@ -124,7 +141,6 @@ namespace HisabPro.Web.Controllers.Private
                     new Column() { Name = "Edit", Type = ColType.Edit },
                     new Column() { Name = "Delete", Type = ColType.Delete }
             };
-            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _incomeService.PageData, columns);
         }
     }
 }

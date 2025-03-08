@@ -51,10 +51,15 @@ namespace HisabPro.Services.Implements
         }
         public async Task<PageDataRes<UserRes>> PageData(LoadDataRequest request)
         {
-            var data = _userRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
-            data = data.ApplyDynamicFilters(request.Filter.Fields);
-            data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<User, UserRes>(data, request.PageData, _mapper);
+            var dataQuery = applyFilterAndSort(request);
+            var pagedData = await PageDataHelper.ApplyPage<User, UserRes>(dataQuery, request.PageData, _mapper);
+            return pagedData;
+        }
+        public async Task<PageDataRes<UserRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<User, UserRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
             return pagedData;
         }
 
@@ -156,6 +161,13 @@ namespace HisabPro.Services.Implements
                 }
             }
             return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiPasswordUpdated), true);
+        }
+        private IQueryable<User> applyFilterAndSort(LoadDataRequest request)
+        {
+            var data = _userRepo.GetPageDataWithChildrenAsync("Creator", "Modifier");
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            return data;
         }
     }
 }

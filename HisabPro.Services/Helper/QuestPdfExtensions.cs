@@ -8,12 +8,12 @@ namespace HisabPro.Services.Helper
     {
         public static IContainer DefaultHeaderCellStyle(this IContainer container)
         {
-            return container.Background(Colors.Grey.Lighten1).Border(1).BorderColor(Colors.Grey.Lighten2).Padding(5);
+            return container.Background(Colors.Grey.Lighten1).Border(0.5f).BorderColor(Colors.Grey.Lighten2).Padding(5).AlignLeft();
         }
 
         public static IContainer DefaultBodyCellStyle(this IContainer container)
         {
-            return container.Border(1).BorderColor(Colors.Grey.Lighten2).Padding(5);
+            return container.Border(0.5f).BorderColor(Colors.Grey.Lighten2).Padding(5).AlignLeft();
         }
     }
 }

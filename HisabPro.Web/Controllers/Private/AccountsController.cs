@@ -15,11 +15,13 @@ namespace HisabPro.Web.Controllers.Private
     {
         private readonly IAccountService _accountService;
         private readonly ISharedViewLocalizer _localizer;
+        private readonly IExportDataService _exportDataService;
 
-        public AccountsController(IAccountService accountService, ISharedViewLocalizer localizer)
+        public AccountsController(IAccountService accountService, ISharedViewLocalizer localizer, IExportDataService exportDataService)
         {
             _accountService = accountService;
             _localizer = localizer;
+            _exportDataService = exportDataService;
         }
 
         public async Task<IActionResult> Index()
@@ -83,6 +85,14 @@ namespace HisabPro.Web.Controllers.Private
             return StatusCode((int)response.StatusCode, response); ;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Export([FromBody] ExportReq req)
+        {
+            var allPageData = await ExportDataHelper.GetData(req, _accountService.ExportData);
+            var data = allPageData.Data;
+            return _exportDataService.Export(data, EnumReportTitle.AccountsDetail, req, getGridColumns());
+        }
+
         /// <summary>
         /// This is used for generic gridview component which will perform sorting and pagination
         /// </summary>
@@ -90,7 +100,12 @@ namespace HisabPro.Web.Controllers.Private
         /// <returns></returns>
         private async Task<GridViewModel<object>> LoadGridData(LoadDataRequest req, bool firstTimeLoad = false)
         {
-            var columns = new List<Column> {
+            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _accountService.PageData, getGridColumns());
+        }
+
+        private List<Column> getGridColumns()
+        {
+            return new List<Column> {
                     new Column() { Name = "Name", Width = "140px", Title=_localizer.Get(ResourceKey.FieldName) },
                     new Column() { Name = "FullName", Title = _localizer.Get(ResourceKey.FieldFullName)},
                     new Column() { Name = "Mobile", Title=_localizer.Get(ResourceKey.FieldMobile), Width="120px" },
@@ -100,7 +115,6 @@ namespace HisabPro.Web.Controllers.Private
                     new Column() { Name = "Edit", Type = ColType.Edit},
                     new Column() { Name = "Delete", Type = ColType.Delete}
             };
-            return await GridviewHelper.LoadGridData(req, firstTimeLoad, _accountService.PageData, columns);
         }
     }
 }

@@ -50,14 +50,11 @@ namespace HisabPro.Services.Implements
         }
         public async Task<PageDataRes<CategoryRes>> PageData(LoadDataRequest request)
         {
-            var data = _categoryRepo.GetAllDataWithSelfRefAsync(p => p.ParentId == null, "SubCategories");
-            data = data.ApplyDynamicFilters(request.Filter.Fields);
-            data = PageDataHelper.ApplySort(data, request.PageData);
-
+            var dataQuery = applyFilterAndSort(request);
             List<CategoryRes> mappedData = new List<CategoryRes>();
             try
             {
-                mappedData = _mapper.Map<List<CategoryRes>>(data);
+                mappedData = _mapper.Map<List<CategoryRes>>(dataQuery);
             }
             catch (Exception ex)
             {
@@ -65,6 +62,14 @@ namespace HisabPro.Services.Implements
             }
             return new PageDataRes<CategoryRes> { Data = mappedData };
         }
+        public async Task<PageDataRes<CategoryRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<Category, CategoryRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
+            return pagedData;
+        }
+
         public async Task<ResponseDTO<CategoryRes>> SaveAsync(SaveCategoryReq req)
         {
             var categories = await _categoryRepo.GetAll()
@@ -133,6 +138,14 @@ namespace HisabPro.Services.Implements
                 return categories.Where(c => c.Name == name && c.Id != id.Value).ToList();
             }
             return categories.Where(c => c.Name == name).ToList();
+        }
+
+        private IQueryable<Category> applyFilterAndSort(LoadDataRequest request)
+        {
+            var data = _categoryRepo.GetAllDataWithSelfRefAsync(p => p.ParentId == null, "SubCategories");
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            return data;
         }
     }
 }

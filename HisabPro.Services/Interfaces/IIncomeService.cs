@@ -9,6 +9,7 @@ namespace HisabPro.Services.Interfaces
         Task<SaveIncomeReq> GetByIdAsync(int id);
         Task<ResponseDTO<List<IncomeRes>>> GetAll();
         Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request);
+        Task<PageDataRes<IncomeRes>> ExportData(ExportReq request);
         Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncomeReq> incomes);
         Task<ResponseDTO<IncomeRes>> SaveAsync(SaveIncomeReq req);
         Task<ResponseDTO<bool>> DeleteAsync(int id);

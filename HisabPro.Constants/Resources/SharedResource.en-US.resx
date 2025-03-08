@@ -802,4 +802,40 @@ You can get more details</value>
   <data name="ApiFeatureNotAvailable" xml:space="preserve">
     <value>This feature is not available! Please contact our support team.</value>
   </data>
+  <data name="ReportDate" xml:space="preserve">
+    <value>Report Date</value>
+  </data>
+  <data name="ReportAppliedFilter" xml:space="preserve">
+    <value>Filter: {0}</value>
+  </data>
+  <data name="ReportAppliedSort" xml:space="preserve">
+    <value>Sort: {0} | {1}</value>
+  </data>
+  <data name="ReportAccountsDetail" xml:space="preserve">
+    <value>Accounts Detail Report</value>
+  </data>
+  <data name="ReportCategoryAndSubcategory" xml:space="preserve">
+    <value>Category &amp; Subcategory Report</value>
+  </data>
+  <data name="ReportExpense" xml:space="preserve">
+    <value>Expense Report</value>
+  </data>
+  <data name="ReportIncome" xml:space="preserve">
+    <value>Income Report</value>
+  </data>
+  <data name="ReportIncomeAndExpense" xml:space="preserve">
+    <value>Income &amp; Expense Report</value>
+  </data>
+  <data name="ReportNA" xml:space="preserve">
+    <value>NA</value>
+  </data>
+  <data name="ReportSortAsc" xml:space="preserve">
+    <value>Asc</value>
+  </data>
+  <data name="ReportSortDes" xml:space="preserve">
+    <value>Des</value>
+  </data>
+  <data name="ReportUser" xml:space="preserve">
+    <value>User Report</value>
+  </data>
 </root>

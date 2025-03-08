@@ -39,12 +39,18 @@ namespace HisabPro.Services.Implements
         }
         public async Task<PageDataRes<IncomeRes>> PageData(LoadDataRequest request)
         {
-            var data = _incomeRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
-            data = data.ApplyDynamicFilters(request.Filter.Fields);
-            data = PageDataHelper.ApplySort(data, request.PageData);
-            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeRes>(data, request.PageData, _mapper);
+            var dataQuery = applyFilterAndSort(request);
+            var pagedData = await PageDataHelper.ApplyPage<Income, IncomeRes>(dataQuery, request.PageData, _mapper);
             return pagedData;
         }
+        public async Task<PageDataRes<IncomeRes>> ExportData(ExportReq request)
+        {
+            var dataQuery = applyFilterAndSort(request);
+            // All Page Data
+            var pagedData = await PageDataHelper.ApplyAllPage<Income, IncomeRes>(dataQuery.AsQueryable(), request.PageData, _mapper);
+            return pagedData;
+        }
+
         public async Task<ResponseDTO<DataImportRes>> AddRangeAsync(IEnumerable<SaveIncomeReq> incomes)
         {
             var map = _mapper.Map<List<Income>>(incomes);
@@ -63,6 +69,14 @@ namespace HisabPro.Services.Implements
         {
             var result = await _incomeRepo.DeleteAsync(id);
             return new ResponseDTO<bool>(System.Net.HttpStatusCode.OK, _localizer.Get(ResourceKey.LabelApiDelete), result);
+        }
+
+        private IQueryable<Income> applyFilterAndSort(LoadDataRequest request)
+        {
+            var data = _incomeRepo.GetPageDataWithChildrenAsync("Account", "Category", "SubCategory");
+            data = data.ApplyDynamicFilters(request.Filter.Fields);
+            data = PageDataHelper.ApplySort(data, request.PageData);
+            return data;
         }
     }
 }

@@ -146,6 +146,10 @@
                 var data = {
                     Loading: $table.find(".grid-loading"),
                     ExportType: selectedExport,
+                    PageData: {
+                        SortBy: sortColumn,
+                        SortDirection: sortOrder
+                    },
                     Filter: {
                         Fields: filters
                     }
