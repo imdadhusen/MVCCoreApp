@@ -14,13 +14,14 @@ namespace HisabPro.Services.Implements
     {
         private readonly IExportService _pdfExportService;
         //private readonly IExportService _excelExportService;
-        //private readonly IExportService _htmlExportService;
+        private readonly IExportService _htmlExportService;
         private readonly ISharedViewLocalizer _localizer;
 
-        //[FromKeyedServices("Excel")] IExportService excelExportService,        [FromKeyedServices("HTML")]        IExportService htmlExportService)
-        public ExportDataService([FromKeyedServices("PDF")] IExportService pdfExportService, ISharedViewLocalizer localizer)
+        //[FromKeyedServices("Excel")] IExportService excelExportService
+        public ExportDataService([FromKeyedServices("PDF")] IExportService pdfExportService, [FromKeyedServices("HTML")] IExportService htmlExportService, ISharedViewLocalizer localizer)
         {
             _pdfExportService = pdfExportService;
+            _htmlExportService = htmlExportService;
             _localizer = localizer;
             // Configure generic helper for Enum
             EnumLocalizationHelper.Configure(_localizer);
@@ -32,7 +33,7 @@ namespace HisabPro.Services.Implements
             {
                 EnumExportType.PDF => _pdfExportService,
                 //EnumExportType.Excel => _excelExportService,
-                //EnumExportType.HTML => _htmlExportService,
+                EnumExportType.HTML => _htmlExportService,
                 _ => throw new FeatureNotAvailableException(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))
             };
 

@@ -11,5 +11,6 @@
         public const string PdfContentType = "application/pdf";
         public const string DateFormatHeader = "dd-MM-yyyy HH:mm";
         public const string DateFormatData = "dd-MM-yyyy";
+        public const string HtmlTemplatePath = "Templates/ReportTemplate.html";
     }
 }

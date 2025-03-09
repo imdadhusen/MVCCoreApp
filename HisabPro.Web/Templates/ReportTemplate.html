@@ -1,0 +1,80 @@
+﻿<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .tableBody th, .tableBody td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            margin-top: 10px;
+            padding: 5px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .width33 {
+            width: 33%;
+            vertical-align: bottom;
+        }
+
+        .line {
+            margin: 5px 0px;
+            width: 100%;
+            border-bottom: 1px solid #ddd; /* Adjust thickness and color */
+        }
+
+        .reportTitle {
+            text-align: center;
+            color: #007bff;
+            vertical-align: middle;
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td class="width33"><strong>{ReportDateLabel}:</strong></td>
+            <td rowspan="2" class="reportTitle">{ReportTitle}</td>
+            <td class="width33" style="text-align:right">{AppliedSortLabel}</td>
+        </tr>
+        <tr>
+            <td >{ReportDate}</td>
+            <td style="text-align:right">{AppliedFilterLabel}</td>
+        </tr>
+    </table>
+    <div class="line"></div>
+    <table class="tableBody">
+        <thead>
+            <tr>{TableHeaders}</tr>
+        </thead>
+        <tbody>
+            {TableRows}
+        </tbody>
+    </table>
+    <footer>
+        <img src='{LogoPath}' height='20' alt='Logo' />
+        <span style='font-weight:bold;'>{LogoText}</span> |
+        <span>{SupportContact}</span>
+    </footer>
+</body>
+</html>
