@@ -28,9 +28,6 @@ namespace HisabPro.Services.Implements
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
-            if (data == null || !data.Any())
-                throw new CustomValidationException(_localizer.Get(ResourceKey.ApiNoRecordsForExport));
-
             // Get properties with Display Names
             var properties = typeof(T).GetProperties().Where(p => p.CanRead).Select(p => new { Property = p }).ToList();
 
@@ -135,8 +132,12 @@ namespace HisabPro.Services.Implements
             var response = _httpContextAccessor.HttpContext.Response;
             response.Headers["X-Filename"] = fileName;
             response.Headers["Content-Disposition"] = "attachment; filename=" + fileName;
+            response.Headers["Content-Type"] = ExportReportValues.PdfContentType;
 
-            return new FileContentResult(pdfBytes, ExportReportValues.PdfContentType);
+            return new FileContentResult(pdfBytes, ExportReportValues.PdfContentType)
+            {
+                FileDownloadName = fileName
+            };
         }
 
         // Helper method for hierarchical data (Parent-Child Rows)

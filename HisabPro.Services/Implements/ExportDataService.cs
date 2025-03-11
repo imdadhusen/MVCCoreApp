@@ -13,15 +13,15 @@ namespace HisabPro.Services.Implements
     public class ExportDataService : IExportDataService
     {
         private readonly IExportService _pdfExportService;
-        //private readonly IExportService _excelExportService;
+        private readonly IExportService _excelExportService;
         private readonly IExportService _htmlExportService;
         private readonly ISharedViewLocalizer _localizer;
 
-        //[FromKeyedServices("Excel")] IExportService excelExportService
-        public ExportDataService([FromKeyedServices("PDF")] IExportService pdfExportService, [FromKeyedServices("HTML")] IExportService htmlExportService, ISharedViewLocalizer localizer)
+        public ExportDataService([FromKeyedServices("PDF")] IExportService pdfExportService, [FromKeyedServices("HTML")] IExportService htmlExportService, [FromKeyedServices("Excel")] IExportService excelExportService, ISharedViewLocalizer localizer)
         {
             _pdfExportService = pdfExportService;
             _htmlExportService = htmlExportService;
+            _excelExportService = excelExportService;
             _localizer = localizer;
             // Configure generic helper for Enum
             EnumLocalizationHelper.Configure(_localizer);
@@ -29,19 +29,23 @@ namespace HisabPro.Services.Implements
 
         public FileContentResult Export<T>(List<T>? data, EnumReportTitle reportTitle, ExportReq reqExport, List<Column> columns)
         {
+            if (data == null || !data.Any())
+                throw new CustomValidationException(_localizer.Get(ResourceKey.ApiNoRecordsForExport));
+
             IExportService exportService = reqExport.ExportType switch
             {
                 EnumExportType.PDF => _pdfExportService,
-                //EnumExportType.Excel => _excelExportService,
+                EnumExportType.Excel => _excelExportService,
                 EnumExportType.HTML => _htmlExportService,
                 _ => throw new FeatureNotAvailableException(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))
             };
 
             var showOnlyDataColumns = columns.Where(c => !(c.Type == ColType.Type.Edit || c.Type == ColType.Type.Delete)).ToList();
-            string sortBy = getLocalizedColumnTitle(columns, reqExport.PageData?.SortBy);
-            string sortOrder = getLocalizedSort(reqExport.PageData?.SortDirection);
-            int filterCount = reqExport.Filter?.Fields?.Count() ?? 0;
-            string title = EnumLocalizationHelper.Get(reportTitle);
+            var sortBy = getLocalizedColumnTitle(columns, reqExport.PageData?.SortBy);
+            var sortOrder = getLocalizedSort(reqExport.PageData?.SortDirection);
+            var filterCount = reqExport.Filter?.Fields?.Count() ?? 0;
+            var title = EnumLocalizationHelper.Get(reportTitle);
+
             return exportService.Export(data, title, reportTitle.ToString(), showOnlyDataColumns, sortBy, sortOrder, filterCount);
         }
 

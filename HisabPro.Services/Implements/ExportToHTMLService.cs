@@ -1,12 +1,10 @@
-﻿using HisabPro.Common;
+﻿using HisabPro.Constants;
 using HisabPro.Constants.Resources;
-using HisabPro.Constants;
+using HisabPro.DTO.Model;
 using HisabPro.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using HisabPro.DTO.Model;
 using System.Text;
-using Azure;
 
 namespace HisabPro.Services.Implements
 {
@@ -23,9 +21,6 @@ namespace HisabPro.Services.Implements
 
         public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
         {
-            if (data == null || !data.Any())
-                throw new CustomValidationException(_localizer.Get(ResourceKey.ApiNoRecordsForExport));
-
             string template = File.ReadAllText(ExportReportValues.HtmlTemplatePath);
 
             // Replace placeholders
@@ -40,7 +35,7 @@ namespace HisabPro.Services.Implements
                                .Replace("{SupportContact}", ExportReportValues.SupportContact);
 
             // Generate table content dynamically
-            string tableHeaders = string.Join("", columns.Select(col => $"<th>{col.Title}</th>"));
+            string tableHeaders = string.Join("", columns.Select(col => $"<th {getAlignStyle(col.Align)}>{col.Title}</th>"));
             string tableRows = string.Join("", data.Select(item => GenerateRow(item, columns)));
 
             template = template.Replace("{TableHeaders}", tableHeaders)
@@ -52,9 +47,9 @@ namespace HisabPro.Services.Implements
             var response = _httpContextAccessor.HttpContext.Response;
             response.Headers["X-Filename"] = fileName;
             response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
-            response.Headers["Content-Type"] = "application/octet-stream";
+            response.Headers["Content-Type"] = ExportReportValues.HtmlContentType;
 
-            return new FileContentResult(fileBytes, "application/octet-stream")
+            return new FileContentResult(fileBytes, ExportReportValues.HtmlContentType)
             {
                 FileDownloadName = fileName
             };
@@ -76,10 +71,25 @@ namespace HisabPro.Services.Implements
                 else if (rawValue is DateTime dateValue)
                     cellValue = dateValue.ToString(ExportReportValues.DateFormatData);
 
-                rowContent += $"<td>{cellValue}</td>";
+                rowContent += $"<td {getAlignStyle(column.Align)}>{cellValue}</td>";
             }
 
             return rowContent + "</tr>";
+        }
+
+        private string getAlignStyle(Align columnAlign)
+        {
+            string? align = null;
+            switch (columnAlign)
+            {
+                case Align.Center:
+                    align = "center";
+                    break;
+                case Align.Right:
+                    align = "right";
+                    break;
+            }
+            return align != null ? $"style='text-align:{align}'" : "";
         }
     }
 
