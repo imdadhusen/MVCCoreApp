@@ -52,22 +52,13 @@ function callApi(type, reqType, url, data, successCallback, successAdditionalDat
                 setLoadingIndicator(data.Loading);
 
             if (reqType == RequestType.DOWNLOAD) {
-                //// Check if response is actually a PDF
-                //var contentType = xhr.getResponseHeader("Content-Type");
-                //if (contentType !== "application/pdf") {
-                //    showNotification('Invalid response type. Expected a PDF file', 'danger');
-                //    return;
-                //}
                 //Extract custom header for filename
                 var filename = xhr.getResponseHeader('X-Filename');
                 // Create a blob and trigger download
-                var fileContentType = "";
-                if (data.ExportType == 1)
-                    fileContentType = "application/pdf";
-                else if (data.ExportType == 3)
-                    fileContentType = "text/html";
+                var contentType = xhr.getResponseHeader('Content-Type');
+                var blob = new Blob([response], { type: contentType });
 
-                var blob = new Blob([response], { type: fileContentType });
+                //var blob = new Blob([response], { type: fileContentType });
                 //Open new window to download the file
                 //window.open(window.URL.createObjectURL(blob), '_blank');
 
