@@ -304,13 +304,16 @@
                         else if (fieldType === filter.dataType.int && this.tagName === "SELECT") {
                             //Number with Multiple values (by dropdown)
                             var intValues = value.split(",").map(Number);
+                            const selectedTexts = $(this).find('option:selected').map(function () {
+                                return $(this).text();
+                            }).get().join(', ');
                             if (intValues && intValues.length >= 2) {
                                 // Multiple values selected then use range
-                                filters.push({ FieldName: fieldName, RangeValue: intValues, Type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, RangeValue: intValues, Type: filter.dataType.int, RangeText: selectedTexts  });
                             }
                             else {
                                 // Single value
-                                filters.push({ FieldName: fieldName, StartValue: intValues[0], Type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, StartValue: intValues[0], Type: filter.dataType.int, StartText: selectedTexts });
                             }
                         }
                         else if (fieldType === filter.dataType.double && fieldName.endsWith("_Start") || fieldName.endsWith("_End")) {
