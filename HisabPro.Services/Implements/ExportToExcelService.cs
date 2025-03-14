@@ -19,7 +19,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<DTO.Model.Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<DTO.Model.Column> columns, List<FilterDescriptionModel>? filterDescriptions, string AppliedSortField = "NA", string AppliedSortType = "NA")
         {
             using (var workbook = new XLWorkbook())
             {
@@ -42,7 +42,7 @@ namespace HisabPro.Services.Implements
                 .Alignment.SetVertical(XLAlignmentVerticalValues.Center);
 
                 var cellSortAndFilter = worksheet.Cell(row, columns.Count);
-                cellSortAndFilter.Value = $"{string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType)}\n{string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount)}";
+                cellSortAndFilter.Value = $"{string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType)}\n{string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), filterDescriptions?.Count)}";
 
                 //Empty row for separator
                 worksheet.Range(row + 1, 1, row + 1, columns.Count).Merge();

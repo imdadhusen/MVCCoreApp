@@ -1,5 +1,4 @@
-﻿using HisabPro.Common;
-using HisabPro.Constants;
+﻿using HisabPro.Constants;
 using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
 using HisabPro.Services.Helper;
@@ -24,7 +23,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, List<FilterDescriptionModel>? filterDescriptions, string AppliedSortField = "NA", string AppliedSortType = "NA")
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
@@ -61,45 +60,77 @@ namespace HisabPro.Services.Implements
                         header.RelativeItem().AlignRight().Column(col =>
                         {
                             col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType));
-                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount));
+                            col.Item().Text(string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), filterDescriptions?.Count));
                         });
                     });
 
                     // Table Content
-                    page.Content().PaddingTop(5).Table(table =>
+                    page.Content().PaddingTop(5)
+                    .Column(column =>
                     {
-                        table.ColumnsDefinition(headerCol =>
+                        // First Table: Applied Filter
+                        column.Item().Table(filterTable =>
                         {
-                            foreach (var col in columns)
+                            // Define two columns (20% and remaining width)
+                            filterTable.ColumnsDefinition(columns =>
                             {
-                                headerCol.RelativeColumn();
+                                columns.ConstantColumn(100); // Approx 20% width
+                                columns.RelativeColumn(); // Remaining width
+                            });
+
+                            // Header Row with Background Color
+                            filterTable.Header(header =>
+                            {
+                                header.Cell().ColumnSpan(2).Background(Colors.Grey.Lighten3).Padding(4).Text(_localizer.Get(ResourceKey.ReportFilterDescription)).Bold();
+                            });
+
+                            // Add Filter Rows
+                            foreach (var filter in filterDescriptions)
+                            {
+                                filterTable.Cell().Padding(3).Text(filter.FilterName).Bold();
+                                filterTable.Cell().Padding(3).Text(filter.Description);
                             }
                         });
 
-                        // Table Header with Styling
-                        table.Header(header =>
+                        // Space between tables
+                        column.Item().PaddingVertical(10);
+
+                        // Second Table: Grid Data
+                        column.Item().Table(table =>
                         {
-                            foreach (var col in columns)
+                            table.ColumnsDefinition(headerCol =>
                             {
-                                var cell = header.Cell().DefaultHeaderCellStyle();
-                                switch (col.Align)
+                                foreach (var col in columns)
                                 {
-                                    case Align.Center:
-                                        cell.AlignCenter();
-                                        break;
-                                    case Align.Right:
-                                        cell.AlignRight();
-                                        break;
+                                    headerCol.RelativeColumn();
                                 }
-                                cell.Text(col.Title).SemiBold();
+                            });
+
+                            // Table Header with Styling
+                            table.Header(header =>
+                            {
+                                foreach (var col in columns)
+                                {
+                                    var cell = header.Cell().DefaultHeaderCellStyle();
+                                    switch (col.Align)
+                                    {
+                                        case Align.Center:
+                                            cell.AlignCenter();
+                                            break;
+                                        case Align.Right:
+                                            cell.AlignRight();
+                                            break;
+                                    }
+                                    cell.Text(col.Title).SemiBold();
+                                }
+                            });
+
+                            // Table Rows with Data
+                            foreach (var item in data)
+                            {
+                                AddRowWithChildren(table, properties.Select(p => p.Property).ToList(), item, columns, 0);
                             }
                         });
-
-                        // Table Rows with Data
-                        foreach (var item in data)
-                        {
-                            AddRowWithChildren(table, properties.Select(p => p.Property).ToList(), item, columns, 0);
-                        }
                     });
 
                     // Footer with Logo & Contact Info

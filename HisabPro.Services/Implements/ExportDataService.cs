@@ -43,10 +43,9 @@ namespace HisabPro.Services.Implements
             var showOnlyDataColumns = columns.Where(c => !(c.Type == ColType.Type.Edit || c.Type == ColType.Type.Delete)).ToList();
             var sortBy = getLocalizedColumnTitle(columns, reqExport.PageData?.SortBy);
             var sortOrder = getLocalizedSort(reqExport.PageData?.SortDirection);
-            var filterCount = reqExport.Filter?.Fields?.Count() ?? 0;
             var title = EnumLocalizationHelper.Get(reportTitle);
 
-            return exportService.Export(data, title, reportTitle.ToString(), showOnlyDataColumns, sortBy, sortOrder, filterCount);
+            return exportService.Export(data, title, reportTitle.ToString(), showOnlyDataColumns, reqExport.Filter?.GetFilterDescription(), sortBy, sortOrder);
         }
 
         private string getLocalizedColumnTitle(List<Column> columns, string? columnName)

@@ -64,11 +64,11 @@
                             {
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-type="bool" id="yesOption" value="Yes">
+                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-fieldTitle="@field.FieldTitle" data-type="bool" id="yesOption" value="Yes">
                                         <label class="form-check-label" for="yesOption">@_localizer.Get(ResourceKey.LabelYes)</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-type="bool" id="noOption" value="No">
+                                        <input type="radio" class="form-check-input" name="@field.FieldName" data-fieldTitle="@field.FieldTitle" data-type="bool" id="noOption" value="No">
                                         <label class="form-check-label" for="noOption">@_localizer.Get(ResourceKey.LabelNo)</label>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                             else if (field is FilterModel<int> intFilter && intFilter.Items != null)
                             {
                                 <div>
-                                    <select name="@field.FieldName" data-child="@field.ChildFieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
+                                    <select name="@field.FieldName" data-child="@field.ChildFieldName" data-fieldTitle="@field.FieldTitle" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
                                         @foreach (var item in intFilter.Items)
                                         {
                                             <option data-ref="@item.RefId" value="@item.Id">@item.Name</option>
@@ -95,7 +95,7 @@
                             else if (field is FilterModel<int> intFilterSelect && intFilterSelect.Items == null)
                             {
                                 <div>
-                                    <select name="@field.FieldName" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
+                                    <select name="@field.FieldName" data-fieldTitle="@field.FieldTitle" data-type="int" class="selectpicker" multiple="multiple" data-live-search="true">
                                     </select>
                                 </div>
                             }
@@ -103,27 +103,27 @@
                             {
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="number" name="@($"{field.FieldName}_Start")" data-type="double" class="form-control" />
+                                        <input type="number" name="@($"{field.FieldName}_Start")" data-fieldTitle="@field.FieldTitle" data-type="double" class="form-control" />
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="number" name="@($"{field.FieldName}_End")" data-type="double" class="form-control" />
+                                        <input type="number" name="@($"{field.FieldName}_End")" data-fieldTitle="@field.FieldTitle" data-type="double" class="form-control" />
                                     </div>
                                 </div>
                             }
                             else if (field is FilterModel<string> stringFilter)
                             {
                                 <div>
-                                    <input type="text" name="@field.FieldName" data-type="string" class="form-control" />
+                                    <input type="text" name="@field.FieldName" data-fieldTitle="@field.FieldTitle" data-type="string" class="form-control" />
                                 </div>
                             }
                             else if (field is FilterModel<DateTime> dateFilter)
                             {
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="date" name="@($"{field.FieldName}_Start")" data-type="DateTime" class="form-control" />
+                                        <input type="date" name="@($"{field.FieldName}_Start")" data-fieldTitle="@field.FieldTitle" data-type="DateTime" class="form-control" />
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="date" name="@($"{field.FieldName}_End")" data-type="DateTime" class="form-control" />
+                                        <input type="date" name="@($"{field.FieldName}_End")" data-fieldTitle="@field.FieldTitle" data-type="DateTime" class="form-control" />
                                     </div>
                                 </div>
                             }

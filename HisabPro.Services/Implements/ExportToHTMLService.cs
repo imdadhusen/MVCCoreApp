@@ -19,7 +19,7 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, List<FilterDescriptionModel>? filterDescriptions, string AppliedSortField = "NA", string AppliedSortType = "NA")
         {
             string template = File.ReadAllText(ExportReportValues.HtmlTemplatePath);
 
@@ -28,8 +28,8 @@ namespace HisabPro.Services.Implements
                                .Replace("{ReportDateLabel}", _localizer.Get(ResourceKey.ReportDate))
                                .Replace("{ReportDate}", DateTime.Now.ToString(ExportReportValues.DateFormatHeader))
                                .Replace("{AppliedSortLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType))
-                               .Replace("{AppliedFilterLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount))
-                               .Replace("{AppliedFilterCount}", AppliedFilterCount.ToString())
+                               .Replace("{AppliedFilterLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), filterDescriptions?.Count))
+                               .Replace("{AppliedFilterCount}", filterDescriptions?.Count.ToString())
                                .Replace("{LogoPath}", ExportReportValues.LogoPath)
                                .Replace("{LogoText}", ExportReportValues.LogoText)
                                .Replace("{SupportContact}", ExportReportValues.SupportContact);

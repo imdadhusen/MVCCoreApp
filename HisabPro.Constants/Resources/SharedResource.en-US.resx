@@ -838,4 +838,7 @@ You can get more details</value>
   <data name="ReportUser" xml:space="preserve">
     <value>User Report</value>
   </data>
+  <data name="ReportFilterDescription" xml:space="preserve">
+    <value>Report – Displaying Selected Criteria</value>
+  </data>
 </root>
