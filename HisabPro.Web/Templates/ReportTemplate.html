@@ -48,6 +48,10 @@
             font-size: 15px;
             font-weight: bold;
         }
+
+        .fontBold {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -58,7 +62,17 @@
             <td class="width33" style="text-align:right">{AppliedSortLabel}<br />{AppliedFilterLabel}</td>
         </tr>
     </table>
-    <div class="line"></div>
+    <div class="line"></div> 
+    <table class="tableBody" style="margin-bottom:6px; display:{DisplayFilterDescriptions}">
+        <thead>
+            <tr>
+                <th colspan="2">{FilterDescriptionsTitle}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {FilterDescriptions}
+        </tbody>
+    </table>
     <table class="tableBody">
         <thead>
             <tr>{TableHeaders}</tr>

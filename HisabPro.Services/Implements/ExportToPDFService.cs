@@ -68,32 +68,34 @@ namespace HisabPro.Services.Implements
                     page.Content().PaddingTop(5)
                     .Column(column =>
                     {
-                        // First Table: Applied Filter
-                        column.Item().Table(filterTable =>
+                        if (filterDescriptions != null && filterDescriptions.Count >= 1)
                         {
-                            // Define two columns (20% and remaining width)
-                            filterTable.ColumnsDefinition(columns =>
+                            // First Table: Applied Filter
+                            column.Item().Table(filterTable =>
                             {
-                                columns.ConstantColumn(100); // Approx 20% width
-                                columns.RelativeColumn(); // Remaining width
+                                // Define two columns (20% and remaining width)
+                                filterTable.ColumnsDefinition(columns =>
+                                {
+                                    columns.ConstantColumn(100); // Approx 20% width
+                                    columns.RelativeColumn(); // Remaining width
+                                });
+
+                                // Header Row with Background Color
+                                filterTable.Header(header =>
+                                {
+                                    header.Cell().ColumnSpan(2).Background(Colors.Grey.Lighten3).Padding(4).Text(_localizer.Get(ResourceKey.ReportFilterDescription)).Bold();
+                                });
+
+                                // Add Filter Rows
+                                foreach (var filter in filterDescriptions)
+                                {
+                                    filterTable.Cell().Padding(3).Text(filter.FilterName).Bold();
+                                    filterTable.Cell().Padding(3).Text(filter.Description);
+                                }
                             });
-
-                            // Header Row with Background Color
-                            filterTable.Header(header =>
-                            {
-                                header.Cell().ColumnSpan(2).Background(Colors.Grey.Lighten3).Padding(4).Text(_localizer.Get(ResourceKey.ReportFilterDescription)).Bold();
-                            });
-
-                            // Add Filter Rows
-                            foreach (var filter in filterDescriptions)
-                            {
-                                filterTable.Cell().Padding(3).Text(filter.FilterName).Bold();
-                                filterTable.Cell().Padding(3).Text(filter.Description);
-                            }
-                        });
-
-                        // Space between tables
-                        column.Item().PaddingVertical(10);
+                            // Space between tables
+                            column.Item().PaddingVertical(10);
+                        }
 
                         // Second Table: Grid Data
                         column.Item().Table(table =>
