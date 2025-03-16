@@ -76,5 +76,4 @@ namespace HisabPro.Services.Helper
             return query;
         }
     }
-
 }

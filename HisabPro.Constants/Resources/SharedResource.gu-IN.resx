@@ -839,4 +839,7 @@
   <data name="ReportUser" xml:space="preserve">
     <value>વપરાશકર્તાનો અહેવાલ</value>
   </data>
+  <data name="ReportFilterDescription" xml:space="preserve">
+    <value>અહેવાલ – પસંદ કરેલ માપદંડ દર્શાવી રહ્યું છે</value>
+  </data>
 </root>

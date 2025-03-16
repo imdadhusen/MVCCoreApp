@@ -94,7 +94,7 @@ namespace HisabPro.Constants.Resources
         public const string ReportIncome = "ReportIncome";
         public const string ReportIncomeAndExpense = "ReportIncomeAndExpense";
         public const string ReportUser = "ReportUser";
-
+        public const string ReportFilterDescription = "ReportFilterDescription";
 
 
         //Start: Category related settings

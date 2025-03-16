@@ -19,8 +19,13 @@ namespace HisabPro.Services.Implements
             _localizer = localizer;
         }
 
-        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<Column> columns, string AppliedSortField = "NA", string AppliedSortType = "NA", int AppliedFilterCount = 0)
+        public FileContentResult Export<T>(List<T> data, string reportTitle, string reportFileName, List<DTO.Model.Column> columns, List<FilterDescriptionModel>? filterDescriptions, string AppliedSortField = "NA", string AppliedSortType = "NA")
         {
+            var request = _httpContextAccessor.HttpContext.Request;
+            string baseUrl = $"{request.Scheme}://{request.Host}";
+            string logo = ExportReportValues.LogoPath.Replace("wwwroot", "");
+            string logoPath = $"{baseUrl}{logo}";
+
             string template = File.ReadAllText(ExportReportValues.HtmlTemplatePath);
 
             // Replace placeholders
@@ -28,13 +33,28 @@ namespace HisabPro.Services.Implements
                                .Replace("{ReportDateLabel}", _localizer.Get(ResourceKey.ReportDate))
                                .Replace("{ReportDate}", DateTime.Now.ToString(ExportReportValues.DateFormatHeader))
                                .Replace("{AppliedSortLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType))
-                               .Replace("{AppliedFilterLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), AppliedFilterCount))
-                               .Replace("{AppliedFilterCount}", AppliedFilterCount.ToString())
-                               .Replace("{LogoPath}", ExportReportValues.LogoPath)
+                               .Replace("{AppliedFilterLabel}", string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), filterDescriptions?.Count))
+                               .Replace("{AppliedFilterCount}", filterDescriptions?.Count.ToString())
+                               .Replace("{LogoPath}", logoPath)
                                .Replace("{LogoText}", ExportReportValues.LogoText)
                                .Replace("{SupportContact}", ExportReportValues.SupportContact);
 
-            // Generate table content dynamically
+            // First Table: Applied Filter
+            if (filterDescriptions != null && filterDescriptions.Count >= 1)
+            {
+                template = template.Replace("{DisplayFilterDescriptions}", "block");
+                // Title for filter description
+                template = template.Replace("{FilterDescriptionsTitle}", _localizer.Get(ResourceKey.ReportFilterDescription));
+                // Filter descriptions
+                template = template.Replace("{FilterDescriptions}", GenerateFilterDiscriptionRow(filterDescriptions));
+            }
+            else
+            {
+                template = template.Replace("{FilterDescriptions}", "");
+                template = template.Replace("{DisplayFilterDescriptions}", "none");
+            }
+
+            // Second Table: Grid Data
             string tableHeaders = string.Join("", columns.Select(col => $"<th {getAlignStyle(col.Align)}>{col.Title}</th>"));
             string tableRows = string.Join("", data.Select(item => GenerateRow(item, columns)));
 
@@ -55,7 +75,7 @@ namespace HisabPro.Services.Implements
             };
         }
 
-        private string GenerateRow<T>(T item, List<Column> columns)
+        private string GenerateRow<T>(T item, List<DTO.Model.Column> columns)
         {
             var properties = typeof(T).GetProperties().Where(p => p.CanRead).ToList();
             var rowContent = "<tr>";
@@ -77,6 +97,16 @@ namespace HisabPro.Services.Implements
             return rowContent + "</tr>";
         }
 
+        private string GenerateFilterDiscriptionRow(List<FilterDescriptionModel> filterDescriptions)
+        {
+            var rowContent = "";
+            foreach (var filter in filterDescriptions)
+            {
+                rowContent += $"<tr><td class=\"fontBold\">{filter.FilterName}</td><td>{filter.Description}</td></tr>";
+            }
+            return rowContent;
+        }
+
         private string getAlignStyle(Align columnAlign)
         {
             string? align = null;
@@ -92,5 +122,4 @@ namespace HisabPro.Services.Implements
             return align != null ? $"style='text-align:{align}'" : "";
         }
     }
-
 }

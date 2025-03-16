@@ -284,8 +284,13 @@
                 $table.find('.filterForm :input').each(function () {
                     const fieldType = $(this).data('type'); // Get the data-type attribute
                     const fieldName = $(this).attr('name'); // Get the input name attribute
+                    const fieldTitle = $(this).data('fieldtitle'); // Get the input name attribute
                     const value = $.trim($(this).val()); // Get the input value
-                    if (value != "") {
+
+                    if (value != "" && fieldName != undefined) {
+                        const isEndsWithStart = fieldName.endsWith("_Start");
+                        const isEndsWithEnd = fieldName.endsWith("_End");
+
                         if (fieldType === filter.dataType.bool) {
                             if (this.type == "radio") {
                                 let existingFilter = filters.find(f => f.FieldName === fieldName);
@@ -293,59 +298,62 @@
                                     // Get the selected radio button for the current field
                                     const selectedRadio = $(`input[name="${fieldName}"]:checked`);
                                     if (selectedRadio.length) {
-                                        filters.push({ FieldName: fieldName, StartValue: selectedRadio.val() === "Yes", Type: filter.dataType.bool });
+                                        filters.push({ FieldName: fieldName, FieldTitle: fieldTitle, StartValue: selectedRadio.val() === "Yes", Type: filter.dataType.bool });
                                     }
                                 }
                             }
                             else {
-                                filters.push({ FieldName: fieldName, StartValue: $(this).is(':checked'), Type: filter.dataType.bool });
+                                filters.push({ FieldName: fieldName, FieldTitle: fieldTitle, StartValue: $(this).is(':checked'), Type: filter.dataType.bool });
                             }
                         }
                         else if (fieldType === filter.dataType.int && this.tagName === "SELECT") {
                             //Number with Multiple values (by dropdown)
                             var intValues = value.split(",").map(Number);
+                            const selectedTexts = $(this).find('option:selected').map(function () {
+                                return $(this).text();
+                            }).get().join(', ');
                             if (intValues && intValues.length >= 2) {
                                 // Multiple values selected then use range
-                                filters.push({ FieldName: fieldName, RangeValue: intValues, Type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, FieldTitle: fieldTitle, RangeValue: intValues, Type: filter.dataType.int, FiledTextValue: selectedTexts  });
                             }
                             else {
                                 // Single value
-                                filters.push({ FieldName: fieldName, StartValue: intValues[0], Type: filter.dataType.int });
+                                filters.push({ FieldName: fieldName, FieldTitle: fieldTitle, StartValue: intValues[0], Type: filter.dataType.int, FiledTextValue: selectedTexts });
                             }
                         }
-                        else if (fieldType === filter.dataType.double && fieldName.endsWith("_Start") || fieldName.endsWith("_End")) {
+                        else if (fieldType === filter.dataType.double && isEndsWithStart || isEndsWithEnd) {
                             //NUmber with Range (by start and end)
                             const baseFieldName = fieldName.split('_')[0]; // Extract base name
                             let existingFilter = filters.find(f => f.FieldName === baseFieldName);
 
                             if (!existingFilter) {
-                                existingFilter = { FieldName: baseFieldName, Type: filter.dataType.double };
+                                existingFilter = { FieldName: baseFieldName, FieldTitle: fieldTitle, Type: filter.dataType.double };
                                 filters.push(existingFilter);
                             }
 
-                            if (fieldName.endsWith("_Start")) {
+                            if (isEndsWithStart) {
                                 existingFilter.StartValue = value;
                             }
-                            else if (fieldName.endsWith("_End")) {
+                            else if (isEndsWithEnd) {
                                 existingFilter.EndValue = value;
                             }
                         }
                         else if (fieldType === filter.dataType.string) {
-                            filters.push({ FieldName: fieldName, StartValue: value, Type: filter.dataType.string });
+                            filters.push({ FieldName: fieldName, FieldTitle: fieldTitle, StartValue: value, Type: filter.dataType.string });
                         }
-                        else if (fieldType === filter.dataType.date && (fieldName.endsWith("_Start") || fieldName.endsWith("_End"))) {
+                        else if (fieldType === filter.dataType.date && (isEndsWithStart || isEndsWithEnd)) {
                             const baseFieldName = fieldName.split('_')[0]; // Extract base name
                             let existingFilter = filters.find(f => f.FieldName === baseFieldName);
 
                             if (!existingFilter) {
-                                existingFilter = { FieldName: baseFieldName, Type: filter.dataType.date };
+                                existingFilter = { FieldName: baseFieldName, FieldTitle: fieldTitle, Type: filter.dataType.date };
                                 filters.push(existingFilter);
                             }
 
-                            if (fieldName.endsWith("_Start")) {
+                            if (isEndsWithStart) {
                                 existingFilter.StartValue = value;
                             }
-                            else if (fieldName.endsWith("_End")) {
+                            else if (isEndsWithEnd) {
                                 existingFilter.EndValue = value;
                             }
                         }
