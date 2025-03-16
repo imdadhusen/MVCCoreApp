@@ -26,8 +26,6 @@ namespace HisabPro.Services.Implements
                 var worksheet = workbook.Worksheets.Add("Report");
                 int row = 1;
 
-                worksheet.Range(1, 1, 5 + data.Count, columns.Count).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium);
-
                 // Header Section
                 var cellDateTitle = worksheet.Cell(row, 1);
                 cellDateTitle.Value = $"{_localizer.Get(ResourceKey.ReportDate).Value}\n{DateTime.Now.ToString(ExportReportValues.DateFormatHeader)}";
@@ -43,10 +41,39 @@ namespace HisabPro.Services.Implements
 
                 var cellSortAndFilter = worksheet.Cell(row, columns.Count);
                 cellSortAndFilter.Value = $"{string.Format(_localizer.Get(ResourceKey.ReportAppliedSort), AppliedSortField, AppliedSortType)}\n{string.Format(_localizer.Get(ResourceKey.ReportAppliedFilter), filterDescriptions?.Count)}";
+                cellSortAndFilter.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Right);
 
                 //Empty row for separator
                 worksheet.Range(row + 1, 1, row + 1, columns.Count).Merge();
                 row += 2;
+
+                // First Table: Applied Filter
+                if (filterDescriptions != null && filterDescriptions.Count >= 1)
+                {
+                    var cellFilterDescriptionTitle = worksheet.Cell(row, 1);
+                    cellFilterDescriptionTitle.Style.Fill.BackgroundColor = XLColor.LightGray;
+                    cellFilterDescriptionTitle.Value = _localizer.Get(ResourceKey.ReportFilterDescription).Value;
+                    var cellFilterDescriptionRange = worksheet.Range(row, 1, row, columns.Count);
+                    cellFilterDescriptionRange.Merge().Style.Font.SetBold(true);
+
+                    foreach (var filter in filterDescriptions)
+                    {
+                        row++;
+                        var cellFilterLabel = worksheet.Cell(row, 1);
+                        cellFilterLabel.Value = filter.FilterName;
+                        cellFilterLabel.Style.Font.SetBold(true);
+                        cellFilterLabel.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                        cellFilterLabel.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                        var cellFilterValue = worksheet.Cell(row, 2);
+                        cellFilterValue.Value = filter.Description;
+                        //cellFilterValue.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                        worksheet.Range(row, 2, row, columns.Count).Merge().Style.Border.OutsideBorder = XLBorderStyleValues.Thin; ;
+                    }
+                    row += 2;
+                    //Empty row for separator
+                    worksheet.Range(row - 1, 1, row - 1, columns.Count).Merge();
+                }
 
                 // Column Headers
                 for (int i = 0; i < columns.Count; i++)
@@ -87,6 +114,7 @@ namespace HisabPro.Services.Implements
                 .Alignment.SetVertical(XLAlignmentVerticalValues.Center)
                 .Font.SetBold();
 
+                worksheet.Range(1, 1, row, columns.Count).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium);
 
                 using (var stream = new MemoryStream())
                 {
