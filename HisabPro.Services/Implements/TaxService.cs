@@ -1,10 +1,19 @@
-﻿using HisabPro.DTO.Model;
+﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
+using HisabPro.DTO.Model;
 using HisabPro.Services.Interfaces;
 
 namespace HisabPro.Services.Implements
 {
     public class TaxService : ITaxService
     {
+        private readonly ISharedViewLocalizer _localizer;
+
+        public TaxService(ISharedViewLocalizer localizer)
+        {
+            _localizer = localizer;
+        }
+
         public decimal CalculateNewRegimeTax(decimal taxableIncome, TaxResultModel model)
         {
             decimal tax = 0;
@@ -50,7 +59,7 @@ namespace HisabPro.Services.Implements
                 model.SlabBreakdown.Clear();
                 model.SlabBreakdown.Add(new TaxSlabDetail
                 {
-                    SlabRange = $"After standard deduction, net income = ₹{taxableIncome:N0}",
+                    SlabRange = string.Format(_localizer.Get(ResourceKey.AfterStandardDeduction), taxableIncome),
                     Rate = 0,
                     TaxableAmount = taxableIncome,
                     TaxForSlab = 0

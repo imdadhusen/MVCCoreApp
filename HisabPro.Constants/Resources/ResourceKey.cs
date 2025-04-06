@@ -84,6 +84,9 @@ namespace HisabPro.Constants.Resources
         public const string LabelZakat = "LabelZakat";
         public const string LabelKhums = "LabelKhums";
         public const string LabelIncomeTax = "LabelIncomeTax";
+        public const string NoTaxApplicable = "NoTaxApplicable";
+        public const string TaxApplicable = "TaxApplicable";
+        public const string AfterStandardDeduction = "AfterStandardDeduction";
 
         public const string LabelSettings = "LabelSettings";
         public const string ReportDate = "ReportDate";

@@ -1,4 +1,6 @@
-﻿using HisabPro.DTO.Model;
+﻿using HisabPro.Constants;
+using HisabPro.Constants.Resources;
+using HisabPro.DTO.Model;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -10,8 +12,11 @@ namespace HisabPro.Web.Controllers.Private
     public class TaxController : Controller
     {
         private readonly ITaxService _taxService;
-        public TaxController(ITaxService taxService) { 
+        private readonly ISharedViewLocalizer _localizer;
+
+        public TaxController(ITaxService taxService, ISharedViewLocalizer sharedViewLocalizer) { 
             _taxService = taxService;
+            _localizer = sharedViewLocalizer;
         }
 
         [HttpGet]
@@ -24,11 +29,6 @@ namespace HisabPro.Web.Controllers.Private
         [HttpPost]
         public IActionResult Index(TaxInputModel input)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(input); // Still show the form if input is invalid
-            }
-
             var result = new TaxResultModel
             {
                 AnnualIncome = input.AnnualIncome
@@ -38,15 +38,14 @@ namespace HisabPro.Web.Controllers.Private
 
             if (result.TaxAmount == 0)
             {
-                result.ResultMessage = "🎉 No tax applicable under the new regime (Section 87A rebate applied).";
+                result.ResultMessage = $"🎉 {_localizer.Get(ResourceKey.NoTaxApplicable)}";
             }
             else
             {
-                result.ResultMessage = $"Tax payable under the new regime is ₹{result.TaxAmount:N0}.";
+                result.ResultMessage = string.Format(_localizer.Get(ResourceKey.TaxApplicable), result.TaxAmount);
             }
 
-            return View("IndianTaxResult", result); // Separate Result view
+            return View("IncomeTaxResult", result);
         }
-
     }
 }
