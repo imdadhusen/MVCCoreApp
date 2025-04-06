@@ -80,6 +80,11 @@ namespace HisabPro.Constants.Resources
         public const string LabelAnalytics = "LabelAnalytics";
         public const string LabelTrendAnalysis = "LabelTrendAnalysis";
         public const string LabelActivityReports = "LabelActivityReports";
+        public const string LabelTaxCalculator = "LabelTaxCalculator";
+        public const string LabelZakat = "LabelZakat";
+        public const string LabelKhums = "LabelKhums";
+        public const string LabelIncomeTax = "LabelIncomeTax";
+
         public const string LabelSettings = "LabelSettings";
         public const string ReportDate = "ReportDate";
         public const string ReportAppliedSort = "ReportAppliedSort";
@@ -290,6 +295,20 @@ namespace HisabPro.Constants.Resources
         public const string LabelGridPage = "LabelGridPage";
         public const string LabelGridPageOf = "LabelGridPageOf";
         public const string LabelNoRecords = "LabelNoRecords";
+        public const string LabelCalculate = "LabelCalculate";
+        public const string LabelNewTaxRegime = "LabelNewTaxRegime";
+        public const string LabelAnnualIncome = "LabelAnnualIncome";
+        public const string IncomeTaxResult = "IncomeTaxResult";
+        public const string AnnualIncome = "AnnualIncome";
+        public const string StandardDeduction = "StandardDeduction";
+        public const string TaxableIncome = "TaxableIncome";
+        public const string TotalTax = "TotalTax";
+
+        public const string IncomeRange = "IncomeRange";
+        public const string RatePercent = "RatePercent";
+        public const string TaxableAmount = "TaxableAmount";
+        public const string Tax = "Tax";
+        public const string Recalculate = "Recalculate";
 
 
         public const string LabelYes = "LabelYes";

@@ -1,0 +1,42 @@
+﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
+@using HisabPro.Constants.Resources;
+@using HisabPro.Web.ViewModel;
+@model TaxInputModel
+@{
+    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelIncomeTax);
+    Layout = "~/Views/Shared/_PrivateLayout.cshtml";
+}
+
+<div class="card mb-1" style="position:relative">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-save me-2"></i>
+            <h5 class="mb-0 p-2">@_localizer.Get(ResourceKey.LabelNewTaxRegime)</h5>
+        </div>
+    </div>
+    <div class="grid-filter-body card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Index" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="AnnualIncome">@_localizer.Get(ResourceKey.LabelAnnualIncome)</label>
+                                <input asp-for="AnnualIncome" class="form-control" />
+                                <span asp-validation-for="AnnualIncome" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-t-10">
+                        <button type="submit" class="btn btn-primary action-btn">
+                            <i class="fas fa-save"></i> @_localizer.Get(ResourceKey.LabelCalculate)
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="form-view" class="loading" style="display:none">
+        @_localizer.Get(ResourceKey.LabelLoading)
+    </div>
+</div>

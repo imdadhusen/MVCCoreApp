@@ -98,6 +98,7 @@ namespace HisabPro
             services.AddKeyedScoped<IExportService, ExportToPDFService>("PDF");
             services.AddKeyedScoped<IExportService, ExportToHTMLService>("HTML");
             services.AddKeyedScoped<IExportService, ExportToExcelService>("Excel");
+            services.AddScoped<ITaxService, TaxService>();
 
 
             services.AddScoped<FilterService>();
