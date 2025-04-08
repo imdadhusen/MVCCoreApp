@@ -841,4 +841,64 @@ You can get more details</value>
   <data name="ReportFilterDescription" xml:space="preserve">
     <value>Report – Displaying Selected Criteria</value>
   </data>
+  <data name="LabelKhums" xml:space="preserve">
+    <value>Khums</value>
+  </data>
+  <data name="LabelTaxCalculator" xml:space="preserve">
+    <value>Tax Calculator</value>
+  </data>
+  <data name="LabelZakat" xml:space="preserve">
+    <value>Zakat</value>
+  </data>
+  <data name="LabelIncomeTax" xml:space="preserve">
+    <value>Income Tax</value>
+  </data>
+  <data name="AnnualIncome" xml:space="preserve">
+    <value>Annual Income</value>
+  </data>
+  <data name="IncomeRange" xml:space="preserve">
+    <value>Income Range</value>
+  </data>
+  <data name="IncomeTaxResult" xml:space="preserve">
+    <value>Income Tax Calculation Result</value>
+  </data>
+  <data name="LabelAnnualIncome" xml:space="preserve">
+    <value>Enter Annual Income</value>
+  </data>
+  <data name="LabelCalculate" xml:space="preserve">
+    <value>Calculate</value>
+  </data>
+  <data name="LabelNewTaxRegime" xml:space="preserve">
+    <value>New Regime Tax Calculato</value>
+  </data>
+  <data name="RatePercent" xml:space="preserve">
+    <value>Rate (%)</value>
+  </data>
+  <data name="Recalculate" xml:space="preserve">
+    <value>Recalculate</value>
+  </data>
+  <data name="StandardDeduction" xml:space="preserve">
+    <value>Standard Deduction</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>Taxable Amount</value>
+  </data>
+  <data name="TaxableIncome" xml:space="preserve">
+    <value>Taxable Income</value>
+  </data>
+  <data name="TotalTax" xml:space="preserve">
+    <value>Total Tax</value>
+  </data>
+  <data name="AfterStandardDeduction" xml:space="preserve">
+    <value>After standard deduction, net income is ₹{0}.</value>
+  </data>
+  <data name="NoTaxApplicable" xml:space="preserve">
+    <value>No tax applicable under the new regime (Section 87A rebate applied).</value>
+  </data>
+  <data name="TaxApplicable" xml:space="preserve">
+    <value>Tax payable under the new regime is ₹{0}.</value>
+  </data>
 </root>

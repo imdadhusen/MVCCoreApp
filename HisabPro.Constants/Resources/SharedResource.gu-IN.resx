@@ -842,4 +842,64 @@
   <data name="ReportFilterDescription" xml:space="preserve">
     <value>અહેવાલ – પસંદ કરેલ માપદંડ દર્શાવી રહ્યું છે</value>
   </data>
+  <data name="LabelKhums" xml:space="preserve">
+    <value>ખુમ્સ</value>
+  </data>
+  <data name="LabelTaxCalculator" xml:space="preserve">
+    <value>કર ગણત્રી</value>
+  </data>
+  <data name="LabelZakat" xml:space="preserve">
+    <value>ઝકાત</value>
+  </data>
+  <data name="LabelIncomeTax" xml:space="preserve">
+    <value>આવક કર</value>
+  </data>
+  <data name="AnnualIncome" xml:space="preserve">
+    <value>વાર્ષિક આવક</value>
+  </data>
+  <data name="IncomeRange" xml:space="preserve">
+    <value>આવક શ્રેણી</value>
+  </data>
+  <data name="IncomeTaxResult" xml:space="preserve">
+    <value>આવકવેરા ગણતરીનું પરિણામ</value>
+  </data>
+  <data name="LabelAnnualIncome" xml:space="preserve">
+    <value>તમારી વાર્ષિક આવક દાખલ કરો</value>
+  </data>
+  <data name="LabelCalculate" xml:space="preserve">
+    <value>ગણતરી કરો</value>
+  </data>
+  <data name="LabelNewTaxRegime" xml:space="preserve">
+    <value>નવી ટેક્સ ગણત્રી</value>
+  </data>
+  <data name="RatePercent" xml:space="preserve">
+    <value>દર (%)</value>
+  </data>
+  <data name="Recalculate" xml:space="preserve">
+    <value>ફરી ગણતરી કરો</value>
+  </data>
+  <data name="StandardDeduction" xml:space="preserve">
+    <value>માનક કપાત</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>કર</value>
+  </data>
+  <data name="TaxableAmount" xml:space="preserve">
+    <value>કરપાત્ર રકમ</value>
+  </data>
+  <data name="TaxableIncome" xml:space="preserve">
+    <value>કરપાત્ર આવક</value>
+  </data>
+  <data name="TotalTax" xml:space="preserve">
+    <value>કુલ કર</value>
+  </data>
+  <data name="AfterStandardDeduction" xml:space="preserve">
+    <value>પ્રમાણભૂત કપાત પછી નેટ આવક ₹{0} છે.</value>
+  </data>
+  <data name="NoTaxApplicable" xml:space="preserve">
+    <value>નવી કર રજીમ હેઠળ કોઈ કર લાગુ નથી (ધારા 87A મુજબ છૂટ આપવામાં આવી છે).</value>
+  </data>
+  <data name="TaxApplicable" xml:space="preserve">
+    <value>નવી કર રજીમ હેઠળ ચૂકવવાનો કર ₹{0} છે.</value>
+  </data>
 </root>
