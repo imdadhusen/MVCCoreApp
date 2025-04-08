@@ -894,7 +894,7 @@
     <value>કુલ કર</value>
   </data>
   <data name="AfterStandardDeduction" xml:space="preserve">
-    <value>પ્રમાણભૂત કપાત પછી નેટ આવક = ₹{}.</value>
+    <value>પ્રમાણભૂત કપાત પછી નેટ આવક ₹{0} છે.</value>
   </data>
   <data name="NoTaxApplicable" xml:space="preserve">
     <value>નવી કર રજીમ હેઠળ કોઈ કર લાગુ નથી (ધારા 87A મુજબ છૂટ આપવામાં આવી છે).</value>

@@ -893,7 +893,7 @@ You can get more details</value>
     <value>Total Tax</value>
   </data>
   <data name="AfterStandardDeduction" xml:space="preserve">
-    <value>After standard deduction, net income = ₹{}.</value>
+    <value>After standard deduction, net income is ₹{0}.</value>
   </data>
   <data name="NoTaxApplicable" xml:space="preserve">
     <value>No tax applicable under the new regime (Section 87A rebate applied).</value>

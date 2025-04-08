@@ -17,7 +17,7 @@
     <div class="grid-filter-body card-body">
         <div class="row">
             <div class="col-md-12">
-                <form asp-action="Index" method="post">
+                <form asp-action="IncomeTax" method="post">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -46,7 +46,7 @@
         $(document).ready(function () {
             $('form').on('submit', function () {
                 //$('#form-view').fadeIn();
-                $('#form-view').show(); // Show the loading screen
+                $('#form-view').show();
             });
         });
     </script>

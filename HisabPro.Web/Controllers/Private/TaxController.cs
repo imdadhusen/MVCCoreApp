@@ -27,7 +27,7 @@ namespace HisabPro.Web.Controllers.Private
         }
 
         [HttpPost]
-        public IActionResult Index(TaxInputModel input)
+        public IActionResult IncomeTax(TaxInputModel input)
         {
             var result = new TaxResultModel
             {
