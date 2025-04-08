@@ -47,5 +47,17 @@ namespace HisabPro.Web.Controllers.Private
 
             return View("IncomeTaxResult", result);
         }
+
+        [HttpGet]
+        public IActionResult Zakat()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Khums()
+        {
+            return View();
+        }
     }
 }

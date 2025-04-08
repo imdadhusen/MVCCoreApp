@@ -869,7 +869,7 @@ You can get more details</value>
     <value>Calculate</value>
   </data>
   <data name="LabelNewTaxRegime" xml:space="preserve">
-    <value>New Regime Tax Calculato</value>
+    <value>New Regime Tax Calculator</value>
   </data>
   <data name="RatePercent" xml:space="preserve">
     <value>Rate (%)</value>

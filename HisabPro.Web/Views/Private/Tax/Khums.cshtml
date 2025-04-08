@@ -1,23 +1,21 @@
 ﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
-@using HisabPro.Web.ViewModel;
-@model TaxInputModel
 @{
-    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelIncomeTax);
+    ViewData["Title"] = @_localizer.Get(ResourceKey.LabelKhums);
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
 
 <div class="card mb-1" style="position:relative">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <i class="bi bi-globe2 me-2"></i>
-            <h5 class="mb-0 p-2">@_localizer.Get(ResourceKey.LabelNewTaxRegime)</h5>
+            <i class="bi bi-star me-2"></i>
+            <h5 class="mb-0 p-2">@_localizer.Get(ResourceKey.LabelKhums)</h5>
         </div>
     </div>
     <div class="grid-filter-body card-body">
         <div class="row">
             <div class="col-md-12">
-                <form asp-action="IncomeTax" method="post">
+                @* <form asp-action="IncomeTax" method="post">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -32,7 +30,7 @@
                             <i class="bi bi-calculator"></i> @_localizer.Get(ResourceKey.LabelCalculate)
                         </button>
                     </div>
-                </form>
+                </form> *@
             </div>
         </div>
     </div>
@@ -40,14 +38,3 @@
         @_localizer.Get(ResourceKey.LabelLoading)
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('form').on('submit', function () {
-                //$('#form-view').fadeIn();
-                $('#form-view').show();
-            });
-        });
-    </script>
-}
