@@ -73,6 +73,8 @@ namespace HisabPro.Constants.Resources
         public const string LabelUsers = "LabelUsers";
         public const string LabelImports = "LabelImports";
         public const string LabelReports = "LabelReports";
+        public const string IncomeType = "IncomeType";
+        public const string Description = "Description";
 
         public const string LabelReportIncomeExpense = "LabelReportIncomeExpense";
 

@@ -1,10 +1,12 @@
 ﻿using HisabPro.Constants;
 using HisabPro.Constants.Resources;
 using HisabPro.DTO.Model;
+using HisabPro.DTO.Response;
 using HisabPro.Services.Interfaces;
 using HisabPro.Web.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HisabPro.Web.Controllers.Private
 {
@@ -13,10 +15,13 @@ namespace HisabPro.Web.Controllers.Private
     {
         private readonly ITaxService _taxService;
         private readonly ISharedViewLocalizer _localizer;
+        private readonly ICategoryService _categoryService;
 
-        public TaxController(ITaxService taxService, ISharedViewLocalizer sharedViewLocalizer) { 
+        public TaxController(ITaxService taxService, ISharedViewLocalizer sharedViewLocalizer, ICategoryService categoryService)
+        {
             _taxService = taxService;
             _localizer = sharedViewLocalizer;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -51,7 +56,17 @@ namespace HisabPro.Web.Controllers.Private
         [HttpGet]
         public IActionResult Zakat()
         {
-            return View();
+            return View(new List<ZakatIncomeItem>());
+        }
+        public async Task<IActionResult> IncomesForZakat()
+        {
+            var categories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Income);
+            categories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            ViewData["Categories"] = new SelectList(categories, "Id", "Name");
+
+            var errorMessage = string.Format(_localizer[ResourceKey.ValidationRequired], _localizer[ResourceKey.Description]);
+            ViewData["errorMsgDescription"] = errorMessage;
+            return PartialView("_IncomesForZakat", new ZakatIncomeItem());
         }
 
         [HttpGet]

@@ -1,10 +1,15 @@
 ﻿@inject HisabPro.Constants.ISharedViewLocalizer _localizer
 @using HisabPro.Constants.Resources;
+@model List<HisabPro.DTO.Model.ZakatIncomeItem>
 @{
     ViewData["Title"] = @_localizer.Get(ResourceKey.LabelZakat);
     Layout = "~/Views/Shared/_PrivateLayout.cshtml";
 }
-
+<style>
+    .validation-message {
+        min-height: 1.25rem;
+    }
+</style>
 <div class="card mb-1" style="position:relative">
     <div class="card-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
@@ -15,26 +20,171 @@
     <div class="grid-filter-body card-body">
         <div class="row">
             <div class="col-md-12">
-                @* <form asp-action="IncomeTax" method="post">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="AnnualIncome">@_localizer.Get(ResourceKey.LabelAnnualIncome)</label>
-                                <input asp-for="AnnualIncome" class="form-control" />
-                                <span asp-validation-for="AnnualIncome" class="text-danger"></span>
-                            </div>
+                <div class="alert alert-primary d-flex align-items-start p-4 rounded-3 shadow-sm" role="alert">
+                    <i class="bi bi-cash-coin me-3 fs-2 text-warning mt-1"></i>
+                    <div class="flex-grow-1">
+                        <h6 class="fw-bold mb-2">Zakat – A Sacred Pillar of Islam</h6>
+                        <p class="mb-2">
+                            Muslims who meet the Nisab threshold are obliged to give <strong>2.5% of their wealth</strong> as Zakat annually.
+                        </p>
+                        <p class="mb-2">
+                            This contribution supports the poor and purifies one’s income, promoting economic balance and social justice.
+                        </p>
+
+                        <div id="dvZakatMore" class="collapse">
+                            <p class="mb-2">
+                                Zakat applies to savings, gold, silver, investments, and business income held for one lunar year. It is both a spiritual duty and a social responsibility, ensuring that wealth circulates fairly within the community.
+                            </p>
+                            <p class="mb-0 text-success fw-semibold">
+                                “Take from their wealth a charity by which you purify them...” <small class="text-muted">– Quran 9:103</small>
+                            </p>
                         </div>
-                    </div>
-                    <div class="form-group m-t-10">
-                        <button type="submit" class="btn btn-primary action-btn">
-                            <i class="bi bi-calculator"></i> @_localizer.Get(ResourceKey.LabelCalculate)
+
+                        <button id="btnZakatMore" class="btn btn-link btn-sm p-0" type="button">
+                            Show more <i class="bi bi-chevron-down small"></i>
                         </button>
                     </div>
-                </form> *@
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Input Income Types for Zakat</h5>
+                <form id="dynamicForm">
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle" id="dynamicTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">@_localizer.Get(ResourceKey.IncomeType)</th>
+                                    <th style="width: 25%;">@_localizer.Get(ResourceKey.Description)</th>
+                                    <th style="width: 20%;">@_localizer.Get(ResourceKey.FieldAmount)</th>
+                                    <th style="width: 10%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" id="addRowBtn" class="btn btn-primary">Add Row</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <div id="form-view" class="loading" style="display:none">
-        @_localizer.Get(ResourceKey.LabelLoading)
-    </div>
 </div>
+<div id="form-view" class="loading" style="display:none">
+    @_localizer.Get(ResourceKey.LabelLoading)
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    var delBtn = '.deleteRowBtn';
+    var invalidClass = 'is-invalid';
+    var incomeContainer = '#dynamicTable tbody';
+    var form = '#dynamicForm';
+    var classIncomeType = '.incomeType';
+    var classDescription = '.incomeDescription';
+    var classAmount = '.incomeAmount';
+
+    $(document).ready(function () {
+        var btnZakatMore = $("#btnZakatMore");
+        var dvZakatMore = $("#dvZakatMore");
+        
+        var addBtn = $('#addRowBtn');
+
+        btnZakatMore.click(function () {
+            dvZakatMore.toggle();
+            if (dvZakatMore.is(":visible")) {
+                btnZakatMore.html('Show less <i class="bi bi-chevron-up small"></i>');
+            } else {
+                btnZakatMore.html('Show more <i class="bi bi-chevron-down small"></i>');
+            }
+        })
+
+        loadRowHtml();
+
+        addBtn.click(() => loadRowHtml());
+
+        $(document).on('click', delBtn, function () {
+            $(this).closest('tr').remove();
+            updateRowNames();
+        });
+
+
+        $(form).submit(function (e) {
+            e.preventDefault();
+
+            //Note: Auto validation doesn't work, if custom validation applied ('Other' selected then Description is required)
+            // form.validate();
+            // if (form.valid()) {
+
+            if (validateForm()) {
+                const data = $(this).serializeArray();
+                console.log(data);
+            }
+        });
+
+        // Optional: remove validation styles on change
+        $(document).on('change keyup', 'input, select', function () {
+            $(this).removeClass(invalidClass);
+        });
+    });
+
+    function loadRowHtml(callback) {
+        $.get('/Tax/IncomesForZakat', function (html) {
+            $(incomeContainer).append(html);
+            updateRowNames();
+            //Reinitialize validation for dynamic content or partial view
+            $.validator.unobtrusive.parse(form);
+            if (callback) callback();
+        });
+    }
+
+    function updateRowNames() {
+        $(incomeContainer).find('tr').each(function (index, row) {
+            $(row).find('select, input').each(function () {
+                let name = $(this).attr('name');
+                if (name) {
+                    let base = name.substring(name.indexOf('.') + 1);
+                    $(this).attr('name', `Items[${index}].${base}`);
+                }
+            });
+        });
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        $(incomeContainer).find('tr').each(function () {
+            const $row = $(this);
+            const incomeType = $row.find(classIncomeType).val();
+            const incomeDescription = $row.find(classDescription);
+            const incomeAmount = $row.find(classAmount);
+
+            // Reset validation
+            $row.find('input, select').removeClass(invalidClass);
+
+            if (!incomeType) {
+                $row.find(classIncomeType).addClass(invalidClass);
+                isValid = false;
+            }
+
+            if (incomeType === 'Other' && !incomeDescription.val().trim()) {
+                incomeDescription.addClass(invalidClass);
+                isValid = false;
+            }
+
+            if (!incomeAmount.val()) {
+                incomeAmount.addClass(invalidClass);
+                isValid = false;
+            }
+        });
+
+        return isValid;
+    }
+
+</script>

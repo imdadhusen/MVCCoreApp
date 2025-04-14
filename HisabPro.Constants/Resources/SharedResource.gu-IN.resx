@@ -902,4 +902,10 @@
   <data name="TaxApplicable" xml:space="preserve">
     <value>નવી કર રજીમ હેઠળ ચૂકવવાનો કર ₹{0} છે.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>વિવરણ</value>
+  </data>
+  <data name="IncomeType" xml:space="preserve">
+    <value>આવકનો પ્રકાર</value>
+  </data>
 </root>

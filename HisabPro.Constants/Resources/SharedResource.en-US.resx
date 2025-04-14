@@ -901,4 +901,10 @@ You can get more details</value>
   <data name="TaxApplicable" xml:space="preserve">
     <value>Tax payable under the new regime is ₹{0}.</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="IncomeType" xml:space="preserve">
+    <value>Income Type</value>
+  </data>
 </root>

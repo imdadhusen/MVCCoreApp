@@ -6,7 +6,5 @@ namespace HisabPro.DTO.Request
     {
         public PageDataReq? PageData { get; set; }
         public FilterViewModel? Filter { get; set; }
-
-        
     }
 }

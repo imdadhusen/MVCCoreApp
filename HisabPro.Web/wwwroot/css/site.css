@@ -209,3 +209,7 @@ a {
 .txt-right {
     text-align: right;
 }
+
+.field-validation-error span {
+    font-size: smaller !important;
+}
