@@ -3,20 +3,20 @@
 <tr>
     <td>
         <div class="d-flex flex-column gap-1">
-            <select id="IncomeType" asp-for="IncomeType" name="Items[0].IncomeType" class="form-select d-inline w-auto incomeType" asp-items="ViewBag.Categories"></select>
+            <select asp-for="IncomeType" name="Items[0].IncomeType" class="form-select d-inline w-auto incomeType" asp-items="ViewBag.Categories"></select>
             <span asp-validation-for="IncomeType" data-valmsg-for="Items[0].IncomeType" class="text-danger validation-message"></span>
-        </div>
-    </td>
-    <td>
-        <div class="d-flex flex-column gap-1">
-            <input asp-for="Description" class="form-control incomeDescription" name="Items[0].Description" />
-            <span class="invalid-feedback validation-message">@ViewBag.errorMsgDescription</span>
         </div>
     </td>
     <td>
         <div class="d-flex flex-column gap-1">
             <input type="number" asp-for="Amount" class="form-control incomeAmount" name="Items[0].Amount" value="" />
             <span asp-validation-for="Amount" data-valmsg-for="Items[0].Amount" class="text-danger validation-message"></span>
+        </div>
+    </td>
+    <td>
+        <div class="d-flex flex-column gap-1">
+            <input asp-for="Description" class="form-control incomeDescription" name="Items[0].Description" />
+            <span class="invalid-feedback validation-message">@ViewBag.errorMsgDescription</span>
         </div>
     </td>
     <td>

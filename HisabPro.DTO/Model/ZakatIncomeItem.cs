@@ -9,7 +9,8 @@ namespace HisabPro.DTO.Model
     public class ZakatIncomeItem : IValidatableObject
     {
         // TODO: Check Other Id must be match
-        private const int IncomeTypeForOther = 100;
+        public static int IncomeTypeForOtherId = 1000;
+        public static string IncomeTypeForOtherName = "Other";
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
         [Display(Name = ResourceKey.IncomeType)]
@@ -20,15 +21,15 @@ namespace HisabPro.DTO.Model
         public string? Description { get; set; } 
 
         [LocalizedRequired(ResourceKey.ValidationRequired)]
-        [Range(0, int.MaxValue, ErrorMessage = ResourceKey.ValidationAmount)]
+        [Range(1, int.MaxValue, ErrorMessage = ResourceKey.ValidationAmount)]
         [Display(Name = ResourceKey.FieldAmount)]
         public decimal Amount { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var localizer = validationContext.GetRequiredService<IStringLocalizer<SharedResource>>(); 
-            if (IncomeType == IncomeTypeForOther && string.IsNullOrWhiteSpace(Description))
+            if (IncomeType == IncomeTypeForOtherId && string.IsNullOrWhiteSpace(Description))
             {
+                var localizer = validationContext.GetRequiredService<IStringLocalizer<SharedResource>>();
                 var errorMessage = string.Format(localizer[ResourceKey.ValidationRequired], localizer[ResourceKey.Description]);
                 yield return new ValidationResult(errorMessage, [nameof(Description)]);
             }

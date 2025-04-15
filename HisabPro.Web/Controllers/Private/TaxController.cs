@@ -62,6 +62,7 @@ namespace HisabPro.Web.Controllers.Private
         {
             var categories = await _categoryService.GetCategoriesAsync(EnumCategoryType.Income);
             categories.Insert(0, new IdNameRes { Id = string.Empty, Name = string.Empty });
+            categories.Insert(categories.Count(), new IdNameRes { Id = ZakatIncomeItem.IncomeTypeForOtherId.ToString(), Name = ZakatIncomeItem.IncomeTypeForOtherName });
             ViewData["Categories"] = new SelectList(categories, "Id", "Name");
 
             var errorMessage = string.Format(_localizer[ResourceKey.ValidationRequired], _localizer[ResourceKey.Description]);
