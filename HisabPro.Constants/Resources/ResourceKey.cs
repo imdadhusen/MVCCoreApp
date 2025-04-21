@@ -106,6 +106,23 @@ namespace HisabPro.Constants.Resources
         public const string ReportUser = "ReportUser";
         public const string ReportFilterDescription = "ReportFilterDescription";
 
+        public const string ZakatIncomes = "ZakatIncomes";
+        public const string ZakatHead = "ZakatHead";
+        public const string ZakatHeadLine1 = "ZakatHeadLine1";
+        public const string ZakatHeadLine2 = "ZakatHeadLine2";
+        public const string ZakatMoreLine1 = "ZakatMoreLine1";
+        public const string ZakatMoreLine2 = "ZakatMoreLine2";
+        public const string ZakatQuote = "ZakatQuote";
+        public const string ZakatQuoteSource = "ZakatQuoteSource";
+        public const string TotalZakat = "TotalZakat";
+        public const string ZakatAddIncome = "ZakatAddIncome";
+        public const string Save = "Save";
+        public const string ZakatAmountMessage = "ZakatAmountMessage";
+
+        public const string ShowLess = "ShowLess";
+        public const string ShowMore = "ShowMore";
+
+
 
         //Start: Category related settings
         public const string LabelDeleteCategory = "LabelDeleteCategory";
@@ -320,18 +337,18 @@ namespace HisabPro.Constants.Resources
         public const string LabelNo = "LabelNo";
         public const string LabelEdit = "LabelEdit";
         public const string LabelDelete = "LabelDelete";
-        public const string LabelDeleteConfirm = "LabelDeleteConfirm ";
-        public const string LabelDeleteTitle = "LabelDeleteTitle ";
+        public const string LabelDeleteConfirm = "LabelDeleteConfirm";
+        public const string LabelDeleteTitle = "LabelDeleteTitle";
 
-        public const string WizardUploadNoFile = "WizardUploadNoFile ";
-        public const string WizardUploadError = "WizardUploadError ";
-        public const string WizardExtractError = "WizardExtractError ";
-        public const string WizardAutoCorrectDateTitle = "WizardAutoCorrectDateTitle ";
-        public const string WizardAutoCorrectDateMessage = "WizardAutoCorrectDateMessage ";
-        public const string WizardAutoCorrectDateSuccess = "WizardAutoCorrectDateSuccess ";
-        public const string WizardAutoCorrectTitleTitle = "WizardAutoCorrectTitleTitle ";
-        public const string WizardAutoCorrectTitleMessage = "WizardAutoCorrectTitleMessage ";
-        public const string WizardAutoCorrectTitleSuccess = "WizardAutoCorrectTitleSuccess ";
+        public const string WizardUploadNoFile = "WizardUploadNoFile";
+        public const string WizardUploadError = "WizardUploadError";
+        public const string WizardExtractError = "WizardExtractError";
+        public const string WizardAutoCorrectDateTitle = "WizardAutoCorrectDateTitle";
+        public const string WizardAutoCorrectDateMessage = "WizardAutoCorrectDateMessage";
+        public const string WizardAutoCorrectDateSuccess = "WizardAutoCorrectDateSuccess";
+        public const string WizardAutoCorrectTitleTitle = "WizardAutoCorrectTitleTitle";
+        public const string WizardAutoCorrectTitleMessage = "WizardAutoCorrectTitleMessage";
+        public const string WizardAutoCorrectTitleSuccess = "WizardAutoCorrectTitleSuccess";
 
         public static string[] Months
         {

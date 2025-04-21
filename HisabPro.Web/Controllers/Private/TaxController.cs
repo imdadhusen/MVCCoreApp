@@ -70,7 +70,14 @@ namespace HisabPro.Web.Controllers.Private
             return PartialView("_IncomesForZakat", new ZakatIncomeItem());
         }
 
-        [HttpGet]
+        [HttpPost]
+        public IActionResult SaveZakat([FromBody] List<ZakatIncomeItem> Items)
+        {
+            return View();
+        }
+
+
+            [HttpGet]
         public IActionResult Khums()
         {
             return View();

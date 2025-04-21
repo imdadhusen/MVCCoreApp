@@ -907,4 +907,43 @@ You can get more details</value>
   <data name="IncomeType" xml:space="preserve">
     <value>Income Type</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="TotalZakat" xml:space="preserve">
+    <value>Total taxable amount for zakat is</value>
+  </data>
+  <data name="ZakatAddIncome" xml:space="preserve">
+    <value>Add Income</value>
+  </data>
+  <data name="ZakatHead" xml:space="preserve">
+    <value>Zakat – A Sacred Pillar of Islam</value>
+  </data>
+  <data name="ZakatHeadLine1" xml:space="preserve">
+    <value>Muslims who meet the Nisab threshold are obliged to give &lt;strong&gt;2.5% of their wealth&lt;/strong&gt; as Zakat annually.</value>
+  </data>
+  <data name="ZakatHeadLine2" xml:space="preserve">
+    <value>This contribution supports the poor and purifies one’s income, promoting economic balance and social justice.</value>
+  </data>
+  <data name="ZakatIncomes" xml:space="preserve">
+    <value>Choose incomes for Zakat</value>
+  </data>
+  <data name="ZakatMoreLine1" xml:space="preserve">
+    <value>Zakat applies to savings, gold, silver, investments, and business income held for one lunar year. It is both a spiritual duty and a social responsibility, ensuring that wealth circulates fairly within the community.</value>
+  </data>
+  <data name="ZakatQuote" xml:space="preserve">
+    <value>“Take from their wealth a charity by which you purify them...”</value>
+  </data>
+  <data name="ZakatQuoteSource" xml:space="preserve">
+    <value>– Quran 9:103</value>
+  </data>
+  <data name="ShowLess" xml:space="preserve">
+    <value>Show less &lt;i class="bi bi-chevron-up small"&gt;&lt;/i&gt;</value>
+  </data>
+  <data name="ShowMore" xml:space="preserve">
+    <value>Show more &lt;i class="bi bi-chevron-down small"&gt;&lt;/i&gt;</value>
+  </data>
+  <data name="ZakatAmountMessage" xml:space="preserve">
+    <value>Amount should not be 0</value>
+  </data>
 </root>

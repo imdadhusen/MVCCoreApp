@@ -9,24 +9,34 @@
     <script>
         var appResources = {
             months: @Html.Raw(Json.Serialize(ResourceKey.Months)),
-            delete: '@Html.Raw(_localizer.Get(ResourceKey.LabelDelete))',
-            deleteConfirm: '@Html.Raw(_localizer.Get(ResourceKey.LabelDeleteConfirm))',
-            deleteTitle: '@Html.Raw(_localizer.Get(ResourceKey.LabelDeleteTitle))',
-            gridShowing: '@Html.Raw(_localizer.Get(ResourceKey.LabelGridShowing))',
-            gridOutOf: '@Html.Raw(_localizer.Get(ResourceKey.LabelGridShowingOutOf))',
-            noRecords: '@Html.Raw(_localizer.Get(ResourceKey.LabelNoRecords))',
-            apiFailed: '@Html.Raw(_localizer.Get(ResourceKey.LabelApiInternalError))',
-            apiNoRecordsForExport: '@Html.Raw(_localizer.Get(ResourceKey.ApiNoRecordsForExport))',
-            apiFeatureNotAvailable: '@Html.Raw(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))',
-            wizardUploadNoFile: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadNoFile))',
-            wizardUploadError: '@Html.Raw(_localizer.Get(ResourceKey.WizardUploadError))',
-            wizardExtractError: '@Html.Raw(_localizer.Get(ResourceKey.WizardExtractError))',
-            wizardAutoCorrectDateTitle: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateTitle))',
-            wizardAutoCorrectDateMessage: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateMessage))',
-            wizardAutoCorrectDateSuccess: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectDateSuccess))',
-            wizardAutoCorrectTitleTitle: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleTitle))',
-            wizardAutoCorrectTitleMessage: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleMessage))',
-            wizardAutoCorrectTitleSuccess: '@Html.Raw(_localizer.Get(ResourceKey.WizardAutoCorrectTitleSuccess))',
+            delete: '@jsStringEncode(_localizer.Get(ResourceKey.LabelDelete))',
+            deleteConfirm: '@jsStringEncode(_localizer.Get(ResourceKey.LabelDeleteConfirm))',
+            deleteTitle: '@jsStringEncode(_localizer.Get(ResourceKey.LabelDeleteTitle))',
+            gridShowing: '@jsStringEncode(_localizer.Get(ResourceKey.LabelGridShowing))',
+            gridOutOf: '@jsStringEncode(_localizer.Get(ResourceKey.LabelGridShowingOutOf))',
+            noRecords: '@jsStringEncode(_localizer.Get(ResourceKey.LabelNoRecords))',
+            apiFailed: '@jsStringEncode(_localizer.Get(ResourceKey.LabelApiInternalError))',
+            apiNoRecordsForExport: '@jsStringEncode(_localizer.Get(ResourceKey.ApiNoRecordsForExport))',
+            apiFeatureNotAvailable: '@jsStringEncode(_localizer.Get(ResourceKey.ApiFeatureNotAvailable))',
+            wizardUploadNoFile: '@jsStringEncode(_localizer.Get(ResourceKey.WizardUploadNoFile))',
+            wizardUploadError: '@jsStringEncode(_localizer.Get(ResourceKey.WizardUploadError))',
+            wizardExtractError: '@jsStringEncode(_localizer.Get(ResourceKey.WizardExtractError))',
+            wizardAutoCorrectDateTitle: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectDateTitle))',
+            wizardAutoCorrectDateMessage: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectDateMessage))',
+            wizardAutoCorrectDateSuccess: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectDateSuccess))',
+            wizardAutoCorrectTitleTitle: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectTitleTitle))',
+            wizardAutoCorrectTitleMessage: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectTitleMessage))',
+            wizardAutoCorrectTitleSuccess: '@jsStringEncode(_localizer.Get(ResourceKey.WizardAutoCorrectTitleSuccess))',
+            zakatAmountMessage: '@jsStringEncode(_localizer.Get(ResourceKey.ZakatAmountMessage))',
+            showLess: '@jsStringEncode(_localizer.Get(ResourceKey.ShowLess))',
+            showMore: '@jsStringEncode(_localizer.Get(ResourceKey.ShowMore))'
+        }
+
+        @functions {
+            public static string jsStringEncode(string value)
+            {
+                return System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(value);
+            }
         }
     </script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />

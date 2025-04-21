@@ -908,4 +908,43 @@
   <data name="IncomeType" xml:space="preserve">
     <value>આવકનો પ્રકાર</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>સંગ્રહ કરો</value>
+  </data>
+  <data name="TotalZakat" xml:space="preserve">
+    <value>Total taxable amount for zakat is</value>
+  </data>
+  <data name="ZakatAddIncome" xml:space="preserve">
+    <value>આવક ઉમેરો</value>
+  </data>
+  <data name="ZakatHead" xml:space="preserve">
+    <value>ઝકાત – ઇસ્લામનો એક પવિત્ર સ્તંભ</value>
+  </data>
+  <data name="ZakatHeadLine1" xml:space="preserve">
+    <value>જે મુસલમાન નિસાબની મર્યાદા સુધી પહોંચી જાય છે તેમને વર્ષમાં એક વખત &lt;strong&gt;તેમના સંપત્તિના 2.5%&lt;/strong&gt; જેટલી ઝકાત આપવી ફરજિયાત છે.</value>
+  </data>
+  <data name="ZakatHeadLine2" xml:space="preserve">
+    <value>આ યોગદાન ગરીબોને સહારો આપે છે અને આવકને શુદ્ધ કરે છે, જે આર્થિક સમતોલતા અને સામાજિક ન્યાયને પ્રોત્સાહન આપે છે.</value>
+  </data>
+  <data name="ZakatIncomes" xml:space="preserve">
+    <value>ઝકાત માટે આવકો પસંદ કરો</value>
+  </data>
+  <data name="ZakatMoreLine1" xml:space="preserve">
+    <value>ઝકાત બચત, સોનાં, ચાંદી, રોકાણ અને વેપારની આવક જે એક ચાંદ્ર વર્ષ માટે રાખવામાં આવી હોય તેમાં લાગુ પડે છે. આ એક આધ્યાત્મિક ફરજ પણ છે અને સામાજિક જવાબદારી પણ છે, જે સમુદાયમાં સંપત્તિની ન્યાયપૂર્ણ ફરતી સુનિશ્ચિત કરે છે.</value>
+  </data>
+  <data name="ZakatQuote" xml:space="preserve">
+    <value>“તેમની સંપત્તિમાંથી એક દાન લે જે દ્વારા તું તેમને શુદ્ધ કરે...”</value>
+  </data>
+  <data name="ZakatQuoteSource" xml:space="preserve">
+    <value>– કુરઆન 9:103</value>
+  </data>
+  <data name="ShowLess" xml:space="preserve">
+    <value>ઓછું જુઓ &lt;i class="bi bi-chevron-up small"&gt;&lt;/i&gt;</value>
+  </data>
+  <data name="ShowMore" xml:space="preserve">
+    <value>વધુ જુઓ &lt;i class="bi bi-chevron-down small"&gt;&lt;/i&gt;</value>
+  </data>
+  <data name="ZakatAmountMessage" xml:space="preserve">
+    <value>રકમ 0 હોવી ન જોઈએ</value>
+  </data>
 </root>
